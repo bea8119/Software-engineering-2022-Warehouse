@@ -1,4 +1,3 @@
-
  #Requirements Document 
 
 Date: 22 march 2022
@@ -50,7 +49,17 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-|   Stakeholder x..     |             | 
+|   Company                       |    Entity requiring EZWH services and investing on the project         |
+|   Warehouse                     |    Physical space where the items are stocked         |
+|   Supplier                      |    Provider of products for the company         |
+|   Warehouse manager             |    Role managing the procurement (requests for orders, management of the received items) and managing the warehouse clerks         |
+|	Warehouse clerk               |    Worker of the warehouse involved in stocking and collecting items          |
+|   Quality office employee       |    Checks the received items         |
+|   Organizational unit employee  |    Representative of a department of the company         |
+|   Customer                      |    The final consumer of the products realized by the company         |
+|   IT administrator              |    A computer person in charge of solving software issues within the system         |
+|   Delivery operator             |    Managing the delivery of the items to a pick up area for internal orders          |
+|   Competitors                   |    Other warehouse management systems         | 
 
 # Context Diagram and interfaces
 
@@ -58,6 +67,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<Define here Context diagram using UML use case diagram>
 
 \<actors are a subset of stakeholders>
+
+<img src="./Files/AS_IS/BMC.png" alt="business model canvas" width="850">
 
 ## Interfaces
 \<describe here each interface in the context diagram>
