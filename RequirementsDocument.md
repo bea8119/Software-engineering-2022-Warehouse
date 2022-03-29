@@ -55,7 +55,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Warehouse manager             |    Role managing the procurement (requests for orders, management of the received items) and managing the warehouse clerks         |
 |	Warehouse clerk               |    Worker of the warehouse involved in stocking and collecting items          |
 |   Quality office employee       |    Checks the received items         |
-|   Organizational unit employee  |    Representative of a department of the company         |
+|   OU employee                   |    Representative of a department of the company (OU = Organizational Unit)         |
 |   Customer                      |    The final consumer of the products realized by the company         |
 |   IT administrator              |    A computer person in charge of solving software issues within the system         |
 |   Delivery operator             |    Managing the delivery of the items to a pick up area for internal orders          |
@@ -77,7 +77,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|   Actor x..     |  |  |
+|   Warehouse manager     | Graphical User Intarface  | Intranet (HTTP + JSON) |
+|   Warehouse clerk       | Graphical User Intarface, Barcode Reader | Laser Beam, Intranet (HTTP + JSON) |
+|   Supplier    | Graphical User Interface | Internet (HTTP + JSON)  |
+|   Quality office employee     | Graphical user interface | Intranet (HTTP+JSON)  |
+|   OU employee     | Graphical user interface | Intranet (HTTP+JSON) |
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
