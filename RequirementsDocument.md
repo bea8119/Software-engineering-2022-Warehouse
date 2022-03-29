@@ -68,7 +68,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<actors are a subset of stakeholders>
 
-<img src="./Files/AS_IS/BMC.png" alt="business model canvas" width="850">
+<img src="./Img/UseCaseDiagram1.jpg" alt="Context Diagram" width="850">
 
 ## Interfaces
 \<describe here each interface in the context diagram>
