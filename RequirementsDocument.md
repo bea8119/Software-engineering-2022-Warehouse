@@ -55,7 +55,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Warehouse manager             |    Role managing the procurement (requests for orders, management of the received items) and managing the warehouse clerks         |
 |	Warehouse clerk               |    Worker of the warehouse involved in stocking and collecting items          |
 |   Quality office employee       |    Checks the received items         |
-|   OU employee                   |    Representative of a department of the company (OU = Organizational Unit)         |
+|   OU employee                   |    Representative of a department (ex. production, purchase, accounting, finance office ecc..) of the company (OU = Organizational Unit)         |
 |   Customer                      |    The final consumer of the products realized by the company         |
 |   IT administrator              |    A computer person in charge of solving software issues within the system         |
 |   Delivery operator             |    Managing the delivery of the items to a pick up area for internal orders          |
@@ -92,9 +92,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Persona | Story |
 | ------------- |:-------------:|
-|  Massimo, 40 years old, Warehouse manager for a local retail company, with 10 years of experience | The company has always managed every warehouse related process in manual way, but lately the amount of orders from the customers increased exponentially, and it has become impossible to control the flow of incoming and outgoing products. I feel the need for a technological transformation to handle in an semi-automatic way the inbound and outbound logistics. Furthermore last week I spilled my green tea on the document book containing last semester's orders and i had to write everything again. It would be so nice to have a digital history of our orders, maybe with a backup system to handle "tea related" problems|
+|  Massimo, 40 years old, Warehouse manager for a local retail company, with 10 years of experience | The company has always managed every warehouse related process in manual way, but lately the amount of orders from the customers increased exponentially, and it has become impossible to control the flow of incoming and outgoing products. I feel the need for a technological transformation to handle in an semi-automatic way the inbound and outbound logistics. Furthermore last week I spilled my green tea on the document book containing last semester's orders and i had to write everything again. It would be so nice to have a digital history of our orders, maybe with a backup system to handle "tea related" and other problems|
 | Catalina, 63 years old, Warehouse manager that just wants to retire | When i was younger they called me IronMem-ory because i could remember every supplier's catalogue, name and phone number. But today the number of suppliers and data related to them is growing (as my age). I would like to have a sort of digital list of suppliers associated to the items they provide us, but it should be something easy to use. |
-| Franco, 38 years old, Warehouse clerk, recently hired with previous experience as WH clerk at a very large Company | The company I worked in before this was very large and technologically advanced, but now I'm struggling to adapt to this new manual management style. Finding things is too diffucult and finding the right place to stock things even more. I whish there was a warehouse management system suitable also for medium companies to help me in my daily work.|
+| Franco, 38 years old, Warehouse clerk, recently hired with previous experience as WH clerk at a very large Company | The company I worked in before was very large and technologically advanced, but now I'm struggling to adapt to this new manual management style. Finding things is too diffucult and finding the right place to stock things even more. I whish there was a warehouse management system suitable also for medium companies to help me in my daily work.|
+| Mariangela, 34 years old, quality office employee with 4 years of experience | Since i started, the process of quality check has always been the same. We randomly select some products, check their compliance and then the boring process of paperwork and burocracy starts: if the product is not compliant i have to send an email to the warehouse manager, send a rejection letter to our supplier, fill a quality check record and a lot other repetitive jobs that i am sure could be done by an automatic tool. |
+| Andrea, 41 years old, production office Manager for a manufacturing company | Whenever my department needs new items we have to formally make an order to the warehouse, but our system is old, messy and completely inefficient. digitalize system, database, centralized. ##### MODIFICA#### |
 
 # Functional and non functional requirements
 
@@ -106,9 +108,21 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | ID        | Description  |
 | ------------- |:-------------:| 
-|  FR1     |  |
-|  FR2     |   |
-| FRx..  | | 
+| FR1  | Company registration | 
+| FR1.1 | Insert company data |
+| FR1.2 | Warehouse manager account creation |
+| FR2   | Account creation (by WH manager + it administrator assistance if needed) | 
+| FR2.1 | Insert user data and role |
+| FR3 | Setup of Warehouse space |   
+| FR3.1 | register new space |  
+|FR3.2 | define division of space   |
+| FR4     | Login |
+| FR5     | Logout  |
+| FR6  | External order management | ( ++ Tracing order)
+| FR7 | Internal order management |
+| FR8 | Quality check management |
+| FR9 | Item placement management | (++ space remaining management)
+| FR10 | 
 
 ## Non Functional Requirements
 
