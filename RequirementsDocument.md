@@ -114,15 +114,25 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | FR2   | Account creation (by WH manager + it administrator assistance if needed) | 
 | FR2.1 | Insert user data and role |
 | FR3 | Setup of Warehouse space |   
-| FR3.1 | register new space |  
-|FR3.2 | define division of space   |
-| FR4     | Login |
-| FR5     | Logout  |
-| FR6  | External order management | ( ++ Tracing order)
-| FR7 | Internal order management |
-| FR8 | Quality check management |
-| FR9 | Item placement management | (++ space remaining management)
-| FR10 | 
+| FR3.1 | set number of blocks (slot spaces are predefined ???)|  
+|FR4 | Manage items in warehouse |
+| FR4.1 | Add new item instance (and minimum threshold) in warehouse |
+| FR4.2 | Modify item instance |
+| FR4.3 | Delete item instance |
+| FR4.4 | Show list of items and quantities |
+| FR4.5 | Show items under treshold |
+| FR5     | Login |
+| FR6     | Logout |
+| FR7  | External order management |
+| FR7.1 | Show specific supplier catalogue|
+| FR7.2 | Show list of suppliers providing a selected item |
+| FR7.3 | Add item to order |
+| FR7.4 | See order recap |
+| FR8 | Internal order management |
+| FR9 | Quality check management |
+| FR10 | Item placement management | (++ space remaining management)
+
+
 
 ## Non Functional Requirements
 
