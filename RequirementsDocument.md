@@ -82,6 +82,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Supplier    | Graphical User Interface | Internet (HTTP + JSON)  |
 |   Quality office employee     | Graphical user interface | Intranet (HTTP+JSON)  |
 |   OU employee     | Graphical user interface | Intranet (HTTP+JSON) |
+|   IT administrator     | Graphical user interface | Intranet (HTTP+JSON) |
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
@@ -91,7 +92,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<stories will be formalized later as scenarios in use cases>
 
 | Persona | Story |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 |  Massimo, 40 years old, Warehouse manager for a local retail company, with 10 years of experience | The company has always managed every warehouse related process in manual way, but lately the amount of orders from the customers increased exponentially, and it has become impossible to control the flow of incoming and outgoing products. I feel the need for a technological transformation to handle in an semi-automatic way the inbound and outbound logistics. Furthermore last week I spilled my green tea on the document book containing last semester's orders and i had to write everything again. It would be so nice to have a digital history of our orders, maybe with a backup system to handle "tea related" and other problems|
 | Catalina, 63 years old, Warehouse manager that just wants to retire | When i was younger they called me IronMem-ory because i could remember every supplier's catalogue, name and phone number. But today the number of suppliers and data related to them is growing (as my age). I would like to have a sort of digital list of suppliers associated to the items they provide us, but it should be something easy to use. |
 | Franco, 38 years old, Warehouse clerk, recently hired with previous experience as WH clerk at a very large Company | The company I worked in before was very large and technologically advanced, but now I'm struggling to adapt to this new manual management style. Finding things is too diffucult and finding the right place to stock things even more. I whish there was a warehouse management system suitable also for medium companies to help me in my daily work.|
@@ -107,11 +108,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<they match to high level use cases>
 
 | ID        | Description  |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 | FR1  | Company registration | 
 | FR1.1 | Insert company data |
 | FR1.2 | Warehouse manager account creation |
-| FR2   | Account creation (by WH manager + it administrator assistance if needed) | 
+| FR2   | Account creation by IT administrator | 
 | FR2.1 | Insert user data and role |
 | FR3   | Setup of Warehouse space and pick-up areas |   
 | FR3.1 | set number of blocks |  
@@ -152,6 +153,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | FR11  | Item placement management |
 | FR11.1 | Calculate available space |
 | FR11.2 | Choose a block from the list of available blocks | 
+| FR12 | Supplier's catalogue management |
+| FR12.1 | Update catalogue |
 
 
 
@@ -160,11 +163,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<Describe constraints on functional requirements>
 
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
-| ------------- |:-------------:| :-----:| -----:|
+| ------------- |:-------------:| :-----| -----:|
 |  NFR1     | Usability  | Any employee or manager should be able to use EZWH with 8 hrs (1 work day) of training | FR3, FR7, FR8, FR9, FR10, FR11 |
 |  NFR2     | Efficiency | The software should guarantee a short response time for all the fundamental functions (orders, warehouse space management, quality check) and should provide a not annoying user experience (RT < 1 sec)   | FR3, FR7, FR8, FR9, FR10, FR11 |
 |  NFR3     | Reliability | Number of crashes per month < 4 <br/>Number of wrong informations displayed < 1%  | ????? |
-|  NFR4     | Privacy | The information in the software must splitted in function of the roles and showed only to the proper user | FR2, FR5 | 
+|  NFR4     | Security | The information in the software must splitted in function of the roles and showed only to the proper user<br/>Access must be granted only to authorized users<br/>Protection from malitious access | FR2, FR5 | 
 
 
 # Use case diagram and use cases
@@ -176,13 +179,50 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<next describe here each use case in the UCD>
 ### Use case 1, UC1
-| Actors Involved        |  |
+| Actors Involved        | IT administrator |
 | ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after UC is finished> |
-|  Nominal Scenario     | \<Textual description of actions executed by the UC> |
-|  Variants     | \<other normal executions> |
-|  Exceptions     | \<exceptions, errors > |
+|  Precondition     | Software installed |
+|  Post condition     | Company and IT administrator registered into the system|
+|  Nominal Scenario     | The IT administrator registers the company in the system and creates their own profile |
+|  Variants     |  |
+|  Exceptions     | Missing data in mandatory fields, wrong data |
+
+### Use case 2, UC2
+| Actors Involved        | IT administrator |
+| ------------- |:-------------:| 
+|  Precondition     | Company and IT administrator registered into the system |
+|  Post condition     | User profile created |
+|  Nominal Scenario     | The IT administrator creates a profile for every new user/employee  |
+|  Variants     ||
+|  Exceptions     | User already existent, missing data in mandatory fields, wrong data |
+
+### Use case 3, UC3
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | Warehouse manager created |
+|  Post condition     |  Warehouse space created<br/>- pick-up area set or modified |
+|  Nominal Scenario     | - The warehouse manager defines the dimension of the area in terms of blocks<br/>- define a pick-up area.|
+|  Variants     | |
+|  Exceptions     | pick-up area already existing |
+
+### Use case 4, UC4
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | Warehouse space created |
+|  Post condition     | List of items updated | 
+|  Nominal Scenario     | The warehouse manager adds/updates/deletes an item instance from the database. |
+|  Variants     | |
+|  Exceptions     | Item updated with negative quantity |
+
+### Use case 4, UC4
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | Warehouse space created |
+|  Post condition     | List of items updated | 
+|  Nominal Scenario     | The warehouse manager adds/updates/deletes an item instance from the database. |
+|  Variants     | |
+|  Exceptions     | Item updated with negative quantity |
+
 
 ##### Scenario 1.1 
 
