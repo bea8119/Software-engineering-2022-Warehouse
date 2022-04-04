@@ -114,23 +114,44 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | FR2   | Account creation (by WH manager + it administrator assistance if needed) | 
 | FR2.1 | Insert user data and role |
 | FR3 | Setup of Warehouse space |   
-| FR3.1 | set number of blocks (slot spaces are predefined ???)|  
-|FR4 | Manage items in warehouse |
+| FR3.1 | set number of blocks |  
+| FR3.2 | add pick-up area name |
+| FR4  | Manage items in warehouse |
 | FR4.1 | Add new item instance (and minimum threshold) in warehouse |
 | FR4.2 | Modify item instance |
 | FR4.3 | Delete item instance |
 | FR4.4 | Show list of items and quantities |
-| FR4.5 | Show items under treshold |
-| FR5     | Login |
-| FR6     | Logout |
-| FR7  | External order management |
-| FR7.1 | Show specific supplier catalogue|
-| FR7.2 | Show list of suppliers providing a selected item |
-| FR7.3 | Add item to order |
-| FR7.4 | See order recap |
+| FR4.5 | Show items under treshold (considering orders in transit) |
+| FR5   | Login |
+| FR6   | Logout |
+| FR7   | External order management |
+| FR7.1 | Show items under treshold |
+| FR7.2 | Show specific supplier catalogue |
+| FR7.3 | Show list of suppliers providing a selected item |
+| FR7.4 | Add item to order |
+| FR7.5 | Show order recap |
+| FR7.5 | Issue order |
+| FR7.7 | Show history of orders |
 | FR8 | Internal order management |
-| FR9 | Quality check management |
-| FR10 | Item placement management | (++ space remaining management)
+| FR8.1 | Show list of items and quantities |
+| FR8.2 | Select item and quantity |
+| FR8.3 | Add item to internal order |
+| FR8.4 | Modify quantity |
+| FR8.5 | Delete item from internal order |
+| FR8.6 | Select preferred pick-up area |
+| FR8.7 | Show internal order recap |
+| FR8.8 | Issue internal order |
+| FR8.9 | Show history of internal orders |
+| FR9   | Internal order reception (by Warehouse) |
+| FR9.1 | Insert expected delivery date |
+| FR9.2 | Send expected delivery date associated to the order |   
+| FR10  | Quality check management |
+| FR10.1 | Show list of unchecked items |
+| FR10.2 | Select items to check |
+| FR10.3 | Produce quality check result |
+| FR11  | Item placement management |
+| FR11.1 | Calculate available space |
+| FR11.2 | Choose a block from the list of available blocks | 
 
 
 
@@ -140,10 +161,10 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NFR1     |   |  | |
-|  NFR2     | |  | |
-|  NFR3     | | | |
-| NFRx .. | | | | 
+|  NFR1     | Usability  | Any employee or manager should be able to use EZWH with 1 day of training | FR3, FR7, FR8, FR9, FR10, FR11 |
+|  NFR2     | Efficiency | The software should guarantee a short response time for all the fundamental functions (orders, warehouse space management, quality check) and should provide a not annoying user experience (RT < 1 sec)   | FR3, FR7, FR8, FR9, FR10, FR11 |
+|  NFR3     | Reliability | Number of crashes per month < 4 <br/>Number of wrong informations displayed < 1%  | ????? |
+|  NFR4     | Privacy | The information in the software must splitted in function of the roles and showed only to the proper user | FR2, FR5 | 
 
 
 # Use case diagram and use cases
