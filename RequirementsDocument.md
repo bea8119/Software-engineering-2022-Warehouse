@@ -113,10 +113,10 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | FR1.2 | Warehouse manager account creation |
 | FR2   | Account creation (by WH manager + it administrator assistance if needed) | 
 | FR2.1 | Insert user data and role |
-| FR3 | Setup of Warehouse space |   
+| FR3   | Setup of Warehouse space and pick-up areas |   
 | FR3.1 | set number of blocks |  
 | FR3.2 | add pick-up area name |
-| FR4  | Manage items in warehouse |
+| FR4   | Manage items in warehouse |
 | FR4.1 | Add new item instance (and minimum threshold) in warehouse |
 | FR4.2 | Modify item instance |
 | FR4.3 | Delete item instance |
@@ -161,7 +161,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NFR1     | Usability  | Any employee or manager should be able to use EZWH with 1 day of training | FR3, FR7, FR8, FR9, FR10, FR11 |
+|  NFR1     | Usability  | Any employee or manager should be able to use EZWH with 8 hrs (1 work day) of training | FR3, FR7, FR8, FR9, FR10, FR11 |
 |  NFR2     | Efficiency | The software should guarantee a short response time for all the fundamental functions (orders, warehouse space management, quality check) and should provide a not annoying user experience (RT < 1 sec)   | FR3, FR7, FR8, FR9, FR10, FR11 |
 |  NFR3     | Reliability | Number of crashes per month < 4 <br/>Number of wrong informations displayed < 1%  | ????? |
 |  NFR4     | Privacy | The information in the software must splitted in function of the roles and showed only to the proper user | FR2, FR5 | 
