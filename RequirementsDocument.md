@@ -97,7 +97,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Catalina, 63 years old, Warehouse manager that just wants to retire | When i was younger they called me IronMem-ory because i could remember every supplier's catalogue, name and phone number. But today the number of suppliers and data related to them is growing (as my age). I would like to have a sort of digital list of suppliers associated to the items they provide us, but it should be something easy to use. |
 | Franco, 38 years old, Warehouse clerk, recently hired with previous experience as WH clerk at a very large Company | The company I worked in before was very large and technologically advanced, but now I'm struggling to adapt to this new manual management style. Finding things is too diffucult and finding the right place to stock things even more. I whish there was a warehouse management system suitable also for medium companies to help me in my daily work.|
 | Mariangela, 34 years old, quality office employee with 4 years of experience | Since i started, the process of quality check has always been the same. We randomly select some products, check their compliance and then the boring process of paperwork and burocracy starts: if the product is not compliant i have to send an email to the warehouse manager, send a rejection letter to our supplier, fill a quality check record and a lot other repetitive jobs that i am sure could be done by an automatic tool. |
-| Andrea, 41 years old, production office Manager for a manufacturing company | Whenever my department needs new items we have to formally make an order to the warehouse, but our system is old, messy and completely inefficient. digitalize system, database, centralized. ##### MODIFICA#### |
+| Andrea, 41 years old, production office Manager for a manufacturing company | Whenever my department needs new items we have to formally make an order to the warehouse, but our system is old, messy and completely inefficient. I believe that the company would really need a digital system that can speed up this mechanism and make orders visible from all departments of the company.     digitalize system, database, centralized. ##### MODIFICA#### |
 
 # Functional and non functional requirements
 
@@ -193,15 +193,15 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Precondition     | Company and IT administrator registered into the system |
 |  Post condition     | User profile created |
 |  Nominal Scenario     | The IT administrator creates a profile for every new user/employee  |
-|  Variants     ||
+|  Variants     |  |
 |  Exceptions     | User already existent, missing data in mandatory fields, wrong data |
 
 ### Use case 3, UC3
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | Warehouse manager created |
-|  Post condition     |  Warehouse space created<br/>- pick-up area set or modified |
-|  Nominal Scenario     | - The warehouse manager defines the dimension of the area in terms of blocks<br/>- define a pick-up area.|
+|  Post condition     |  1. Warehouse space created<br/> 2. pick-up area set or modified |
+|  Nominal Scenario     | 1. The warehouse manager defines the dimension of the area in terms of blocks<br/> 2. define a pick-up area |
 |  Variants     | |
 |  Exceptions     | pick-up area already existing |
 
@@ -211,7 +211,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Precondition     | Warehouse space created |
 |  Post condition     | List of items updated | 
 |  Nominal Scenario     | The warehouse manager updates an item instance from the database. |
-|  Variants     | 1.1 The warehouse manager add an item instance from the database. <br/> 1.2 The warehouse manager deletes an item instance from the database.  |
+|  Variants     | 1.1. The warehouse manager add an item instance from the database. <br/> 1.2. The warehouse manager deletes an item instance from the database.  |
 |  Exceptions     | Item updated with negative quantity |
 
 ### Use case 5, UC5
@@ -221,7 +221,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Post condition     | User is authenticated and authorized | 
 |  Nominal Scenario     | User inserts his ID and password  |
 |  Variants     | |
-|  Exceptions     | 1.1 User ID doesn't exist <br/> 1.2 Incorrect password |
+|  Exceptions     | 1.1. User ID doesn't exist <br/> 1.2. Incorrect password |
 
 ### Use case 6, UC6
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator  |
@@ -237,18 +237,54 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | ------------- |:-------------:| 
 |  Precondition     | User authenticated and authorized for the external order area |
 |  Post condition     | External order is sent | 
-|  Nominal Scenario     | 1. Show list of items with some filters <br/> 2. Add item to order <br/> 3.Issue order |
-|  Variants     | 1.1 Show list of suppliers that provide a selected item <br/> 1.2 Show items under threshold <br/> 1.3 Show specific supplier's catalogue <br/> 2.1 Delete previously selected item <br/> 2.2 Modify number of requested items <br/> 3.1 show order recap |
-|  Exceptions     | - Item not available <br/> - Number of items ordered is higher than supplier's availability |
+|  Nominal Scenario     | 1. Show list of items with some filters <br/> 2. Add item to order <br/> 3. Issue order |
+|  Variants     | 1.1. Show list of suppliers that provide a selected item <br/> 1.2. Show items under threshold <br/> 1.3. Show specific supplier's catalogue <br/> 2.1 Delete previously selected item <br/> 2.2. Modify number of requested items <br/> 3.1. show order recap |
+|  Exceptions     | 2.1 Item not available <br/> 2.2 Number of items ordered is higher than supplier's availability |
 
 ### Use case 8, UC8
 | Actors Involved        | OU employee, Quality office employee |
 | ------------- |:-------------:| 
 |  Precondition     | User authenticated and authorized for the internal order area |
 |  Post condition     | Internal order is sent | 
-|  Nominal Scenario     | 1. Show list of items in warehouse and their quantity <br/> 2. Add item to order selecting quantity <br/> 3.Select preferred pick-up area <br/> 4.Issue order |
-|  Variants     | 2.1 Delete previously selected item <br/> 2.2 Modify number of requested items <br/> 4.1 show internal order recap |
-|  Exceptions     | - Item not available <br/> - Number of items ordered is higher than warehouse availability and needs to be managed with an external order |
+|  Nominal Scenario     | 1. Show list of items in warehouse and their quantity <br/>2. Add item to order selecting quantity <br/> 3. Select preferred pick-up area <br/> 4. Issue order |
+|  Variants     | 2.1. Delete previously selected item <br/> 2.2. Modify number of requested items <br/>4.1. Show internal order recap |
+|  Exceptions     | 2.1. Item not available <br/> 2.2. Number of items ordered is higher than warehouse availability and needs to be managed with an external order |
+
+### Use case 9, UC9
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | Internal order is sent from a specific OU employee |
+|  Post condition     | The internal order is managed | 
+|  Nominal Scenario     | 1. The warehouse manager receives a notification for the order placed by OU <br/> 2. The warehouse manager inserts an expected delivery date associated to the order <br/> 3. The warehouse manager accept the internal order |
+|  Variants     |  |
+|  Exceptions     | 2.1. The selected delivery date is inconsistent |
+
+### Use case 10, UC10
+| Actors Involved        | Quality office employee |
+| ------------- |:-------------:| 
+|  Precondition     | All the items in the warehouse are not check |
+|  Post condition     | Some items are checked | 
+|  Nominal Scenario     | 1. A quality check employee see the list of the unchecked items <br/> 2. Select some items for the checking process 3. Give a positive quality check result for each items |
+|  Variants     | 3.1. Give a negative quality check result for each items |
+|  Exceptions     |  |
+
+### Use case 11, UC11
+| Actors Involved        | to do |
+| ------------- |:-------------:| 
+|  Precondition     | to do |
+|  Post condition     | to do | 
+|  Nominal Scenario     | to do |
+|  Variants     | to do |
+|  Exceptions     | to do |
+
+### Use case 12, UC12
+| Actors Involved        | to do |
+| ------------- |:-------------:| 
+|  Precondition     | to do |
+|  Post condition     | to do | 
+|  Nominal Scenario     | to do |
+|  Variants     | to do |
+|  Exceptions     | to do |
 
 ##### Scenario 1.1 
 
