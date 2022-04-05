@@ -111,7 +111,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | ------------- |:-------------| 
 | FR1  | Company registration | 
 | FR1.1 | Insert company data |
-| FR1.2 | Warehouse manager account creation |
+| FR1.2 | IT administrator account creation |
 | FR2   | Account creation by IT administrator | 
 | FR2.1 | Insert user data and role |
 | FR3   | Setup of Warehouse space and pick-up areas |   
