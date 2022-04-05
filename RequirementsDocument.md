@@ -210,20 +210,36 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | ------------- |:-------------:| 
 |  Precondition     | Warehouse space created |
 |  Post condition     | List of items updated | 
-|  Nominal Scenario     | The warehouse manager adds/updates/deletes an item instance from the database. |
-|  Variants     | |
+|  Nominal Scenario     | The warehouse manager updates an item instance from the database. |
+|  Variants     | - The warehouse manager add an item instance from the database. <br/>- The warehouse manager deletes an item instance from the database.  |
 |  Exceptions     | Item updated with negative quantity |
 
-### Use case 4, UC4
+### Use case 5, UC5
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
-|  Precondition     | Warehouse space created |
-|  Post condition     | List of items updated | 
-|  Nominal Scenario     | The warehouse manager adds/updates/deletes an item instance from the database. |
+|  Precondition     | User account exists |
+|  Post condition     | User is authenticated and authorized | 
+|  Nominal Scenario     | User inserts his ID and password  |
 |  Variants     | |
-|  Exceptions     | Item updated with negative quantity |
+|  Exceptions     | - User ID doesn't exist <br/>- Incorrect password |
 
+### Use case 6, UC6
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | User is authenticated and authorized |
+|  Post condition     | User is logged out | 
+|  Nominal Scenario     | User presses log out button |
+|  Variants     | |
+|  Exceptions     |  |
 
+### Use case 7, UC7
+| Actors Involved        | Warehouse manager |
+| ------------- |:-------------:| 
+|  Precondition     | User is authenticated and authorized |
+|  Post condition     | User is logged out | 
+|  Nominal Scenario     | User presses log out button |
+|  Variants     | |
+|  Exceptions     |  |
 ##### Scenario 1.1 
 
 \<describe here scenarios instances of UC1>
