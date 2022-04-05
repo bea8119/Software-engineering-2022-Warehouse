@@ -211,20 +211,20 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Precondition     | Warehouse space created |
 |  Post condition     | List of items updated | 
 |  Nominal Scenario     | The warehouse manager updates an item instance from the database. |
-|  Variants     | - The warehouse manager add an item instance from the database. <br/>- The warehouse manager deletes an item instance from the database.  |
+|  Variants     | 1.1 The warehouse manager add an item instance from the database. <br/> 1.2 The warehouse manager deletes an item instance from the database.  |
 |  Exceptions     | Item updated with negative quantity |
 
 ### Use case 5, UC5
-| Actors Involved        | Warehouse manager |
+| Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator |
 | ------------- |:-------------:| 
 |  Precondition     | User account exists |
 |  Post condition     | User is authenticated and authorized | 
 |  Nominal Scenario     | User inserts his ID and password  |
 |  Variants     | |
-|  Exceptions     | - User ID doesn't exist <br/>- Incorrect password |
+|  Exceptions     | 1.1 User ID doesn't exist <br/> 1.2 Incorrect password |
 
 ### Use case 6, UC6
-| Actors Involved        | Warehouse manager |
+| Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator  |
 | ------------- |:-------------:| 
 |  Precondition     | User is authenticated and authorized |
 |  Post condition     | User is logged out | 
@@ -235,11 +235,21 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 ### Use case 7, UC7
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
-|  Precondition     | User is authenticated and authorized |
-|  Post condition     | User is logged out | 
-|  Nominal Scenario     | User presses log out button |
-|  Variants     | |
-|  Exceptions     |  |
+|  Precondition     | User authenticated and authorized for the external order area |
+|  Post condition     | External order is sent | 
+|  Nominal Scenario     | 1. Show list of items with some filters <br/> 2. Add item to order <br/> 3.Issue order |
+|  Variants     | 1.1 Show list of suppliers that provide a selected item <br/> 1.2 Show items under threshold <br/> 1.3 Show specific supplier's catalogue <br/> 2.1 Delete previously selected item <br/> 2.2 Modify number of requested items <br/> 3.1 show order recap |
+|  Exceptions     | - Item not available <br/> - Number of items ordered is higher than supplier's availability |
+
+### Use case 8, UC8
+| Actors Involved        | OU employee, Quality office employee |
+| ------------- |:-------------:| 
+|  Precondition     | User authenticated and authorized for the internal order area |
+|  Post condition     | Internal order is sent | 
+|  Nominal Scenario     | 1. Show list of items in warehouse and their quantity <br/> 2. Add item to order selecting quantity <br/> 3.Select preferred pick-up area <br/> 4.Issue order |
+|  Variants     | 2.1 Delete previously selected item <br/> 2.2 Modify number of requested items <br/> 4.1 show internal order recap |
+|  Exceptions     | - Item not available <br/> - Number of items ordered is higher than warehouse availability and needs to be managed with an external order |
+
 ##### Scenario 1.1 
 
 \<describe here scenarios instances of UC1>
