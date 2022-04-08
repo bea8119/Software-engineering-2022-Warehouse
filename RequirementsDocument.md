@@ -76,13 +76,14 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<GUIs will be described graphically in a separate document>
 
 | Actor | Logical Interface | Physical Interface  |
-| ------------- |:-------------:| -----:|
+| ------------- |:-------------:|:-----|
 |   Warehouse manager     | Graphical User Intarface  | Intranet (HTTP + JSON) |
 |   Warehouse clerk       | Graphical User Intarface, Barcode Reader | Laser Beam, Intranet (HTTP + JSON) |
 |   Supplier    | Graphical User Interface | Internet (HTTP + JSON)  |
 |   Quality office employee     | Graphical user interface | Intranet (HTTP+JSON)  |
 |   OU employee     | Graphical user interface | Intranet (HTTP+JSON) |
 |   IT administrator     | Graphical user interface | Intranet (HTTP+JSON) |
+|   Barcode scan API | Internet connection | API for converting scanned barcodes into numeric codes and to transfer them to EZWH software |
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
