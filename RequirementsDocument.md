@@ -323,7 +323,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<must be consistent with Context diagram>
 
-<img src="./Img/systemdes.png" alt="System Design" width="850">
+<img src="./Img/systemdes.png" alt="System Design" width="400">
 
 # Deployment Diagram 
 
