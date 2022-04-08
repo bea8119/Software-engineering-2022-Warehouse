@@ -107,54 +107,46 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<they match to high level use cases>
 
-| ID        | Description  |
-| ------------- |:-------------| 
-| FR1  | Company registration | 
-| FR1.1 | Insert company data |
-| FR1.2 | IT administrator account creation |
-| FR2   | Account creation by IT administrator | 
-| FR2.1 | Insert user data and role |
-| FR3   | Setup of Warehouse space and pick-up areas |   
-| FR3.1 | set number of blocks |  
-| FR3.2 | add pick-up area name |
-| FR4   | Manage items in warehouse |
-| FR4.1 | Add new item instance (and minimum threshold) in warehouse |
-| FR4.2 | Modify item instance |
-| FR4.3 | Delete item instance |
-| FR4.4 | Show list of items and quantities |
-| FR4.5 | Show items under treshold (considering orders in transit) |
-| FR5   | Login |
-| FR6   | Logout |
-| FR7   | External order management |
-| FR7.1 | Show items under treshold |
-| FR7.2 | Show specific supplier catalogue |
-| FR7.3 | Show list of suppliers providing a selected item |
-| FR7.4 | Add item to order |
-| FR7.5 | Show order recap |
-| FR7.5 | Issue order |
-| FR7.7 | Show history of orders |
-| FR8 | Internal order management |
-| FR8.1 | Show list of items and quantities |
-| FR8.2 | Select item and quantity |
-| FR8.3 | Add item to internal order |
-| FR8.4 | Modify quantity |
-| FR8.5 | Delete item from internal order |
-| FR8.6 | Select preferred pick-up area |
-| FR8.7 | Show internal order recap |
-| FR8.8 | Issue internal order |
-| FR8.9 | Show history of internal orders |
-| FR9   | Internal order reception (by Warehouse) |
-| FR9.1 | Insert expected delivery date |
-| FR9.2 | Send expected delivery date associated to the order |   
-| FR10  | Quality check management |
-| FR10.1 | Show list of unchecked items |
-| FR10.2 | Select items to check |
-| FR10.3 | Produce quality check result |
-| FR11  | Item placement management |
-| FR11.1 | Calculate available space |
-| FR11.2 | Choose a block from the list of available blocks | 
-| FR12 | Supplier's catalogue management |
-| FR12.1 | Update catalogue |
+ <table border = "2">
+			<tr><th>Requirement ID</th><th>Description</th><th>Sub-requirement ID</th><th>Description</th>
+            <tr><td rowspan = "2" >FR 1</td><td rowspan = "2">Company registration</td><td>FR 1.1</td><td>Insert company data</td></tr>
+            <tr><td>FR 1.2</td><td>IT administrator account creation</td></tr>
+            <tr><td rowspan = "1" >FR 2</td><td rowspan = "1">User creation by IT administrator</td><td></td><td></td></tr>
+            <tr><td rowspan = "2" >FR 3</td><td rowspan = "2">Setup of warehouse space and pick-up areas</td><td>FR 3.1</td><td>Set number of blocks</td></tr>
+            <tr><td>FR 3.2</td><td>Add pick-up area name</td></tr>
+            <tr><td rowspan = "5" >FR 4</td><td rowspan = "5">Manage items in warehouse</td><td>FR 4.1</td><td>Add new item instance (and minimum threshold) in warehouse</td></tr>
+            <tr><td>FR 4.2</td><td>Modify item istance</td></tr>
+            <tr><td>FR 4.3</td><td>Delete item istance</td></tr>
+            <tr><td>FR 4.4</td><td>Show list of items and quantities</td></tr>
+            <tr><td>FR 4.5</td><td>Display items under threshold (considering in-transit orders)</td></tr>
+            <tr><td rowspan = "1" >FR 5</td><td rowspan = "1">Login</td><td></td><td></td></tr>
+            <tr><td rowspan = "1" >FR 6</td><td rowspan = "1">Logout</td><td></td><td></td></tr>
+            <tr><td rowspan = "7" >FR 7</td><td rowspan = "7">External order management</td><td>FR 7.1</td><td>Show items under threshold</td></tr>
+            <tr><td>FR 7.2</td><td>Show specific supplier catalogue</td></tr>
+            <tr><td>FR 7.3</td><td>Show list of suppliers providing a selected item</td></tr>
+            <tr><td>FR 7.4</td><td>Add item to order</td></tr>
+            <tr><td>FR 7.5</td><td>Show order recap</td></tr>
+            <tr><td>FR 7.6</td><td>Issue order</td></tr>
+            <tr><td>FR 7.7</td><td>Show history of orders</td></tr>
+            <tr><td rowspan = "9" >FR 8</td><td rowspan = "9">Internal order management</td><td>FR 8.1</td><td>Show list of items and quantities</td></tr>
+            <tr><td>FR 8.2</td><td>Select item and quantity</td></tr>
+            <tr><td>FR 8.3</td><td>Add item to internal order</td></tr>
+            <tr><td>FR 8.4</td><td>Modify quantity</td></tr>
+            <tr><td>FR 8.5</td><td>Delete item from internal order</td></tr>
+            <tr><td>FR 8.6</td><td>Select preferred pick-up area</td></tr>
+            <tr><td>FR 8.7</td><td>Show internal order recap</td></tr>
+            <tr><td>FR 8.8</td><td>Issue internal order</td></tr>
+            <tr><td>FR 8.9</td><td>Show history of internal orders</td></tr>
+            <tr><td rowspan = "2" >FR 9</td><td rowspan = "2">Internal order reception (by warehouse)</td><td>FR 9.1</td><td>Insert expected delivery date</td></tr>
+            <tr><td>FR 9.2</td><td>Send expected delivery date associated to the order</td></tr>           
+            <tr><td rowspan = "3" >FR 10</td><td rowspan = "3">Quality check management</td><td>FR 10.1</td><td>Show list of not-verified items</td></tr>
+            <tr><td>FR 10.2</td><td>Select items to check</td></tr>
+            <tr><td>FR 10.3</td><td>Produce quality check result</td></tr>
+            <tr><td rowspan = "2" >FR 11</td><td rowspan = "2">Item placement management</td><td>FR 11.1</td><td>Calculate residual space</td></tr>
+            <tr><td>FR 11.2</td><td>Choose a block to contain the item</td></tr>
+            <tr><td rowspan = "1" >FR 11</td><td rowspan = "1">Supplier's catalogue management</td><td>FR 12.1</td><td>Update catalogue</td></tr>
+        </table>
+            
 
 
 
