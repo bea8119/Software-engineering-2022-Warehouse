@@ -59,6 +59,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Customer                      |    The final consumer of the products realized by the company         |
 |   IT administrator              |    A computer person in charge of solving software issues within the system         |
 |   Delivery operator             |    Managing the delivery of the items to a pick up area for internal orders          |
+|   Barcode scanner               |    Technology allowing an automatic scanning of the barcodes of items stocked in the warehouse |
+|   Barcode scan API              |    Service enabling a communication between EZWH software and barcode scanner functionalities |
 |   Competitors                   |    Other warehouse management systems         | 
 
 # Context Diagram and interfaces
@@ -78,12 +80,12 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:|:-----|
 |   Warehouse manager     | Graphical User Intarface  | Intranet (HTTP + JSON) |
-|   Warehouse clerk       | Graphical User Intarface, Barcode Reader | Laser Beam, Intranet (HTTP + JSON) |
+|   Warehouse clerk       | Graphical User Intarface, Barcode Scanner | Laser Beam, Intranet (HTTP + JSON) |
 |   Supplier    | Graphical User Interface | Internet (HTTP + JSON)  |
 |   Quality office employee     | Graphical user interface | Intranet (HTTP+JSON)  |
 |   OU employee     | Graphical user interface | Intranet (HTTP+JSON) |
 |   IT administrator     | Graphical user interface | Intranet (HTTP+JSON) |
-|   Barcode scan API | Internet connection | API for converting scanned barcodes into numeric codes and to transfer them to EZWH software |
+|   Barcode scan API | API for converting scanned barcodes into numeric codes and to transfer them to EZWH software | Internet connection |
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
