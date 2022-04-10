@@ -182,6 +182,16 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Variants     |  |
 |  Exceptions     | Missing data in mandatory fields, wrong data |
 
+| Scenario 1.1 |  |
+| ------------- |:-------------:| 
+|  Precondition     ||
+|  Post condition     |  |
+| Step#        | Description  |
+|  1     | The application is opened for the first time |  
+|  2     | The name, VAT id, legal address and Legal form are inserted |
+|  3     | The IT administrator account is created inserting name, surname, email and password for the account |
+|  4     | A recap of teh information inserted appears on the screen and the COmpany and IT Administrator account are created |
+
 ### Use case 2, UC2
 | Actors Involved        | IT administrator |
 | ------------- |:-------------:| 
@@ -190,6 +200,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Nominal Scenario     | The IT administrator creates a profile for every new user/employee  |
 |  Variants     |  |
 |  Exceptions     | User already existent, missing data in mandatory fields, wrong data |
+
+
 
 ### Use case 3, UC3
 | Actors Involved        | Warehouse manager |
@@ -291,16 +303,28 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<only relevant scenarios should be described>
 
-| Scenario 1.1 | |
+| Scenario 1.1 | The warehouse manager issues an order |
 | ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the scenario can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after scenario is finished> |
+|  Precondition     | It is necessary to make an order of some items that are needed in the company, the warehouse manager account exists|
+|  Post condition     | THe warehouse manager has issued an order for the needed items |
 | Step#        | Description  |
-|  1     |  |  
-|  2     |  |
-|  ...     |  |
+|  1     | The warehouse manager logs into their account |  
+|  2     | They select the needed item(s) from the catalogue|
+|  3     | They check the cart to make sure everything is in order  |
+|  4     | They issue the order that will be sent to the suppliers |
+|  5     | They log out from the account |
 
 ##### Scenario 1.2
+| Scenario 1.2 | The warehouse manager manages received internal orders |
+| ------------- |:-------------:| 
+|  Precondition     | It is necessary to make an order of some items that are needed in the company, the warehouse manager account exists|
+|  Post condition     | THe warehouse manager has issued an order for the needed items |
+| Step#        | Description  |
+|  1     | The warehouse manager logs into their account |  
+|  2     | They select the needed item(s) from the catalogue|
+|  3     | They check the cart to make sure everything is in order  |
+|  4     | They issue the order that will be sent to the suppliers |
+|  5     | They log out from the account |
 
 ##### Scenario 1.x
 
