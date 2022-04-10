@@ -100,7 +100,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Catalina, 63 years old, Warehouse manager that just wants to retire | When i was younger they called me IronMem-ory because i could remember every supplier's catalogue, name and phone number. But today the number of suppliers and data related to them is growing (as my age). I would like to have a sort of digital list of suppliers associated to the items they provide us, but it should be something easy to use. |
 | Franco, 38 years old, Warehouse clerk, recently hired with previous experience as WH clerk at a very large Company | The company I worked in before was very large and technologically advanced, but now I'm struggling to adapt to this new manual management style. Finding things is too diffucult and finding the right place to stock things even more. I whish there was a warehouse management system suitable also for medium companies to help me in my daily work.|
 | Mariangela, 34 years old, quality office employee with 4 years of experience | Since i started, the process of quality check has always been the same. We randomly select some products, check their compliance and then the boring process of paperwork and burocracy starts: if the product is not compliant i have to send an email to the warehouse manager, send a rejection letter to our supplier, fill a quality check record and a lot other repetitive jobs that i am sure could be done by an automatic tool. |
-| Andrea, 41 years old, production office Manager for a manufacturing company | Whenever my department needs new items we have to formally make an order to the warehouse, but our system is old, messy and completely inefficient. I believe that the company would really need a digital system that can speed up this mechanism and make orders visible from all departments of the company.     digitalize system, database, centralized. ##### MODIFICA#### |
+| Andrea, 41 years old, production office Manager for a manufacturing company | Whenever my department needs new items we have to formally make an order to the warehouse, either by email or sending a letter. Our system is old, messy and completely inefficient. I believe that the company can really benefit from a digital system that would speed up this mechanism and also make orders visible from all departments of the company in a synchronized way.|
 
 # Functional and non functional requirements
 
@@ -147,7 +147,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
             <tr><td>FR 10.3</td><td>Produce quality check result</td></tr>
             <tr><td rowspan = "2" >FR 11</td><td rowspan = "2">Item placement management</td><td>FR 11.1</td><td>Calculate residual space</td></tr>
             <tr><td>FR 11.2</td><td>Choose a block to contain the item</td></tr>
-            <tr><td rowspan = "1" >FR 11</td><td rowspan = "1">Supplier's catalogue management</td><td>FR 12.1</td><td>Update catalogue</td></tr>
+            <tr><td rowspan = "1" >FR 12</td><td rowspan = "1">Supplier's catalogue management</td><td>FR 12.1</td><td>Update catalogue</td></tr>
         </table>
             
 
@@ -257,29 +257,29 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 ### Use case 10, UC10
 | Actors Involved        | Quality office employee |
 | ------------- |:-------------:| 
-|  Precondition     | All the items in the warehouse are not check |
+|  Precondition     | All the items in the warehouse are not checked |
 |  Post condition     | Some items are checked | 
-|  Nominal Scenario     | 1. A quality check employee see the list of the unchecked items <br/> 2. Select some items for the checking process 3. Give a positive quality check result for each items |
-|  Variants     | 3.1. Give a negative quality check result for each items |
+|  Nominal Scenario     | 1. A quality check employee sees the list of the unchecked items <br/> 2. Select some items for the checking process 3. Give a positive quality check result for each item |
+|  Variants     | 3.1. Give a negative quality check result for each item |
 |  Exceptions     |  |
 
 ### Use case 11, UC11
-| Actors Involved        | to do |
+| Actors Involved        | Warehouse Clerk |
 | ------------- |:-------------:| 
-|  Precondition     | to do |
-|  Post condition     | to do | 
-|  Nominal Scenario     | to do |
-|  Variants     | to do |
-|  Exceptions     | to do |
+|  Precondition     | An item is ordered and received and it is not yet placed in a warehouse block |
+|  Post condition     | The item is placed in a warehouse block|  
+|  Nominal Scenario     | 1. Warehouse clerk is given an item to scan <br/> 2. The application will provide an optimal block for the item to be positioned in |
+|  Variants     | 1.1 Warehouse clerk inserts manually the code of the product|
+|  Exceptions     | 2.1 There is not enough space left in any block of the warehouse  |
 
 ### Use case 12, UC12
-| Actors Involved        | to do |
+| Actors Involved        | Supplier|
 | ------------- |:-------------:| 
-|  Precondition     | to do |
-|  Post condition     | to do | 
-|  Nominal Scenario     | to do |
-|  Variants     | to do |
-|  Exceptions     | to do |
+|  Precondition     | A catalogue exists and the supplier is registered in the application|
+|  Post condition     | The catalogue is updated | 
+|  Nominal Scenario     | 1. Supplier adds item inserting all necessary information|
+|  Variants     | 1. Supplier views existing catalogue <br/> 2.1 Supplier deletes item from catalogue <br/> 2.2 Supplier modifies information of existing item in their catalogue |
+|  Exceptions     |  |
 
 ##### Scenario 1.1 
 
