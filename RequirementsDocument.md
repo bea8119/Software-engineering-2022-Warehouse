@@ -256,6 +256,19 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Variants     | |
 |  Exceptions     | 1.1. User ID doesn't exist <br/> 1.2. Incorrect password |
 
+### Scenario 5.1
+| Scenario 5.1 |  |
+| ------------- |:-------------:| 
+|  Precondition     | User account exists  |
+|  Post condition     | User is authenticated and authorized  |
+| Step#        | Description |
+|  1     | The user open the application |  
+|  2     | The user enters his ID and password in the appropriate fields |
+|  3     | The user presses the confirm button |
+|  4     | The user's credentials are correct |
+|  5     | The application give to the user the correct authorization for the relative account |
+ 
+
 ### Use case 6, UC6
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator  |
 | ------------- |:-------------:| 
@@ -264,6 +277,16 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Nominal Scenario     | User presses log out button |
 |  Variants     | |
 |  Exceptions     |  |
+
+### Scenario 6.1
+| Scenario 6.1 |  |
+| ------------- |:-------------:| 
+|  Precondition     | User is authenticated and authorized |
+|  Post condition     | User is logged out | 
+| Step#        | Description |
+|  1     | The user presses the log-out button |  
+|  2     | The application close its operations |
+|  3     | The user is logged out (and he is brought to the page for a new login) |
 
 ### Use case 7, UC7
 | Actors Involved        | Warehouse manager |
