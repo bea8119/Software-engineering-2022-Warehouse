@@ -172,7 +172,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<next describe here each use case in the UCD>
 ### Use case 1, UC1
 | Actors Involved        | IT administrator |
-| ------------- |-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Software installed |
 |  Post condition     | Company and IT administrator registered into the system |
 |  Nominal Scenario     | The IT administrator registers the company in the system and creates their own profile |
@@ -181,7 +181,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 1.1
 | Scenario 1.1 | Company registration |
-| ------------- |-------------:| 
+| ------------- |:-------------| 
 |  Precondition     |Software installed |
 |  Post condition     | Company and IT administrator registered into the system |
 | Step#        | Description  |
@@ -192,7 +192,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 2, UC2
 | Actors Involved        | IT administrator |
-| ------------- |-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Company and IT administrator registered into the system |
 |  Post condition     | User profile created |
 |  Nominal Scenario     | The IT administrator creates a profile for every new user/employee  |
@@ -201,7 +201,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 2.1
 | Scenario 2.1 | User profile creation |
-| ------------- |-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Company and IT administrator registered into the system and IT administrator logged in|
 |  Post condition     | User profile created |
 | Step#        | Description  |
@@ -210,7 +210,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 3, UC3
 | Actors Involved        | Warehouse manager |
-| ------------- |-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Warehouse manager account created |
 |  Post condition     |  1. Warehouse block added <br/> 2. pick-up area set or modified |
 |  Nominal Scenario     | 1. The warehouse manager defines the dimension of the area in terms of blocks<br/> 2. define a pick-up area |
@@ -219,7 +219,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 3.1
 | Scenario 3.1 | Add new block |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Warehouse manager account created |
 |  Post condition     | Warehouse space created  |
 | Step#        | Description |
@@ -229,7 +229,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 3.2
 | Scenario 3.2 | Add new pick-up area |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Warehouse manager account created |
 |  Post condition     | Warehouse space created  |
 | Step#        | Description |
@@ -239,7 +239,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 4, UC4
 | Actors Involved        | Warehouse manager |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Warehouse space created, Warehouse Manager account created |
 |  Post condition     | List of items is shown | 
 |  Nominal Scenario     | The inventory is displayed |
@@ -248,7 +248,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 4.1
 | Scenario 4.1 | Display Inventory |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Warehouse space created, Warehouse manager account created  |
 |  Post condition     | The inventory is displayed|
 | Step#        | Description |
@@ -256,7 +256,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 4.2
 | Scenario 4.2 | Display specific item |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Warehouse space created, Warehouse manager account created  |
 |  Post condition     | The item is displayed|
 | Step#        | Description |
@@ -265,7 +265,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 5, UC5
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | User account exists |
 |  Post condition     | User is authenticated and authorized | 
 |  Nominal Scenario     | User inserts his credentials  |
@@ -274,7 +274,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 5.1
 | Scenario 5.1 | Login with correct credentials |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | User account exists  |
 |  Post condition     | User is authenticated and authorized  |
 | Step#        | Description |
@@ -284,7 +284,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 5.2
 | Scenario 5.2 | Wrong credentials |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | User account exists  |
 |  Post condition     | User is not authenticated and authorized  |
 | Step#        | Description |
@@ -296,7 +296,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
  
 ### Use case 6, UC6
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator  |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | User is authenticated and authorized |
 |  Post condition     | User is logged out | 
 |  Nominal Scenario     | User presses log out button |
@@ -305,7 +305,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 6.1
 | Scenario 6.1 | Logout  |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | User is authenticated and authorized |
 |  Post condition     | User is logged out | 
 | Step#        | Description |
@@ -315,16 +315,16 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 7, UC7
 | Actors Involved        | Warehouse manager |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | User authenticated and authorized for the external order area |
 |  Post condition     | External order is sent | 
-|  Nominal Scenario     | 1. Show list of items <br/> 2. Add item to order <br/> 3. Issue order |
-|  Variants     | 1.1. Show list of suppliers that provide a selected item <br/> 1.2. Show items under threshold <br/> 1.3. Show specific supplier's catalogue <br/> 2.1 Delete previously selected item <br/> 2.2. Modify number of requested items <br/> 3.1. show order recap |
-|  Exceptions     | 2.1 Item not available <br/> 2.2 Number of items ordered is higher than supplier's availability |
+|  Nominal Scenario     | The items are selected and added to the cart, then the order is issued |
+|  Variants     | 1.1 Show list of all available items <br/> 1.2 Show specific supplier's catalogue <br/> 2.1 Delete previously selected item <br/> 2.2. Modify number of requested items <br/> 3. show order history |
+|  Exceptions     | Number of items needed is higher than supplier's availability |
 
 ### Scenario 7.1
 | Scenario 7.1 | The order is issued |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Warehouse manager authenticated and authorized for the external order area |
 |  Post condition     | External order is sent | 
 | Step#        | Description |
@@ -334,42 +334,116 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The order is confirmed and issued |
 
 ### Scenario 7.2
-| Scenario 7.2 | The order is issued  |
-| ------------- |:-------------:| 
+| Scenario 7.2 | The cart is modified by deleting items before issuing order|
+| ------------- |:-------------| 
 |  Precondition     | Warehouse manager authenticated and authorized for the external order area |
-|  Post condition     | External order is sent | 
+|  Post condition     | Some items are deleted from the cart and order is issued | 
 | Step#        | Description |
 |  1     | The list of available items from the suppliers is shown |  
-|  2     | An item is added to the cart |
+|  2     | An item is added to the cart  <br/>      2.1 An item is added from the list of items <br/>       2.2 An item is added selecting from the catalogue of a specific supplier|
 |  3     | The cart is reviewed |
-|  3     | The order is confirmed and issued |
+|  4     | Some items are removed from the cart |
+|  5     | The order is confirmed and issued |
+
+### Scenario 7.3
+| Scenario 7.3 | The cart is modified in the items' quantities before issuing order |
+| ------------- |:-------------| 
+|  Precondition     | Warehouse manager authenticated and authorized for the external order area |
+|  Post condition     | Item quantities are modified in the cart and order is issued | 
+| Step#        | Description |
+|  1     | The list of available items from the suppliers is shown |  
+|  2     | An item is added to the cart  <br/>      2.1 An item is added from the list of items <br/>       2.2 An item is added selecting from the catalogue of a specific supplier|
+|  3     | The cart is reviewed |
+|  4     | Some item quantities are modified from the cart |
+|  5     | The order is confirmed and issued |
+
+### Scenario 7.3
+| Scenario 7.3 | History of orders is shown |
+| ------------- |:-------------| 
+|  Precondition     | Warehouse manager authenticated and authorized for the external order area, previous orders have been issued |
+|  Post condition     | List of previous orders is shown | 
+| Step#        | Description |
+|  1     | List of previously issued orders is shown with their relevant information|  
 
 ### Use case 8, UC8
 | Actors Involved        | OU employee, Quality office employee |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | User authenticated and authorized for the internal order area |
 |  Post condition     | Internal order is sent | 
-|  Nominal Scenario     | 1. Show list of items in warehouse and their quantity <br/>2. Add item to order selecting quantity <br/> 3. Select preferred pick-up area <br/> 4. Issue order |
-|  Variants     | 2.1. Delete previously selected item <br/> 2.2. Modify number of requested items <br/>4.1. Show internal order recap |
-|  Exceptions     | 2.1. Item not available <br/> 2.2. Number of items ordered is higher than warehouse availability and needs to be managed with an external order |
+|  Nominal Scenario     | Some items are selected from the inventory, the pick-up area is selected and the order is issued |
+|  Variants     | Modify number of requested items,  history of orders is shown |
+|  Exceptions     |  |
+
+### Scenario 8.1
+| Scenario 8.1 | Issuing an internal order |
+| ------------- |:-------------| 
+|  Precondition     |  User authenticated and authorized for the internal order area |
+|  Post condition     | Internal order is sent  | 
+| Step#        | Description |
+|  1     | List of items in inventory is shown|  
+|  2     | A quantity of items is added to the order |
+|  3     | A pick-up area is selected from the list of pick-up areas available |
+|  4     | The order is confirmed and issued |
+
+### Scenario 8.2
+| Scenario 8.2 | Issuing an internal order after modifying quantity of an item |
+| ------------- |:-------------| 
+|  Precondition     |  User authenticated and authorized for the internal order area |
+|  Post condition     | Internal order is sent  | 
+| Step#        | Description |
+|  1     | List of items in inventory is shown|  
+|  2     | A quantity of items is added to the order |
+|  3     | A selected quantity is modified (or brought to zero) |
+|  4     | A pick-up area is selected from the list of pick-up areas available |
+|  5     | The order is confirmed and issued |
+
+
+### Scenario 8.3
+| Scenario 8.3 | History of previous orders is shown |
+| ------------- |:-------------| 
+|  Precondition     |  User authenticated and authorized for the internal order area, previous orders have been issued |
+|  Post condition     | History of orders is shown | 
+| Step#        | Description |
+|  1     | List of previously issued orders is shown with their relevant information |
 
 ### Use case 9, UC9
 | Actors Involved        | Warehouse manager |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | Internal order is sent from a specific OU employee |
 |  Post condition     | The internal order is managed | 
-|  Nominal Scenario     | 1. The warehouse manager receives a notification for the order placed by OU <br/> 2. The warehouse manager inserts an expected delivery date associated to the order <br/> 3. The warehouse manager accept the internal order |
+|  Nominal Scenario     | The warehouse manager chooses an order from the list of incoming orders and sets an estimated delivery date for it |
 |  Variants     |  |
-|  Exceptions     | 2.1. The selected delivery date is inconsistent |
+|  Exceptions     | 2.1. The selected delivery date is inconsistent (a past date) |
+
+### Scenario 9.1
+| Scenario 9.1 | Management of internal incoming order|
+| ------------- |:-------------| 
+|  Precondition     |  User authenticated and authorized for the internal order area |
+|  Post condition     | Internal order is sent  | 
+| Step#        | Description |
+|  1     | The warehouse manager checks the list of incoming internal orders|  
+|  2     | The warehouse manager inserts an expected delivery date associated to the order|
+|  3     | The warehouse manager accepts the internal order |
+
 
 ### Use case 10, UC10
 | Actors Involved        | Quality office employee |
-| ------------- |:-------------:| 
-|  Precondition     | All the items in the warehouse are not checked |
-|  Post condition     | Some items are checked | 
-|  Nominal Scenario     | 1. A quality check employee sees the list of the unchecked items <br/> 2. Select some items for the checking process 3. Give a positive quality check result for each item |
-|  Variants     | 3.1. Give a negative quality check result for each item |
+| ------------- |:-------------| 
+|  Precondition     | Some items in the warehouse are not quality checked |
+|  Post condition     | Some items are reviewed | 
+|  Nominal Scenario     | A quality check employee selects some items to be checked and gives a review to them.  |
+|  Variants     | The list of previously  |
 |  Exceptions     |  |
+
+### Scenario 10.1
+| Scenario 10.1 | Quality check of an item |
+| ------------- |:-------------| 
+|  Precondition     |  User authenticated and authorized for the internal order area |
+|  Post condition     | Internal order is sent  | 
+| Step#        | Description |
+|  1     | A quality check employee sees the list of the unchecked items|  
+|  2     | They select an item for the checking process|
+|  3     | The quality check employee gives a positive or negative quality check result for the item |
 
 ### Use case 11, UC11
 | Actors Involved        | Warehouse Clerk |
