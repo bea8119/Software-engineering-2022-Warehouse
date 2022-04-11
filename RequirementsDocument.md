@@ -240,55 +240,60 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 ### Use case 4, UC4
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
-|  Precondition     | Warehouse space created |
-|  Post condition     | List of items updated | 
-|  Nominal Scenario     | The warehouse manager updates an item instance from the database. |
-|  Variants     | 1.1. The warehouse manager add an item instance from the database. <br/> 1.2. The warehouse manager deletes or modifies an item instance from the database. |
-|  Exceptions     | Item updated with negative quantity |
+|  Precondition     | Warehouse space created, Warehouse Manager account created |
+|  Post condition     | List of items is shown | 
+|  Nominal Scenario     | The inventory is displayed |
+|  Variants     | 1. The user searches for a specific item with the search bar |
+|  Exceptions     |  |
 
 ### Scenario 4.1
-| Scenario 4.1 | Adding items |
+| Scenario 4.1 | Display Inventory |
 | ------------- |:-------------:| 
 |  Precondition     | Warehouse space created, Warehouse manager account created  |
-|  Post condition     | Item is added |
+|  Post condition     | The inventory is displayed|
 | Step#        | Description |
-|  1     | The warehouse manager  |  
-|  2     | Add data of the block to be inserted to create new block |
+|  1     | The warehouse manager sees the inventory and every item's useful information |  
+
+### Scenario 4.2
+| Scenario 4.2 | Display specific item |
+| ------------- |:-------------:| 
+|  Precondition     | Warehouse space created, Warehouse manager account created  |
+|  Post condition     | The item is displayed|
+| Step#        | Description |
+|  1     | The warehouse manager searches for a specific item | 
+|  2     | The item, if existing, is displayed with its useful information | 
 
 ### Use case 5, UC5
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator |
 | ------------- |:-------------:| 
 |  Precondition     | User account exists |
 |  Post condition     | User is authenticated and authorized | 
-|  Nominal Scenario     | User inserts his ID and password  |
+|  Nominal Scenario     | User inserts his credentials  |
 |  Variants     | |
-|  Exceptions     | 1.1. User ID doesn't exist <br/> 1.2. Incorrect password |
+|  Exceptions     | 1.1. Incorrect credentials |
 
 ### Scenario 5.1
-| Scenario 5.1 |  |
+| Scenario 5.1 | Login with correct credentials |
 | ------------- |:-------------:| 
 |  Precondition     | User account exists  |
 |  Post condition     | User is authenticated and authorized  |
 | Step#        | Description |
-|  1     | The user opens the application |  
-|  2     | The user inserts their ID and password in the appropriate fields |
-|  3     | The user confirms their data |
-|  4     | The user's credentials are correct |
-|  5     | The user is let inside of their relative account |
+|  1     | The user inserts their credentials | 
+|  2     | The user confirms their data | 
+|  3     | The user is anthenticated and can enter their account area |
 
 ### Scenario 5.2
-| Scenario 5.2 |  |
+| Scenario 5.2 | Wrong credentials |
 | ------------- |:-------------:| 
 |  Precondition     | User account exists  |
-|  Post condition     | User is authenticated and authorized  |
+|  Post condition     | User is not authenticated and authorized  |
 | Step#        | Description |
-|  1     | The user opens the application |  
-|  2     | The user inserts their ID and password in the appropriate fields |
-|  3     | The user confirms their data |
-|  4     | The user's credentials are correct |
-|  5     | The user is let inside of their relative account |
- 
+|  1     | The user inserts their credentials | 
+|  2     | The user confirms their data but it is wrong| 
+|  3     | The user is not anthenticated by the application |
+|  4     | The user can try again or can contact the IT administrator for help |
 
+ 
 ### Use case 6, UC6
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator  |
 | ------------- |:-------------:| 
@@ -299,23 +304,45 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  |
 
 ### Scenario 6.1
-| Scenario 6.1 |  |
+| Scenario 6.1 | Logout  |
 | ------------- |:-------------:| 
 |  Precondition     | User is authenticated and authorized |
 |  Post condition     | User is logged out | 
 | Step#        | Description |
 |  1     | The user presses the log-out button |  
-|  2     | The application close its operations |
-|  3     | The user is logged out (and he is brought to the page for a new login) |
+|  2     | The user is logged out |
+|  3     | The user is brought to the page for a new login |
 
 ### Use case 7, UC7
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | User authenticated and authorized for the external order area |
 |  Post condition     | External order is sent | 
-|  Nominal Scenario     | 1. Show list of items with some filters <br/> 2. Add item to order <br/> 3. Issue order |
+|  Nominal Scenario     | 1. Show list of items <br/> 2. Add item to order <br/> 3. Issue order |
 |  Variants     | 1.1. Show list of suppliers that provide a selected item <br/> 1.2. Show items under threshold <br/> 1.3. Show specific supplier's catalogue <br/> 2.1 Delete previously selected item <br/> 2.2. Modify number of requested items <br/> 3.1. show order recap |
 |  Exceptions     | 2.1 Item not available <br/> 2.2 Number of items ordered is higher than supplier's availability |
+
+### Scenario 7.1
+| Scenario 7.1 | The order is issued |
+| ------------- |:-------------:| 
+|  Precondition     | Warehouse manager authenticated and authorized for the external order area |
+|  Post condition     | External order is sent | 
+| Step#        | Description |
+|  1     | The list of available items from the suppliers is shown |  
+|  2     | An item is added to the cart  <br/>      2.1 An item is added from the list of items <br/>       2.2 An item is added selecting from the catalogue of a specific supplier|
+|  3     | The cart is reviewed |
+|  3     | The order is confirmed and issued |
+
+### Scenario 7.2
+| Scenario 7.2 | The order is issued  |
+| ------------- |:-------------:| 
+|  Precondition     | Warehouse manager authenticated and authorized for the external order area |
+|  Post condition     | External order is sent | 
+| Step#        | Description |
+|  1     | The list of available items from the suppliers is shown |  
+|  2     | An item is added to the cart |
+|  3     | The cart is reviewed |
+|  3     | The order is confirmed and issued |
 
 ### Use case 8, UC8
 | Actors Involved        | OU employee, Quality office employee |
