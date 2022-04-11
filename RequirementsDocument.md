@@ -118,7 +118,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
             <tr><td rowspan = "2" >FR 3</td><td rowspan = "2">Setup of warehouse space and pick-up areas</td><td>FR 3.1</td><td>Set number of blocks</td></tr>
             <tr><td>FR 3.2</td><td>Add pick-up area name</td></tr>
             <tr><td rowspan = "5" >FR 4</td><td rowspan = "5">View item inventory in warehouse</td>
-            <tr><td>FR 4.1</td><td>Show list of items and quantities, with threshold</td></tr>
+            <tr><td>FR 4.1</td><td>Show list of items and quantities, with threshold</td></tr></tr>
              <tr><td rowspan = "1" >FR 5</td><td rowspan = "1">Login</td><td></td><td></td></tr>
             <tr><td rowspan = "1" >FR 6</td><td rowspan = "1">Logout</td><td></td><td></td></tr>
             <tr><td rowspan = "7" >FR 7</td><td rowspan = "7">External order management</td><td>FR 7.1</td><td>Show items under threshold</td></tr>
