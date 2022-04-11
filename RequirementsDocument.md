@@ -172,7 +172,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<next describe here each use case in the UCD>
 ### Use case 1, UC1
 | Actors Involved        | IT administrator |
-| ------------- |:-------------:| 
+| ------------- |-------------:| 
 |  Precondition     | Software installed |
 |  Post condition     | Company and IT administrator registered into the system |
 |  Nominal Scenario     | The IT administrator registers the company in the system and creates their own profile |
@@ -181,7 +181,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 1.1
 | Scenario 1.1 | Company registration |
-| ------------- |:-------------:| 
+| ------------- |-------------:| 
 |  Precondition     |Software installed |
 |  Post condition     | Company and IT administrator registered into the system |
 | Step#        | Description  |
@@ -192,7 +192,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 2, UC2
 | Actors Involved        | IT administrator |
-| ------------- |:-------------:| 
+| ------------- |-------------:| 
 |  Precondition     | Company and IT administrator registered into the system |
 |  Post condition     | User profile created |
 |  Nominal Scenario     | The IT administrator creates a profile for every new user/employee  |
@@ -201,7 +201,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Scenario 2.1
 | Scenario 2.1 | User profile creation |
-| ------------- |:-------------:| 
+| ------------- |-------------:| 
 |  Precondition     | Company and IT administrator registered into the system and IT administrator logged in|
 |  Post condition     | User profile created |
 | Step#        | Description  |
@@ -210,7 +210,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 3, UC3
 | Actors Involved        | Warehouse manager |
-| ------------- |:-------------:| 
+| ------------- |-------------:| 
 |  Precondition     | Warehouse manager account created |
 |  Post condition     |  1. Warehouse block added <br/> 2. pick-up area set or modified |
 |  Nominal Scenario     | 1. The warehouse manager defines the dimension of the area in terms of blocks<br/> 2. define a pick-up area |
