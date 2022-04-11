@@ -170,6 +170,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 \<next describe here each use case in the UCD>
+## Use cases and scenarios
 ### Use case 1, UC1
 | Actors Involved        | IT administrator |
 | ------------- |:-------------| 
@@ -432,78 +433,105 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Precondition     | Some items in the warehouse are not quality checked |
 |  Post condition     | Some items are reviewed | 
 |  Nominal Scenario     | A quality check employee selects some items to be checked and gives a review to them.  |
-|  Variants     | The list of previously  |
+|  Variants     | The list of previously accepted or rejected items can be shown  |
 |  Exceptions     |  |
 
 ### Scenario 10.1
 | Scenario 10.1 | Quality check of an item |
 | ------------- |:-------------| 
-|  Precondition     |  User authenticated and authorized for the internal order area |
-|  Post condition     | Internal order is sent  | 
+|  Precondition     |  Some items in the warehouse are not quality checked |
+|  Post condition     | Some items are quality checked  | 
 | Step#        | Description |
 |  1     | A quality check employee sees the list of the unchecked items|  
 |  2     | They select an item for the checking process|
 |  3     | The quality check employee gives a positive or negative quality check result for the item |
+
+### Scenario 10.2
+| Scenario 10.2 | List display of accepted items |
+| ------------- |:-------------| 
+|  Precondition     |  Some items in the warehouse have been quality checked previously |
+|  Post condition     | List of accepted items is displayed  | 
+| Step#        | Description |
+|  1     | A quality check employee sees the list of already accepted items|  
+
+### Scenario 10.3
+| Scenario 10.3 | List display of rejected items |
+| ------------- |:-------------| 
+|  Precondition     |  Some items in the warehouse have been quality checked previously |
+|  Post condition     | List of rejected items is displayed  | 
+| Step#        | Description |
+|  1     | A quality check employee sees the list of already rejected items|  
+
 
 ### Use case 11, UC11
 | Actors Involved        | Warehouse Clerk |
 | ------------- |:-------------:| 
 |  Precondition     | An item is ordered and received and it is not yet placed in a warehouse block |
 |  Post condition     | The item is placed in a warehouse block|  
-|  Nominal Scenario     | 1. Warehouse clerk is given an item to scan <br/> 2. The application will provide an optimal block for the item to be positioned in |
-|  Variants     | 1.1 Warehouse clerk inserts manually the code of the product|
-|  Exceptions     | 2.1 There is not enough space left in any block of the warehouse  |
+|  Nominal Scenario     | he warehouse clerk scans a product and the application returns an optimal block for the item to be placed in |
+|  Variants     |  Warehouse clerk inserts manually the code of the product|
+|  Exceptions     |  There is not enough space left in any block of the warehouse  |
+
+### Scenario 11.1
+| Scenario 11.1 | Item scanning and positioning |
+| ------------- |:-------------| 
+|  Precondition     |  An item is ordered and received and it is not yet placed in a warehouse block  |
+|  Post condition     | The item is placed in a warehouse block  | 
+| Step#        | Description |
+|  1     | The warehouse clerk is given an item to scan|  
+|  2     | An optimal block for the item to be positioned in is provided|
+
+### Scenario 11.2
+| Scenario 11.2 | Manual insertion of item code and positioning |
+| ------------- |:-------------| 
+|  Precondition     |  An item is ordered and received and it is not yet placed in a warehouse block  |
+|  Post condition     | The item is placed in a warehouse block  | 
+| Step#        | Description |
+|  1     | The warehouse clerk is given an item to scan but the scanner fails to read the bar code|  
+|  2     | The warehouse clerk manually writes the item code into the system|
+|  3     | An optimal block for the item to be positioned in is provided|
+
+### Scenario 11.3
+| Scenario 11.3 | The item cannot be placed |
+| ------------- |:-------------| 
+|  Precondition     |  An item is ordered and received and it is not yet placed in a warehouse block  |
+|  Post condition     | The item is not placed in a block- No space available in any block | 
+| Step#        | Description |
+|  1     | The warehouse clerk is given an item to scan|  
+|  2     | An optimal block with enough space for the item to be positioned is not found|
 
 ### Use case 12, UC12
 | Actors Involved        | Supplier|
 | ------------- |:-------------:| 
 |  Precondition     | A catalogue exists and the supplier is registered in the application|
 |  Post condition     | The catalogue is updated | 
-|  Nominal Scenario     | 1. Supplier adds item inserting all necessary information|
-|  Variants     | 1. Supplier views existing catalogue <br/> 2.1 Supplier deletes item from catalogue <br/> 2.2 Supplier modifies information of existing item in their catalogue |
+|  Nominal Scenario     | Supplier modifies item inserting all necessary information|
+|  Variants     | 1. Supplier views existing catalogue <br/> 2. Supplier deletes item from catalogue <br/> 3. Supplier modifies information of existing item in their catalogue |
 |  Exceptions     |  |
 
-##### Scenario 1.1 
+### Scenario 12.1
+| Scenario 12.1 | Supplier adds to their catalogue |
+| ------------- |:-------------| 
+|  Precondition     |  A catalogue exists and the supplier is registered in the application  |
+|  Post condition     | The catalogue is updated with new items  | 
+| Step#        | Description |
+|  1     | Supplier adds item inserting all necessary information|  
+ 
+ ### Scenario 12.2
+| Scenario 12.2 | Supplier adds to their catalogue |
+| ------------- |:-------------| 
+|  Precondition     |  A catalogue exists and the supplier is registered in the application  |
+|  Post condition     | An item of the catalogue is updated  | 
+| Step#        | Description |
+|  1     | Supplier updates an item information|  
 
-\<describe here scenarios instances of UC1>
-
-\<a scenario is a sequence of steps that corresponds to a particular execution of one use case>
-
-\<a scenario is a more formal description of a story>
-
-\<only relevant scenarios should be described>
-
-| Scenario 1.1 | The warehouse manager issues an order |
-| ------------- |:-------------:| 
-|  Precondition     | It is necessary to make an order of some items that are needed in the company, the warehouse manager account exists|
-|  Post condition     | THe warehouse manager has issued an order for the needed items |
-| Step#        | Description  |
-|  1     | The warehouse manager logs into their account |  
-|  2     | They select the needed item(s) from the catalogue|
-|  3     | They check the cart to make sure everything is in order  |
-|  4     | They issue the order that will be sent to the suppliers |
-|  5     | They log out from the account |
-
-##### Scenario 1.2
-| Scenario 1.2 | The warehouse manager manages received internal orders |
-| ------------- |:-------------:| 
-|  Precondition     | It is necessary to make an order of some items that are needed in the company, the warehouse manager account exists|
-|  Post condition     | THe warehouse manager has issued an order for the needed items |
-| Step#        | Description  |
-|  1     | The warehouse manager logs into their account |  
-|  2     | They select the needed item(s) from the catalogue|
-|  3     | They check the cart to make sure everything is in order  |
-|  4     | They issue the order that will be sent to the suppliers |
-|  5     | They log out from the account |
-
-##### Scenario 1.x
-
-### Use case 2, UC2
-..
-
-### Use case x, UCx
-..
-
+ ### Scenario 12.2
+| Scenario 12.2 | Supplier removes item from their catalogue |
+| ------------- |:-------------| 
+|  Precondition     |  A catalogue exists and the supplier is registered in the application  |
+|  Post condition     | An item of the catalogue is deleted  | 
+| Step#        | Description |
+|  1     | Supplier deletes an item entry from their catalogue| 
 
 
 # Glossary
