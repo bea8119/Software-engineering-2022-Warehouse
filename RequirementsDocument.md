@@ -117,12 +117,9 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
             <tr><td rowspan = "1" >FR 2</td><td rowspan = "1">User creation by IT administrator</td><td></td><td></td></tr>
             <tr><td rowspan = "2" >FR 3</td><td rowspan = "2">Setup of warehouse space and pick-up areas</td><td>FR 3.1</td><td>Set number of blocks</td></tr>
             <tr><td>FR 3.2</td><td>Add pick-up area name</td></tr>
-            <tr><td rowspan = "5" >FR 4</td><td rowspan = "5">Manage items in warehouse</td><td>FR 4.1</td><td>Add new item instance (and minimum threshold) in warehouse</td></tr>
-            <tr><td>FR 4.2</td><td>Modify item istance</td></tr>
-            <tr><td>FR 4.3</td><td>Delete item istance</td></tr>
-            <tr><td>FR 4.4</td><td>Show list of items and quantities</td></tr>
-            <tr><td>FR 4.5</td><td>Display items under threshold (considering in-transit orders)</td></tr>
-            <tr><td rowspan = "1" >FR 5</td><td rowspan = "1">Login</td><td></td><td></td></tr>
+            <tr><td rowspan = "5" >FR 4</td><td rowspan = "5">View item inventory in warehouse</td><td>
+            <tr><td>FR 4.1</td><td>Show list of items and quantities, with threshold</td></tr>
+             <tr><td rowspan = "1" >FR 5</td><td rowspan = "1">Login</td><td></td><td></td></tr>
             <tr><td rowspan = "1" >FR 6</td><td rowspan = "1">Logout</td><td></td><td></td></tr>
             <tr><td rowspan = "7" >FR 7</td><td rowspan = "7">External order management</td><td>FR 7.1</td><td>Show items under threshold</td></tr>
             <tr><td>FR 7.2</td><td>Show specific supplier catalogue</td></tr>
@@ -183,7 +180,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | Missing data in mandatory fields, wrong data |
 
 ### Scenario 1.1
-| Scenario 1.1 |  |
+| Scenario 1.1 | Company registration |
 | ------------- |:-------------:| 
 |  Precondition     |Software installed |
 |  Post condition     | Company and IT administrator registered into the system |
@@ -203,7 +200,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | User already existent, missing data in mandatory fields, wrong data |
 
 ### Scenario 2.1
-| Scenario 2.1 |  |
+| Scenario 2.1 | User profile creation |
 | ------------- |:-------------:| 
 |  Precondition     | Company and IT administrator registered into the system and IT administrator logged in|
 |  Post condition     | User profile created |
@@ -215,19 +212,30 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | Warehouse manager account created |
-|  Post condition     |  1. Warehouse space created <br/> 2. pick-up area set or modified |
+|  Post condition     |  1. Warehouse block added <br/> 2. pick-up area set or modified |
 |  Nominal Scenario     | 1. The warehouse manager defines the dimension of the area in terms of blocks<br/> 2. define a pick-up area |
 |  Variants     | |
 |  Exceptions     | pick-up area already existing |
 
 ### Scenario 3.1
-| Scenario 3.1 |  |
+| Scenario 3.1 | Add new block |
 | ------------- |:-------------:| 
 |  Precondition     | Warehouse manager account created |
 |  Post condition     | Warehouse space created  |
 | Step#        | Description |
 |  1     | See the list of blocks already existing and their residual space|  
 |  2     | Add data of the block to be inserted to create new block |
+|  3     | New Block is added |
+
+### Scenario 3.2
+| Scenario 3.2 | Add new pick-up area |
+| ------------- |:-------------:| 
+|  Precondition     | Warehouse manager account created |
+|  Post condition     | Warehouse space created  |
+| Step#        | Description |
+|  1     | See the list of pick-up areas already existing and their coordinates|  
+|  2     | Add data of the pick-up area to be inserted to create new pick-up area |
+|  3     | New pick-up area is added |
 
 ### Use case 4, UC4
 | Actors Involved        | Warehouse manager |
@@ -235,16 +243,16 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Precondition     | Warehouse space created |
 |  Post condition     | List of items updated | 
 |  Nominal Scenario     | The warehouse manager updates an item instance from the database. |
-|  Variants     | 1.1. The warehouse manager add an item instance from the database. <br/> 1.2. The warehouse manager deletes an item instance from the database.  |
+|  Variants     | 1.1. The warehouse manager add an item instance from the database. <br/> 1.2. The warehouse manager deletes or modifies an item instance from the database. |
 |  Exceptions     | Item updated with negative quantity |
 
 ### Scenario 4.1
-| Scenario 4.1 |  |
+| Scenario 4.1 | Adding items |
 | ------------- |:-------------:| 
 |  Precondition     | Warehouse space created, Warehouse manager account created  |
-|  Post condition     | Warehouse space created  |
+|  Post condition     | Item is added |
 | Step#        | Description |
-|  1     |  |  
+|  1     | The warehouse manager  |  
 |  2     | Add data of the block to be inserted to create new block |
 
 ### Use case 5, UC5
@@ -262,11 +270,23 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Precondition     | User account exists  |
 |  Post condition     | User is authenticated and authorized  |
 | Step#        | Description |
-|  1     | The user open the application |  
-|  2     | The user enters his ID and password in the appropriate fields |
-|  3     | The user presses the confirm button |
+|  1     | The user opens the application |  
+|  2     | The user inserts their ID and password in the appropriate fields |
+|  3     | The user confirms their data |
 |  4     | The user's credentials are correct |
-|  5     | The application give to the user the correct authorization for the relative account |
+|  5     | The user is let inside of their relative account |
+
+### Scenario 5.2
+| Scenario 5.2 |  |
+| ------------- |:-------------:| 
+|  Precondition     | User account exists  |
+|  Post condition     | User is authenticated and authorized  |
+| Step#        | Description |
+|  1     | The user opens the application |  
+|  2     | The user inserts their ID and password in the appropriate fields |
+|  3     | The user confirms their data |
+|  4     | The user's credentials are correct |
+|  5     | The user is let inside of their relative account |
  
 
 ### Use case 6, UC6
