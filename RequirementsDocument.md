@@ -128,7 +128,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
             <tr><td>FR 7.5</td><td>Show order recap</td></tr>
             <tr><td>FR 7.6</td><td>Issue order</td></tr>
             <tr><td>FR 7.7</td><td>Show history of orders</td></tr>
-            <tr><td rowspan = "9" >FR 8</td><td rowspan = "9">Internal order management</td><td>FR 8.1</td><td>Show list of items and quantities</td></tr>
+            <tr><td rowspan = "9" >FR 8</td><td rowspan = "9">Internal order issuing</td><td>FR 8.1</td><td>Show list of items and quantities</td></tr>
             <tr><td>FR 8.2</td><td>Select item and quantity</td></tr>
             <tr><td>FR 8.3</td><td>Add item to internal order</td></tr>
             <tr><td>FR 8.4</td><td>Modify quantity</td></tr>
@@ -191,7 +191,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The IT administrator account is created inserting all credentials for the account |
 |  4     | A recap of the information inserted appears on the screen and the Company and IT Administrator account are created |
 
-### Use case 2, UC2 - User creation by IT administrator
+### Use case 2, UC2 - User profile creation
 | Actors Involved        | IT administrator |
 | ------------- |:-------------| 
 |  Precondition     | Company and IT administrator registered into the system |
@@ -238,7 +238,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | Add data of the pick-up area to be inserted to create new pick-up area |
 |  3     | New pick-up area is added |
 
-### Use case 4, UC4 - View item inventory in warehouse
+### Use case 4, UC4 - Show item inventory in warehouse
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse space created, Warehouse Manager account created |
@@ -366,7 +366,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Step#        | Description |
 |  1     | List of previously issued orders is shown with their relevant information|  
 
-### Use case 8, UC8 - Internal order management
+### Use case 8, UC8 - Internal order issuing
 | Actors Involved        | OU employee, Quality office employee |
 | ------------- |:-------------| 
 |  Precondition     | User authenticated and authorized for the internal order area |
@@ -464,7 +464,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 ### Use case 11, UC11 - Item placement management
-| Actors Involved        | Warehouse Clerk |
+| Actors Involved        | Warehouse Clerk, Barcode scanner |
 | ------------- |:-------------:| 
 |  Precondition     | An item is ordered and received and it is not yet placed in a warehouse block |
 |  Post condition     | The item is placed in a warehouse block|  
