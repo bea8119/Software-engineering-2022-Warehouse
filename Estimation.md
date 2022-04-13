@@ -61,9 +61,9 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 | 2.2.5. Possible code corrections | 384 |
 
 ###
-<img src="./img/gantt1.jpg" alt="Context Diagram" width="550">
-<img src="./img/gantt2.jpg" alt="Context Diagram" width="550">
-<img src="./img/gantt3.jpg" alt="Context Diagram" width="550">
+<img src="./Img/gantt1.jpg" alt="Context Diagram" width="1000">
+<img src="./Img/gantt2.jpg" alt="Context Diagram" width="1000">
+<img src="./Img/gantt3.jpg" alt="Context Diagram" width="1000">
 
 # Summary
 
