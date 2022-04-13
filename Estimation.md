@@ -1,8 +1,8 @@
 # Project Estimation  
+
 Date: 8 april 2022
 
 Version: 1.3
-
 
 # Estimation approach
 Consider the EZWH  project as described in YOUR requirement document, assume that you are going to develop the project INDEPENDENT of the deadlines of the course
@@ -16,6 +16,7 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 | E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  | 200 |   
 | C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) | 6000 | 
 | Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) | 6.1 days, 1.2 weeks |
+
 
 # Estimate by product decomposition
 ### 
@@ -79,3 +80,4 @@ Report here the results of the three estimation approaches. The estimates may di
 The estimation by size only considers coding time and effort, while the product decomposition estimation considers specific documents to be delivered which already give a more detailed insight of the whole project development, nevertheless the most detailed estimation is the estimate by activity decomposition. 
 
 The amount of detail considered in the estimation can influence the expected effort and working hours because it adds activities that weren't taken into consideration making a raw calculation (even if they should be considered). This would explain why the activity decomposition estimation yields an higher value than the estimate by size.
+
