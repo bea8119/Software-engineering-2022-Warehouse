@@ -1,64 +1,75 @@
- #Requirements Document 
+# Requirements Document
 
-Date: 22 march 2022
+Date: 12 april 2022
 
-Version: 0.0
+Version: 1.7
 
- 
 | Version number | Change |
 | ----------------- |:-----------|
-| | | 
-
+| 1.0 | Stakeholders, Context diagram, Stories and personas |
+| 1.1 | Stories and personas completed | 
+| 1.2 | Functional requirements added |
+| 1.3 | Non functional requirements added |
+| 1.4 | Use cases added |
+| 1.5 | Scenarios added per use case, Use case diagram |
+| 1.6 | Glossary, System design, Deployment diagram |
+| 1.7 | Revision and corrections |
 
 # Contents
 
 - [Informal description](#informal-description)
 - [Stakeholders](#stakeholders)
 - [Context Diagram and interfaces](#context-diagram-and-interfaces)
-	+ [Context Diagram](#context-diagram)
-	+ [Interfaces](#interfaces) 
-	
+    + [Context Diagram](#context-diagram)
+    + [Interfaces](#interfaces)
+
 - [Stories and personas](#stories-and-personas)
 - [Functional and non functional requirements](#functional-and-non-functional-requirements)
-	+ [Functional Requirements](#functional-requirements)
-	+ [Non functional requirements](#non-functional-requirements)
+    + [Functional Requirements](#functional-requirements)
+    + [Non functional requirements](#non-functional-requirements)
 - [Use case diagram and use cases](#use-case-diagram-and-use-cases)
-	+ [Use case diagram](#use-case-diagram)
-	+ [Use cases](#use-cases)
-    	+ [Relevant scenarios](#relevant-scenarios)
+    + [Use case diagram](#use-case-diagram)
+    + [Use cases](#use-cases)
+        + [Relevant scenarios](#relevant-scenarios)
 - [Glossary](#glossary)
 - [System design](#system-design)
 - [Deployment diagram](#deployment-diagram)
 
 # Informal description
-Medium companies and retailers need a simple application to manage the relationship with suppliers and the inventory of physical items stocked in a physical warehouse. 
-The warehouse is supervised by a manager, who supervises the availability of items. When a certain item is in short supply, the manager issues an order to a supplier. In general the same item can be purchased by many suppliers. The warehouse keeps a list of possible suppliers per item. 
 
-After some time the items ordered to a supplier are received. The items must be quality checked and stored in specific positions in the warehouse. The quality check is performed by specific roles (quality office), who apply specific tests for item (different items are tested differently). Possibly the tests are not made at all, or made randomly on some of the items received. If an item does not pass a quality test it may be rejected and sent back to the supplier. 
+Medium companies and retailers need a simple application to manage the relationship with suppliers and the inventory of
+physical items stocked in a physical warehouse. The warehouse is supervised by a manager, who supervises the
+availability of items. When a certain item is in short supply, the manager issues an order to a supplier. In general the
+same item can be purchased by many suppliers. The warehouse keeps a list of possible suppliers per item.
 
-Storage of items in the warehouse must take into account the availability of physical space in the warehouse. Further the position of items must be traced to guide later recollection of them.
+After some time the items ordered to a supplier are received. The items must be quality checked and stored in specific
+positions in the warehouse. The quality check is performed by specific roles (quality office), who apply specific tests
+for item (different items are tested differently). Possibly the tests are not made at all, or made randomly on some of
+the items received. If an item does not pass a quality test it may be rejected and sent back to the supplier.
 
-The warehouse is part of a company. Other organizational units (OU) of the company may ask for items in the warehouse. This is implemented via internal orders, received by the warehouse. Upon reception of an internal order the warehouse must collect the requested item(s), prepare them and deliver them to a pick up area. When the item is collected by the other OU the internal order is completed. 
+Storage of items in the warehouse must take into account the availability of physical space in the warehouse. Further
+the position of items must be traced to guide later recollection of them.
+
+The warehouse is part of a company. Other organizational units (OU) of the company may ask for items in the warehouse.
+This is implemented via internal orders, received by the warehouse. Upon reception of an internal order the warehouse
+must collect the requested item(s), prepare them and deliver them to a pick up area. When the item is collected by the
+other OU the internal order is completed.
 
 EZWH (EaSy WareHouse) is a software application to support the management of a warehouse.
 
-
-
 # Stakeholders
 
-
 | Stakeholder name  | Description | 
-| ----------------- |:-----------:|
+| ----------------- |:-----------|
 |   Company                       |    Entity requiring EZWH services and investing on the project         |
 |   Warehouse                     |    Physical space where the items are stocked         |
 |   Supplier                      |    Provider of products for the company         |
 |   Warehouse manager             |    Role managing the procurement (requests for orders, management of the received items) and managing the warehouse clerks         |
-|	Warehouse clerk               |    Worker of the warehouse involved in stocking and collecting items          |
+|    Warehouse clerk               |    Worker of the warehouse involved in stocking and collecting items, and managing the delivery of the items to a pick up area for internal orders          |
 |   Quality office employee       |    Checks the received items         |
 |   OU employee                   |    Representative of a department (ex. production, purchase, accounting, finance office ecc..) of the company (OU = Organizational Unit)         |
-|   Customer                      |    The final consumer of the products realized by the company         |
-|   IT administrator              |    A computer person in charge of solving software issues within the system         |
-|   Delivery operator             |    Managing the delivery of the items to a pick up area for internal orders          |
+|   Customer                      |    The final consumer of the products offered by the company         |
+|   IT administrator              |    A computer person in charge of solving software issues within the system and managing the account creation.         |
 |   Barcode scanner               |    Technology allowing an automatic scanning of the barcodes of items stocked in the warehouse |
 |   Barcode scan API              |    Service enabling a communication between EZWH software and barcode scanner functionalities |
 |   Competitors                   |    Other warehouse management systems         | 
@@ -66,19 +77,13 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Context Diagram and interfaces
 
 ## Context Diagram
-\<Define here Context diagram using UML use case diagram>
-
-\<actors are a subset of stakeholders>
 
 <img src="./Img/ContextDiagram.jpeg" alt="Context Diagram" width="550">
 
 ## Interfaces
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
 
 | Actor | Logical Interface | Physical Interface  |
-| ------------- |:-------------:|:-----|
+| ------------- |:-------------|:-----|
 |   Warehouse manager     | Graphical User Intarface  | Intranet (HTTP + JSON) |
 |   Warehouse clerk       | Graphical User Intarface, Barcode Scanner | Laser Beam, Intranet (HTTP + JSON) |
 |   Supplier    | Graphical User Interface | Internet (HTTP + JSON)  |
@@ -88,11 +93,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Barcode scan API | API for converting scanned barcodes into numeric codes and to transfer them to EZWH software | Internet connection |
 
 # Stories and personas
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
-
-\<Persona is-an-instance-of actor>
-
-\<stories will be formalized later as scenarios in use cases>
 
 | Persona | Story |
 | ------------- |:-------------|
@@ -105,10 +105,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Functional and non functional requirements
 
 ## Functional Requirements
-
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
 
  <table border = "2">
 			<tr><th>Requirement ID</th><th>Description</th><th>Sub-requirement ID</th><th>Description</th>
@@ -146,32 +142,26 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
             <tr><td>FR 11.2</td><td>Choose a block to contain the item</td></tr>
             <tr><td rowspan = "1" >FR 12</td><td rowspan = "1">Supplier's catalogue management</td><td>FR 12.1</td><td>Update catalogue</td></tr>
         </table>
-            
-
-
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
-
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
-| ------------- |:-------------:| :-----| -----:|
+| ------------- |:-------------:| :-----|:-----|
 |  NFR1     | Usability  | Any employee or manager should be able to use EZWH with 8 hrs (1 work day) of training | FR3, FR7, FR8, FR9, FR10, FR11 |
 |  NFR2     | Efficiency | The software should guarantee a short response time for all the fundamental functions (orders, warehouse space management, quality check) and should provide a not annoying user experience (RT < 1 sec)   | FR3, FR7, FR8, FR9, FR10, FR11 |
-|  NFR3     | Reliability | Number of crashes per month < 4 <br/>Number of wrong informations displayed < 1%  | ????? |
-|  NFR4     | Security | The information in the software must splitted in function of the roles and showed only to the proper user<br/>Access must be granted only to authorized users<br/>Protection from malitious access | FR2, FR5 | 
-
+|  NFR3     | Reliability | Number of crashes per month < 4 <br/>Number of wrong informations displayed < 1%  | whole system |
+|  NFR4     | Security | - The information in the software must splitted in function of the roles and showed only to the proper user<br/>- Access must be granted only to authorized users<br/>- Protection from malitious access | FR2, FR5 | 
 
 # Use case diagram and use cases
 
-
 ## Use case diagram
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
+
 <img src="./Img/usecasediagram.png" alt="UCdiag" width="600">
 
-\<next describe here each use case in the UCD>
 ## Use cases and scenarios
+
 ### Use case 1, UC1 - Company registration
+
 | Actors Involved        | IT administrator |
 | ------------- |:-------------| 
 |  Precondition     | Software installed |
@@ -181,6 +171,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | Missing data in mandatory fields, wrong data |
 
 ### Scenario 1.1
+
 | Scenario 1.1 | Company registration |
 | ------------- |:-------------| 
 |  Precondition     |Software installed |
@@ -192,6 +183,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | A recap of the information inserted appears on the screen and the Company and IT Administrator account are created |
 
 ### Use case 2, UC2 - User profile creation
+
 | Actors Involved        | IT administrator |
 | ------------- |:-------------| 
 |  Precondition     | Company and IT administrator registered into the system |
@@ -201,6 +193,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | User already existent, missing data in mandatory fields, wrong data |
 
 ### Scenario 2.1
+
 | Scenario 2.1 | User profile creation |
 | ------------- |:-------------| 
 |  Precondition     | Company and IT administrator registered into the system and IT administrator logged in|
@@ -210,6 +203,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | The IT administrator confirms the information |
 
 ### Use case 3, UC3 - Setup of warehouse space and pick-up areas
+
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse manager account created |
@@ -219,6 +213,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | Pick-up area already existing |
 
 ### Scenario 3.1
+
 | Scenario 3.1 | Add new block |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse manager account created |
@@ -229,6 +224,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | New Block is added |
 
 ### Scenario 3.2
+
 | Scenario 3.2 | Add new pick-up area |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse manager account created |
@@ -239,6 +235,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | New pick-up area is added |
 
 ### Use case 4, UC4 - Show item inventory in warehouse
+
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse space created, Warehouse Manager account created |
@@ -248,6 +245,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  |
 
 ### Scenario 4.1
+
 | Scenario 4.1 | Display Inventory |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse space created, Warehouse manager account created  |
@@ -256,6 +254,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  1     | The warehouse manager sees the inventory and every item's useful information |  
 
 ### Scenario 4.2
+
 | Scenario 4.2 | Display specific item |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse space created, Warehouse manager account created  |
@@ -265,6 +264,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | The item, if existing, is displayed with its useful information | 
 
 ### Use case 5, UC5 - Login
+
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator |
 | ------------- |:-------------| 
 |  Precondition     | User account exists |
@@ -274,6 +274,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  Incorrect credentials |
 
 ### Scenario 5.1
+
 | Scenario 5.1 | Login with correct credentials |
 | ------------- |:-------------| 
 |  Precondition     | User account exists  |
@@ -284,6 +285,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The user is anthenticated and can enter their account area |
 
 ### Scenario 5.2
+
 | Scenario 5.2 | Wrong credentials |
 | ------------- |:-------------| 
 |  Precondition     | User account exists  |
@@ -294,8 +296,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The user is not anthenticated by the application |
 |  4     | The user can try again or can contact the IT administrator for help |
 
- 
 ### Use case 6, UC6 - Logout
+
 | Actors Involved        | Warehouse manager, Supplier, Quality office employee, Warehouse clerk, OU employee, IT administrator  |
 | ------------- |:-------------| 
 |  Precondition     | User is authenticated and authorized |
@@ -305,6 +307,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  |
 
 ### Scenario 6.1
+
 | Scenario 6.1 | Logout  |
 | ------------- |:-------------| 
 |  Precondition     | User is authenticated and authorized |
@@ -315,6 +318,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The user is brought to the page for a new login |
 
 ### Use case 7, UC7 - External order management
+
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------| 
 |  Precondition     | User authenticated and authorized for the external order area |
@@ -324,6 +328,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | Number of items needed is higher than supplier's availability |
 
 ### Scenario 7.1
+
 | Scenario 7.1 | The order is issued |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse manager authenticated and authorized for the external order area |
@@ -335,6 +340,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The order is confirmed and issued |
 
 ### Scenario 7.2
+
 | Scenario 7.2 | The cart is modified by deleting items before issuing order|
 | ------------- |:-------------| 
 |  Precondition     | Warehouse manager authenticated and authorized for the external order area |
@@ -347,6 +353,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5     | The order is confirmed and issued |
 
 ### Scenario 7.3
+
 | Scenario 7.3 | The cart is modified in the items' quantities before issuing order |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse manager authenticated and authorized for the external order area |
@@ -359,6 +366,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5     | The order is confirmed and issued |
 
 ### Scenario 7.3
+
 | Scenario 7.3 | History of orders is shown |
 | ------------- |:-------------| 
 |  Precondition     | Warehouse manager authenticated and authorized for the external order area, previous orders have been issued |
@@ -367,15 +375,17 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  1     | List of previously issued orders is shown with their relevant information|  
 
 ### Use case 8, UC8 - Internal order issuing
+
 | Actors Involved        | OU employee, Quality office employee |
 | ------------- |:-------------| 
 |  Precondition     | User authenticated and authorized for the internal order area |
 |  Post condition     | Internal order is sent | 
 |  Nominal Scenario     | Some items are selected from the inventory, the pick-up area is selected and the order is issued |
-|  Variants     | Modify number of requested items,  history of orders is shown |
+|  Variants     | Modify number of requested items, history of orders is shown |
 |  Exceptions     |  |
 
 ### Scenario 8.1
+
 | Scenario 8.1 | Issuing an internal order |
 | ------------- |:-------------| 
 |  Precondition     |  User authenticated and authorized for the internal order area |
@@ -387,6 +397,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | The order is confirmed and issued |
 
 ### Scenario 8.2
+
 | Scenario 8.2 | Issuing an internal order after modifying quantity of an item |
 | ------------- |:-------------| 
 |  Precondition     |  User authenticated and authorized for the internal order area |
@@ -398,8 +409,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | A pick-up area is selected from the list of pick-up areas available |
 |  5     | The order is confirmed and issued |
 
-
 ### Scenario 8.3
+
 | Scenario 8.3 | History of previous orders is shown |
 | ------------- |:-------------| 
 |  Precondition     |  User authenticated and authorized for the internal order area, previous orders have been issued |
@@ -408,6 +419,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  1     | List of previously issued orders is shown with their relevant information |
 
 ### Use case 9, UC9 - Internal order reception (by warehouse)
+
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------| 
 |  Precondition     | Internal order is sent from a specific OU employee |
@@ -417,6 +429,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | 2.1. The selected delivery date is inconsistent (a past date) |
 
 ### Scenario 9.1
+
 | Scenario 9.1 | Management of internal incoming order|
 | ------------- |:-------------| 
 |  Precondition     |  User authenticated and authorized for the internal order area |
@@ -426,8 +439,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | The warehouse manager inserts an expected delivery date associated to the order|
 |  3     | The warehouse manager accepts the internal order |
 
-
 ### Use case 10, UC10 - Quality check management
+
 | Actors Involved        | Quality office employee |
 | ------------- |:-------------| 
 |  Precondition     | Some items in the warehouse are not quality checked |
@@ -437,6 +450,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  |
 
 ### Scenario 10.1
+
 | Scenario 10.1 | Quality check of an item |
 | ------------- |:-------------| 
 |  Precondition     |  Some items in the warehouse are not quality checked |
@@ -447,6 +461,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The quality check employee gives a positive or negative quality check result for the item |
 
 ### Scenario 10.2
+
 | Scenario 10.2 | List display of accepted items |
 | ------------- |:-------------| 
 |  Precondition     |  Some items in the warehouse have been quality checked previously |
@@ -455,6 +470,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  1     | A quality check employee sees the list of already accepted items|  
 
 ### Scenario 10.3
+
 | Scenario 10.3 | List display of rejected items |
 | ------------- |:-------------| 
 |  Precondition     |  Some items in the warehouse have been quality checked previously |
@@ -462,10 +478,10 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Step#        | Description |
 |  1     | A quality check employee sees the list of already rejected items|  
 
-
 ### Use case 11, UC11 - Item placement management
+
 | Actors Involved        | Warehouse Clerk, Barcode scanner |
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | An item is ordered and received and it is not yet placed in a warehouse block |
 |  Post condition     | The item is placed in a warehouse block|  
 |  Nominal Scenario     | he warehouse clerk scans a product and the application returns an optimal block for the item to be placed in |
@@ -473,6 +489,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  There is not enough space left in any block of the warehouse  |
 
 ### Scenario 11.1
+
 | Scenario 11.1 | Item scanning and positioning |
 | ------------- |:-------------| 
 |  Precondition     |  An item is ordered and received and it is not yet placed in a warehouse block  |
@@ -482,6 +499,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | An optimal block for the item to be positioned in is provided|
 
 ### Scenario 11.2
+
 | Scenario 11.2 | Manual insertion of item code and positioning |
 | ------------- |:-------------| 
 |  Precondition     |  An item is ordered and received and it is not yet placed in a warehouse block  |
@@ -492,6 +510,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | An optimal block for the item to be positioned in is provided|
 
 ### Scenario 11.3
+
 | Scenario 11.3 | The item cannot be placed |
 | ------------- |:-------------| 
 |  Precondition     |  An item is ordered and received and it is not yet placed in a warehouse block  |
@@ -501,8 +520,9 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | An optimal block with enough space for the item to be positioned is not found|
 
 ### Use case 12, UC12 - Supplier's catalogue management
+
 | Actors Involved        | Supplier|
-| ------------- |:-------------:| 
+| ------------- |:-------------| 
 |  Precondition     | A catalogue exists and the supplier is registered in the application|
 |  Post condition     | The catalogue is updated | 
 |  Nominal Scenario     | Supplier modifies item inserting all necessary information|
@@ -510,14 +530,16 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  |
 
 ### Scenario 12.1
+
 | Scenario 12.1 | Supplier adds to their catalogue |
 | ------------- |:-------------| 
 |  Precondition     |  A catalogue exists and the supplier is registered in the application  |
 |  Post condition     | The catalogue is updated with new items  | 
 | Step#        | Description |
 |  1     | Supplier adds item inserting all necessary information|  
- 
- ### Scenario 12.2
+
+### Scenario 12.2
+
 | Scenario 12.2 | Supplier adds to their catalogue |
 | ------------- |:-------------| 
 |  Precondition     |  A catalogue exists and the supplier is registered in the application  |
@@ -525,7 +547,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Step#        | Description |
 |  1     | Supplier updates an item information|  
 
- ### Scenario 12.3
+### Scenario 12.3
+
 | Scenario 12.2 | Supplier removes item from their catalogue |
 | ------------- |:-------------| 
 |  Precondition     |  A catalogue exists and the supplier is registered in the application  |
@@ -533,25 +556,15 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Step#        | Description |
 |  1     | Supplier deletes an item entry from their catalogue| 
 
-
 # Glossary
-
-\<use UML class diagram to define important terms, or concepts in the domain of the system, and their relationships> 
-
-\<concepts are used consistently all over the document, ex in use cases, requirements etc>
 
 <img src="./Img/ezwh_uml.jpg" alt="Glossary UML Diagram" width="1550">
 
 # System Design
-\<describe here system design>
-
-\<must be consistent with Context diagram>
 
 <img src="./Img/systemdes.png" alt="System Design" width="400">
 
-# Deployment Diagram 
-
-\<describe here deployment diagram >
+# Deployment Diagram
 
 <img src="./Img/EZWHdeployment.jpg" alt="Deployment Diagram" width="850">
 
