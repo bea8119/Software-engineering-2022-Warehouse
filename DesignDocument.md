@@ -48,72 +48,24 @@ The design must satisfy the Official Requirements document, notably functional a
 
 | | Warehouse | SKU | SKUItem | Position | Test Descriptor | Test Result | Internal Order | Return Order | Restock Order | Transport Note | User | Item | Supplier | Customer |
 | ----- |-------|-------|-------|-------|------|-------|-------|-------|-------|-------|-------|------|-------|-------|
-| FR1 Manage users and rights (users are Administrator, Manager, Clerk, Delivery Employee, Quality Check Employee, Internal customers) | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
-
-
-FR1.1
-Define a new user, or modify an existing user
-
-
-FR1.2
-Delete a user
-
-
-FR1.3
-List all users
-
-
-FR1.4
-Search a user
-
-
-FR1.5
-Manage rights. Authorize access to functions to specific actors according to access rights
-
-
-FR2
-Manage SKU
-
-
-FR2.1
-Define a new SKU, or modify an existing SKU
-
-
-FR2.2
-Delete a SKU
-
-
-FR2.3
-List all SKUs
-
-
-FR2.4
-Search a SKU (by ID, by description)
-
-
-FR3
-Manage Warehouse
-
-
-FR3.1
-Manage positions
-
-
-FR3.1.1
-Define a new position, or modify an existing position
-
-
-FR3.1.2
-Delete a position
-
-
-FR3.1.3
-List all positions
-
-
-FR3.1.4
-Modify attributes of a position
-
+| FR1     | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
+| FR1.1   | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
+| FR1.2   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR1.3   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR1.4   | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
+| FR1.5   | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
+| FR2     | X | X |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR2.2   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR2.1   | X | X |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR2.2   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR2.3   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR2.4   | X | X |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR3     | X |   |   | X |   |   |   |   |   |   |   |   |   |   |
+| FR3.1   | X |   |   | X |   |   |   |   |   |   |   |   |   |   |
+| FR3.1.1 | X |   |   | X |   |   |   |   |   |   |   |   |   |   |
+| FR3.1.2 | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR3.1.3 | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR3.1.4 | X |   |   | X |   |   |   |   |   |   |   |   |   |   |
 
 FR3.2
 Manage quality tests
