@@ -66,105 +66,32 @@ The design must satisfy the Official Requirements document, notably functional a
 | FR3.1.2 | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
 | FR3.1.3 | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
 | FR3.1.4 | X |   |   | X |   |   |   |   |   |   |   |   |   |   |
-
-FR3.2
-Manage quality tests
-
-
-FR3.2.1
-Add a quality test
-
-
-FR3.2.2
-Modify a quality test
-
-
-FR3.2.3
-Delete a quality test
-
-
-FR 4
-Manage internal customers
-
-
-FR4.1
-Register or modify a customer
-
-
-FR4.2
-Delete a customer
-
-
-FR4.3
-Search a customer
-
-
-FR4.4
-List  all customers
-
-
-FR5
+| FR3.2   | X |   |   |   | X |   |   |   |   |   |   |   |   |   |
+| FR3.2.1 | X |   |   |   | X |   |   |   |   |   |   |   |   |   |
+| FR3.2.2 | X |   |   |   | X | X |   |   |   |   |   |   |   |   |
+| FR3.2.3 | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR 4    | X |   |   |   |   |   |   |   |   |   |   |   |   | X |
+| FR4.1   | X |   |   |   |   |   |   |   |   |   | X |   |   | X |
+| FR4.2   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR4.3   | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
+| FR4.4   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR5     | X | X | X |   |   |   |   | X |   |   |   |   | X |   |
 Manage a restock order
-
-
-FR5.1
-Start a restock order
-
-
-FR5.2
-Add a SKU to a restock order
-
-
-FR5.3
-Define quantity of SKU to be ordered
-
-
-FR5.4
-Delete a SKU from a restock order
-
-
-FR5.5
-Select a Supplier for the restock order
-
-
-FR5.6
-Issue  a restock order
-
-
-FR5.7
-Change state of a restock order
-
-
-FR5.8
-Manage reception of a restock order
-
-
-FR5.8.1
-Create and tag a SKU item with an RFID
-
-
-FR5.8.2
-Store result of a quality test on a SKU Item
-
-
-FR5.8.3
-Store a SKU Item
-
-
-FR5.9
-Start  a return order
-
-
-FR5.10
-Return a SKU item listed in a restock order
-
-
-FR5.11
-Commit a return order
-
-
-FR5.12
-Change state of a return order
+| FR5.1   | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.2   | X | X |   |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.3   | X | X |   |   |   |   |   |   |   |   |   |   |   |   |
+| FR5.4   | X | X |   |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.5   | X |   |   |   |   |   |   | X |   |   |   |   | X |   |
+| FR5.6   | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.7   | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.8   | X |   | X |   |   |   |   |   |   |   |   |   |   |   |
+| FR5.8.1 | X |   | X |   |   |   |   |   |   |   |   |   |   |   |
+| FR5.8.2 | X |   | X |   |   |   |   |   |   |   |   |   |   |   |
+| FR5.8.3 | X |   | X |   |   |   |   |   |   |   |   |   |   |   |
+| FR5.9   | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.10  | X |   | X |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.11  | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
+| FR5.12  | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
 
 
 FR6
