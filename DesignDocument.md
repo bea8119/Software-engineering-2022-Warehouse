@@ -47,7 +47,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 
 | | Warehouse | SKU | SKUItem | Position | Test Descriptor | Test Result | Internal Order | Return Order | Restock Order | Transport Note | User | Item | Supplier | Customer |
-| ----- |-------|-------|-------|-------|------|-------|-------|-------|-------|-------|-------|------|-------|-------|
+| ----- |:-------:|-------|-------|-------|------|-------|-------|-------|-------|-------|-------|------|-------|-------|
 | FR1     | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
 | FR1.1   | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
 | FR1.2   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
@@ -76,7 +76,6 @@ The design must satisfy the Official Requirements document, notably functional a
 | FR4.3   | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
 | FR4.4   | X |   |   |   |   |   |   |   |   |   |   |   |   |   |
 | FR5     | X | X | X |   |   |   |   | X |   |   |   |   | X |   |
-Manage a restock order
 | FR5.1   | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
 | FR5.2   | X | X |   |   |   |   |   | X |   |   |   |   |   |   |
 | FR5.3   | X | X |   |   |   |   |   |   |   |   |   |   |   |   |
@@ -92,60 +91,18 @@ Manage a restock order
 | FR5.10  | X |   | X |   |   |   |   | X |   |   |   |   |   |   |
 | FR5.11  | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
 | FR5.12  | X |   |   |   |   |   |   | X |   |   |   |   |   |   |
-
-
-FR6
-Manage internal orders
-
-
-FR6.1
-Start an internal order
-
-
-FR6.2
-Add a SKU to an internal order
-
-
-FR6.3
-Define quantity of SKU to be ordered
-
-
-FR6.4
-Delete a SKU from an internal order
-
-
-FR6.5
-Issue an internal order
-
-
-FR6.6
-Accept, reject or cancel an internal order
-
-
-FR6.7
-Change state of an internal order
-
-
-FR6.8
-Manage delivery of an internal order
-
-
-FR6.9
-Select SKU Item with a FIFO criterion
-
-
-FR6.10
-Remove SKU Item from warehouse
-
-
-FR7
-Manage Items
-
-
-
-
-
-
+| FR6     | X | X |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.1   | X |   |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.2   | X |   |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.3   | X | X |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.4   | X | X |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.5   | X |   |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.6   | X |   |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.7   | X |   |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.8   | X |   |   |   |   |   | X |   |   |   |   |   |   |   |
+| FR6.9   | X |   | X |   |   |   |   |   |   |   |   |   |   |   |
+| FR6.10  | X |   | X |   |   |   |   |   |   |   |   |   |   |   |
+| FR7     | X |   |   |   |   |   |   |   |   |   |   | X |   |   |
 
 
 
