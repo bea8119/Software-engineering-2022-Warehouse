@@ -3,9 +3,9 @@
 
 Authors: 
 
-Date:
+Date: 23/04/2022
 
-Version:
+Version: 1
 
 
 # Contents
@@ -45,9 +45,9 @@ The design must satisfy the Official Requirements document, notably functional a
 
 \<for each functional requirement from the requirement document, list which classes concur to implement it>
 
-
-
-
+| | Warehouse | SKU | SKUItem | Position | Test Descriptor | Test Result | Internal Order | Return Order | Restock Order | Transport Note | User | Item | Supplier | Customer |
+| ----------------- |:-----------|
+| FR1 Manage users and rights (users are Administrator, Manager, Clerk, Delivery Employee, Quality Check Employee, Internal customers) | X |   |   |   |   |   |   |   |   |   | X |   |   |   |
 
 
 
