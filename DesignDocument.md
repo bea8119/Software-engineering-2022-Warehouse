@@ -33,6 +33,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 <for each package in high level design, report class diagram. Each class should detail attributes and operations>
 
+<img src="./Img/low_level_2.png" alt="low level diagram" width="2000">
 
 
 
