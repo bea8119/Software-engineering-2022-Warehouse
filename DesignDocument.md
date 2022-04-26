@@ -22,7 +22,13 @@ The design must satisfy the Official Requirements document, notably functional a
 # High level design 
 
 <discuss architectural styles used, if any>
-<report package diagram, if needed>
+
+It was decided to use an abstract machine architectural style for building the EZWh system, dividing the code in two main packages:
+
+* data: is the package containing a set of classes that represents the underlying data structure to be used in EZWh
+
+* interface: is a package consisting of a set of methods that will allow the user to interface (read and write) to lists of data whose structure is defined in the underlying data layer.
+
 
 
 
@@ -35,7 +41,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 <img src="./Img/low_level_2.png" alt="low level diagram" width="2000">
 
-
+The following model suggests the use of the façade low-level pattern, according to which the user interfaces to the system only through the access methods provided by the "Warehouse" class, preventing the user from being able to directly access the data classes.
 
 
 
