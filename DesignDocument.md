@@ -35,7 +35,7 @@ Due to the small size of the project, it was rather decided to use a structure l
 
 <report package diagram, if needed>
 
-<img src="./Img/high_level.png" alt="low level diagram" width="200">
+<img src="./Img/high_level.png" alt="low level diagram" width="500">
 
 
 
