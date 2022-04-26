@@ -23,7 +23,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 <discuss architectural styles used, if any>
 
-A potential high level pattern, suitable to the EZWh system is that of a an abstract machine architectural style for building the EZWh system, dividing the code in two main packages:
+A potential high level pattern that could be suitable to the EZWh system is that of a an abstract machine architectural style for building the EZWh system, dividing the code in two main packages:
 
 * data: is the package containing a set of classes that represents the underlying data structure to be used in EZWh
 
