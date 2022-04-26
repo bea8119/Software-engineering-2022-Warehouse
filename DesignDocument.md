@@ -31,7 +31,7 @@ It was decided to use an abstract machine architectural style for building the E
 
 <report package diagram, if needed>
 
-<img src="./Img/high_level.png" alt="low level diagram" width="2000">
+<img src="./Img/high_level.png" alt="low level diagram" width="200">
 
 
 
