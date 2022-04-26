@@ -29,8 +29,9 @@ It was decided to use an abstract machine architectural style for building the E
 
 * interface: is a package consisting of a set of methods that will allow the user to interface (read and write) to lists of data whose structure is defined in the underlying data layer.
 
+<report package diagram, if needed>
 
-
+<img src="./Img/high_level.png" alt="low level diagram" width="2000">
 
 
 
