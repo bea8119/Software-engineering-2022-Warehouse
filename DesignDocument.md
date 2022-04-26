@@ -21,8 +21,6 @@ The design must satisfy the Official Requirements document, notably functional a
 
 # High level design 
 
-<discuss architectural styles used, if any>
-
 A potential high level pattern that could be suitable to the EZWh system is that of a an abstract machine architectural style for building the EZWh system, dividing the code in two main packages:
 
 * data: is the package containing a set of classes that represents the underlying data structure to be used in EZWh
@@ -33,16 +31,12 @@ However, given the small size of the project and the small number of classes cur
 
 Due to the small size of the project, it was rather decided to use a structure low level pattern, that is the façade pattern, as described in the next paragraph.
 
-<report package diagram, if needed>
-
 <img src="./Img/high_level.png" alt="low level diagram" width="500">
 
 
 
 
 # Low level design
-
-<for each package in high level design, report class diagram. Each class should detail attributes and operations>
 
 <img src="./Img/low_level_2.png" alt="low level diagram" width="2000">
 
@@ -116,5 +110,3 @@ This solution aims to make the changes of the classes underlying the façade cla
 
 
 # Verification sequence diagrams 
-\<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
-
