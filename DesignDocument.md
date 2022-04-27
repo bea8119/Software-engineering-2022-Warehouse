@@ -110,3 +110,15 @@ This solution aims to make the changes of the classes underlying the façade cla
 
 
 # Verification sequence diagrams 
+
+<img src="./Img/Scenario 1.1.jpg" alt="low level diagram" width="500">
+
+<img src="./Img/Scenario 2.1.jpg" alt="low level diagram" width="500">
+
+<img src="./Img/Scenario 3.1.jpeg" alt="low level diagram" width="500">
+
+<img src="./Img/Scenario 4.1.jpg" alt="low level diagram" width="500">
+
+<img src="./Img/Scenario 5.1.jpg" alt="low level diagram" width="500">
+
+<img src="./Img/Scenario 5.2.jpg" alt="low level diagram" width="500">
