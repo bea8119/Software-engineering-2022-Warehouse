@@ -1,5 +1,4 @@
 'use strict';
-/* versione aggiornata */
 
 const express = require('express');
 const SKU_DAO = require('./SKU_DAO');
