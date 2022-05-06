@@ -1,8 +1,10 @@
 'use strict';
 
+const res = require("express/lib/response");
+
 class SKU_DAO {
 
-    constructor() {}
+    constructor() { }
 
     /* -- Interface methods -- */
 
@@ -57,6 +59,30 @@ class SKU_DAO {
                     }
                 ));
                 resolve(skus);
+            });
+        });
+    }
+
+    getSKUbyID(db, id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT COUNT(*) AS count, * FROM SKU WHERE id = ?'
+            db.get(sql, [id], (err, r) => {
+                if (err)
+                    reject(err);
+                else if (r.count === 0) {
+                    resolve(undefined)
+                }
+                else {
+                    resolve({
+                        id: r.id,
+                        description: r.description,
+                        weight: r.weight,
+                        volume: r.volume,
+                        notes: r.notes,
+                        availableQuantity: r.availableQuantity,
+                        price: r.price
+                    });
+                }
             });
         });
     }

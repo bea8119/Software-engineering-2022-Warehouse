@@ -13,16 +13,26 @@ const s = new SKU_DAO();
 /* SKU Post */
 
 app.post('/api/sku', async (req, res) => {
+
     if (Object.keys(req.body).length === 0) {
         return res.status(422).json({ error: 'Empty body request' });
     }
+
     let sku = req.body.sku;
-    if (sku === undefined) {
-        return res.status(422).json({ error: 'Invalid user data' });
+    
+    if (sku === undefined || sku.description === undefined || sku.weight === undefined || sku.volume === undefined || sku.price === undefined || sku.availableQuantity === undefined ) {
+        return res.status(422).json({ error: 'Invalid sku data' });
     }
-    await s.newTableName(db);
-    s.storeSKU(db, sku);
-    return res.status(201).end();
+
+    try {
+        await s.newTableName(db);
+        s.storeSKU(db, sku);
+        return res.status(201).end();
+    } 
+
+    catch (err) {
+        res.status(503).end();
+    }
 });
 
 
@@ -49,4 +59,31 @@ app.delete('/api/skus', (req, res) => {
         res.status(500).end();
     }
 });
+
+app.get('/api/skus/:id', async (req, res) => {
+
+    if (Object.keys(req.params).length === 0) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
+
+    let id = req.params.id;
+
+    if (id === undefined) {
+        return res.status(422).json({ error: 'Invalid data' });
+    }
+
+    try {
+        const skuFound = await s.getSKUbyID(db, id);
+        if (skuFound === undefined) {
+            res.status(404).end()
+        }
+        return res.status(200).json(skuFound);
+
+    } catch (err) {
+        res.status(500).end();
+    }
+
+}
+
+);
 

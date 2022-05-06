@@ -14,11 +14,15 @@ const p = new POSITION_DAO();
 
 app.post('/api/position', async (req, res) => {
 
+    let position = req.body.position;
+    if (Object.keys(req.body).length === 0 ||
+        position === undefined || position.positionID === undefined || position.positionID !== position.aisleID+position.row+position.col ||
+        position.aisleID === undefined ||  position.aisleID.length !== 4 || position.row === undefined || position.row.length !== 4 || 
+        position.col === undefined ||  position.col.length !== 4 || position.maxWeight === undefined ||
+        position.maxVolume === undefined) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
     try {
-        let position = req.body.position;
-        if (Object.keys(req.body).length === 0 || position === undefined || position.positionID === undefined || position.aisleID === undefined || position.row === undefined || position.col === undefined || position.maxWeight === undefined || position.maxVolume === undefined) {
-            return res.status(422).json({ error: 'Unprocessable entity' });
-        }
         await p.newTableName(db);
         p.storePosition(db, position);
         return res.status(201).end();
@@ -67,7 +71,11 @@ app.post('/api/position/:positionID', async (req, res) => {
             return res.status(404).end();
         } else {
             let position = req.body.position;
-            if (Object.keys(req.body).length === 0 || position === undefined || position.positionID === undefined || position.aisleID === undefined || position.row === undefined || position.col === undefined || position.maxWeight === undefined || position.maxVolume === undefined) {
+            if (Object.keys(req.body).length === 0 ||
+                position === undefined || position.positionID === undefined || !isNumeric(position.positionID) ||
+                position.aisleID === undefined || !isNumeric(position.aisleID) || position.aisleID.length !== 4 || position.row === undefined || position.row.length !== 4 || !isNumeric(position.row) ||
+                position.col === undefined || position.col.lenght !== 4 || !isNumeric(position.col) || position.maxWeight === undefined ||
+                position.maxVolume === undefined) {
                 return res.status(422).json({ error: 'Unprocessable entity' });
             } else {
                 await p.updatePosition(db, position, params.positionID);
