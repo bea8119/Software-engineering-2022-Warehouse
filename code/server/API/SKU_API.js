@@ -19,7 +19,7 @@ app.post('/api/sku', async (req, res) => {
     }
 
     let sku = req.body.sku;
-    
+
     if (sku === undefined || sku.description === undefined || sku.weight === undefined || sku.volume === undefined || sku.price === undefined || sku.availableQuantity === undefined ) {
         return res.status(422).json({ error: 'Invalid sku data' });
     }
@@ -59,6 +59,9 @@ app.delete('/api/skus', (req, res) => {
         res.status(500).end();
     }
 });
+
+
+/* SKU get by ID */
 
 app.get('/api/skus/:id', async (req, res) => {
 
