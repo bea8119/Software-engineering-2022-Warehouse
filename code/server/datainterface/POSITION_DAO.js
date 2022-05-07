@@ -14,11 +14,13 @@ class POSITION_DAO {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve();
             });
 
         });
     }
+
+    /* Post position */
 
     storePosition(db, data) {
         return new Promise((resolve, reject) => {
@@ -28,10 +30,12 @@ class POSITION_DAO {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve();
             });
         });
     }
+
+    /* Get position */
 
     getStoredPosition(db) {
         return new Promise((resolve, reject) => {
@@ -57,56 +61,86 @@ class POSITION_DAO {
             });
         });
     }
+    
 
-    updatePosition(db, data, positionID) {
+    /* Put position by ID */
+
+    updatePosition(db, id, data) {
         return new Promise((resolve, reject) => {
-            const sql = 'UPDATE POSITION SET positionID = ?,  aisleID = ?, row = ?, col = ?, maxWeight = ?, maxVolume = ?, occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
-            db.run(sql, [positionID, data.newAisleID, data.newRow, data.newCol, data.newMaxWeight, data.newMaxVolume, data.newOccupiedWeight, data.newOccupiedVolume], (err) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM POSITION WHERE positionID = ?'
+            db.get(sql1, [id], (err, r) => {
                 if (err) {
-                    reject(err);
+                    reject(err)
                     return;
+                } else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                } else {
+                    const sql2 = 'UPDATE POSITION SET positionID = ?,  aisleID = ?, row = ?, col = ?, maxWeight = ?, maxVolume = ?, occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
+                    db.run(sql2, [data.newAisleID + data.newRow + data.newCol, data.newAisleID, data.newRow, data.newCol, data.newMaxWeight, data.newMaxVolume, data.newOccupiedWeight, data.newOccupiedVolume, id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
                 }
-                resolve(this.lastID);
-            });
+            })
         });
     }
 
-    updatePositionID(db, positionID) {
+
+    /* Put position ID */
+
+    updatePositionID(db, id, data) {
         return new Promise((resolve, reject) => {
-            const sql = 'UPDATE POSITION SET positionID = ?  WHERE positionID = ?';
-            db.run(sql, [data.newPositionID, positionID], (err) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM POSITION WHERE positionID = ?'
+            db.get(sql1, [id], (err, r) => {
                 if (err) {
-                    reject(err);
+                    reject(err)
                     return;
+                } else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                } else {
+                    const sql2 = 'UPDATE POSITION SET positionID = ?  WHERE positionID = ?';
+                    db.run(sql2, [data, id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
                 }
-                resolve(this.lastID);
-            });
+            })
         });
     }
 
-    findID(db, positionID) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) FROM POSITION WHERE ID = ?';
-            db.run(sql, [positionID], (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(this.lastID);
-            });
-        });
-    }
 
-    deletePosition(db, data) {
+    /* Delete position by ID */
+
+    deletePosition(db, id) {
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM POSITION WHERE positionID = ?';
-            db.run(sql, [data], (err) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM POSITION WHERE positionID = ?';
+            db.get(sql1, [id], (err, r) => {
                 if (err) {
-                    reject(err);
+                    reject(err)
                     return;
                 }
-                resolve(this.lastID);
-            });
+                else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                }
+                else {
+                    const sql2 = 'DELETE FROM POSITION WHERE positionID = ?';
+                    db.run(sql2, [id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
+
+                }
+            })
+
         });
 
     }

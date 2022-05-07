@@ -7,6 +7,7 @@ const db = server.db;
 
 /* Import POSITION_DAO datainterface */
 const POSITION_DAO = require('../datainterface/POSITION_DAO');
+const res = require("express/lib/response");
 const p = new POSITION_DAO();
 
 
@@ -16,9 +17,11 @@ app.post('/api/position', async (req, res) => {
 
     let position = req.body.position;
     if (Object.keys(req.body).length === 0 ||
-        position === undefined || position.positionID === undefined || position.positionID !== position.aisleID+position.row+position.col ||
-        position.aisleID === undefined ||  position.aisleID.length !== 4 || position.row === undefined || position.row.length !== 4 || 
-        position.col === undefined ||  position.col.length !== 4 || position.maxWeight === undefined ||
+        position === undefined || position.positionID === undefined || position.positionID !== position.aisleID + position.row + position.col ||
+        position.aisleID === undefined || position.aisleID.length !== 4 || !(/^\d+$/.test(position.aisleID)) ||
+        position.row === undefined || position.row.length !== 4 || !(/^\d+$/.test(position.row)) ||
+        position.col === undefined || position.col.length !== 4 || !(/^\d+$/.test(position.col)) ||
+        position.maxWeight === undefined ||
         position.maxVolume === undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
@@ -48,68 +51,71 @@ app.get('/api/positions', async (req, res) => {
 
 /* Position Delete */
 
-app.delete('/api/position/:positionID', (req, res) => {
+app.delete('/api/position/:positionID', async (req, res) => {
+
+    let pID = req.params.positionID
+
     try {
-        let pID = req.params.positionID
-        p.deletePosition(db, pID);
+        await p.deletePosition(db, pID);
         res.status(204).end();
     }
     catch (err) {
-        res.status(503).end();
+        if (err.message = "ID not found") {
+            res.status(422).end()
+        } else {
+            res.status(503).end()
+        }
     }
 });
 
 /* Position Update */
 
-app.post('/api/position/:positionID', async (req, res) => {
+app.put('/api/position/:positionID', async (req, res) => {
 
-    const params = useParams()
+    let positionID = req.params.positionID;
+    let position = req.body.position;
+
+    if (Object.keys(req.body).length === 0 ||
+    position === undefined || 
+    position.newAisleID === undefined || position.newAisleID.length !== 4 || !(/^\d+$/.test(position.newAisleID)) ||
+    position.newRow === undefined || position.newRow.length !== 4 || !(/^\d+$/.test(position.newRow)) ||
+    position.newCol === undefined || position.newCol.length !== 4 || !(/^\d+$/.test(position.newCol)) ||
+    position.newMaxWeight === undefined ||
+    position.newMaxVolume === undefined ||
+    position.newOccupiedWeight === undefined ||
+    position.newOccupiedVolume === undefined) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
 
     try {
-        const count = await p.findID(db, params.positionID);
-        if (count == 0) {
-            return res.status(404).end();
-        } else {
-            let position = req.body.position;
-            if (Object.keys(req.body).length === 0 ||
-                position === undefined || position.positionID === undefined || !isNumeric(position.positionID) ||
-                position.aisleID === undefined || !isNumeric(position.aisleID) || position.aisleID.length !== 4 || position.row === undefined || position.row.length !== 4 || !isNumeric(position.row) ||
-                position.col === undefined || position.col.lenght !== 4 || !isNumeric(position.col) || position.maxWeight === undefined ||
-                position.maxVolume === undefined) {
-                return res.status(422).json({ error: 'Unprocessable entity' });
-            } else {
-                await p.updatePosition(db, position, params.positionID);
-                return res.status(200).end();
-            }
-        }
+        await p.updatePosition(db, positionID, position);
+        return res.status(200).end();
     }
     catch (err) {
-        res.status(503).end();
+        if (err.message === "ID not found") {
+            res.status(404).end()
+        } else {
+            res.status(503).end()
+        }
     }
 });
 
 /* positionID Update */
 
-app.post('/api/position/:positionID/changeID', async (req, res) => {
+app.put('/api/position/:positionID/changeID', async (req, res) => {
 
-    const params = useParams()
+    let pID = req.params.positionID;
+    let newPositionID = req.body.newPositionID;
 
     try {
-        const count = await p.findID(db, params);
-        if (count == 0) {
-            return res.status(404).end();
+        await p.updatePositionID(db, pID, newPositionID);
+        return res.status(200).end();
+    } catch (err) {
+        if (err.message = "ID not found") {
+            res.status(404).end()
         } else {
-            let positionID = req.body.positionID;
-            if (Object.keys(req.body).length === 0 || positionID === undefined) {
-                return res.status(422).json({ error: 'Unprocessable entity' });
-            } else {
-                await p.updatePosition(db, sku);
-                return res.status(200).end();
-            }
+            res.status(503).end();
         }
-    }
-    catch (err) {
-        res.status(503).end();
     }
 });
 
