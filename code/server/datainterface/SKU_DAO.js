@@ -60,6 +60,18 @@ class SKU_DAO {
             });
         });
     }
+
+    getSKUbyID(db, id){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM SKU WHERE SKU.Id=?';
+            db.get(sql, [id], (err, row) => {
+              if (err)
+                reject(err);
+              else
+                resolve(new SKU(row.id, row.description, row.weight, row.volume, row.notes, row.availableQuantity));
+            });
+          });
+}
 }
 
 /* Export class SKU_DAO with methods */

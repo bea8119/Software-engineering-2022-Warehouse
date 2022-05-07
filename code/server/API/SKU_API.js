@@ -37,6 +37,28 @@ app.get('/api/skus', async (req, res) => {
     }
 });
 
+/* SKU Get by ID */
+//// EROR RESPONSES ARE NOT MANAGED  WE NEED TO MODIFY THISSS
+app.get('/api/skus/:id', async (req, res) => {
+
+    if (Object.keys(req.header).length === 0) {
+        return res.status(422).json({ error: 'Empty header request' });
+    }
+    let id = req.header.id;
+    if (id === undefined) {
+        return res.status(422).json({ error: 'Invalid user data' });
+    }
+        try{
+    const skuFound =await s.getSKUbyID(db, id);
+    return res.status(200).json(skuFound);
+        }  catch (err) {
+            res.status(500).end();
+        }
+
+}
+
+);
+
 
 /* SKU Delete */
 
