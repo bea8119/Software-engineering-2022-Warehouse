@@ -19,7 +19,7 @@ app.post('/api/skuitem', async (req, res) => {
     if (Object.keys(req.body).length === 0 ||
         skuitem === undefined ||
         /* RFID must be 32 DIGITS long */
-        skuitem.RFID === undefined || rfid.length !== 32 || !(/^\d+$/.test(rfid)) ||
+        skuitem.RFID === undefined || skuitem.RFID.length !== 32 || !(/^\d+$/.test(skuitem.RFID)) ||
         skuitem.SKUId === undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
@@ -127,8 +127,8 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
     if (Object.keys(req.body).length === 0 ||
         skuitem === undefined ||
         /* RFID must be 32 DIGITS long */
-        skuitem.newRFID === undefined || rfid.length !== 32 || !(/^\d+$/.test(rfid)) ||
-        skuitem.newSKUId === undefined) {
+        skuitem.newRFID === undefined || skuitem.newRFID.length !== 32 || !(/^\d+$/.test(skuitem.newRFID)) 
+        ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     if (skuitem.newDateOfStock === undefined) {

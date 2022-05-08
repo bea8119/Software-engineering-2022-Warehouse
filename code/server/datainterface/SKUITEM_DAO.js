@@ -8,7 +8,7 @@ class SKUITEM_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, FOREIGN KEY(SKUId) REFERENCES SKU(id), Available INTEGER, DateOfStock VARCHAR(20))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, SKUId INTEGER, Available INTEGER, DateOfStock VARCHAR(20), FOREIGN KEY(SKUId) REFERENCES SKU(id))';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -25,7 +25,7 @@ class SKUITEM_DAO {
     storeSKUItem(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE Id = ?'
-            db.run(sql, [data.SKUId], (err, r) => {
+            db.get(sql1, [data.SKUId], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
@@ -35,7 +35,7 @@ class SKUITEM_DAO {
                 }
                 else {
                     const sql2 = 'INSERT INTO SKUITEM(RFID,  SKUId, Available, DateOfStock) VALUES (?, ?, ?, ?)';
-                    db.run(sql, [data.RFID, data.SKUid, 0, data.DataOfStock], (err) => {
+                    db.run(sql2, [data.RFID, data.SKUid, 0, data.DateOfStock], (err) => {
                         if (err) {
                             reject(err);
                             return;
@@ -76,7 +76,7 @@ class SKUITEM_DAO {
 
     getAvailableStoredSKUItem(db, id) {
         const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE Id = ?'
-        db.run(sql, [id], (err, r) => {
+        db.run(sql1, [id], (err, r) => {
             if (err) {
                 reject(err);
                 return;
@@ -112,7 +112,7 @@ class SKUITEM_DAO {
     getStoredSKUItemByRFID(db, data) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKUITEM WHERE RFID = ?';
-            db.all(sql, [data.RFID], (err, rows) => {
+            db.all(sql, [data], (err, rows) => {
                 if (err) {
                     reject(err);
                     return;

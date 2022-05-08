@@ -1,15 +1,16 @@
 'use strict';
 
-class ITEM_DAO{
-    constructor(){ }
+class ITEM_DAO {
+    constructor() { }
 
     /* -- Interface methods -- */
 
 
+    ////MODIFY WHEN WE HAVE SUPPLIERID
     /* new table create */
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, FOREIGN KEY (skuId) REFERENCES SKU(id) supplierId INTEGER)';
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, supplierId INTEGER,  FOREIGN KEY (SKUId) REFERENCES SKU(id), )';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -32,10 +33,10 @@ class ITEM_DAO{
                 }
                 const item = rows.map((r) => (
                     {
-                        id: r.id ,
+                        id: r.id,
                         description: r.description,
                         price: r.price,
-                        SKUId: r,SKUId,
+                        SKUId: r, SKUId,
                         supplierId: r.supplierId
 
                     }
@@ -57,10 +58,10 @@ class ITEM_DAO{
                 }
                 else {
                     resolve({
-                        id: r.id ,
+                        id: r.id,
                         description: r.description,
                         price: r.price,
-                        SKUId: r,SKUId,
+                        SKUId: r, SKUId,
                         supplierId: r.supplierId
                     });
                 }
@@ -71,7 +72,7 @@ class ITEM_DAO{
     /*Find SKU by ID */
     findSKUbyID(db, id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count, * FROM SKU WHERE id = ?'
+            const sql = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
             db.get(sql, [id], (err, r) => {
                 if (err)
                     reject(err);
@@ -89,12 +90,13 @@ class ITEM_DAO{
     /* Store new item */
     storeITEM(db, data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO ITEM (id,  description, price, SKUId, supplierId) VALUES (?, ?, ?, ? ,? ,? ,?)';
+            const sql = 'INSERT INTO ITEM (id,  description, price, SKUId, supplierId) VALUES (?, ?, ?, ? ,?)';
             db.run(sql, [data.id, data.description, data.price, data.SKUId, data.supplierId], (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
+
                 resolve();
             });
         });
@@ -108,10 +110,10 @@ class ITEM_DAO{
                 if (err) {
                     reject(err)
                     return;
-                } 
+                }
                 else if (r.count === 0) {
                     reject(new Error('Item not found'))
-                } 
+                }
                 else {
                     const sql2 = 'UPDATE ITEM SET id = ?  WHERE id = ?';
                     db.run(sql2, [data, id], (err) => {

@@ -54,10 +54,10 @@ app.get('/api/skus', async (req, res) => {
 
 app.get('/api/skus/:id', async (req, res) => {
 
-    if (Object.keys(req.header).length === 0) {
+    if (Object.keys(req.params).length === 0) {
         return res.status(422).json({ error: 'Empty header request' });
     }
-    let id = req.header.id;
+    let id = req.params.id;
     if (id === undefined) {
         return res.status(404).json({ error: 'Data not found' });
     }

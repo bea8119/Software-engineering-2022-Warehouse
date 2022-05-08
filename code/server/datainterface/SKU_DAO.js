@@ -36,7 +36,7 @@ class SKU_DAO {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve();
             });
         });
     }

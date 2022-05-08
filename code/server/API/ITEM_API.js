@@ -9,6 +9,7 @@ const db = server.db;
 const ITEM_DAO = require('../datainterface/ITEM_DAO');
 const i = new ITEM_DAO();
 
+
 /* ITEMS get */
 app.get('/api/items', async (req, res) =>{
     try {
@@ -58,12 +59,12 @@ app.post('/api/item', async (req, res) => {
     let item = req.body.item;
 
     /* Undefined data check NB manca se il supplier ha gia item con quello skuID*/
-    if (item === undefined || item.id==undefined || item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplier === undefined) {
-        return res.status(422).json({ error: 'Unprocessable Entity' });
+    if (item === undefined ||  item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplierId === undefined) {
+        return res.status(422).json({ error: 'Unprocessable Entity2' });
     }
 
     /* Sku ID check */
-    else if (!i.findSKUbyID(db, item.id)) {
+   else if (i.findSKUbyID(db, item.SKUId) === 0) {
         return res.status(404).json({ error: 'Not Found' });
     }
 
@@ -74,7 +75,6 @@ app.post('/api/item', async (req, res) => {
         i.storeITEM(db, item);
         return res.status(201).end();
     } 
-
     catch (err) {
         res.status(503).end();
     }
