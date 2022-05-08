@@ -2,36 +2,33 @@
 
 const res = require("express/lib/response");
 
-class SKU_DAO {
+class testDescriptor_DAO{
 
     constructor() { }
 
-    /* -- Interface methods -- */
-
-    dropTable() {
+    dropTable(){
 
     }
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20) , weight INTEGER,  volume INTEGER, notes VARCHAR(20), position varchar[20] , availableQuantity INTEGER, price REAL, testDescriptors  )';
+            const sql = 'CREATE TABLE IF NOT EXISTS testDescriptor( id INTEGER PRIMARY KEY AUTOINCREMENT,  name VARCHAR(20), procedureDescription VARCHAR(50), skuId INTEGER, FOREIGN KEY (skuId) REFERENCES SKU(id))';
             db.run(sql, (err) => {
-                if (err) {
+              if (err) {
                     reject(err);
                     return;
                 }
                 resolve(this.lastID);
             });
 
-        });
+        });  
     }
 
-
-    storeSKU(db, data) {
+    storeTestDescriptor(db, data) {
         
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO SKU (id,  description, weight, volume, notes, position,  availableQuantity, price) VALUES (?, ?, ?, ? ,? ,? ,?, ?)';
-            db.run(sql, [data.id, data.description, data.weight, data.volume, data.notes, null,  data.availableQuantity, data.price], (err) => {
+            const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
+            db.run(sql, [data.id, data.name, data.procedureDescription, data.skuId], (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -41,33 +38,31 @@ class SKU_DAO {
         });
     }
 
-    getStoredSKU(db) {
+    getStoredTestDescriptors(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM SKU';
+            const sql = 'SELECT * FROM testDescriptor';
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                const skus = rows.map((r) => (
+                const testDescs = rows.map((r) => (
                     {
                         id: r.id,
-                        description: r.description,
-                        weight: r.weight,
-                        volume: r.volume,
-                        notes: r.notes,
-                        availableQuantity: r.availableQuantity,
-                        price: r.price
+                        name: r.name,
+                        procedureDescription: r.procedureDescription,
+                        skuId: r.skuId
+                        
                     }
                 ));
-                resolve(skus);
+                resolve(testDescs);
             });
         });
     }
 
-    getSKUbyID(db, id) {
+    getTestDescriptorbyID(db, id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count, * FROM SKU WHERE id = ?'
+            const sql = 'SELECT COUNT(*) AS count, * FROM testDescriptor WHERE id = ?'
             db.get(sql, [id], (err, r) => {
                 if (err)
                     reject(err);
@@ -77,22 +72,19 @@ class SKU_DAO {
                 else {
                     resolve({
                         id: r.id,
-                        description: r.description,
-                        weight: r.weight,
-                        volume: r.volume,
-                        notes: r.notes,
-                        availableQuantity: r.availableQuantity,
-                        price: r.price
+                        name: r.name,
+                        procedureDescription: r.procedureDescription,
+                        skuId: r.skuId
                     });
                 }
             });
         });
     }
 
-    // delete sku by id
-    deleteSKU(db, id) {
+    // delete test desc
+    deleteTesDescriptor(db, id) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+            const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?'
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
@@ -102,7 +94,7 @@ class SKU_DAO {
                     reject(new Error('ID not found'))
                 }
                 else {
-                    const sql2 = 'DELETE FROM SKU WHERE id = ?';
+                    const sql2 = 'DELETE FROM testDescriptor WHERE id = ?';
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
@@ -116,20 +108,21 @@ class SKU_DAO {
 
         });
 
-    } 
+    }
 
-    //update SKU
-    updateSKU(db, id, data) {
+
+    ///TO MODIFYYYYYYY  i did not manage the case in which some fields are empty
+    updateTestDescriptor(db, id, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+            const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?'
             db.get(sql1, [id], (err, r) => {
                 if (err) {
-                    reject(err);
+                    reject(err)
                     return;
                 } else if (r.count === 0) {
-                    reject(new Error('ID not found'));
+                    reject(new Error('ID not found'))
                 } else {
-                    const sql2 = 'UPDATE SKU SET name = ?, name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
+                    const sql2 = 'UPDATE testDescriptor SET  name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
                     db.run(sql2, [data.name, data.procedureDescription, data.skuId, id], (err) => {
                         if (err) {
                             reject(err);
@@ -142,11 +135,4 @@ class SKU_DAO {
         });
     }
 
-
 }
-
-
-
-/* Export class SKU_DAO with methods */
-
-module.exports = SKU_DAO;
