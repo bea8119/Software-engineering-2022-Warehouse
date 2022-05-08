@@ -27,4 +27,5 @@ module.exports = {
 /* API modules to import */ 
 require('./API/SKU_API');
 require('./API/POSITION_API');
+require('./API/SKUITEM_API')
 
