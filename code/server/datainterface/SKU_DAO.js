@@ -89,6 +89,22 @@ class SKU_DAO {
         });
     }
 
+    getWeightVolumeByID(db, id){
+
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT weight, volume FROM SKU WHERE id = ?'
+            db.get(sql, [id], (err, r) => {
+                if (err)
+                    reject(err);
+                    else
+                    resolve({
+                        weight: r.weight,
+                        volume: r.volume
+                    });
+             } ); }
+
+    );}
+
     // delete sku by id
     deleteSKU(db, id) {
         return new Promise((resolve, reject) => {
@@ -129,8 +145,8 @@ class SKU_DAO {
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'));
                 } else {
-                    const sql2 = 'UPDATE SKU SET name = ?, name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
-                    db.run(sql2, [data.name, data.procedureDescription, data.skuId, id], (err) => {
+                    const sql2 = 'UPDATE SKU SET description = ?, weight = ?, volume= ?, notes= ?  availableQuantity = ?, price= ? WHERE id = ?';
+                    db.run(sql2, [data.description, data.weight, data.volume, data.availableQuantity, data.price, id], (err) => {
                         if (err) {
                             reject(err);
                             return;
@@ -139,6 +155,32 @@ class SKU_DAO {
                     });
                 }
             })
+        });
+    }
+
+     //update SKU position
+
+    
+     updateSKUposition(db, id, data) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+            db.get(sql1, [id], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else if (r.count === 0) {
+                    reject(new Error('ID not found'));
+                } else {
+                    const sql2 = 'UPDATE SKU SET position = ? WHERE id = ?';
+                    db.run(sql2, [data.position, id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
+                }
+            });
         });
     }
 
