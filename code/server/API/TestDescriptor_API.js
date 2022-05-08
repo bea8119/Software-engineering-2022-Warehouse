@@ -10,13 +10,9 @@ const t =  new TestDescriptor_DAO();
 
 app.post('/api/testDescriptor', async (req, res) => {
 
-    if (Object.keys(req.body).length === 0) {
-        return res.status(422).json({ error: 'Empty body request' });
-    }
-
     let TD = req.body.TestDescriptor;
 
-    if (TD === undefined || TD.name === undefined || TD.procedureDescription === undefined || TD.skuId === undefined ) {
+    if (Object.keys(req.body).length === 0 || TD === undefined || TD.name === undefined || TD.procedureDescription === undefined || TD.idSKU === undefined ) {
         return res.status(422).json({ error: 'Invalid TestDescriptor data' });
     }
 
@@ -34,19 +30,26 @@ app.post('/api/testDescriptor', async (req, res) => {
 
 app.get('/api/testDescriptors/:id', async (req, res) => {
 
-    if (Object.keys(req.header).length === 0) {
+    if (Object.keys(req.params).length === 0) {
         return res.status(422).json({ error: 'Empty header request' });
     }
-    let id = req.header.id;
+
+    let id = req.params.id;
+
     if (id === undefined) {
-        return res.status(404).json({ error: 'Data not found' });
+        return res.status(422).json({ error: 'Empty header request' });
     }
-        try{
-    const TD =await t.getTestDescriptorbyID(db, id);
-    return res.status(200).json(TD);
-        }  catch (err) {
+    
+    try {
+        const TD = await t.getTestDescriptorbyID(db, id);
+        return res.status(200).json(TD);
+    } catch (err) {
+        if (err.message = 'ID not found') {
+            res.status(404).end()
+        } else {
             res.status(500).end();
         }
+    }
 
 }   
 
@@ -54,7 +57,7 @@ app.get('/api/testDescriptors/:id', async (req, res) => {
 
 app.get('/api/testDescriptors', async (req, res) => {
     try {
-        const TDist = await t.getStoredTestDescriptors(db);
+        const TDlist = await t.getStoredTestDescriptors(db);
         res.status(200).json(TDlist);
     } catch (err) {
         res.status(500).end();
@@ -62,17 +65,21 @@ app.get('/api/testDescriptors', async (req, res) => {
 });
 
 
-app.delete('/api/testDescriptors/:id', async (req, res) => {
+app.delete('/api/testDescriptor/:id', async (req, res) => {
 
     let id = req.params.id;
 
+    if (id === undefined) {
+        return res.status(422).json({ error: 'Empty header request' });
+    }
+
     try {
-        await p.deleteTesDescriptor(db, id);
+        await t.deleteTestDescriptor(db, id);
         res.status(204).end();
     }
     catch (err) {
         if (err.message = "ID not found") {
-            res.status(422).end()
+            res.status(404).end()
         } else {
             res.status(503).end()
         }
@@ -84,7 +91,7 @@ app.put('/api/testDescriptor/:id', async (req, res) => {
     let id = req.params.id;
     let TD = req.body.TestDescriptor;
 
-    if (Object.keys(req.body).length === 0 || TD === undefined || TD.name === undefined || TD.procedureDescription === undefined || TD.skuId === undefined ) {
+    if (Object.keys(req.body).length === 0 || TD === undefined || TD.newName === undefined || TD.newProcedureDescription === undefined || TD.newIdSKU === undefined ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     

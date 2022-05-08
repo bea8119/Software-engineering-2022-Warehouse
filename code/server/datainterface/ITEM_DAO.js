@@ -5,6 +5,22 @@ class ITEM_DAO{
 
     /* -- Interface methods -- */
 
+
+    /* new table create */
+    newTableName(db) {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, FOREIGN KEY (skuId) REFERENCES SKU(id) supplierId INTEGER)';
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+
+        });
+    }
+
     /*Get item */
     getStoredITEM(db) {
         return new Promise((resolve, reject) => {
@@ -69,20 +85,6 @@ class ITEM_DAO{
         });
     }
 
-    /* new table create */
-    newTableName(db) {
-        return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, supplierId INTEGER)';
-            db.run(sql, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve();
-            });
-
-        });
-    }
 
     /* Store new item */
     storeITEM(db, data) {
@@ -152,3 +154,7 @@ class ITEM_DAO{
     }
 
 }
+
+/* Export class ITEM_DAO with methods */
+
+module.exports = ITEM_DAO;

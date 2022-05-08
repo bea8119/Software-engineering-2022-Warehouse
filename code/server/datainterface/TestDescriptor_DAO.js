@@ -2,7 +2,7 @@
 
 const res = require("express/lib/response");
 
-class testDescriptor_DAO{
+class TestDescriptor_DAO{
 
     constructor() { }
 
@@ -18,7 +18,7 @@ class testDescriptor_DAO{
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve();
             });
 
         });  
@@ -28,12 +28,12 @@ class testDescriptor_DAO{
         
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
-            db.run(sql, [data.id, data.name, data.procedureDescription, data.skuId], (err) => {
+            db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve();
             });
         });
     }
@@ -51,7 +51,7 @@ class testDescriptor_DAO{
                         id: r.id,
                         name: r.name,
                         procedureDescription: r.procedureDescription,
-                        skuId: r.skuId
+                        idSKU: r.idSKU
                         
                     }
                 ));
@@ -67,14 +67,14 @@ class testDescriptor_DAO{
                 if (err)
                     reject(err);
                 else if (r.count === 0) {
-                    resolve(undefined)
+                    reject(new Error('ID not found'));
                 }
                 else {
                     resolve({
                         id: r.id,
                         name: r.name,
                         procedureDescription: r.procedureDescription,
-                        skuId: r.skuId
+                        idSKU: r.idSKU
                     });
                 }
             });
@@ -82,7 +82,7 @@ class testDescriptor_DAO{
     }
 
     // delete test desc
-    deleteTesDescriptor(db, id) {
+    deleteTestDescriptor(db, id) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?'
             db.get(sql1, [id], (err, r) => {
@@ -122,8 +122,8 @@ class testDescriptor_DAO{
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
                 } else {
-                    const sql2 = 'UPDATE testDescriptor SET  name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
-                    db.run(sql2, [data.name, data.procedureDescription, data.skuId, id], (err) => {
+                    const sql2 = 'UPDATE testDescriptor SET name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
+                    db.run(sql2, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err) => {
                         if (err) {
                             reject(err);
                             return;
@@ -136,3 +136,8 @@ class testDescriptor_DAO{
     }
 
 }
+
+
+/* Export class TestDescriptor_DAO with methods */
+
+module.exports = TestDescriptor_DAO;
