@@ -7,10 +7,12 @@ class SKUITEM_DAO {
     /* -- Interface methods -- */
 
     newTableName(db) {
+        console.log("sono qui!!!")
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, SKUId INTEGER, Available INTEGER, DateOfStock VARCHAR(20), FOREIGN KEY(SKUId) REFERENCES SKU(id))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, Available INTEGER, DateOfStock VARCHAR(20), SKUId INTEGER, FOREIGN KEY (SKUId) REFERENCES SKU(id))';
             db.run(sql, (err) => {
                 if (err) {
+                    console.log(err)
                     reject(err);
                     return;
                 }
@@ -31,17 +33,16 @@ class SKUITEM_DAO {
                     return;
                 }
                 else if (r.count === 0) {
-                    reject(new Error('ID not found'))
+                    reject(new Error("ID not found"));
                 }
                 else {
-                    const sql2 = 'INSERT INTO SKUITEM(RFID,  SKUId, Available, DateOfStock) VALUES (?, ?, ?, ?)';
-                    db.run(sql2, [data.RFID, data.SKUid, 0, data.DateOfStock], (err) => {
+                    const sql2 = 'INSERT INTO SKUITEM(RFID, Available, DateOfStock, SKUId) VALUES (?, ?, ?, ?)';
+                    db.run(sql2, [data.RFID, 0, data.DateOfStock, data.SKUId], (err) => {
                         if (err) {
                             reject(err);
                             return;
                         }
                         resolve();
-
                     });
                 }
             });
@@ -141,7 +142,7 @@ class SKUITEM_DAO {
                     reject(err)
                     return;
                 } else if (r.count === 0) {
-                    reject(new Error('ID not found'))
+                    reject(new Error("ID not found"))
                 } else {
                     const sql2 = 'UPDATE SKUITEM SET RFID = ?,  Available = ?, DateOfStock = ? WHERE RFID = ?';
                     db.run(sql2, [data.newRFID, data.newAvailable, data.newDateOfStock, id], (err) => {
@@ -185,6 +186,20 @@ class SKUITEM_DAO {
 
         });
 
+    }
+
+    dropTable(db) {
+        return new Promise((resolve, reject) => {
+            console.log("emergenza");
+            const sql2 = 'DROP TABLE SKUITEM';
+            db.run(sql2, [], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        })
     }
 }
 
