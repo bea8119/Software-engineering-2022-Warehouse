@@ -80,27 +80,27 @@ app.post('/api/item', async (req, res) => {
     }
 });
 
-/* ITEM Update */
+/* ITEM Update by ID*/
 app.put('/api/item/:id', async (req, res) => {
     if (Object.keys(req.body).length === 0) {
         return res.status(422).json({ error: 'Empty body request' });
     }
 
     let item = req.body.item;
-
+    let id=req.params.id;
     /* Undefined data check NB manca se il supplier ha gia item con quello skuID*/
-    if (item === undefined || item.id==undefined || item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplier === undefined) {
+     if (item === undefined /*item.newId==undefined || item.newDescription === undefined || item.newPrice === undefined || item.newSKUId === undefined || item.newSupplier === undefined*/) {
         return res.status(422).json({ error: 'Unprocessable Entity' });
     }
 
     /* Unauthorized check */
 
     try {
-        await i.updateItem(db, item.id, item);
+        await i.updateItem(db, id, item);
         return res.status(200).end();
     }
     catch (err) {
-        if (err.message === "Item not found") {
+        if (err.message === 'Item not found') {
             res.status(404).end()
         } else {
             res.status(503).end()
@@ -111,19 +111,18 @@ app.put('/api/item/:id', async (req, res) => {
 /* ITEM delete */
 app.delete('/api/items/:id', async (req, res) => {
     let item = req.body.item;
-
-    /* Undefined data check NB manca se il supplier ha gia item con quello skuID*/
-    if (item === undefined || item.id==undefined || item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplier === undefined) {
-        return res.status(422).json({ error: 'Unprocessable Entity' });
-    }
-
+    let id=req.params.id;
     /* Unauthorized check */
 
     try {
-        await i.deletePosition(db, item.id);
+        await i.deleteItem(db, id);
         res.status(204).end();
     }
     catch (err) { 
-        res.status(503).end()
+        if (err.message === "Item not found") {
+            res.status(422).end()
+        } else {
+            res.status(503).end()
+        }
     }
 });

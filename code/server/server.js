@@ -30,4 +30,5 @@ require('./API/POSITION_API');
 require('./API/SKUITEM_API');
 require('./API/TestDescriptor_API');
 require('./API/ITEM_API');
+require('./API/InternalOrder_API');
 

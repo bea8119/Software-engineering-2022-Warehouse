@@ -102,23 +102,33 @@ class ITEM_DAO {
         });
     }
 
-    /* Put position ID */
-    updateItem(db, itemID, item) {
+    /* Update ITEM with ID */
+    updateItem(db, id, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ?'
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM ITEM WHERE id = ?'
             db.get(sql1, [id], (err, r) => {
                 if (err) {
-                    reject(err)
+                    reject(new Error('errore prima query'))
                     return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('Item not found'))
                 }
                 else {
-                    const sql2 = 'UPDATE ITEM SET id = ?  WHERE id = ?';
-                    db.run(sql2, [data, id], (err) => {
+                    if(data.newDescription===undefined)
+                        data.newDescription=r.description;
+                    if(data.newPrice===undefined)
+                        data.newPrice=r.price;
+                    if(data.newSKUId===undefined)
+                        data.newSKUId=r.SKUId;   
+                    if(data.newSupplierId===undefined)
+                        data.newSupplierId=r.supplierId;
+
+                    console.log("data.newSupplierId "+data.newSupplierId+" r.supplierId "+r.supplierId);
+                    const sql2 = 'UPDATE ITEM SET  description = ?, price = ?, SKUId = ?, supplierId = ?  WHERE id = ?';
+                    db.run(sql2, [ data.newDescription, data.newPrice, data.newSKUId, data.newSupplierId, id], (err) => {
                         if (err) {
-                            reject(err);
+                            reject(new Error('errore seconda query'))
                             return;
                         }
                         resolve();
@@ -128,7 +138,8 @@ class ITEM_DAO {
         });
     }
 
-    deletePosition(db, id) {
+    /* Delete Item */
+    deleteItem(db, id) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ?';
             db.get(sql1, [id], (err, r) => {
