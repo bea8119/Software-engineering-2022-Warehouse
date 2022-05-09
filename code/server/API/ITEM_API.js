@@ -52,15 +52,15 @@ app.get('/api/items/:id', async (req, res) => {
 
 /* ITEM post */
 app.post('/api/item', async (req, res) => {
-    if (Object.keys(req.body).length === 0) {
-        return res.status(422).json({ error: 'Empty body request' });
-    }
+    // if (Object.keys(req.body).length === 0) {
+    //     return res.status(422).json({ error: 'Empty body request' });
+    // }
 
     let item = req.body.item;
 
     /* Undefined data check NB manca se il supplier ha gia item con quello skuID*/
-    if (item === undefined ||  item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplierId === undefined) {
-        return res.status(422).json({ error: 'Unprocessable Entity2' });
+    if (Object.keys(req.body).length === 0 || item === undefined ||  item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplierId === undefined) {
+        return res.status(422).json({ error: 'Unprocessable Entity' });
     }
 
     /* Sku ID check */

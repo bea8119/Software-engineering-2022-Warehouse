@@ -10,7 +10,7 @@ class ITEM_DAO {
     /* new table create */
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, supplierId INTEGER,  FOREIGN KEY (SKUId) REFERENCES SKU(id), )';
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, supplierId INTEGER,  FOREIGN KEY (SKUId) REFERENCES SKU(id))';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -36,7 +36,7 @@ class ITEM_DAO {
                         id: r.id,
                         description: r.description,
                         price: r.price,
-                        SKUId: r, SKUId,
+                        SKUId: r.SKUId,
                         supplierId: r.supplierId
 
                     }
