@@ -12,7 +12,7 @@ class TestDescriptor_DAO{
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS testDescriptor( id INTEGER PRIMARY KEY AUTOINCREMENT,  name VARCHAR(20), procedureDescription VARCHAR(50), skuId INTEGER, FOREIGN KEY (skuId) REFERENCES SKU(id))';
+            const sql = 'CREATE TABLE IF NOT EXISTS testDescriptor(id INTEGER PRIMARY KEY AUTOINCREMENT,  name VARCHAR(20), procedureDescription VARCHAR(50), skuId INTEGER, FOREIGN KEY (skuId) REFERENCES SKU(id))';
             db.run(sql, (err) => {
               if (err) {
                     reject(err);

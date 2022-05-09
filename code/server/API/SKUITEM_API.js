@@ -33,7 +33,7 @@ app.post('/api/skuitem', async (req, res) => {
     }
 
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(404).end()
         } else {
             res.status(503).end()
@@ -140,11 +140,21 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
         return res.status(200).end();
     }
     catch (err) {
-        if (err.message === "ID not found") {
+        if (err.message = "ID not found") {
             res.status(404).end()
         } else {
             res.status(503).end()
         }
+    }
+});
+
+app.delete('/api/skuitem/emergenza', async (req, res) => {
+    try {
+    await s.dropTable(db);
+    res.status(200).end()
+    }
+    catch (err) {
+    res.status(500).end()
     }
 });
 

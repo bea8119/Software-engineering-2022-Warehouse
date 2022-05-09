@@ -60,7 +60,7 @@ app.delete('/api/position/:positionID', async (req, res) => {
         res.status(204).end();
     }
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(422).end()
         } else {
             res.status(503).end()
@@ -111,7 +111,7 @@ app.put('/api/position/:positionID/changeID', async (req, res) => {
         await p.updatePositionID(db, pID, newPositionID);
         return res.status(200).end();
     } catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(404).end()
         } else {
             res.status(503).end();

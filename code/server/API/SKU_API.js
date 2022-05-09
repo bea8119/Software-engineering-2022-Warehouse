@@ -29,7 +29,7 @@ app.post('/api/sku', async (req, res) => {
 
     try {
         await s.newTableName(db);
-        s.storeSKU(db, sku);
+        await s.storeSKU(db, sku);
         return res.status(201).end();
     } 
 
@@ -90,11 +90,11 @@ app.delete('/api/skus/:id', async (req, res) => {
     let id = req.params.id;
 
     try {
-        await p.deleteSKU(db, id);
+        await s.deleteSKU(db, id);
         res.status(204).end();
     }
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(422).end()
         } else {
             res.status(503).end()
@@ -141,7 +141,7 @@ app.put('/api/sku/:id', async (req, res) => {
     let id = req.params.id;
     let sku = req.body.sku;
 
-    if (Object.keys(req.body).length === 0 || sku === undefined || sku.description === undefined || sku.weight === undefined || sku.volume === undefined || sku.price === undefined || sku.availableQuantity === undefined ) {
+    if (Object.keys(req.body).length === 0 || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     
@@ -153,6 +153,8 @@ app.put('/api/sku/:id', async (req, res) => {
     catch (err) {
         if (err.message === "ID not found") {
             res.status(404).end()
+        } else if (err.message === "Maximum position capacity exceeded") {
+            res.status(422).end()
         } else {
             res.status(503).end()
         }
@@ -198,5 +200,15 @@ app.put('/api/sku/:id', async (req, res) => {
         }
     }
     
+});
+
+app.delete('/api/sku/emergenza', async (req, res) => {
+    try {
+    await s.dropTable(db);
+    res.status(200).end()
+    }
+    catch (err) {
+    res.status(500).end()
+    }
 });
 
