@@ -7,12 +7,10 @@ class SKUITEM_DAO {
     /* -- Interface methods -- */
 
     newTableName(db) {
-        console.log("sono qui!!!")
         return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, Available INTEGER, DateOfStock VARCHAR(20), SKUId INTEGER, FOREIGN KEY (SKUId) REFERENCES SKU(id))';
             db.run(sql, (err) => {
                 if (err) {
-                    console.log(err)
                     reject(err);
                     return;
                 }
@@ -26,14 +24,14 @@ class SKUITEM_DAO {
 
     storeSKUItem(db, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE Id = ?'
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
             db.get(sql1, [data.SKUId], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }
                 else if (r.count === 0) {
-                    reject(new Error("ID not found"));
+                    reject(new Error('ID not found'))
                 }
                 else {
                     const sql2 = 'INSERT INTO SKUITEM(RFID, Available, DateOfStock, SKUId) VALUES (?, ?, ?, ?)';
@@ -76,17 +74,17 @@ class SKUITEM_DAO {
     /* Get SKUITEMs where Available = 1 */
 
     getAvailableStoredSKUItem(db, id) {
-        const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE Id = ?'
-        db.run(sql1, [id], (err, r) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            else if (r.count === 0) {
-                reject(new Error('ID not found'))
-            }
-            else {
-                return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+            db.get(sql1, [id], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                }
+                else {
                     const sql = 'SELECT * FROM SKUITEM WHERE SKUId = ? AND Available = 1';
                     db.all(sql, [id], (err, rows) => {
                         if (err) {
@@ -102,8 +100,8 @@ class SKUITEM_DAO {
                         ));
                         resolve(SKUItem);
                     });
-                });
-            }
+                };
+            });
         });
     }
 
@@ -112,23 +110,37 @@ class SKUITEM_DAO {
 
     getStoredSKUItemByRFID(db, data) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM SKUITEM WHERE RFID = ?';
-            db.all(sql, [data], (err, rows) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
+            db.get(sql1, [data], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                const SKUItem = rows.map((r) => (
-                    {
-                        RFID: r.RFID,
-                        SKUId: r.SKUId,
-                        Available: r.Available,
-                        DateOfStock: r.DateOfStock
-                    }
-                ));
-                resolve(SKUItem);
+                else if (r.count === 0) {
+                    reject(new Error("ID not found"));
+                    return;
+                }
+                else {
+                    const sql2 = 'SELECT * FROM SKUITEM WHERE RFID = ?';
+                    db.all(sql2, [data], (err, rows) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        const SKUItem = rows.map((r) => (
+                            {
+                                RFID: r.RFID,
+                                SKUId: r.SKUId,
+                                Available: r.Available,
+                                DateOfStock: r.DateOfStock
+                            }
+                        ));
+                        resolve(SKUItem);
+                    });
+                };
             });
-        });
+        })
+
     }
 
 
@@ -190,7 +202,6 @@ class SKUITEM_DAO {
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            console.log("emergenza");
             const sql2 = 'DROP TABLE SKUITEM';
             db.run(sql2, [], (err) => {
                 if (err) {
