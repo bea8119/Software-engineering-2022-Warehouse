@@ -64,10 +64,12 @@ app.post('/api/item', async (req, res) => {
     }
 
     /* Sku ID check */
-   else if (i.findSKUbyID(db, item.SKUId) === 0) {
-        return res.status(404).json({ error: 'Not Found' });
-    }
-
+//    else if (!i.findSKUbyID(db, item.SKUId)) {
+//         console.log(i.findSKUbyID(db, item.SKUId));
+//         return res.status(404).json({ error: 'Not Found' });
+//     }
+    // console.log(i.findSKUbyID(db, item.SKUId));
+    
     /* Unauthorized check */
 
     try {
@@ -76,7 +78,11 @@ app.post('/api/item', async (req, res) => {
         return res.status(201).end();
     } 
     catch (err) {
-        res.status(503).end();
+        if (err.message === "SKU not Found") { /* Sku ID check */
+            res.status(404).json({ error: 'Not Found' });
+        } else {
+            res.status(503).end()
+        }
     }
 });
 
