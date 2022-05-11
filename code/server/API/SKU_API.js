@@ -21,7 +21,7 @@ app.post('/api/sku', async (req, res) => {
         return res.status(422).json({ error: 'Empty body request' });
     }
 
-    let sku = req.body.sku;
+    let sku = req.body;
 
     if (sku === undefined || sku.description === undefined || sku.weight === undefined || sku.volume === undefined || sku.price === undefined || sku.availableQuantity === undefined ) {
         return res.status(422).json({ error: 'Invalid sku data' });
@@ -139,7 +139,7 @@ app.get('/api/skus/:id', async (req, res) => {
 app.put('/api/sku/:id', async (req, res) => {
 
     let id = req.params.id;
-    let sku = req.body.sku;
+    let sku = req.body;
 
     if (Object.keys(req.body).length === 0 || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
@@ -166,7 +166,7 @@ app.put('/api/sku/:id', async (req, res) => {
  app.put('/api/sku/:id/position' , async (req, res) => {
 
     let id = req.params.id;
-    let position = req.body.position;
+    let position = req.body;
 
     if (Object.keys(req.body).length === 0 || position === undefined  ) {
         return res.status(422).json({ error: 'Unprocessable entity' });

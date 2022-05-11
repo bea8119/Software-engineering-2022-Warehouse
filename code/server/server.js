@@ -31,4 +31,6 @@ require('./API/SKUITEM_API');
 require('./API/TestDescriptor_API');
 require('./API/ITEM_API');
 require('./API/InternalOrder_API');
+require('./API/RESTOCKORDER_API');
+require('./API/USER_API');
 

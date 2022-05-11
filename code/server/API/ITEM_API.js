@@ -56,7 +56,7 @@ app.post('/api/item', async (req, res) => {
     //     return res.status(422).json({ error: 'Empty body request' });
     // }
 
-    let item = req.body.item;
+    let item = req.body;
 
     /* Undefined data check NB manca se il supplier ha gia item con quello skuID*/
     if (Object.keys(req.body).length === 0 || item === undefined ||  item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplierId === undefined) {
@@ -86,7 +86,7 @@ app.put('/api/item/:id', async (req, res) => {
         return res.status(422).json({ error: 'Empty body request' });
     }
 
-    let item = req.body.item;
+    let item = req.body;
     let id=req.params.id;
     /* Undefined data check NB manca se il supplier ha gia item con quello skuID*/
      if (item === undefined /*item.newId==undefined || item.newDescription === undefined || item.newPrice === undefined || item.newSKUId === undefined || item.newSupplier === undefined*/) {
@@ -110,7 +110,7 @@ app.put('/api/item/:id', async (req, res) => {
 
 /* ITEM delete */
 app.delete('/api/items/:id', async (req, res) => {
-    let item = req.body.item;
+    let item = req.body;
     let id=req.params.id;
     /* Unauthorized check */
 
