@@ -10,7 +10,7 @@ class ITEM_DAO {
     /* new table create */
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, supplierId INTEGER,  FOREIGN KEY (SKUId) REFERENCES SKU(id))';
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM( id INTEGER PRIMARY KEY AUTOINCREMENT,  description VARCHAR(20), price REAL,  SKUId INTEGER, supplierId INTEGER)';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -69,36 +69,53 @@ class ITEM_DAO {
         });
     }
 
-    /*Find SKU by ID */
-    findSKUbyID(db, id) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
-            db.get(sql, [id], (err, r) => {
-                if (err)
-                    reject(err);
-                else if (r.count === 0) {
-                    resolve(0)
-                }
-                else {
-                    resolve(1);
-                }
-            });
-        });
-    }
+    // /*Find SKU by ID */
+    // findSKUbyID(db, id) {
+    //     return new Promise((resolve, reject) => {
+    //         const sql = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+    //         db.get(sql, [id], (err, r) => {
+    //             if (err){
+    //                 console.log("errore sku");
+    //                 reject(err);
+    //             }
+    //             else if (r.count === 0) {
+    //                 //console.log("non trovato");
+    //                 resolve(0);
+    //             }
+    //             else {
+    //                 //console.log("trovato");
+    //                 resolve(1);
+    //             }
+    //         });
+    //     });
+    // }
 
 
     /* Store new item */
     storeITEM(db, data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO ITEM (id,  description, price, SKUId, supplierId) VALUES (?, ?, ?, ? ,?)';
-            db.run(sql, [data.id, data.description, data.price, data.SKUId, data.supplierId], (err) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+            db.get(sql1, [data.SKUId], (err, r) => {
                 if (err) {
-                    reject(err);
+                    reject(err)
                     return;
                 }
+                else if (r.count === 0) {
+                    reject(new Error('SKU not found'))
+                }
+                else {
+                    const sql2 = 'INSERT INTO ITEM (id,  description, price, SKUId, supplierId) VALUES (?, ?, ?, ? ,?)';
+                    db.run(sql2, [data.id, data.description, data.price, data.SKUId, data.supplierId], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
 
-                resolve();
-            });
+                }
+            })
+
         });
     }
 
@@ -148,7 +165,7 @@ class ITEM_DAO {
                     return;
                 }
                 else if (r.count === 0) {
-                    reject(new Error('Item not found'))
+                    reject(new Error('Item not found'));
                 }
                 else {
                     const sql2 = 'DELETE FROM ITEM WHERE id = ?';
