@@ -61,6 +61,34 @@ class POSITION_DAO {
             });
         });
     }
+
+    getStoredPosByID(db, position){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT COUNT(*) AS count, * FROM POSITION WHERE id = ?'
+            db.get(sql, [position], (err, r) => {
+                if (err)
+                    reject(err);
+                else if (r.count === 0) {
+                    resolve(undefined)
+                }
+                else {
+                    resolve({
+                        positionID: r.positionID,
+                        aisleID: r.aisleID,
+                        row: r.row,
+                        col: r.col,
+                        maxWeight: r.maxWeight,
+                        maxVolume: r.maxVolume,
+                        occupiedWeight: r.occupiedWeight,
+                        occupiedVolume: r.occupiedVolume
+                    });
+                }
+            });
+        });
+
+
+    }
+
     
 
     /* Put position by ID */
@@ -88,30 +116,9 @@ class POSITION_DAO {
         });
     }
 
-    /* Update position Occupied weight and volume */
+    
 
-    updatePositionWV(db, id, data) {
-        return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*), occupiedWeight, occupiedVolume AS count FROM POSITION WHERE positionID = ?'
-            db.get(sql1, [id], (err, r) => {
-                if (err) {
-                    reject(err)
-                    return;
-                } else if (r.count === 0) {
-                    reject(new Error('ID not found'))
-                } else {
-                    const sql2 = 'UPDATE POSITION SET  occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
-                    db.run(sql2, [ (r.occupiedWeight + data.weight), (r.occupiedVolume + data.volume), id], (err) => {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        resolve();
-                    });
-                }
-            })
-        });
-    }
+    
 
 
     /* Put position ID */
