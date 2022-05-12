@@ -28,6 +28,7 @@ app.post('/api/restockOrder', async (req, res) => {
     }
 
     catch (err) {
+        console.log(err)
         res.status(503).end();
     }
 });
@@ -53,6 +54,25 @@ app.get('/api/restockOrdersIssued', async (req, res) => {
         res.status(200).json(restockOrdersIssued);
     } catch (err) {
         res.status(500).end();
+    }
+});
+
+/* RestockOrder Get by ID */
+
+app.get('/api/restockOrders/:id', async (req, res) => {
+    let id = req.params.id
+    if (isNaN(id)){
+        res.status(422).json("Unprocessable entity")
+    }
+    try {
+        const restockOrderById = await r.getStoredRestockOrderById(db, id);
+        res.status(200).json(restockOrderById);
+    } catch (err) {
+        if (err.message === "ID not found"){
+            res.status(404).end()
+        } else {
+            res.status(500).end();
+        }
     }
 });
 
@@ -101,27 +121,28 @@ app.delete('/api/position/:positionID', async (req, res) => {
     }
 });
 
-/* Position Update */
+/* RestockOrder state Update */
 
-app.put('/api/position/:positionID', async (req, res) => {
+app.put('/api/RestockOrder/:id', async (req, res) => {
 
-    let positionID = req.params.positionID;
-    let position = req.body;
+    let id = req.params.id;
+    let state = req.body;
 
     if (Object.keys(req.body).length === 0 ||
-    position === undefined || 
-    position.newAisleID === undefined || position.newAisleID.length !== 4 || !(/^\d+$/.test(position.newAisleID)) ||
-    position.newRow === undefined || position.newRow.length !== 4 || !(/^\d+$/.test(position.newRow)) ||
-    position.newCol === undefined || position.newCol.length !== 4 || !(/^\d+$/.test(position.newCol)) ||
-    position.newMaxWeight === undefined ||
-    position.newMaxVolume === undefined ||
-    position.newOccupiedWeight === undefined ||
-    position.newOccupiedVolume === undefined) {
+    isNaN(id) ||
+    state === undefined || 
+    (state.newState !== "ISSUED" &&
+    state.newState !== "DELIVERY" &&
+    state.newState !== "TESTED" &&
+    state.newState !== "COMPLETEDRETURN" &&
+    state.newState !== "COMPLETED" &&
+    state.newState !== "DELIVERED")
+    ){
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
 
     try {
-        await p.updatePosition(db, positionID, position);
+        await r.updateRestockOrderState(db, id, state);
         return res.status(200).end();
     }
     catch (err) {
@@ -133,22 +154,98 @@ app.put('/api/position/:positionID', async (req, res) => {
     }
 });
 
-/* positionID Update */
+/* Restockorder update: add skuitems to restockorder */
 
-app.put('/api/position/:positionID/changeID', async (req, res) => {
+app.put('/api/restockOrder/:id/skuItems', async (req, res) => {
 
-    let pID = req.params.positionID;
-    let newPositionID = req.body;
+    let id = req.params.id;
+    let skuitems = req.body;
+
+    if (Object.keys(req.body).length === 0) {
+        return res.status(422).json({error: 'Unprocessable entity'});
+    }
+    skuitems.skuItems.forEach( element => {
+        if (element.SKUId === undefined || element.rfid.length !== 32 || !(/^\d+$/.test(element.rfid))) {
+            return res.status(422).json({error: 'Unprocessable entity'});
+        }
+    }); 
 
     try {
-        await p.updatePositionID(db, pID, newPositionID);
+        await r.updateRestockOrderSkuItems(db, id, skuitems);
         return res.status(200).end();
     } catch (err) {
         if (err.message === "ID not found") {
             res.status(404).end()
+        } else if (err.message === "Not DELIVERED state"){
+            res.status(422).json({error: 'Unprocessable entity'});
         } else {
             res.status(503).end();
         }
     }
 });
 
+
+/* Restockorder update: add transportNote */
+
+app.put('/api/restockOrder/:id/transportNote', async (req, res) => {
+
+    let id = req.params.id;
+    let transportNote = req.body;
+
+    if (Object.keys(req.body).length === 0 ||
+    isNaN(id) ||
+    transportNote.transportNote === undefined ||
+    transportNote.transportNote.deliveryDate === undefined) {
+        return res.status(422).json({error: 'Unprocessable entity'});
+    }
+    try {
+        await r.updateRestockOrderTransportNote(db, id, transportNote);
+        return res.status(200).end();
+    } catch (err) {
+        if (err.message === "ID not found") {
+            res.status(404).end()
+        } else if (err.message === "Not DELIVERY state"){
+            res.status(422).json({error: 'Unprocessable entity'});
+        } else {
+            res.status(503).end();
+        }
+    }
+});
+
+
+/* RestockOrder Delete */
+
+app.delete('/api/restockOrder/:id', async (req, res) => {
+
+    let id = req.params.id
+
+    if (isNaN(id)){
+        res.status(422).end()
+    }
+
+    try {
+        await r.deleteRestockOrder(db, id);
+        res.status(204).end();
+    }
+    catch (err) {
+        if (err.message === "ID not found") {
+            res.status(422).end()
+        } else {
+            res.status(503).end()
+        }
+    }
+});
+
+
+
+app.delete('/api/restockOrder/emergenza', async (req, res) => {
+    try {
+        await r.dropTable(db);
+        res.status(200).end()
+        console.log("sono qui")
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).end()
+    }
+});
