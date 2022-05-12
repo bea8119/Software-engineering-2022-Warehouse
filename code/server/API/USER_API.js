@@ -118,6 +118,8 @@ app.put('/api/users/:username', async (req, res) => {
 
 /* SESSIONS */
 
+/* CUSTOMER SESSIONS */
+
 app.post('/api/customerSessions', async(req, res) => {
     let credentials = req.body;
     if (credentials.length === 0 ||
@@ -177,13 +179,85 @@ app.post('/api/managerSessions', async(req, res) => {
     }
     catch(err){
         if(err.message === "Wrong credentials"){
-            res.status(401).end()
+            res.status(401).end();
         }
         else {
             res.status(500).end();
         }
     }
 })
+
+
+/* CLERK SESSIONS */
+
+app.post('/api/clerkSessions', async(req, res) => {
+    let credentials = req.body;
+    if (credentials.length === 0 ||
+        credentials.username === undefined ||
+        credentials.password === undefined){
+        res.status(422).json("Undefined credentials")
+    }
+    try {
+        const user = await u.clerkSession(db, credentials);
+        res.status(200).json(user);
+    }
+    catch(err){
+        if(err.message === "Wrong credentials"){
+            res.status(401).end();
+        }
+        else {
+            res.status(500).end();
+        }
+    }
+})
+
+
+/* QUALITY EMPLOYEE SESSIONS */
+
+app.post('/api/qualityEmployeeSessions', async(req, res) => {
+    let credentials = req.body;
+    if (credentials.length === 0 ||
+        credentials.username === undefined ||
+        credentials.password === undefined){
+        res.status(422).json("Undefined credentials")
+    }
+    try {
+        const user = await u.qualityEmployeeSession(db, credentials);
+        res.status(200).json(user);
+    }
+    catch(err){
+        if(err.message === "Wrong credentials"){
+            res.status(401).end();
+        }
+        else {
+            res.status(500).end();
+        }
+    }
+})
+
+/* DELIVERY EMPLOYEE SESSIONS */
+
+app.post('/api/deliveryEmployeeSessions', async(req, res) => {
+    let credentials = req.body;
+    if (credentials.length === 0 ||
+        credentials.username === undefined ||
+        credentials.password === undefined){
+        res.status(422).json("Undefined credentials")
+    }
+    try {
+        const user = await u.deliveryEmployeeSession(db, credentials);
+        res.status(200).json(user);
+    }
+    catch(err){
+        if(err.message === "Wrong credentials"){
+            res.status(401).end();
+        }
+        else {
+            res.status(500).end();
+        }
+    }
+})
+
 
 
 /* Delete table */

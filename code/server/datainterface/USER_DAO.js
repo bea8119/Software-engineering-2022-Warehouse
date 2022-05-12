@@ -152,6 +152,7 @@ class USER_DAO {
 
     }
 
+    /* Sessions */
 
     /* Customer Session */
 
@@ -168,17 +169,18 @@ class USER_DAO {
                 }
                 else {
                     const userinfo =
-                        {
-                            id: r.id,
-                            username: r.username,
-                            name: r.name,
-                        }
-                        resolve(userinfo);
-                    };
+                    {
+                        id: r.id,
+                        username: r.username,
+                        name: r.name,
+                        surname: r.surname
+                    }
+                    resolve(userinfo);
+                };
 
-                })
             })
-        }
+        })
+    }
 
 
     /* Supplier Session */
@@ -196,42 +198,135 @@ class USER_DAO {
                 }
                 else {
                     const userinfo =
-                        {
-                            id: r.id,
-                            username: r.username,
-                            name: r.name,
-                        }
-                        resolve(userinfo);
-                    };
-
-                })
-            })
-        }
-
-        managerSession(db, data) {
-            return new Promise((resolve, reject) => {
-                const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
-                db.get(sql1, [data.username], (err, r) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    } else if (r.count === 0 || r.password !== data.password || r.type !== "manager") {
-                        reject(new Error('Wrong credentials'));
-                        return;
+                    {
+                        id: r.id,
+                        username: r.username,
+                        name: r.name,
+                        surname: r.surname
                     }
-                    else {
-                        const userinfo =
-                            {
-                                id: r.id,
-                                username: r.username,
-                                name: r.name,
-                            }
-                            resolve(userinfo);
-                        };
+                    resolve(userinfo);
+                };
+
+            })
+        })
+    }
+
+    /* Manager session*/
+
+    managerSession(db, data) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
+            db.get(sql1, [data.username], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else if (r.count === 0 || r.password !== data.password || r.type !== "manager") {
+                    reject(new Error('Wrong credentials'));
+                    return;
+                }
+                else {
+                    const userinfo =
+                    {
+                        id: r.id,
+                        username: r.username,
+                        name: r.name,
+                        surname: r.surname
+                    }
+                    resolve(userinfo);
+                };
+
+            })
+        })
+    }
+
+
+    /* Clerek session*/
+
+    clerkSession(db, data) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
+            db.get(sql1, [data.username], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else if (r.count === 0 || r.password !== data.password || r.type !== "clerk") {
+                    reject(new Error('Wrong credentials'));
+                    return;
+                }
+                else {
+                    const userinfo =
+                    {
+                        id: r.id,
+                        username: r.username,
+                        name: r.name,
+                        surname: r.surname
+                    }
+                    resolve(userinfo);
+                };
+
+            })
+        })
+    }
+
+
+    /* Quality Employee session*/
+
+    qualityEmployeeSession(db, data) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
+            db.get(sql1, [data.username], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else if (r.count === 0 || r.password !== data.password || r.type !== "qualityEmployee") {
+                    reject(new Error('Wrong credentials'));
+                    return;
+                }
+                else {
+                    const userinfo =
+                    {
+                        id: r.id,
+                        username: r.username,
+                        name: r.name,
+                        surname: r.surname
+                    }
+                    resolve(userinfo);
+                };
+
+            })
+        })
+    }
+
+
+    /* Delivery Employee session*/
+
+    deliveryEmployeeSession(db, data) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
+            db.get(sql1, [data.username], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else if (r.count === 0 || r.password !== data.password || r.type !== "deliveryEmployee") {
+                    reject(new Error('Wrong credentials'));
+                    return;
+                }
+                else {
+                    const userinfo =
+                    {
+                        id: r.id,
+                        username: r.username,
+                        name: r.name,
+                        surname: r.surname
+                    }
+                    resolve(userinfo);
+                };
+
+            })
+        })
+    }
+
     
-                    })
-                })
-            }
 
 
     dropTable(db) {
