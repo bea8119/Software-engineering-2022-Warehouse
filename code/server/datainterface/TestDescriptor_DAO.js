@@ -51,7 +51,7 @@ class TestDescriptor_DAO{
                         id: r.id,
                         name: r.name,
                         procedureDescription: r.procedureDescription,
-                        idSKU: r.idSKU
+                        idSKU: r.skuId
                         
                     }
                 ));
@@ -74,7 +74,7 @@ class TestDescriptor_DAO{
                         id: r.id,
                         name: r.name,
                         procedureDescription: r.procedureDescription,
-                        idSKU: r.idSKU
+                        idSKU: r.skuId
                     });
                 }
             });

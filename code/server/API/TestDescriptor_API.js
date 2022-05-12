@@ -97,13 +97,14 @@ app.put('/api/testDescriptor/:id', async (req, res) => {
     
 
     try {
-        await s.updateTestDescriptor(db, id, TD);
+        await t.updateTestDescriptor(db, id, TD);
         return res.status(200).end();
     }
     catch (err) {
         if (err.message === "ID not found") {
             res.status(404).end()
         } else {
+            
             res.status(503).end()
         }
     }

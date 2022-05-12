@@ -29,7 +29,7 @@ app.post('/api/sku', async (req, res) => {
 
     try {
         await s.newTableName(db);
-        await s.storeSKU(db, sku);
+        s.storeSKU(db, sku);
         return res.status(201).end();
     } 
 
@@ -129,7 +129,7 @@ app.get('/api/skus/:id', async (req, res) => {
 
 app.put('/api/sku/:id', async (req, res) => {
 
-    let id = req.params.id;
+    let id = req.params;
     let sku = req.body;
 
     if (Object.keys(req.body).length === 0 || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
@@ -147,6 +147,7 @@ app.put('/api/sku/:id', async (req, res) => {
          if (err.message === "Maximum position capacity exceeded") {
             res.status(422).json({error: 'Maximum position capacity exceeded'});
         } else {
+            console.log(err);
             res.status(503).json({error: 'Generic error'});
         }
     }
@@ -175,7 +176,8 @@ app.put('/api/sku/:id', async (req, res) => {
     
 
     try {
-        await s.updateSKUposition(db, id, position);
+        const oldSku = await s.getSKUbyID(db, id);
+        await s.updateSKUposition(db, oldSku, position);
         return res.status(200).end();
     }
     catch (err) {
