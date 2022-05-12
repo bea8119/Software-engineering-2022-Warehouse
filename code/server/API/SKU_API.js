@@ -50,27 +50,7 @@ app.get('/api/skus', async (req, res) => {
     }
 });
 
-/* SKU Get by ID */
 
-app.get('/api/skus/:id', async (req, res) => {
-
-    if (Object.keys(req.params).length === 0) {
-        return res.status(422).json({ error: 'Empty header request' });
-    }
-    let id = req.params;
-    if (id === undefined) {
-        return res.status(404).json({ error: 'Data not found' });
-    }
-        try{
-    const skuFound =await s.getSKUbyID(db, id);
-    return res.status(200).json(skuFound);
-        }  catch (err) {
-            res.status(500).end();
-        }
-
-}   
-
-);
 
 
 /* SKU Delete */

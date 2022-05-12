@@ -7,7 +7,6 @@ const db = server.db;
 
 /* Import SKUITEM_DAO datainterface */
 const SKUITEM_DAO = require('../datainterface/SKUITEM_DAO');
-const res = require("express/lib/response");
 const s = new SKUITEM_DAO();
 
 
@@ -15,7 +14,7 @@ const s = new SKUITEM_DAO();
 
 app.post('/api/skuitem', async (req, res) => {
 
-    let skuitem = req.body.skuitem;
+    let skuitem = req.body;
     if (Object.keys(req.body).length === 0 ||
         skuitem === undefined ||
         /* RFID must be 32 DIGITS long */
@@ -23,19 +22,16 @@ app.post('/api/skuitem', async (req, res) => {
         skuitem.SKUId === undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
-    console.log("ho superato il check della validità dei dati")
     if (skuitem.DateOfStock === undefined || skuitem.DateOfStock === "") {
         skuitem.DateOfStock = "YYYY/MM/DD HH:MM";
     }
     try {
-        console.log("sono nel try e faccio partire le funzioni")
         await s.newTableName(db);
         s.storeSKUItem(db, skuitem);
         return res.status(201).end();
     }
 
     catch (err) {
-        console.log("messaggio di errore"+err.message)
         if (err.message === "ID not found") {
             res.status(404).end()
         } else {
@@ -92,7 +88,7 @@ app.get('/api/skuitems/:rfid', async (req, res) => {
         res.status(200).json(skuitems);
     }
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(404).end()
         } else {
             res.status(500).end()
@@ -112,7 +108,7 @@ app.delete('/api/skuitems/:rfid', async (req, res) => {
         res.status(204).end();
     }
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(422).end()
         } else {
             res.status(503).end()
@@ -125,7 +121,7 @@ app.delete('/api/skuitems/:rfid', async (req, res) => {
 app.put('/api/skuitems/:rfid', async (req, res) => {
 
     let rfid = req.params.rfid;
-    let skuitem = req.body.skuitem;
+    let skuitem = req.body;
 
     if (Object.keys(req.body).length === 0 ||
         skuitem === undefined ||
@@ -144,7 +140,7 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
         return res.status(200).end();
     }
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(404).end()
         } else {
             res.status(503).end()

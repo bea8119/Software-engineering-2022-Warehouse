@@ -40,7 +40,14 @@ class SKUITEM_DAO {
                             reject(err);
                             return;
                         }
-                        resolve();
+                        const sql3 = 'UPDATE SKU SET availableQuantity = availableQuantity+1 WHERE id = ?'
+                        db.run(sql3, [data.SKUId], (err) => {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+                            resolve();
+                        })
                     });
                 }
             });
@@ -85,8 +92,8 @@ class SKUITEM_DAO {
                     reject(new Error('ID not found'))
                 }
                 else {
-                    const sql = 'SELECT * FROM SKUITEM WHERE SKUId = ? AND Available = 1';
-                    db.all(sql, [id], (err, rows) => {
+                    const sql2 = 'SELECT * FROM SKUITEM WHERE SKUId = ? AND Available = 1';
+                    db.all(sql2, [id], (err, rows) => {
                         if (err) {
                             reject(err);
                             return;
@@ -174,7 +181,7 @@ class SKUITEM_DAO {
 
     deleteSKUItem(db, id) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?';
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM SKUITEM WHERE RFID = ?';
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
@@ -190,7 +197,14 @@ class SKUITEM_DAO {
                             reject(err);
                             return;
                         }
-                        resolve();
+                        const sql3 = 'UPDATE SKU SET availableQuantity = availableQuantity-1 WHERE id = ?'
+                        db.run(sql3, [r.SKUId], (err) => {
+                            if (err) {
+                                reject(err)
+                                return;
+                            }
+                            resolve();
+                        })
                     });
 
                 }

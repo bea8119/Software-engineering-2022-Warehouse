@@ -8,13 +8,11 @@ class SKU_DAO {
 
     /* -- Interface methods -- */
 
-    dropTable() {
-
-    }
+    
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU(id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(20), weight INTEGER, volume INTEGER, notes VARCHAR(20), position VARCHAR(20), availableQuantity INTEGER, price REAL, testDescriptor INTEGER, FOREIGN KEY(position) REFERENCES POSITION(positionID))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU(id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(20), weight INTEGER, volume INTEGER, notes VARCHAR(20), position VARCHAR(20), availableQuantity INTEGER, price REAL)';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -27,12 +25,12 @@ class SKU_DAO {
     }
 
 
-    // I NEED TO MANAGE POSITION UPDATE OF VOL AND WEIGHT !!
     storeSKU(db, data) {
 
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO SKU (id,  description, weight, volume, notes, position, availableQuantity, price, testDescriptor) VALUES (?, ?, ?, ? ,? ,? ,?, ?, ?)';
-            db.run(sql, [data.id, data.description, data.weight, data.volume, data.notes, null, data.availableQuantity, data.price, []], (err) => {
+
+            const sql = 'INSERT INTO SKU (id,  description, weight, volume, notes, position, availableQuantity, price) VALUES (?, ?, ?, ? ,? ,? ,?, ?)';
+            db.run(sql, [data.id, data.description, data.weight, data.volume, data.notes, null, data.availableQuantity, data.price], (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -49,7 +47,7 @@ class SKU_DAO {
                 if (err)
                     reject(err);
                 else if (r.count === 0) {
-                    resolve(0)
+                    resolve(0);
                 }
                 else {
                     resolve(1);
@@ -77,11 +75,23 @@ class SKU_DAO {
     getStoredSKU(db) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU';
+            
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
                     return;
                 }
+                /*const sql2= 'SELECT id, COUNT(*) AS count FROM TESTDESCRIPTOR WHERE skuId = ?';
+                db.get(sql2, [], (err, r) => { 
+                    if(err){
+                        reject(err);
+                    return;
+                      }
+                      if(count > 0){
+                          const testdesc= r.map((t) => ({testDescriptor: t.id}));
+                      }
+
+                }); */
                 const skus = rows.map((r) => (
                     {
                         id: r.id,
@@ -92,7 +102,7 @@ class SKU_DAO {
                         position: r.position,
                         availableQuantity: r.availableQuantity,
                         price: r.price,
-                        testDescriptors: r.testDescriptor
+                    
                     }
                 ));
                 resolve(skus);
@@ -102,23 +112,24 @@ class SKU_DAO {
 
     getSKUbyID(db, id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count, * FROM SKU WHERE id = ?'
+            const sql = 'SELECT * FROM SKU WHERE id = ?';
             db.get(sql, [id], (err, r) => {
-                if (err)
+                if (err){
                     reject(err);
-                else if (r.count === 0) {
-                    resolve(undefined)
+                    return;
                 }
                 else {
-                    resolve({
+                    const sku= {
                         id: r.id,
                         description: r.description,
                         weight: r.weight,
                         volume: r.volume,
                         notes: r.notes,
+                        position: r.position,
                         availableQuantity: r.availableQuantity,
                         price: r.price
-                    });
+                    };
+                    resolve(sku);
                 }
             });
         });
@@ -159,30 +170,33 @@ class SKU_DAO {
     // NEED TO REMOVE THE OLD WEIGHT FROM POSITION AND PUT NEW ONE
     updateSKU(db, id, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT * FROM SKU WHERE id = ?'
+            const sql1 = 'SELECT * FROM SKU WHERE id = ?';
+            const sql2 = 'UPDATE SKU SET description = ?, weight = ?, volume= ?, notes= ?  availableQuantity = ?, price= ? WHERE id = ?';
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }  else {
-                    let position = r.position
-                    const sql3 = 'SELECT maxWeight, maxVolume, occupiedWeight, occupiedVolume FROM POSITION WHERE id = ?'
-                    db.get(sql3, [position], (err, p) => {
+                    if(r.position !== null){
+                    let posit = r.position;
+                    const sql3 = 'SELECT maxWeight, maxVolume, occupiedWeight, occupiedVolume FROM POSITION WHERE id = ?';
+                    db.get(sql3, [posit], (err, p) => {
                         if (err) {
                             reject(err);
                             return;
                         } else if ((data.newWeight * data.newAvailableQuantity + p.occupiedWeight - r.weight*r.availableQuantity) > p.maxWeight || (data.newVolume * data.newAvailableQuantity + p.occupiedVolume - r.volume*r.availableQuantity) > p.maxVolume) {
-                            reject(new Error("Maximum position capacity exceeded"))
+                            reject(new Error("Maximum position capacity exceeded"));
                             return;
                         } else {
-                            const sql4 = 'UPDATE POSITION SET occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?'
-                            db.run(sql4, [(p.occupiedWeight + data.newWeight * data.newAvailableQuantity - r.weight*r.availableQuantity), (p.occupiedVolume + data.newVolume * data.newAvailableQuantity - r.volume*r.availableQuantity), position], (err) => {
+                            const sql4 = 'UPDATE POSITION SET occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
+                            db.run(sql4, [(p.occupiedWeight + data.newWeight * data.newAvailableQuantity - r.weight*r.availableQuantity), (p.occupiedVolume + data.newVolume * data.newAvailableQuantity - r.volume*r.availableQuantity), posit], (err) => {
                                 if (err) {
                                     reject(err);
                                     return;
                                 }
                             });
-                            const sql2 = 'UPDATE SKU SET description = ?, weight = ?, volume= ?, notes= ?  availableQuantity = ?, price= ? WHERE id = ?';
+                            
+                           // const sql2 = 'UPDATE SKU SET description = ?, weight = ?, volume= ?, notes= ?  availableQuantity = ?, price= ? WHERE id = ?';
                             db.run(sql2, [data.newDescription, data.newWeight, data.newVolume, data.newAvailableQuantity, data.newPrice, id], (err) => {
                                 if (err) {
                                     reject(err);
@@ -193,7 +207,19 @@ class SKU_DAO {
                         };
                     });
                 }
-            })
+                else{
+                    
+                            db.run(sql2, [data.newDescription, data.newWeight, data.newVolume, data.newAvailableQuantity, data.newPrice, id], (err) => {
+                                if (err) {
+                                    reject(err);
+                                    return;
+                                }
+                                resolve();
+                            });
+
+                }
+            }
+            });
         });
     }
 
@@ -206,21 +232,26 @@ class SKU_DAO {
 6. update sku con la nuova posizione*/
 
     updateSKUposition(db, id, pos) {
+        let posit=pos.position;
         const oldSku = this.getSKUbyID(db, id);
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM POSITION WHERE positionID = ?';
             const sql1 = 'UPDATE POSITION SET  occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
-            db.get(sql, [pos], (err, p) => {
+            db.get(sql, [posit], (err, p) => {
+                console.log(p.occupiedWeight);
+                console.log(oldSku.weight);
+               
                 if ((oldSku.weight * oldSku.availableQuantity + p.occupiedWeight) > p.maxWeight || (oldSku.volume * oldSku.availableQuantity + p.occupiedVolume) > p.maxVolume) {
                     reject(new Error("Maximum position capacity exceeded"));
                     return;
                 }
+
                 if (err) {
                     reject(err);
                     return;
                 } else {
 
-                    db.run(sql1, [(p.occupiedWeight + oldSku.weight * oldSku.availableQuantity), (p.occupiedVolume + oldSku.volume * oldSku.availableQuantity), pos], (err) => {
+                    db.run(sql1, [(p.occupiedWeight + oldSku.weight*oldSku.availableQuantity), (p.occupiedVolume + oldSku.volume * oldSku.availableQuantity), posit], (err) => {
                         if (err) {
                             reject(err);
                             return;
@@ -231,13 +262,13 @@ class SKU_DAO {
                 }
 
             });
-
+            if(oldSku.position !== null){
             db.get(sql, [oldSku.position], (err, p) => {
                 if (err) {
                     reject(err);
                     return;
                 } else {
-                    db.run(sql1, [(p.occupiedWeight - oldSku.weight * oldSku.availableQuantity), (p.occupiedVolume - oldSku.volume * oldSku.availableQuantity), pos], (err) => {
+                    db.run(sql1, [(p.occupiedWeight - oldSku.weight * oldSku.availableQuantity), (p.occupiedVolume - oldSku.volume * oldSku.availableQuantity), oldSku.position], (err) => {
                         if (err) {
                             reject(err);
                             return;
@@ -246,9 +277,9 @@ class SKU_DAO {
 
 
                 }
-            });
+            }); }
             const sql2 = 'UPDATE SKU SET position = ? WHERE id = ?';
-            db.run(sql2, [pos, id], (err) => {
+            db.run(sql2, [posit, id], (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -265,29 +296,6 @@ class SKU_DAO {
     }
 
    
-/* Update position Occupied weight and volume */
-    updatePositionWV(db, id, data) {
-        return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*), occupiedWeight, occupiedVolume AS count FROM POSITION WHERE positionID = ?'
-            db.get(sql1, [id], (err, r) => {
-                if (err) {
-                    reject(err)
-                    return;
-                } else if (r.count === 0) {
-                    reject(new Error('Position ID not found'))
-                } else {
-                    const sql2 = 'UPDATE POSITION SET  occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
-                    db.run(sql2, [ (r.occupiedWeight + data.weight*data.availableQuantity), (r.occupiedVolume + data.volume*data.availableQuantity), id], (err) => {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        resolve();
-                    });
-                }
-            })
-        });
-    }
 
 
     dropTable(db) {

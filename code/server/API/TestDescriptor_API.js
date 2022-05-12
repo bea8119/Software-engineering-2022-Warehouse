@@ -10,7 +10,7 @@ const t =  new TestDescriptor_DAO();
 
 app.post('/api/testDescriptor', async (req, res) => {
 
-    let TD = req.body.TestDescriptor;
+    let TD = req.body;
 
     if (Object.keys(req.body).length === 0 || TD === undefined || TD.name === undefined || TD.procedureDescription === undefined || TD.idSKU === undefined ) {
         return res.status(422).json({ error: 'Invalid TestDescriptor data' });
@@ -89,7 +89,7 @@ app.delete('/api/testDescriptor/:id', async (req, res) => {
 app.put('/api/testDescriptor/:id', async (req, res) => {
 
     let id = req.params.id;
-    let TD = req.body.TestDescriptor;
+    let TD = req.body;
 
     if (Object.keys(req.body).length === 0 || TD === undefined || TD.newName === undefined || TD.newProcedureDescription === undefined || TD.newIdSKU === undefined ) {
         return res.status(422).json({ error: 'Unprocessable entity' });

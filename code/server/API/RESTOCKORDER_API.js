@@ -5,29 +5,25 @@ const server = require("../server");
 const app = server.app;
 const db = server.db;
 
-/* Import POSITION_DAO datainterface */
-const POSITION_DAO = require('../datainterface/POSITION_DAO');
-const res = require("express/lib/response");
-const p = new POSITION_DAO();
+/* Import RESTOCKORDER_DAO datainterface */
+const RESTOCKORDER_DAO = require('../datainterface/RESTOCKORDER_DAO');
+const r = new RESTOCKORDER_DAO();
 
+/* RestockOrder Post */
 
-/* Position Post */
+app.post('/api/restockOrder', async (req, res) => {
 
-app.post('/api/position', async (req, res) => {
-
-    let position = req.body;
+    let restockOrder = req.body;
     if (Object.keys(req.body).length === 0 ||
-        position === undefined || position.positionID === undefined || position.positionID !== position.aisleID + position.row + position.col ||
-        position.aisleID === undefined || position.aisleID.length !== 4 || !(/^\d+$/.test(position.aisleID)) ||
-        position.row === undefined || position.row.length !== 4 || !(/^\d+$/.test(position.row)) ||
-        position.col === undefined || position.col.length !== 4 || !(/^\d+$/.test(position.col)) ||
-        position.maxWeight === undefined ||
-        position.maxVolume === undefined) {
+        restockOrder === undefined ||
+        restockOrder.issueDate === undefined ||
+        restockOrder.products === undefined || 
+        restockOrder.supplierId === undefined){
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     try {
-        await p.newTableName(db);
-        p.storePosition(db, position);
+        await r.newTableName(db);
+        r.storeRestockOrder(db, restockOrder);
         return res.status(201).end();
     }
 
@@ -37,17 +33,54 @@ app.post('/api/position', async (req, res) => {
 });
 
 
-/* Position Get */
+/* RestockOrder Get */
 
-app.get('/api/positions', async (req, res) => {
+app.get('/api/restockOrders', async (req, res) => {
     try {
-        const positionList = await p.getStoredPosition(db);
-        res.status(200).json(positionList);
+        const restockOrders = await r.getStoredRestockOrder(db);
+        res.status(200).json(restockOrders);
     } catch (err) {
         res.status(500).end();
     }
 });
 
+
+/* RestockOrder where state = "ISSUED" Get */
+
+app.get('/api/restockOrdersIssued', async (req, res) => {
+    try {
+        const restockOrdersIssued = await r.getStoredRestockOrderIssued(db);
+        res.status(200).json(restockOrdersIssued);
+    } catch (err) {
+        res.status(500).end();
+    }
+});
+
+/* ---- API DI CONTROLLO (NON RICHIESTE): ---- */
+
+/* visione restockorder table */
+
+app.get('/api/prova1', async (req, res) => {
+    try {
+        const prova1 = await r.restockorder(db);
+        res.status(200).json(prova1);
+    } catch (err) {
+        res.status(500).end();
+    }
+});
+
+/* visione restockorder_item table */
+
+app.get('/api/prova2', async (req, res) => {
+    try {
+        const prova2 = await r.restockorder_item(db);
+        res.status(200).json(prova2);
+    } catch (err) {
+        res.status(500).end();
+    }
+});
+
+/* ------------------------------------------- */
 
 /* Position Delete */
 
