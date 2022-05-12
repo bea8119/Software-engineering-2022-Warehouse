@@ -34,6 +34,7 @@ app.post('/api/sku', async (req, res) => {
     } 
 
     catch (err) {
+        console.log(err);
         res.status(503).end();
     }
 });
@@ -57,7 +58,7 @@ app.get('/api/skus', async (req, res) => {
 
 app.delete('/api/skus', (req, res) => {
     try {
-        db.dropTable();
+        s.dropTable(db);
         res.status(204).end();
     }
     catch (err) {
@@ -67,7 +68,12 @@ app.delete('/api/skus', (req, res) => {
 
 app.delete('/api/skus/:id', async (req, res) => {
 
-    let id = req.params;
+    if (Object.keys(req.params).length === 0) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
+
+    let id = req.params.id;
+
 
     if (id === undefined) {
         res.status(422).json("Unprocessable entity")
@@ -123,7 +129,7 @@ app.get('/api/skus/:id', async (req, res) => {
 
 app.put('/api/sku/:id', async (req, res) => {
 
-    let id = req.params;
+    let id = req.params.id;
     let sku = req.body;
 
     if (Object.keys(req.body).length === 0 || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
@@ -147,16 +153,18 @@ app.put('/api/sku/:id', async (req, res) => {
 });
 
 /* Update position by id
+
 */
  ///NEEDS TO GO TO POSITION AND UPDATE STUFF THERE ALSO
  app.put('/api/sku/:id/position' , async (req, res) => {
 
-    let id = req.params;
+    let id = req.params.id;
     let position = req.body;
 
     if (Object.keys(req.body).length === 0 || position === undefined  ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
+
     if (s.findSKUbyID(db, id) === 0) { // check sku id existence
         return res.status(404).json({error: 'Sku ID not found in database'});
     }

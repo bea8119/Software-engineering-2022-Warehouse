@@ -24,6 +24,7 @@ class POSITION_DAO {
 
     storePosition(db, data) {
         return new Promise((resolve, reject) => {
+           
             const sql = 'INSERT INTO POSITION (positionID,  aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?, ?, ?, ? ,? ,? ,?, ?)';
             db.run(sql, [data.positionID, data.aisleID, data.row, data.col, data.maxWeight, data.maxVolume, 0, 0], (err) => {
                 if (err) {
@@ -69,7 +70,7 @@ class POSITION_DAO {
                 if (err)
                     reject(err);
                 else if (r.count === 0) {
-                    resolve(undefined)
+                    resolve(undefined);
                 }
                 else {
                     resolve({

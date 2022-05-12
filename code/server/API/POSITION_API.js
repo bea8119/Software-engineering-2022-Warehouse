@@ -32,6 +32,9 @@ app.post('/api/position', async (req, res) => {
     }
 
     catch (err) {
+        if(err.message === "Position code already existing"){
+            res.status(422).end();
+        }
         res.status(503).end();
     }
 });
