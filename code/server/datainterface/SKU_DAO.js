@@ -222,12 +222,6 @@ class SKU_DAO {
     }
 
     //update SKU position
-    /* 1. check se l'id sku esiste (secondo me creiamo una funzione per questo check in ogni classe perchè ci torna utile)
-2. check se position id passato esiste
-3. check se pos max weight e max vol son abbastanza per mettere l' sku nella nuova posizione
-4. prendere la posizione vecchia e rimuovere sku weight e volume occupati
-5. prendere posizione nuova e aggiungere sku weight and volume occupati
-6. update sku con la nuova posizione*/
 
     updateSKUposition(db, id, pos) {
         let posit=pos.position;
