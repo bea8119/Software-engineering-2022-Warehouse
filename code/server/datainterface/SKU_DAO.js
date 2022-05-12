@@ -117,14 +117,14 @@ class SKU_DAO {
                     return;
                 }
                 else {
-                    const sql1='SELECT id FROM testDescriptor';
-                    db.all(sql1, (err, t)=>{
+                    const sql1='SELECT id FROM testDescriptor  WHERE skuId = ?';
+                    db.all(sql1, [id],  (err, testDescriptors)=>{
 
                         if (err){
                             reject(err);
                             return;
                         }
-                            const testdesc= (t.filter(i => i.skuId === id).map(i => i.id));
+                            
                         const sku= {
                                 id: r.id,
                                 description: r.description,
@@ -134,7 +134,7 @@ class SKU_DAO {
                                 position: r.position,
                                 availableQuantity: r.availableQuantity,
                                 price: r.price,
-                                testDescriptors: testdesc
+                                testDescriptors: [testDescriptors.forEach((testDescriptor) => testDescriptor.id)]
                             };
 
                             resolve(sku);
