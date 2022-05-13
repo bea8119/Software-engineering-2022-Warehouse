@@ -64,10 +64,10 @@ class TESTRESULT_DAO {
         });
     }
     //Not working
-    getTestResultsArraybySkuitemRfid(db, data) {
+    getTestResultsArraybySkuitemRfid(db, rfid) {
     return new Promise((resolve, reject) => {
-        const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
-        db.get(sql1, [data], (err, r) => {
+        const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
+        db.get(sql1, [rfid], (err, r) => {
             if (err) {
                 reject(err);
                 return;
@@ -78,7 +78,7 @@ class TESTRESULT_DAO {
             }
             else {
                 const sql2 = 'SELECT * FROM TESTRESULT WHERE rfid = ?';
-                db.all(sql2, [data], (err, rows) => {
+                db.all(sql2, [rfid], (err, rows) => {
                     if (err) {
                         reject(err);
                         return;
@@ -97,13 +97,11 @@ class TESTRESULT_DAO {
         });
     });
 }
-//Not working
-getTestResultsArraybySkuitemRfid(db, rfid, id) {
+
+//Good
+getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
     return new Promise((resolve, reject) => {
-        console.log(rfid)
-        console.log(id)
-        console.log("IM HERE")
-        const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
+        const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
         db.get(sql1, [rfid], (err, r) => {
             if (err) {
                 reject(err);
@@ -114,19 +112,19 @@ getTestResultsArraybySkuitemRfid(db, rfid, id) {
                 return;
             }
             else {
-                const sql3 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?'
-                db.get(sql3, [id], (err, r2) => {
+                const sql3 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE id = ?'
+                db.get(sql3, [id], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                else if (r2.count === 0) {
+                else if (r.count === 0) {
                     reject(new Error("ID not found"));
                     return;
                 }
                 else {
                     //Nested selects
-                    const sql2 = 'SELECT * FROM TESTRESULT WHERE rfid = ? AND idTestDescriptor = ?';
+                    const sql2 = 'SELECT * FROM TESTRESULT WHERE rfid = ? AND id = ?';
                     db.all(sql2, [rfid, id], (err, rows) => {
                         if (err) {
                             reject(err);

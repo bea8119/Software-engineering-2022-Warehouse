@@ -49,7 +49,7 @@ app.get('api/skuitems/:rfid/testResults', async (req, res) => {
     }
     try {
         const testResults = await tr.getTestResultsArraybySkuitemRfid(db, rfid);
-        res.status(200).json(testResults);
+        return res.status(200).json(testResults);
     } 
     catch (err) {
         if (err.message === "ID not found") {
@@ -62,15 +62,15 @@ app.get('api/skuitems/:rfid/testResults', async (req, res) => {
 
 /* testResult by id and by SkuItemRfid Get */
 app.get('/api/skuitems/:rfid/testResults/:id', async (req, res) => {
-    let rfidskuitem = req.params.rfid;
-    let idTestDescriptor = req.params.id;
+    let rfid = req.params.rfid;
+    let id = req.params.id;
     //Test id
-    if ((rfidskuitem.length !== 32) || !(/^\d+$/.test(rfidskuitem))) {
+    if ((rfid.length !== 32) || !(/^\d+$/.test(rfid))) {
         res.status(422).json("Unprocessable entity");
     }
     try {
         console.log("HOLI")
-        const testResults = await tr.getTestResultArraybyidandbySkuitemRfid(db, rfidskuitem, idTestDescriptor);
+        const testResults = await tr.getTestResultArraybyidandbySkuitemRfid(db, rfid, id);
         res.status(200).json(testResults);
     } catch (err) {
         if (err.message === "ID not found") {
