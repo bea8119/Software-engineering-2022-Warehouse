@@ -116,7 +116,11 @@ app.get('/api/skus/:id', async (req, res) => {
         return res.status(200).json(skuFound);
 
     } catch (err) {
-        res.status(500).end();
+        if (err.message === "ID not found"){
+            res.status(404).end()
+        } else {
+            res.status(500).end();
+        }
     }
 }
 );
@@ -129,7 +133,7 @@ app.get('/api/skus/:id', async (req, res) => {
 
 app.put('/api/sku/:id', async (req, res) => {
 
-    let id = req.params;
+    let id = req.params.id;
     let sku = req.body;
 
     if (Object.keys(req.body).length === 0 || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
