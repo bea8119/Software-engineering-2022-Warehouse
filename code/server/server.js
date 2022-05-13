@@ -34,4 +34,5 @@ require('./API/InternalOrder_API');
 require('./API/RESTOCKORDER_API');
 require('./API/USER_API');
 require('./API/ReturnOrder_API');
+require('./API/TESTRESULT_API');
 

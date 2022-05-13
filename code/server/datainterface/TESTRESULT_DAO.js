@@ -11,10 +11,10 @@ class TESTRESULT_DAO {
     dropTable() {
 
     }
-
+//Good
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TESTRESULT(id INTEGER PRIMARY KEY AUTOINCREMENT, rfid INTEGER, FOREIGN KEY (rfid) REFERENCES SKUITEM(RFID), idTestDescriptor INTEGER, FOREIGN KEY (idTestDescriptor) REFERENCES testDescriptor(id), Date VARCHAR(20), Result BIT)';
+            const sql = 'CREATE TABLE IF NOT EXISTS TESTRESULT(id INTEGER PRIMARY KEY AUTOINCREMENT, rfid VARCHAR(32), idTestDescriptor INTEGER, Date VARCHAR(20), Result INTEGER, FOREIGN KEY (rfid) REFERENCES SKUITEM(RFID), FOREIGN KEY (idTestDescriptor) REFERENCES testDescriptor(id))';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -27,7 +27,7 @@ class TESTRESULT_DAO {
     }
 
     /* Post TestResult */
-
+//Good
     storeTestResult(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
@@ -63,10 +63,10 @@ class TESTRESULT_DAO {
             });
         });
     }
-
-    getTestResultsArraybySkuitemRfid(db, rfid) {
+    //Not working
+    getTestResultsArraybySkuitemRfid(db, data) {
     return new Promise((resolve, reject) => {
-        const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
+        const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
         db.get(sql1, [data], (err, r) => {
             if (err) {
                 reject(err);
@@ -97,11 +97,14 @@ class TESTRESULT_DAO {
         });
     });
 }
-
-getTestResultsArraybySkuitemRfid(db, id, rfid) {
+//Not working
+getTestResultsArraybySkuitemRfid(db, rfid, id) {
     return new Promise((resolve, reject) => {
-        const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
-        db.get(sql1, [data], (err, r) => {
+        console.log(rfid)
+        console.log(id)
+        console.log("IM HERE")
+        const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
+        db.get(sql1, [rfid], (err, r) => {
             if (err) {
                 reject(err);
                 return;
@@ -111,20 +114,20 @@ getTestResultsArraybySkuitemRfid(db, id, rfid) {
                 return;
             }
             else {
-                const sql3 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE id = ?'
-                db.get(sql3, [data], (err, r) => {
+                const sql3 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?'
+                db.get(sql3, [id], (err, r2) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                else if (r.count === 0) {
+                else if (r2.count === 0) {
                     reject(new Error("ID not found"));
                     return;
                 }
                 else {
                     //Nested selects
-                    const sql2 = 'SELECT * FROM (SELECT * FROM TESTRESULT WHERE rfid = ?) WHERE id = ?';
-                    db.all(sql2, [data], (err, rows) => {
+                    const sql2 = 'SELECT * FROM TESTRESULT WHERE rfid = ? AND idTestDescriptor = ?';
+                    db.all(sql2, [rfid, id], (err, rows) => {
                         if (err) {
                             reject(err);
                             return;
@@ -147,8 +150,8 @@ getTestResultsArraybySkuitemRfid(db, id, rfid) {
 }
 
  /* Delete TestResult by ID */
-
- deleteTestResult(db, id, rfid) {
+//Good
+ deleteTestResult(db, rfid, id) {
     return new Promise((resolve, reject) => {
         const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?';
         db.get(sql1, [rfid], (err, r) => {
@@ -170,7 +173,7 @@ getTestResultsArraybySkuitemRfid(db, id, rfid) {
                         reject(new Error('ID not found'))
                     }
                     else {
-                        const sql2 = 'DELETE FROM (SELECT * FROM TESTRESULT WHERE rfid = ?) WHERE id = ?';
+                        const sql2 = 'DELETE FROM TESTRESULT WHERE rfid = ? AND id = ?';
                         db.run(sql2, [rfid, id], (err) => {
                             if (err) {
                                 reject(err);
@@ -189,7 +192,7 @@ getTestResultsArraybySkuitemRfid(db, id, rfid) {
 
  updateTestResult(db, id, rfid, data) {
     return new Promise((resolve, reject) => {
-        const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE newIdTestDescriptor = ?';
+        const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?';
         db.get(sql1, [data.newIdTestDescriptor], (err, r) => {
             if (err) {
                 reject(err)
@@ -199,8 +202,8 @@ getTestResultsArraybySkuitemRfid(db, id, rfid) {
                 reject(new Error('ID not found'))
             }
             else {
-                const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?';
-                db.get(sql1, [rfid], (err, r) => {
+                const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?';
+                db.get(sql2, [rfid], (err, r) => {
                     if (err) {
                         reject(err)
                         return;
@@ -219,8 +222,8 @@ getTestResultsArraybySkuitemRfid(db, id, rfid) {
                                 reject(new Error('ID not found'))
                             }
                             else {
-                                const sql2 = 'UPDATE TESTRESULT SET newIdTestDescriptor = ?,  newDate = ?, newResult = ? WHERE (rfid = ? AND id = ?)';
-                                db.run(sql2, [data.newIdTestDescriptor, data.newDate, data.newResult, rfid, id], (err) => {
+                                const sql4 = 'UPDATE TESTRESULT SET newIdTestDescriptor = ?,  newDate = ?, newResult = ? WHERE (rfid = ? AND id = ?)';
+                                db.run(sql4, [data.newIdTestDescriptor, data.newDate, data.newResult, rfid, id], (err) => {
                                     if (err) {
                                         reject(err);
                                         return;
