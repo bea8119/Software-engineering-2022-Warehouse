@@ -1,12 +1,12 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import SKU_DAO datainterface */
-const SKU_DAO = require('../datainterface/SKU_DAO');
+const SKU_DAO = require('../../datainterface/INTERNAL/SKU_DAO');
 const s =  new SKU_DAO();
 
 const res = require("express/lib/response");

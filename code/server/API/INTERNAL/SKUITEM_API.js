@@ -1,12 +1,12 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import SKUITEM_DAO datainterface */
-const SKUITEM_DAO = require('../datainterface/SKUITEM_DAO');
+const SKUITEM_DAO = require('../../datainterface/INTERNAL/SKUITEM_DAO');
 const s = new SKUITEM_DAO();
 
 
@@ -27,7 +27,7 @@ app.post('/api/skuitem', async (req, res) => {
     }
     try {
         await s.newTableName(db);
-        s.storeSKUItem(db, skuitem);
+        await s.storeSKUItem(db, skuitem);
         return res.status(201).end();
     }
 

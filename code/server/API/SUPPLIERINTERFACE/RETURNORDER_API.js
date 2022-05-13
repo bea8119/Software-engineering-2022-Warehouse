@@ -1,11 +1,11 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
-const ReturnOrder_DAO = require('../datainterface/ReturnOrder_DAO');
+const ReturnOrder_DAO = require('../../datainterface/SUPPLIERINTERFACE/RETURNORDER_DAO');
 const r = new ReturnOrder_DAO();
 
 app.post('/api/returnOrder', async (req, res) => {

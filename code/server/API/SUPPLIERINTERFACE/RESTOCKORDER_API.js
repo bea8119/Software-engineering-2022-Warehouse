@@ -1,12 +1,12 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import RESTOCKORDER_DAO datainterface */
-const RESTOCKORDER_DAO = require('../datainterface/RESTOCKORDER_DAO');
+const RESTOCKORDER_DAO = require('../../datainterface/SUPPLIERINTERFACE/RESTOCKORDER_DAO');
 const r = new RESTOCKORDER_DAO();
 
 /* RestockOrder Post */

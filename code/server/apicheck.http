@@ -1,0 +1,82 @@
+# TestResults 
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789662/testResults
+###
+GET http://localhost:3001/api/skuitems/12395678901234567890123456789662/testResults/9
+###
+POST http://localhost:3001/api/skuitems/testResult
+Content-Type: application/json
+
+{
+    "rfid":"1234567890123456789012345689662",
+    "idTestDescriptor":4,
+    "Date":"2021/11/28",
+    "Result": true
+}
+
+###
+PUT http://localhost:3001/api/skuitems/12345678901234567890123456789662/testResult/9
+Content-Type: application/json
+
+{
+    "newIdTestDescriptor":4,
+    "newDate":"2021/11/28",
+    "newResult": false
+}
+
+################################################################## 
+
+#testDescriptor
+
+GET http://localhost:3001/api/testDescriptors
+###
+GET http://localhost:3001/api/testDescriptors/2
+### MANCANO I CONTROLLI
+POST http://localhost:3001/api/testDescriptor
+Content-Type: application/json
+
+{
+    "name":"test descriptor 3",
+    "procedureDescription":"This test is described by...",
+    "idSKU":100
+}
+
+### MANCANO I CONTROLLI 
+PUT http://localhost:3001/api/testDescriptor/2
+Content-Type: application/json
+
+{
+    "newName":"modified",
+    "newProcedureDescription":"This test is described by...",
+    "newIdSKU" :779
+}
+
+
+
+##################################################################
+#skuitems
+
+GET http://localhost:3001/api/skuitems
+###
+GET http://localhost:3001/api/skuitems/sku/1
+###
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789662
+###
+POST http://localhost:3001/api/skuitem
+Content-Type: application/json
+
+{
+    "RFID":"12345678901234567890123456789015",
+    "SKUId":141,
+    "DateOfStock":"2021/11/29 12:30"
+}
+
+###
+PUT http://localhost:3001/api/skuitems/12345678901234567890123456789661
+Content-Type: application/json
+
+{
+    "newRFID":"12345678901234567890123456789662",
+    "newAvailable":1,
+    "newDateOfStock":"2021/11/29 12:30"
+}
+

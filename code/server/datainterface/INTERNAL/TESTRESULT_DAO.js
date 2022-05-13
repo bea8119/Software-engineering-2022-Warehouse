@@ -11,7 +11,7 @@ class TESTRESULT_DAO {
     dropTable() {
 
     }
-//Good
+
     newTableName(db) {
         return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS TESTRESULT(id INTEGER PRIMARY KEY AUTOINCREMENT, rfid VARCHAR(32), idTestDescriptor INTEGER, Date VARCHAR(20), Result INTEGER, FOREIGN KEY (rfid) REFERENCES SKUITEM(RFID), FOREIGN KEY (idTestDescriptor) REFERENCES testDescriptor(id))';
@@ -27,7 +27,7 @@ class TESTRESULT_DAO {
     }
 
     /* Post TestResult */
-//Good
+
     storeTestResult(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
@@ -63,7 +63,7 @@ class TESTRESULT_DAO {
             });
         });
     }
-    //Not working
+    
     getTestResultsArraybySkuitemRfid(db, rfid) {
     return new Promise((resolve, reject) => {
         const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
@@ -98,7 +98,7 @@ class TESTRESULT_DAO {
     });
 }
 
-//Good
+
 getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
     return new Promise((resolve, reject) => {
         const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
@@ -148,7 +148,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
 }
 
  /* Delete TestResult by ID */
-//Good
+
  deleteTestResult(db, rfid, id) {
     return new Promise((resolve, reject) => {
         const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?';
@@ -192,6 +192,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
     return new Promise((resolve, reject) => {
         const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?';
         db.get(sql1, [data.newIdTestDescriptor], (err, r) => {
+            console.log(r.count)
             if (err) {
                 reject(err)
                 return;
@@ -202,6 +203,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
             else {
                 const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?';
                 db.get(sql2, [rfid], (err, r) => {
+                    console.log(r.count)
                     if (err) {
                         reject(err)
                         return;
@@ -212,6 +214,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
                     else {
                         const sql3 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE id = ?';
                         db.get(sql3, [id], (err, r) => {
+                            console.log(r.count)
                             if (err) {
                                 reject(err)
                                 return;
@@ -220,7 +223,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
                                 reject(new Error('ID not found'))
                             }
                             else {
-                                const sql4 = 'UPDATE TESTRESULT SET newIdTestDescriptor = ?,  newDate = ?, newResult = ? WHERE (rfid = ? AND id = ?)';
+                                const sql4 = 'UPDATE TESTRESULT SET idTestDescriptor = ?,  Date = ?, Result = ? WHERE (rfid = ? AND id = ?)';
                                 db.run(sql4, [data.newIdTestDescriptor, data.newDate, data.newResult, rfid, id], (err) => {
                                     if (err) {
                                         reject(err);

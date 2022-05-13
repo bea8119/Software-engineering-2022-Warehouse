@@ -1,11 +1,11 @@
 'use strict'
 
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import testDescriptor_DAO datainterface */
-const TestDescriptor_DAO = require('../datainterface/TestDescriptor_DAO');
+const TestDescriptor_DAO = require('../../datainterface/INTERNAL/TestDescriptor_DAO');
 const t =  new TestDescriptor_DAO();
 
 app.post('/api/testDescriptor', async (req, res) => {

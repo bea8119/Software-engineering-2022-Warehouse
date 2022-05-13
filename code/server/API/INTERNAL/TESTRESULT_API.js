@@ -1,12 +1,12 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import TESTRESULT_DAO datainterface */
-const TESTRESULT_DAO = require('../datainterface/TESTRESULT_DAO');
+const TESTRESULT_DAO = require('../../datainterface/INTERNAL/TESTRESULT_DAO');
 const tr =  new TESTRESULT_DAO();
 
 
@@ -25,13 +25,12 @@ app.post('/api/skuitems/testResult', async (req, res) => {
     //Test for date and result needed
     try {
         await tr.newTableName(db);
-        tr.storeTestResult(db, testResult);
+        await tr.storeTestResult(db, testResult);
         return res.status(201).end();
     }
 
     catch (err) {
         if (err.message === "ID not found") {
-            //There is still an error here, program colapses when entering the exeption. It works but crashes.
             res.status(404).end();
         } else {
             res.status(503).end();
@@ -42,7 +41,7 @@ app.post('/api/skuitems/testResult', async (req, res) => {
 
 /* testResults by SkuItemRfid Get */
 
-app.get('api/skuitems/:rfid/testResults', async (req, res) => {
+app.get('/api/skuitems/:rfid/testResults', async (req, res) => {
     let rfid = req.params.rfid;
     if ((rfid.length !== 32) || !(/^\d+$/.test(rfid))) {
         res.status(422).json("Unprocessable entity");
@@ -69,7 +68,6 @@ app.get('/api/skuitems/:rfid/testResults/:id', async (req, res) => {
         res.status(422).json("Unprocessable entity");
     }
     try {
-        console.log("HOLI")
         const testResults = await tr.getTestResultArraybyidandbySkuitemRfid(db, rfid, id);
         res.status(200).json(testResults);
     } catch (err) {
@@ -98,7 +96,7 @@ app.put('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
         return res.status(200).end();
     }
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(404).end()
         } else {
             res.status(503).end()
@@ -118,7 +116,7 @@ app.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
         res.status(204).end();
     }
     catch (err) {
-        if (err.message = "ID not found") {
+        if (err.message === "ID not found") {
             res.status(422).end()
         } else {
             res.status(503).end()

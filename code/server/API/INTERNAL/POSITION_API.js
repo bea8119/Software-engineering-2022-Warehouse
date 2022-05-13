@@ -1,12 +1,12 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import POSITION_DAO datainterface */
-const POSITION_DAO = require('../datainterface/POSITION_DAO');
+const POSITION_DAO = require('../../datainterface/INTERNAL/POSITION_DAO');
 const res = require("express/lib/response");
 const p = new POSITION_DAO();
 
@@ -27,7 +27,7 @@ app.post('/api/position', async (req, res) => {
     }
     try {
         await p.newTableName(db);
-        p.storePosition(db, position);
+        await p.storePosition(db, position);
         return res.status(201).end();
     }
 
