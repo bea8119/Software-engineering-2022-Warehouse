@@ -1,36 +1,113 @@
-# TestResults 
-GET http://localhost:3001/api/skuitems/12345678901234567890123456789662/testResults
-###
-GET http://localhost:3001/api/skuitems/12395678901234567890123456789662/testResults/9
-###
-POST http://localhost:3001/api/skuitems/testResult
+# SKU
+
+GET http://localhost:3001/api/skus
+### OK
+GET http://localhost:3001/api/skus/3
+### OK
+POST http://localhost:3001/api/sku
 Content-Type: application/json
 
 {
-    "rfid":"1234567890123456789012345689662",
-    "idTestDescriptor":4,
-    "Date":"2021/11/28",
-    "Result": true
+    "description" : "test",
+    "weight" : 100,
+    "volume" : 50,
+    "notes" : "prova",
+    "price" : 10.99,
+    "availableQuantity" : 50
 }
-
-###
-PUT http://localhost:3001/api/skuitems/12345678901234567890123456789662/testResult/9
+### OK
+PUT http://localhost:3001/api/sku/3
 Content-Type: application/json
 
 {
-    "newIdTestDescriptor":4,
-    "newDate":"2021/11/28",
-    "newResult": false
+    "newDescription" : "test2",
+    "newWeight" : 100,
+    "newVolume" : 50,
+    "newNotes" : "first SKU",
+    "newPrice" : 10.99,
+    "newAvailableQuantity" : 50
 }
+### NON FUNZIONA
+PUT http://localhost:3001/api/sku/3/position
+Content-Type: application/json
+
+{
+    "position": "800234523412"
+}
+### NON FUNZIONA
+DELETE http://localhost:3001/api/skus/44
+### OK
 
 ################################################################## 
+
+#skuitems
+
+GET http://localhost:3001/api/skuitems
+### OK
+GET http://localhost:3001/api/skuitems/sku/3
+### OK
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789071
+### OK
+POST http://localhost:3001/api/skuitem
+Content-Type: application/json
+
+{
+    "RFID":"12345678901234567890123456789071",
+    "SKUId":3,
+    "DateOfStock":"2021/11/29 12:30"
+}
+### OK
+PUT http://localhost:3001/api/skuitems/12345678901234567890123456789071
+Content-Type: application/json
+
+{
+    "newRFID":"12345678901234567890123456789071",
+    "newAvailable":1,
+    "newDateOfStock":"2021/11/29 12:30"
+}
+### OK
+##################################################################
+# Position
+
+GET http://localhost:3001/api/positions
+### OK
+POST http://localhost:3001/api/position
+Content-Type: application/json
+
+{
+    "positionID":"800234543668",
+    "aisleID": "8002",
+    "row": "3454",
+    "col": "3668",
+    "maxWeight": 1000,
+    "maxVolume": 1000
+}
+### OK
+PUT http://localhost:3001/api/position/800234543666
+Content-Type: application/json
+
+{
+    "newAisleID": "8002",
+    "newRow": "3454",
+    "newCol": "6666",
+    "newMaxWeight": 1200,
+    "newMaxVolume": 600,
+    "newOccupiedWeight": 200,
+    "newOccupiedVolume":100
+}
+### OK
+
+DELETE http://localhost:3001/api/position/800234543668
+### OK
+
+##################################################################
 
 #testDescriptor
 
 GET http://localhost:3001/api/testDescriptors
-###
+### OK
 GET http://localhost:3001/api/testDescriptors/2
-### MANCANO I CONTROLLI
+### OK
 POST http://localhost:3001/api/testDescriptor
 Content-Type: application/json
 
@@ -50,33 +127,79 @@ Content-Type: application/json
     "newIdSKU" :779
 }
 
-
-
 ##################################################################
-#skuitems
 
-GET http://localhost:3001/api/skuitems
-###
-GET http://localhost:3001/api/skuitems/sku/1
-###
-GET http://localhost:3001/api/skuitems/12345678901234567890123456789662
-###
-POST http://localhost:3001/api/skuitem
+# TestResults 
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789069/testResults
+### OK
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789071/testResults/12
+### OK
+POST http://localhost:3001/api/skuitems/testResult
 Content-Type: application/json
 
 {
-    "RFID":"12345678901234567890123456789015",
-    "SKUId":141,
-    "DateOfStock":"2021/11/29 12:30"
+    "rfid":"12345678901234567890123456789069",
+    "idTestDescriptor":3,
+    "Date":"2021/11/28",
+    "Result": false
 }
 
-###
-PUT http://localhost:3001/api/skuitems/12345678901234567890123456789661
+### OK
+PUT http://localhost:3001/api/skuitems/12345678901234567890123456789071/testResult/12
 Content-Type: application/json
 
 {
-    "newRFID":"12345678901234567890123456789662",
-    "newAvailable":1,
-    "newDateOfStock":"2021/11/29 12:30"
+    "newIdTestDescriptor":3,
+    "newDate":"2021/11/31",
+    "newResult": false
 }
+### OK
+
+################################################################## 
+
+#restockOrder
+
+GET http://localhost:3001/api/restockOrders
+### OK
+GET http://localhost:3001/api/restockOrdersIssued
+### OK
+GET http://localhost:3001/api/restockOrders/1
+### OK
+GET http://localhost:3001/api/restockOrders/3/returnItems
+### OK
+POST http://localhost:3001/api/restockOrder
+Content-Type: application/json
+
+{
+    "issueDate":"2021/11/29 09:33",
+    "products": [{"SKUId":12,"description":"a product","price":10.99,"qty":30},
+                {"SKUId":13,"description":"another product","price":11.99,"qty":20}],
+    "supplierId" : 1
+}
+
+### OK
+PUT http://localhost:3001/api/restockOrder/3
+Content-Type: application/json
+
+{
+    "newState":"COMPLETEDRETURN"
+}
+### OK
+
+PUT http://localhost:3001/api/restockOrder/3/skuItems
+Content-Type: application/json
+
+{
+    "skuItems" : [{"SKUId":3,"rfid":"12345678901234567890123456789069"}, {"SKUId":3,"rfid":"12345678901234567890123456789070"}]
+}
+
+### OK
+###
+PUT http://localhost:3001/api/restockOrder/1/transportNote
+Content-Type: application/json
+
+{
+    "transportNote":{"deliveryDate":"2021/12/29"}
+}
+### OK
 

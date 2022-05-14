@@ -192,7 +192,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
     return new Promise((resolve, reject) => {
         const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?';
         db.get(sql1, [data.newIdTestDescriptor], (err, r) => {
-            console.log(r.count)
+            
             if (err) {
                 reject(err)
                 return;
@@ -203,7 +203,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
             else {
                 const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?';
                 db.get(sql2, [rfid], (err, r) => {
-                    console.log(r.count)
+                    
                     if (err) {
                         reject(err)
                         return;
@@ -214,7 +214,7 @@ getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
                     else {
                         const sql3 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE id = ?';
                         db.get(sql3, [id], (err, r) => {
-                            console.log(r.count)
+                            
                             if (err) {
                                 reject(err)
                                 return;

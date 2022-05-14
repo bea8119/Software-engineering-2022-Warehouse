@@ -26,7 +26,7 @@ app.post('/api/newUser', async (req, res) => {
     }
     try {
         await u.newTableName(db);
-        u.storeUser(db, newUser);
+        await u.storeUser(db, newUser);
         return res.status(201).end();
     }
 

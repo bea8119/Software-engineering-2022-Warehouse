@@ -18,7 +18,7 @@ app.post('/api/testDescriptor', async (req, res) => {
 
     try {
         await t.newTableName(db);
-        t.storeTestDescriptor(db, TD);
+        await t.storeTestDescriptor(db, TD);
         return res.status(201).end();
     } 
 
@@ -36,7 +36,7 @@ app.get('/api/testDescriptors/:id', async (req, res) => {
 
     let id = req.params.id;
 
-    if (id === undefined) {
+    if (isNaN(id)) {
         return res.status(422).json({ error: 'Empty header request' });
     }
     

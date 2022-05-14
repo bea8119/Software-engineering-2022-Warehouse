@@ -29,7 +29,7 @@ app.post('/api/sku', async (req, res) => {
 
     try {
         await s.newTableName(db);
-        s.storeSKU(db, sku);
+        await s.storeSKU(db, sku);
         return res.status(201).end();
     } 
 
@@ -96,15 +96,10 @@ app.delete('/api/skus/:id', async (req, res) => {
 /* SKU get by ID */
 
 app.get('/api/skus/:id', async (req, res) => {
-
-    if (Object.keys(req.params).length === 0) {
-        return res.status(422).json({ error: 'Unprocessable entity' });
-    }
-
     let id = req.params.id;
 
-    if (id === undefined) {
-        return res.status(422).json({ error: 'Invalid data' });
+    if (isNaN(id)) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
     }
 
     if (s.findSKUbyID(db, id) === 0) { // check sku id existence

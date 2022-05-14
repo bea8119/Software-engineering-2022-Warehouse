@@ -78,7 +78,8 @@ app.put('/api/position/:positionID', async (req, res) => {
     let positionID = req.params.positionID;
     let position = req.body;
 
-    if (Object.keys(req.body).length === 0 ||
+    if (positionID.length !== 12 ||
+    Object.keys(req.body).length === 0 ||
     position === undefined || 
     position.newAisleID === undefined || position.newAisleID.length !== 4 || !(/^\d+$/.test(position.newAisleID)) ||
     position.newRow === undefined || position.newRow.length !== 4 || !(/^\d+$/.test(position.newRow)) ||

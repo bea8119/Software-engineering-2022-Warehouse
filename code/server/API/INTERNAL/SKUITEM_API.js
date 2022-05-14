@@ -58,7 +58,7 @@ app.get('/api/skuitems/sku/:id', async (req, res) => {
     let SKUId = req.params.id
 
     /* SKUId validation fails if SKUId is undefined or isn't an integer, as defined in the database */
-    if (SKUId === undefined) {
+    if (isNaN(SKUId)) {
         res.status(422).json("Unprocessable entity")
     }
     try {
@@ -125,9 +125,9 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
 
     if (Object.keys(req.body).length === 0 ||
         skuitem === undefined ||
-        /* rfid (header) and newRFID (body) must be 32 DIGITS long */
         rfid === undefined || rfid.length !== 32 || !(/^\d+$/.test(rfid)) ||
-        skuitem.newRFID === undefined || skuitem.newRFID.length !== 32 || !(/^\d+$/.test(skuitem.newRFID)) 
+        skuitem.newRFID === undefined || skuitem.newRFID.length !== 32 || !(/^\d+$/.test(skuitem.newRFID)) ||
+        skuitem.newAvailable === undefined ||(skuitem.newAvailable !== 0 && skuitem.newAvailable !== 1) 
         ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }

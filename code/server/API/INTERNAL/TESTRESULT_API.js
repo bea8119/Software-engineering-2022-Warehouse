@@ -64,7 +64,8 @@ app.get('/api/skuitems/:rfid/testResults/:id', async (req, res) => {
     let rfid = req.params.rfid;
     let id = req.params.id;
     //Test id
-    if ((rfid.length !== 32) || !(/^\d+$/.test(rfid))) {
+    if ((rfid.length !== 32) || !(/^\d+$/.test(rfid)) ||
+    isNaN(id)) {
         res.status(422).json("Unprocessable entity");
     }
     try {
@@ -87,7 +88,11 @@ app.put('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     let id = req.params.id;
     let testResult = req.body;
     
-    if ((rfid.length !== 32) || !(/^\d+$/.test(rfid))) {
+    if ((rfid.length !== 32) || !(/^\d+$/.test(rfid)) ||
+    isNaN(id) ||
+    testResult.newIdTestDescriptor === undefined || isNaN(testResult.newIdTestDescriptor) ||
+    testResult.newDate === undefined ||
+    testResult.newResult === undefined || typeof testResult.newResult != "boolean") {
         res.status(422).json("Unprocessable entity");
     }
     

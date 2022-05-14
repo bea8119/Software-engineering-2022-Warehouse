@@ -92,24 +92,24 @@ class RESTOCKORDER_DAO {
                                 id: r.id,
                                 issueDate: r.issueDate,
                                 state: r.state,
-                                products: [itemrows.filter((i) => i.roid === r.id).map((i) => (
+                                products: itemrows.filter((i) => i.roid === r.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
                                         description: i.description,
                                         price: i.price,
                                         qty: i.quantity
                                     }
-                                ))],
+                                )),
                                 supplierId: r.supplierId,
-                                transportNote: r.transportNote? {
+                                transportNote: r.transportNote ? {
                                     deliveryDate: r.transportNote
                                 } : {},
-                                skuItems: skuitemrows.filter((s) => s.roid === r.id).length !== 0? [skuitemrows.filter((s) => s.roid === r.id).map((s) => (
+                                skuItems: skuitemrows.filter((s) => s.roid === r.id).length !== 0 ? skuitemrows.filter((s) => s.roid === r.id).map((s) => (
                                     {
                                         SKUId: s.SKUId,
                                         rfid: s.rfid
                                     }
-                                ))] : []
+                                )) : []
 
                             }
                         ))
@@ -142,14 +142,14 @@ class RESTOCKORDER_DAO {
                             id: r.id,
                             issueDate: r.issueDate,
                             state: r.state,
-                            products: [itemrows.filter((i) => i.roid === r.id).map((i) => (
+                            products: itemrows.filter((i) => i.roid === r.id).map((i) => (
                                 {
                                     SKUId: i.SKUId,
                                     description: i.description,
                                     price: i.price,
                                     qty: i.quantity
                                 }
-                            ))],
+                            )),
                             supplierId: r.supplierId,
                             skuItems: []
                         }
@@ -190,24 +190,24 @@ class RESTOCKORDER_DAO {
                                 id: restockrow.id,
                                 issueDate: restockrow.issueDate,
                                 state: restockrow.state,
-                                products: [itemrows.filter((i) => i.roid === restockrow.id).map((i) => (
+                                products: itemrows.filter((i) => i.roid === restockrow.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
                                         description: i.description,
                                         price: i.price,
                                         qty: i.quantity
                                     }
-                                ))],
+                                )),
                                 supplierId: restockrow.supplierId,
-                                transportNote: restockrow.transportNote? {
+                                transportNote: restockrow.transportNote ? {
                                     deliveryDate: restockrow.transportNote
                                 } : {},
-                                skuItems: skuitemrows.filter((s) => s.roid === r.id).length !== 0? [skuitemrows.filter((s) => s.roid === restockrow.id).map((s) => (
+                                skuItems: skuitemrows.filter((s) => s.roid === restockrow.id).length !== 0 ? skuitemrows.filter((s) => s.roid === restockrow.id).map((s) => (
                                     {
                                         SKUId: s.SKUId,
                                         rfid: s.rfid
                                     }
-                                ))] : []
+                                )) : []
                             }
                             resolve(restockorder);
                         })
@@ -216,6 +216,45 @@ class RESTOCKORDER_DAO {
             });
         });
     }
+
+
+    /* Get RestockOrder skuitems to return*/
+
+    getSkuItemsToReturn(db, id) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM RESTOCKORDER WHERE id = ?';
+            const sql2 = 'SELECT DISTINCT * FROM RESTOCKORDER_SKUITEM R NATURAL JOIN TESTRESULT T WHERE roid = ? AND Result = 0';
+            db.get(sql1, [id], (err, restockrow) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else if (restockrow.count === 0) {
+                    reject(new Error("ID not found"));
+                    return;
+                } else if (restockrow.state !== "COMPLETEDRETURN" ){
+                    reject(new Error ("Not COMPLETEDRETURN state"))
+                } else {
+                    db.all(sql2, [id], (err, skuitemrows) => {
+                        console.log(skuitemrows)
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        const returnskuitems =
+                            skuitemrows.map((s) => (
+                                {
+                                    SKUId: s.SKUId,
+                                    rfid: s.rfid
+                                }
+                            ))
+                            
+                        resolve(returnskuitems);
+                    })
+                }
+            });
+        });
+    };
+
 
 
 
@@ -263,11 +302,11 @@ class RESTOCKORDER_DAO {
                 } else if (r.state !== 'DELIVERY') {
                     reject(new Error('Not DELIVERY state'));
                 } else {
-                        db.run(sql2, [data.transportNote.deliveryDate, id], (err) => {
-                            if (err) {
-                                reject(err);
-                                return;
-                            }
+                    db.run(sql2, [data.transportNote.deliveryDate, id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
                     })
                     resolve();
                 }
@@ -275,7 +314,7 @@ class RESTOCKORDER_DAO {
         })
     }
 
-    
+
 
     /* Put RestockOrder state given ID */
 

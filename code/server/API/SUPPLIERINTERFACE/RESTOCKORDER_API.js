@@ -23,12 +23,11 @@ app.post('/api/restockOrder', async (req, res) => {
     }
     try {
         await r.newTableName(db);
-        r.storeRestockOrder(db, restockOrder);
+        await r.storeRestockOrder(db, restockOrder);
         return res.status(201).end();
     }
 
     catch (err) {
-        console.log(err)
         res.status(503).end();
     }
 });
@@ -41,6 +40,7 @@ app.get('/api/restockOrders', async (req, res) => {
         const restockOrders = await r.getStoredRestockOrder(db);
         res.status(200).json(restockOrders);
     } catch (err) {
+        console.log(err)
         res.status(500).end();
     }
 });
@@ -71,6 +71,29 @@ app.get('/api/restockOrders/:id', async (req, res) => {
         if (err.message === "ID not found"){
             res.status(404).end()
         } else {
+            res.status(500).end();
+        }
+    }
+});
+
+
+/* RestockOrder Get skuitems to return */
+
+app.get('/api/restockOrders/:id/returnItems', async (req, res) => {
+    let id = req.params.id
+    if (isNaN(id)){
+        res.status(422).json("Unprocessable entity")
+    }
+    try {
+        const restockOrderById = await r.getSkuItemsToReturn(db, id);
+        res.status(200).json(restockOrderById);
+    } catch (err) {
+        if (err.message === "ID not found"){
+            res.status(404).end()
+        } else if (err.message === "Not COMPLETEDRETURN state"){
+            res.status(422).json({error: 'Unprocessable entity'});
+        } else {
+            console.log(err)
             res.status(500).end();
         }
     }
@@ -161,7 +184,7 @@ app.put('/api/restockOrder/:id/skuItems', async (req, res) => {
     let id = req.params.id;
     let skuitems = req.body;
 
-    if (Object.keys(req.body).length === 0) {
+    if (Object.keys(req.body).length === 0 || isNaN(id)) {
         return res.status(422).json({error: 'Unprocessable entity'});
     }
     skuitems.skuItems.forEach( element => {
