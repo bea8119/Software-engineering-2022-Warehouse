@@ -1,12 +1,12 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import SKU_DAO datainterface */
-const SKU_DAO = require('../datainterface/SKU_DAO');
+const SKU_DAO = require('../../datainterface/INTERNAL/SKU_DAO');
 const s =  new SKU_DAO();
 
 const res = require("express/lib/response");
@@ -29,7 +29,7 @@ app.post('/api/sku', async (req, res) => {
 
     try {
         await s.newTableName(db);
-        s.storeSKU(db, sku);
+        await s.storeSKU(db, sku);
         return res.status(201).end();
     } 
 
@@ -96,15 +96,10 @@ app.delete('/api/skus/:id', async (req, res) => {
 /* SKU get by ID */
 
 app.get('/api/skus/:id', async (req, res) => {
-
-    if (Object.keys(req.params).length === 0) {
-        return res.status(422).json({ error: 'Unprocessable entity' });
-    }
-
     let id = req.params.id;
 
-    if (id === undefined) {
-        return res.status(422).json({ error: 'Invalid data' });
+    if (isNaN(id)) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
     }
 
    

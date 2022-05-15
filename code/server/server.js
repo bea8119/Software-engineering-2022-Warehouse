@@ -25,13 +25,14 @@ module.exports = {
 };
 
 /* API modules to import */ 
-require('./API/SKU_API');
-require('./API/POSITION_API');
-require('./API/SKUITEM_API');
-require('./API/TestDescriptor_API');
-require('./API/ITEM_API');
-require('./API/InternalOrder_API');
-require('./API/RESTOCKORDER_API');
-require('./API/USER_API');
-require('./API/ReturnOrder_API');
+require('./API/INTERNAL/SKU_API');
+require('./API/INTERNAL/POSITION_API');
+require('./API/INTERNAL/SKUITEM_API');
+require('./API/INTERNAL/TestDescriptor_API');
+require('./API/EXTERNAL/ITEM_API');
+require('./API/INTERNAL/InternalOrder_API');
+require('./API/SUPPLIERINTERFACE/RESTOCKORDER_API');
+require('./API/USER/USER_API');
+require('./API/SUPPLIERINTERFACE/RETURNORDER_API');
+require('./API/INTERNAL/TESTRESULT_API');
 

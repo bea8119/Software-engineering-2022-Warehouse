@@ -11,13 +11,13 @@ These figures will not be used to evaluate neither the project nor the team, the
 | Week | requirement engineering | design | coding | unit testing | integration testing | acceptance testing | management | git maven |
 |:-----------:|:--------:|:-----------:|:-----------:|:----------:|:------------:|:---------------:|:-------------:|:--------------:|
 | mar 21 - 27 | | | | | | | | |
-| mar 28 - apr 3 | 16+10 phrs (26 phrs) | | | | | | | |
-| apr 4 - 10 | 12+15+7+6 phrs (40 phrs) | | | | | | | |
+| mar 28 - apr 3 | 16 + 10 phrs (26 phrs) | | | | | | | |
+| apr 4 - 10 | 12 + 15 +7 + 6 phrs (40 phrs) | | | | | | | |
 | apr 11 - 17| 10 phrs (10 phrs)| | | | | | | | 
-| apr 18 - 24| | 10+6+10 phrs (26 phrs) | | | | | | | 
-| apr 25 - may 1 | | 9 phrs + 3 phrs (12 phrs) | | | | | | | 
-| may 2 - 8  | | | 8 phrs | | | | | | 
-| may 9 - 15| | | | | | | | | 
+| apr 18 - 24| | 10 + 6 + 10 phrs (26 phrs) | | | | | | | 
+| apr 25 - may 1 | | 9 + 3 phrs (12 phrs) | | | | | | | 
+| may 2 - 8  | | | 8 + 16 phrs (24 phrs) | | | | | | 
+| may 9 - 15| | | 6 + 12 + 16 + 24 + 8 + 4 (70 phrs) | | | | | | 
 | may 16 - 22| | | | | | | | | 
 | may 23 - 29| | | | | | | | | 
 | may 30 - jun 5 | | | | | | | | | 
