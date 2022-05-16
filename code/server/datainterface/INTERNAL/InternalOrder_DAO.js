@@ -76,7 +76,7 @@ class InternalOrder_DAO {
                         return;
                     }
                     const internalorder = internalrows.map((r) => (
-                        r.state === "COMPETED" ?
+                        r.state === "COMPLETED" ?
                             {
                                 id: r.id,
                                 issueDate: r.issueDate,
@@ -196,12 +196,12 @@ class InternalOrder_DAO {
                     console.log("Errore sql1");
                     reject(err);
                     return;
-                } 
+                }
                 else if (internalrows.count === 0) {
                     console.log("ciao");
                     reject(new Error("ID not found"));
                     return;
-                } 
+                }
                 else {
                     db.all(sql2, [], (err, productrows) => {
                         if (err) {
@@ -210,7 +210,7 @@ class InternalOrder_DAO {
                             return;
                         }
                         const internalorder = internalrows.map((r) => (
-                            r.state === "COMPETED" ?
+                            r.state === "COMPLETED" ?
                                 {
                                     id: r.id,
                                     issueDate: r.issueDate,
@@ -247,6 +247,99 @@ class InternalOrder_DAO {
         });
     }
 
+    /* Put skuproducts in InternalOrder of given id */
+    updateInternalOrderSkuProducts(db, id, data) {
+        console.log("Change Product");
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM INTERNALORDER WHERE id = ?'
+            const sql2 = 'INSERT INTO INTERNALORDER_PRODUCT(RFID, SKUId, ioid) VALUES(?, ?, ?)';
+            db.get(sql1, [id], (err, r) => {
+                if (err) {
+                    reject(err)
+                    return;
+                } else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                } 
+                // else if (r.state !== 'DELIVERED') {
+                //     reject(new Error('Not DELIVERED state'));
+                // }
+                else {
+                    const sql3 = 'UPDATE INTERNALORDER SET state = ?  WHERE id = ?';
+                    db.run(sql3, [data.newState, id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
+                    console.log(data.products);
+                    data.products.map((product) => {
+                        db.run(sql2, [product.RFID, product.SkuID, id], (err) => {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+                        })
+                        console.log(product.RFID, product.SkuID, id);
+                    })
+                    resolve();
+                }
+            });
+        })
+    }
+
+    /* Put InternalOrder state given ID */
+    updateItnernalOrderState(db, id, state) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM INTERNALORDER WHERE id = ?'
+            db.get(sql1, [id], (err, r) => {
+                if (err) {
+                    reject(err)
+                    return;
+                } else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                } else {
+                    const sql2 = 'UPDATE INTERNALORDER SET state = ?  WHERE id = ?';
+                    db.run(sql2, [state, id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
+                }
+            })
+        });
+    }
+
+    /* Delete InternalOrder by ID */
+    deleteInternalOrder(db, id) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM INTERNALORDER WHERE id = ?';
+            db.get(sql1, [id], (err, r) => {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                }
+                else {
+                    const sql2 = 'DELETE FROM INTERNALORDER WHERE id = ?';
+                    db.run(sql2, [id], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
+
+                }
+            })
+
+        });
+
+    }
 }
 
 /* Export class InternalOrder_DAO with methods */
