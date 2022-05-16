@@ -38,37 +38,7 @@ class SKU_DAO {
         });
     }
 
-    findSKUbyID(db, id) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
-            db.get(sql, [id], (err, r) => {
-                if (err)
-                    reject(err);
-                else if (r.count === 0) {
-                    resolve(0);
-                }
-                else {
-                    resolve(1);
-                }
-            });
-        });
-    }
 
-    findPosbyID(db, id) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count FROM POSITION WHERE positionID = ?'
-            db.get(sql, [id], (err, r) => {
-                if (err)
-                    reject(err);
-                else if (r.count === 0) {
-                    resolve(0)
-                }
-                else {
-                    resolve(1);
-                }
-            });
-        });
-    }
 
      getStoredSKU(db) {
         return new Promise( (resolve, reject) => {
@@ -186,25 +156,33 @@ class SKU_DAO {
     // NEED TO REMOVE THE OLD WEIGHT FROM POSITION AND PUT NEW ONE
      async updateSKU(db, id, data) {
         return new Promise(async (resolve, reject) => {
-            const sql1 = 'SELECT * FROM SKU WHERE id = ?';
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM SKU WHERE id = ?';
             const sql2 = 'UPDATE SKU SET description = ?, weight = ?, volume= ?, notes= ?,  availableQuantity = ?, price= ? WHERE id = ?';
             await db.get(sql1, [id], async (err, r) => {
                 if (err) {
                     reject(err);
                     return;
-                } else if (r.position !== null) {
+                } 
+                else if (r.count === 0){
+                    reject(new Error("ID not found"));
+                    return;
+                }else if (r.position !== null) {
                     
                     let posit = r.position;
                    
                     
-                    const sql3 = 'SELECT * FROM POSITION WHERE positionID = ?';
+                    const sql3 = 'SELECT COUNT(*) AS countp,* FROM POSITION WHERE positionID = ?';
                     await db.get(sql3, [posit], async (err, p) => {
                         //console.log(p.occupiedWeight);
                        
                         if (err) {
                             reject(err);
                             return;
-                        } 
+                        } else if (p.countp === 0){
+                            reject(new Error("ID position not found"));
+                            return;
+                        }
+                        
                         let w=(data.newWeight * data.newAvailableQuantity + p.occupiedWeight - r.weight * r.availableQuantity);
                         let v= (data.newVolume * data.newAvailableQuantity + p.occupiedVolume - r.volume * r.availableQuantity);
                         if ( w > p.maxWeight || v > p.maxVolume) {
@@ -245,20 +223,23 @@ class SKU_DAO {
         return new Promise(async (resolve, reject) => {
            
                
-            const sql = 'SELECT * FROM POSITION WHERE positionID = ?';
+            const sql = 'SELECT COUNT(*) AS countp, * FROM POSITION WHERE positionID = ?';
             const sql1 = 'UPDATE POSITION SET  occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
             await db.get(sql, [posit], async (err, p) => {
                 
-               
-                if ((oldSku.weight * oldSku.availableQuantity + p.occupiedWeight) > p.maxWeight || (oldSku.volume * oldSku.availableQuantity + p.occupiedVolume) > p.maxVolume) {
+               if (err) {
+                    reject(err);
+                    return;
+                }else if (p.countp === 0){
+                    reject(new Error("ID position not found"));
+                    return;
+                }
+                else if ((oldSku.weight * oldSku.availableQuantity + p.occupiedWeight) > p.maxWeight || (oldSku.volume * oldSku.availableQuantity + p.occupiedVolume) > p.maxVolume) {
                     reject(new Error("Maximum position capacity exceeded"));
                     return;
                 }
 
-                if (err) {
-                    reject(err);
-                    return;
-                } else {
+                 else {
 
                     await db.run(sql1, [(p.occupiedWeight + oldSku.weight*oldSku.availableQuantity), (p.occupiedVolume + oldSku.volume * oldSku.availableQuantity), posit], (err) => {
                         if (err) {
@@ -275,6 +256,9 @@ class SKU_DAO {
             await db.get(sql, [oldSku.position], async (err, po) => {
                 if (err) {
                     reject(err);
+                    return;
+                }else if (po.countp === 0){
+                    reject(new Error("ID position not found"));
                     return;
                 } else {
                     await db.run(sql1, [(po.occupiedWeight - oldSku.weight * oldSku.availableQuantity), (po.occupiedVolume - oldSku.volume * oldSku.availableQuantity), oldSku.position], (err) => {

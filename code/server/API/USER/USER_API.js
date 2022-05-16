@@ -1,12 +1,12 @@
 'use strict';
 
 /* Import server module */
-const server = require("../server");
+const server = require("../../server");
 const app = server.app;
 const db = server.db;
 
 /* Import USERS_DAO datainterface */
-const USER_DAO = require('../datainterface/USER_DAO');
+const USER_DAO = require('../../datainterface/USER/USER_DAO');
 const u = new USER_DAO();
 
 
@@ -26,7 +26,7 @@ app.post('/api/newUser', async (req, res) => {
     }
     try {
         await u.newTableName(db);
-        u.storeUser(db, newUser);
+        await u.storeUser(db, newUser);
         return res.status(201).end();
     }
 
