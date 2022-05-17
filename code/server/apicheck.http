@@ -2,37 +2,37 @@
 
 GET http://localhost:3001/api/skus
 ### OK
-GET http://localhost:3001/api/skus/3
+GET http://localhost:3001/api/skus/2
 ### OK
 POST http://localhost:3001/api/sku
 Content-Type: application/json
 
 {
     "description" : "test",
-    "weight" : 100,
-    "volume" : 50,
+    "weight" : 200,
+    "volume" : 200,
     "notes" : "prova",
     "price" : 10.99,
-    "availableQuantity" : 50
+    "availableQuantity" : 1
 }
 ### OK
-PUT http://localhost:3001/api/sku/1
+PUT http://localhost:3001/api/sku/3
 Content-Type: application/json
 
 {
     "newDescription" : "test1",
-    "newWeight" : 200,
-    "newVolume" : 50,
+    "newWeight" : 400,
+    "newVolume" : 400,
     "newNotes" : "first SKU",
     "newPrice" : 10.99,
-    "newAvailableQuantity" : 50
+    "newAvailableQuantity" : 1
 }
-### NON FUNZIONA
-PUT http://localhost:3001/api/sku/1/position
+### OK
+PUT http://localhost:3001/api/sku/3/position
 Content-Type: application/json
 
 {
-    "position": "800234543466"
+    "position": "800234546669"
 }
 ### NON FUNZIONA
 DELETE http://localhost:3001/api/skus/44
@@ -75,10 +75,10 @@ POST http://localhost:3001/api/position
 Content-Type: application/json
 
 {
-    "positionID":"800234543668",
+    "positionID":"800234546669",
     "aisleID": "8002",
     "row": "3454",
-    "col": "3668",
+    "col": "6669",
     "maxWeight": 1000,
     "maxVolume": 1000
 }
@@ -113,20 +113,20 @@ Content-Type: application/json
 
 {
     "name":"test descriptor 3",
-    "procedureDescription":"This test is described by...",
-    "idSKU":100
+    "procedureDescription":"!11!!",
+    "idSKU":130
 }
 
-### MANCANO I CONTROLLI 
+### OK
 PUT http://localhost:3001/api/testDescriptor/2
 Content-Type: application/json
 
 {
     "newName":"modified",
     "newProcedureDescription":"This test is described by...",
-    "newIdSKU" :779
+    "newIdSKU" :555
 }
-
+### 
 ##################################################################
 
 # TestResults 

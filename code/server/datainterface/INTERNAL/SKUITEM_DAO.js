@@ -216,7 +216,7 @@ class SKUITEM_DAO {
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            const sql2 = 'DROP TABLE SKUITEM';
+            const sql2 = 'DROP TABLE IF EXISTS SKUITEM';
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);

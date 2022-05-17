@@ -75,7 +75,7 @@ app.delete('/api/skus/:id', async (req, res) => {
     let id = req.params.id;
 
 
-    if (id === undefined) {
+    if (id === undefined || isNaN(id)) {
         res.status(422).json("Unprocessable entity")
     }
 
@@ -129,7 +129,7 @@ app.put('/api/sku/:id', async (req, res) => {
     let id = req.params.id;
     let sku = req.body;
 
-    if (Object.keys(req.body).length === 0 || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
+    if (Object.keys(req.body).length === 0 || isNaN(id) || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     
@@ -160,7 +160,7 @@ app.put('/api/sku/:id', async (req, res) => {
     let id = req.params.id;
     let position = req.body;
 
-    if (Object.keys(req.body).length === 0 || position === undefined  ) {
+    if (Object.keys(req.body).length === 0 || position.position.length !== 12 || position === undefined || isNaN(id)) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
 

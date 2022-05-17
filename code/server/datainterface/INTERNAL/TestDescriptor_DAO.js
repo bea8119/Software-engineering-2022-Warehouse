@@ -35,6 +35,7 @@ class TestDescriptor_DAO{
                 }
                 else if(r.count === 0){
                     reject(new Error('ID sku not found'));
+                    return;
                 }
             
             const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
@@ -122,7 +123,6 @@ class TestDescriptor_DAO{
     }
 
 
-    ///TO MODIFYYYYYYY  i did not manage the case in which some fields are empty
     updateTestDescriptor(db, id, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?'
@@ -132,6 +132,7 @@ class TestDescriptor_DAO{
                     return;
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
+                    return;
                 } else {
                     const sql2 = 'UPDATE testDescriptor SET name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
                     db.run(sql2, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err) => {
