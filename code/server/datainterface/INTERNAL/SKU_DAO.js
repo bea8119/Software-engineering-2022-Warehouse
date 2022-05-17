@@ -200,8 +200,7 @@ class SKU_DAO {
                             });
 
                                 
-                    });
-                }
+                   
 
                 db.run(sql2, [data.newDescription, data.newWeight, data.newVolume, data.newNotes, data.newAvailableQuantity, data.newPrice, id], (err) => {
                     if (err) {
@@ -210,6 +209,17 @@ class SKU_DAO {
                     }
                     resolve();
                 });
+            });
+        }
+        else{
+            db.run(sql2, [data.newDescription, data.newWeight, data.newVolume, data.newNotes, data.newAvailableQuantity, data.newPrice, id], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        }
             });
              
         });
@@ -251,7 +261,7 @@ class SKU_DAO {
 
                 }
 
-            });
+            
             if(oldSku.position !== null){
             await db.get(sql, [oldSku.position], async (err, po) => {
                 if (err) {
@@ -283,6 +293,7 @@ class SKU_DAO {
 
 
         });
+    });
 
 
 

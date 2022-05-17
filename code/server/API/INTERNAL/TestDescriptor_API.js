@@ -26,6 +26,7 @@ app.post('/api/testDescriptor', async (req, res) => {
         if(err.message === "ID sku not found")
         res.status(404).end();
         
+        else
         res.status(503).end();
     }
 });
@@ -104,7 +105,10 @@ app.put('/api/testDescriptor/:id', async (req, res) => {
         return res.status(200).end();
     }
     catch (err) {
-        if (err.message === "ID not found") {
+        if(err.message === "ID sku not found")
+        res.status(404).end();
+        
+        else if (err.message === "ID not found") {
             res.status(404).end()
         } else {
             
