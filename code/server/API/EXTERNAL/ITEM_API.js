@@ -52,9 +52,6 @@ app.get('/api/items/:id', async (req, res) => {
 
 /* ITEM post */
 app.post('/api/item', async (req, res) => {
-    // if (Object.keys(req.body).length === 0) {
-    //     return res.status(422).json({ error: 'Empty body request' });
-    // }
 
     let item = req.body;
 
@@ -62,14 +59,6 @@ app.post('/api/item', async (req, res) => {
     if (Object.keys(req.body).length === 0 || item === undefined ||  item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplierId === undefined) {
         return res.status(422).json({ error: 'Unprocessable Entity' });
     }
-
-    /* Sku ID check */
-//    else if (!i.findSKUbyID(db, item.SKUId)) {
-//         console.log(i.findSKUbyID(db, item.SKUId));
-//         return res.status(404).json({ error: 'Not Found' });
-//     }
-    // console.log(i.findSKUbyID(db, item.SKUId));
-    
     /* Unauthorized check */
 
     try {
