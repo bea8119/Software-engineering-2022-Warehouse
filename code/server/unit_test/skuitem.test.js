@@ -6,6 +6,7 @@ const db = server.db;
 describe("get skuitems", () => {
     beforeEach(async () => {
         await s.dropTable(db);
+        console.log("1")
         let skuitem = {
             RFID:"12345678901234567890123456789041",
             SKUId:3,
