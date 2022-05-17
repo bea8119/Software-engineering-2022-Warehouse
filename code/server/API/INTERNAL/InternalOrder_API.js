@@ -22,7 +22,7 @@ app.post('/api/internalOrders', async (req, res) => {
 
     try {
         await i.newTableName(db);
-        i.storeInternalOrder(db, internalOrder);
+        await i.storeInternalOrder(db, internalOrder);
         return res.status(201).end();
     }
 

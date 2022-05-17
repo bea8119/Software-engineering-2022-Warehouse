@@ -123,7 +123,6 @@ class TestDescriptor_DAO{
     }
 
 
-    ///TO MODIFYYYYYYY  i did not manage the case in which some fields are empty
     updateTestDescriptor(db, id, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?'
