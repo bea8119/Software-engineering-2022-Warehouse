@@ -235,7 +235,6 @@ class RESTOCKORDER_DAO {
                     reject(new Error ("Not COMPLETEDRETURN state"))
                 } else {
                     db.all(sql2, [id], (err, skuitemrows) => {
-                        console.log(skuitemrows)
                         if (err) {
                             reject(err);
                             return;

@@ -16,23 +16,23 @@ Content-Type: application/json
     "availableQuantity" : 50
 }
 ### OK
-PUT http://localhost:3001/api/sku/3
+PUT http://localhost:3001/api/sku/1
 Content-Type: application/json
 
 {
-    "newDescription" : "test2",
-    "newWeight" : 100,
+    "newDescription" : "test1",
+    "newWeight" : 200,
     "newVolume" : 50,
     "newNotes" : "first SKU",
     "newPrice" : 10.99,
     "newAvailableQuantity" : 50
 }
 ### NON FUNZIONA
-PUT http://localhost:3001/api/sku/3/position
+PUT http://localhost:3001/api/sku/1/position
 Content-Type: application/json
 
 {
-    "position": "800234523412"
+    "position": "800234543466"
 }
 ### NON FUNZIONA
 DELETE http://localhost:3001/api/skus/44
