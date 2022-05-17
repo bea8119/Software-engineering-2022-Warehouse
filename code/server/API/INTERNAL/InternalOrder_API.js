@@ -13,7 +13,7 @@ const i = new InternalOrder_DAO();
 app.post('/api/internalOrders', async (req, res) => {
 
     let internalOrder = req.body;
-    
+
     if (Object.keys(req.body).length === 0 || internalOrder === undefined || internalOrder.issueDate === undefined || internalOrder.products === undefined || internalOrder.customerId === undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
@@ -33,7 +33,7 @@ app.post('/api/internalOrders', async (req, res) => {
 });
 
 /* InternalOrder get */
-app.get('/api/internalOrders', async (req, res) =>{
+app.get('/api/internalOrders', async (req, res) => {
     try {
         const internalOrderList = await i.getStoredInternalOrder(db);
         res.status(200).json(internalOrderList);
@@ -75,14 +75,14 @@ app.get('/api/internalOrdersAccepted', async (req, res) => {
 /* InternalOrder Get by ID */
 app.get('/api/internalOrders/:id', async (req, res) => {
     let id = req.params.id
-    if (isNaN(id)){
+    if (isNaN(id)) {
         res.status(422).json("Unprocessable entity")
     }
     try {
         const internalOrderById = await i.getStoredInternalOrderById(db, id);
         res.status(200).json(internalOrderById);
     } catch (err) {
-        if (err.message === "ID not found"){
+        if (err.message === "ID not found") {
             res.status(404).end()
         } else {
             res.status(500).end();
@@ -96,33 +96,55 @@ app.put('/api/internalOrders/:id', async (req, res) => {
     let id = req.params.id;
     //let skuitems = req.body;
     let skuproduckt = req.body;
-    if (isNaN(id)){
+    if (isNaN(id)) {
         res.status(404).json("Not Found")
     }
-    else if (Object.keys(req.body).length === 0 || internalOrder === undefined || skuproduckt.newState === undefined) {
+    else if (Object.keys(req.body).length === 0 || skuproduckt === undefined || skuproduckt.newState === undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
-    else if(skuproduckt.newState==="COMPLETED"){
-        if(skuproduckt.products === undefined) {
+    else if (skuproduckt.newState === "COMPLETED") {
+        if (skuproduckt.products === undefined) {
             return res.status(422).json({ error: 'Unprocessable entity' });
         }
-    }
-    // skuproduckt.skuItems.forEach( element => {
-    //     if (element.SKUId === undefined || element.rfid.length !== 32 || !(/^\d+$/.test(element.rfid))) {
-    //         return res.status(422).json({error: 'Unprocessable entity'});
-    //     }
-    // }); 
+    } 
 
     try {
-        await i.updateRestockOrderSkuItems(db, id, skuproduckt);
+        if (skuproduckt.newState === "COMPLETED") {
+            await i.updateInternalOrderSkuProducts(db, id, skuproduckt);
+        }
+        else {
+            await i.updateItnernalOrderState(db, id, skuproduckt.newState);
+        }
         return res.status(200).end();
     } catch (err) {
         if (err.message === "ID not found") {
             res.status(404).end()
-        } else if (err.message === "Not DELIVERED state"){
-            res.status(422).json({error: 'Unprocessable entity'});
+        } else if (err.message === "Not DELIVERED state") {
+            res.status(422).json({ error: 'Unprocessable entity' });
         } else {
             res.status(503).end();
+        }
+    }
+});
+
+/* InternalOrder Delete */
+app.delete('/api/internalOrders/:id', async (req, res) => {
+
+    let id = req.params.id
+
+    if (isNaN(id)){
+        res.status(422).end()
+    }
+
+    try {
+        await i.deleteInternalOrder(db, id);
+        res.status(204).end();
+    }
+    catch (err) {
+        if (err.message === "ID not found") {
+            res.status(422).end()
+        } else {
+            res.status(503).end()
         }
     }
 });
