@@ -23,6 +23,9 @@ app.post('/api/testDescriptor', async (req, res) => {
     } 
 
     catch (err) {
+        if(err.message === "ID sku not found")
+        res.status(404).end();
+        
         res.status(503).end();
     }
 });
