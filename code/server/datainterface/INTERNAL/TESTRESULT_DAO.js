@@ -1,7 +1,5 @@
 'use strict';
 
-const res = require("express/lib/response");
-
 class TESTRESULT_DAO {
 
     constructor() { }

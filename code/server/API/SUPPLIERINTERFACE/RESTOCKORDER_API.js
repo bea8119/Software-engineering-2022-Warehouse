@@ -3,7 +3,10 @@
 /* Import server module */
 const server = require("../../server");
 const app = server.app;
-const db = server.db;
+
+/* Import database module */
+const database = require("../../database")
+const db = database.db;
 
 /* Import RESTOCKORDER_DAO datainterface */
 const RESTOCKORDER_DAO = require('../../datainterface/SUPPLIERINTERFACE/RESTOCKORDER_DAO');

@@ -117,7 +117,7 @@ class SKUITEM_DAO {
 
     getStoredSKUItemByRFID(db, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE RFID = ?'
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM SKUITEM WHERE RFID = ?'
             db.get(sql1, [data], (err, r) => {
                 if (err) {
                     reject(err);
@@ -128,26 +128,16 @@ class SKUITEM_DAO {
                     return;
                 }
                 else {
-                    const sql2 = 'SELECT * FROM SKUITEM WHERE RFID = ?';
-                    db.all(sql2, [data], (err, rows) => {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        const SKUItem = rows.map((r) => (
-                            {
-                                RFID: r.RFID,
-                                SKUId: r.SKUId,
-                                Available: r.Available,
-                                DateOfStock: r.DateOfStock
-                            }
-                        ));
-                        resolve(SKUItem);
-                    });
+                    const SKUItem = {
+                        RFID: r.RFID,
+                        SKUId: r.SKUId,
+                        Available: r.Available,
+                        DateOfStock: r.DateOfStock
+                    }
+                    resolve(SKUItem);
                 };
             });
-        })
-
+        });
     }
 
 
@@ -189,6 +179,7 @@ class SKUITEM_DAO {
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
+                    return;
                 }
                 else {
                     const sql2 = 'DELETE FROM SKUITEM WHERE RFID = ?';
