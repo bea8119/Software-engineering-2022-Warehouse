@@ -298,7 +298,7 @@ class SKU_DAO {
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            const sql2 = 'DROP TABLE SKU';
+            const sql2 = 'DROP TABLE IF EXISTS SKU';
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);

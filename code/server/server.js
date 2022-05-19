@@ -1,14 +1,10 @@
 'use strict';
 
 const express = require('express');
-const sqlite = require('sqlite3');
 
 /* Express and database initialization */
 const app = new express();
 const port = 3001;
-const dbname = 'Prova';
-const db = new sqlite.Database(dbname, (err) => { if (err) throw err; });
-
 app.use(express.json());
 
 
@@ -21,7 +17,6 @@ app.listen(port, () => {
 /* Objects to export */
 module.exports = {
   app: app, 
-  db: db
 };
 
 /* API modules to import */ 

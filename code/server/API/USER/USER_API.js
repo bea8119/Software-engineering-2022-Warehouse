@@ -3,7 +3,10 @@
 /* Import server module */
 const server = require("../../server");
 const app = server.app;
-const db = server.db;
+
+/* Import database module */
+const database = require("../../database")
+const db = database.db;
 
 /* Import USERS_DAO datainterface */
 const USER_DAO = require('../../datainterface/USER/USER_DAO');

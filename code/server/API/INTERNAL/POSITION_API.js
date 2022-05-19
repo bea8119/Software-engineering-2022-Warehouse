@@ -3,11 +3,13 @@
 /* Import server module */
 const server = require("../../server");
 const app = server.app;
-const db = server.db;
+
+/* Import database module */
+const database = require("../../database")
+const db = database.db;
 
 /* Import POSITION_DAO datainterface */
 const POSITION_DAO = require('../../datainterface/INTERNAL/POSITION_DAO');
-const res = require("express/lib/response");
 const p = new POSITION_DAO();
 
 
