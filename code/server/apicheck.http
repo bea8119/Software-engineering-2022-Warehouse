@@ -2,7 +2,7 @@
 
 GET http://localhost:3001/api/skus
 ### OK
-GET http://localhost:3001/api/skus/2
+GET http://localhost:3001/api/skus/3
 ### OK
 POST http://localhost:3001/api/sku
 Content-Type: application/json
@@ -35,7 +35,7 @@ Content-Type: application/json
     "position": "800234546669"
 }
 ### NON FUNZIONA
-DELETE http://localhost:3001/api/skus/44
+DELETE http://localhost:3001/api/skus/1
 ### OK
 
 ################################################################## 
@@ -52,8 +52,8 @@ POST http://localhost:3001/api/skuitem
 Content-Type: application/json
 
 {
-    "RFID":"12345678901234567890123456789071",
-    "SKUId":3,
+    "RFID":"12345678901234567890123456789081",
+    "SKUId":14,
     "DateOfStock":"2021/11/29 12:30"
 }
 ### OK

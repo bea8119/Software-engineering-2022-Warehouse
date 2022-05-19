@@ -8,7 +8,7 @@ class SKUITEM_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, Available INTEGER, DateOfStock VARCHAR(20), SKUId INTEGER, FOREIGN KEY (SKUId) REFERENCES SKU(id))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, Available INTEGER, DateOfStock VARCHAR(20), SKUId INTEGER, FOREIGN KEY (SKUId) REFERENCES SKU(id) ON UPDATE CASCADE ON DELETE CASCADE)';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -24,35 +24,17 @@ class SKUITEM_DAO {
 
     storeSKUItem(db, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
-            db.get(sql1, [data.SKUId], (err, r) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                else if (r.count === 0) {
-                    reject(new Error('ID not found'))
-                }
-                else {
                     const sql2 = 'INSERT INTO SKUITEM(RFID, Available, DateOfStock, SKUId) VALUES (?, ?, ?, ?)';
                     db.run(sql2, [data.RFID, 0, data.DateOfStock, data.SKUId], (err) => {
                         if (err) {
                             reject(err);
                             return;
                         }
-                        const sql3 = 'UPDATE SKU SET availableQuantity = availableQuantity+1 WHERE id = ?'
-                        db.run(sql3, [data.SKUId], (err) => {
-                            if (err) {
-                                reject(err);
-                                return;
-                            }
-                            resolve();
-                        })
-                    });
+                        resolve();
+                    })
                 }
-            });
-        });
-    }
+        );
+    };
 
     /* Get SKUITEMs */
 

@@ -12,8 +12,6 @@ const db = database.db;
 const SKU_DAO = require('../../datainterface/INTERNAL/SKU_DAO');
 const s =  new SKU_DAO();
 
-const res = require("express/lib/response");
-
 
 
 /* SKU Post */
@@ -112,6 +110,7 @@ app.get('/api/skus/:id', async (req, res) => {
         return res.status(200).json(skuFound);
 
     } catch (err) {
+        console.log(err)
         if (err.message === "ID not found"){
             res.status(404).end()
         } else {

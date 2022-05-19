@@ -35,7 +35,7 @@ app.post('/api/skuitem', async (req, res) => {
     }
 
     catch (err) {
-        if (err.message === "ID not found") {
+        if (err.code === 'SQLITE_CONSTRAINT') {
             res.status(404).end()
         } else {
             res.status(503).end()

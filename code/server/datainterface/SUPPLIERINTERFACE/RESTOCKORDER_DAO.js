@@ -187,7 +187,6 @@ class RESTOCKORDER_DAO {
                             }
                             const restockorder =
                             {
-                                id: restockrow.id,
                                 issueDate: restockrow.issueDate,
                                 state: restockrow.state,
                                 products: itemrows.filter((i) => i.roid === restockrow.id).map((i) => (
@@ -231,8 +230,8 @@ class RESTOCKORDER_DAO {
                 } else if (restockrow.count === 0) {
                     reject(new Error("ID not found"));
                     return;
-                } else if (restockrow.state !== "COMPLETEDRETURN" ){
-                    reject(new Error ("Not COMPLETEDRETURN state"))
+                } else if (restockrow.state !== "COMPLETEDRETURN") {
+                    reject(new Error("Not COMPLETEDRETURN state"))
                 } else {
                     db.all(sql2, [id], (err, skuitemrows) => {
                         if (err) {
@@ -246,7 +245,7 @@ class RESTOCKORDER_DAO {
                                     rfid: s.rfid
                                 }
                             ))
-                            
+
                         resolve(returnskuitems);
                     })
                 }
@@ -422,8 +421,9 @@ class RESTOCKORDER_DAO {
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'DROP TABLE RESTOCKORDER';
-            const sql2 = 'DROP TABLE RESTOCKORDER_ITEM';
+            const sql1 = 'DROP TABLE IF EXISTS RESTOCKORDER';
+            const sql2 = 'DROP TABLE IF EXISTS RESTOCKORDER_ITEM';
+            const sql3 = 'DROP TABLE IF EXISTS RESTOCKORDER_SKUITEM';
             db.run(sql1, [], (err) => {
                 if (err) {
                     reject(err);
@@ -434,10 +434,16 @@ class RESTOCKORDER_DAO {
                         reject(err);
                         return;
                     }
-                    resolve();
+                    db.run(sql3, [], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    })
                 })
-            })
-        });
+            });
+        })
     }
 }
 
