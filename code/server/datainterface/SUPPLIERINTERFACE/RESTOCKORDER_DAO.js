@@ -293,10 +293,11 @@ class RESTOCKORDER_DAO {
                             if (err) {
                                 reject(err);
                                 return;
+                            } else {
+                                resolve();
                             }
                         })
                     })
-                    resolve();
                 }
             });
         })

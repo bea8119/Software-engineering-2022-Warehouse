@@ -209,7 +209,7 @@ function testUpdateRestockOrderTransportNote(id, wrongid) {
 
         })
 
-        test('State DELIVERY and ROID not existing', async () => {
+        test('ROID not existing', async () => {
             transportNote =
             {
                 transportNote: { deliveryDate: "2021/11/30" }
