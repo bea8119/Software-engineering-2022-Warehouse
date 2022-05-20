@@ -8,7 +8,7 @@ class SKUITEM_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, Available INTEGER, DateOfStock VARCHAR(20), SKUId INTEGER, FOREIGN KEY (SKUId) REFERENCES SKU(id))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM(RFID VARCHAR(32) PRIMARY KEY, Available INTEGER, DateOfStock VARCHAR(20), SKUId INTEGER, FOREIGN KEY (SKUId) REFERENCES SKU(id) ON UPDATE CASCADE ON DELETE CASCADE)';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -53,6 +53,7 @@ class SKUITEM_DAO {
             });
         });
     }
+
 
     /* Get SKUITEMs */
 

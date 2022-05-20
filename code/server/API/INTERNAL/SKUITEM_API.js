@@ -12,6 +12,11 @@ const db = database.db;
 const SKUITEM_DAO = require('../../datainterface/INTERNAL/SKUITEM_DAO');
 const s = new SKUITEM_DAO();
 
+/* Import DAYJS module + customParseFormat plugin */
+const dayjs = require('dayjs');
+var customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
+
 
 /* SKUItem Post */
 
@@ -22,10 +27,17 @@ app.post('/api/skuitem', async (req, res) => {
         skuitem === undefined ||
         /* RFID must be 32 DIGITS long */
         skuitem.RFID === undefined || skuitem.RFID.length !== 32 || !(/^\d+$/.test(skuitem.RFID)) ||
-        skuitem.SKUId === undefined) {
+        skuitem.SKUId === undefined ||
+
+        /* block if date is not within one of these formats: */
+
+        !((dayjs(skuitem.DateOfStock, 'YYYY/MM/DD', true).isValid()) || (dayjs(skuitem.DateOfStock, 'YYYY/MM/DD hh:mm', true).isValid()) ||
+            skuitem.DateOfStock === undefined || skuitem.DateOfStock === "")
+    ) {
+
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
-    if (skuitem.DateOfStock === undefined || skuitem.DateOfStock === "") {
+    if (skuitem.DateOfStock === undefined || skuitem.DateOfStock === '') {
         skuitem.DateOfStock = "YYYY/MM/DD HH:MM";
     }
     try {
@@ -35,7 +47,7 @@ app.post('/api/skuitem', async (req, res) => {
     }
 
     catch (err) {
-        if (err.message === "ID not found") {
+        if (err.message === 'ID not found') {
             res.status(404).end()
         } else {
             res.status(503).end()
@@ -130,8 +142,13 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
         skuitem === undefined ||
         rfid === undefined || rfid.length !== 32 || !(/^\d+$/.test(rfid)) ||
         skuitem.newRFID === undefined || skuitem.newRFID.length !== 32 || !(/^\d+$/.test(skuitem.newRFID)) ||
-        skuitem.newAvailable === undefined ||(skuitem.newAvailable !== 0 && skuitem.newAvailable !== 1) 
-        ) {
+        skuitem.newAvailable === undefined || (skuitem.newAvailable !== 0 && skuitem.newAvailable !== 1) ||
+
+        /* block if date is not within one of these formats: */
+
+        !((dayjs(skuitem.newDateOfStock, 'YYYY/MM/DD', true).isValid()) || (dayjs(skuitem.newDateOfStock, 'YYYY/MM/DD hh:mm', true).isValid()) ||
+        skuitem.newDateOfStock === undefined || skuitem.newDateOfStock === "")
+    ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     if (skuitem.newDateOfStock === undefined || skuitem.newDateOfStock === "") {
@@ -153,11 +170,11 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
 
 app.delete('/api/skuitem/emergenza', async (req, res) => {
     try {
-    await s.dropTable(db);
-    res.status(200).end()
+        await s.dropTable(db);
+        res.status(200).end()
     }
     catch (err) {
-    res.status(500).end()
+        res.status(500).end()
     }
 });
 

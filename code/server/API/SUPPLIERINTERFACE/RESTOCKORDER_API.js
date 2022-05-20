@@ -12,6 +12,13 @@ const db = database.db;
 const RESTOCKORDER_DAO = require('../../datainterface/SUPPLIERINTERFACE/RESTOCKORDER_DAO');
 const r = new RESTOCKORDER_DAO();
 
+/* Import DAYJS module + customParseFormat plugin */
+const dayjs = require('dayjs');
+var customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
+
+
+
 /* RestockOrder Post */
 
 app.post('/api/restockOrder', async (req, res) => {
@@ -19,8 +26,8 @@ app.post('/api/restockOrder', async (req, res) => {
     let restockOrder = req.body;
     if (Object.keys(req.body).length === 0 ||
         restockOrder === undefined ||
-        restockOrder.issueDate === undefined ||
-        restockOrder.products === undefined || 
+        restockOrder.issueDate === undefined || !((dayjs(restockOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(restockOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
+        restockOrder.products === undefined ||
         restockOrder.supplierId === undefined){
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
@@ -221,7 +228,7 @@ app.put('/api/restockOrder/:id/transportNote', async (req, res) => {
     if (Object.keys(req.body).length === 0 ||
     isNaN(id) ||
     transportNote.transportNote === undefined ||
-    transportNote.transportNote.deliveryDate === undefined) {
+    transportNote.transportNote.deliveryDate === undefined || !((dayjs(restockOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(restockOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))) {
         return res.status(422).json({error: 'Unprocessable entity'});
     }
     try {
@@ -264,7 +271,7 @@ app.delete('/api/restockOrder/:id', async (req, res) => {
 
 
 
-app.delete('/api/restockOrder/emergenza', async (req, res) => {
+app.post('/api/restockOrder/emergenza', async (req, res) => {
     try {
         await r.dropTable(db);
         res.status(200).end()
