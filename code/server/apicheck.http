@@ -114,7 +114,7 @@ Content-Type: application/json
 {
     "name":"test descriptor 3",
     "procedureDescription":"!11!!",
-    "idSKU":130
+    "idSKU":1
 }
 
 ### OK

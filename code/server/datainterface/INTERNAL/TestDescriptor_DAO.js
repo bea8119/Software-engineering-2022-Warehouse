@@ -1,51 +1,49 @@
 'use strict';
 
-class TestDescriptor_DAO{
+class TestDescriptor_DAO {
 
     constructor() { }
-
-    dropTable(){
-
-    }
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS testDescriptor(id INTEGER PRIMARY KEY AUTOINCREMENT,  name VARCHAR(20), procedureDescription VARCHAR(50), skuId INTEGER, FOREIGN KEY (skuId) REFERENCES SKU(id))';
             db.run(sql, (err) => {
-              if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve();
-            });
-
-        });  
-    }
-
-    storeTestDescriptor(db, data) {
-        
-        return new Promise((resolve, reject) => {
-            const sql1=' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
-            db.get(sql1, [data.skuId], (err, r) => {
-                if(err){
-                    reject(err);
-                    return;
-                }
-                else if(r.count === 0){
-                    reject(new Error('ID sku not found'));
-                    return;
-                }
-            
-            const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
-            db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
                 resolve();
             });
+
         });
-    });
+    }
+
+    storeTestDescriptor(db, data) {
+
+        return new Promise((resolve, reject) => {
+            const sql1 = ' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
+            db.get(sql1, [data.idSKU], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                else if (r.count === 0) {
+                    reject(new Error('ID sku not found'));
+                    return;
+                } else {
+
+                    const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
+                    db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        } else {
+                            resolve();
+                        }
+                    });
+                }
+            });
+        });
     }
 
     getStoredTestDescriptors(db) {
@@ -62,7 +60,7 @@ class TestDescriptor_DAO{
                         name: r.name,
                         procedureDescription: r.procedureDescription,
                         idSKU: r.skuId
-                        
+
                     }
                 ));
                 resolve(testDescs);
@@ -143,6 +141,21 @@ class TestDescriptor_DAO{
                 }
             })
         });
+    }
+
+
+    dropTable(db) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'DROP TABLE IF EXISTS TESTDESCRIPTOR';
+            db.run(sql1, [], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else {
+                    resolve();
+                }
+            })
+        })
     }
 
 }
