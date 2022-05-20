@@ -6,5 +6,5 @@ const dbname = 'Prova';
 const db = new sqlite.Database(dbname, (err) => { if (err) throw err; });
 
 module.exports = {
-    db: db, 
+    db: db
 };
