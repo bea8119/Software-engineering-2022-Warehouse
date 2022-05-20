@@ -228,7 +228,7 @@ app.put('/api/restockOrder/:id/transportNote', async (req, res) => {
     if (Object.keys(req.body).length === 0 ||
     isNaN(id) ||
     transportNote.transportNote === undefined ||
-    transportNote.transportNote.deliveryDate === undefined || !((dayjs(restockOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(restockOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))) {
+    transportNote.transportNote.deliveryDate === undefined || !((dayjs(transportNote.transportNote.deliveryDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(transportNote.transportNote.deliveryDate, 'YYYY/MM/DD hh:mm', true).isValid()))) {
         return res.status(422).json({error: 'Unprocessable entity'});
     }
     try {
@@ -237,7 +237,7 @@ app.put('/api/restockOrder/:id/transportNote', async (req, res) => {
     } catch (err) {
         if (err.message === "ID not found") {
             res.status(404).end()
-        } else if (err.message === "Not DELIVERY state"){
+        } else if (err.message === "Not DELIVERY state" || err.message === "Delivery date before issue date"){
             res.status(422).json({error: 'Unprocessable entity'});
         } else {
             res.status(503).end();
@@ -275,10 +275,8 @@ app.post('/api/restockOrder/emergenza', async (req, res) => {
     try {
         await r.dropTable(db);
         res.status(200).end()
-        console.log("sono qui")
     }
     catch (err) {
-        console.log(err);
         res.status(500).end()
     }
 });

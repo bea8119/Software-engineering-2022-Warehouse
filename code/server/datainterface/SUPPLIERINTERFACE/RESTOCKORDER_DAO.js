@@ -1,5 +1,7 @@
 'use strict';
 
+const dayjs = require("dayjs");
+
 class RESTOCKORDER_DAO {
 
     constructor() { }
@@ -291,10 +293,11 @@ class RESTOCKORDER_DAO {
                             if (err) {
                                 reject(err);
                                 return;
+                            } else {
+                                resolve();
                             }
                         })
                     })
-                    resolve();
                 }
             });
         })
@@ -314,6 +317,8 @@ class RESTOCKORDER_DAO {
                     reject(new Error('ID not found'))
                 } else if (r.state !== 'DELIVERY') {
                     reject(new Error('Not DELIVERY state'));
+                } else if (dayjs(data.transportNote.deliveryDate).isBefore(dayjs(r.issueDate))) {
+                    reject (new Error('Delivery date before issue date'))
                 } else {
                     db.run(sql2, [data.transportNote.deliveryDate, id], (err) => {
                         if (err) {
@@ -323,6 +328,7 @@ class RESTOCKORDER_DAO {
                     })
                     resolve();
                 }
+
             });
         })
     }

@@ -25,6 +25,7 @@ describe("test restockOrders", () => {
     testStoreRestockOrder(2);
     testUpdateRestockOrderState(1, 2, "DELIVERED")
     testGetStoredRestockOrderIssued();
+    testUpdateRestockOrderTransportNote(1, 2)
     /*
     testUpdateSKUItem("12345678901234567890123456789041", "12345678901234567890123456789626")
     testDeleteSKUItem("12345678901234567890123456789041", "12345678901234567890123456789626")*/
@@ -168,43 +169,66 @@ function testGetStoredRestockOrderIssued() {
     })
 }
 
-/*
 function testUpdateRestockOrderTransportNote(id, wrongid) {
-    describe('Testing UpdateRestockOrderTransportNote', () => {
-        restockOrder = {
-            issueDate: "2021/11/30 12:30",
-            products: [
-                { SKUId: 17, description: "a product", price: 10.99, qty: 30 },
-                { SKUId: 125, description: "another product", price: 8.99, qty: 20 }
-            ],
-            supplierId: 1
-        }
-        await r.storeRestockOrder(db, restockOrder);
-        await r.updateRestockOrderState(db, 1, "DELIVERED")
-    test('Delivered RO and ROID existing', async () => {
-        transportNote = 
-            {
-                transportNote:{deliveryDate:"2021/12/29"}
-            }
+    let state = {
+        newState: "DELIVERY"
+    }
 
-        await r.updateRestockOrderTransportNote(db, id, restockOrder);
-        var res = await r.getStoredRestockOrderIssued(db);
-        expect(res).toEqual(
-            [
+    let wrongstate = {
+        newState: "COMPLETEDRETURN"
+    }
+    describe('Testing UpdateRestockOrderTransportNote', () => {
+        test('State DELIVERY and ROID existing and DeliveryDate >= IssueDate', async () => {
+            await r.updateRestockOrderState(db, id, state)
+            transportNote =
+            {
+                transportNote: { deliveryDate: "2021/11/30" }
+            }
+            await r.updateRestockOrderTransportNote(db, id, transportNote)
+            var res = await r.getStoredRestockOrderById(db, id);
+            expect(res).toEqual(
                 {
-                    id: 2,
-                    issueDate: "2021/11/30 12:30",
-                    state: "ISSUED",
-                    products: [{ SKUId: 17, description: "a product", price: 10.99, qty: 30 },
-                    { SKUId: 125, description: "another product", price: 8.99, qty: 20 }],
+                    issueDate: "2021/11/29 09:33",
+                    state: "DELIVERY",
+                    products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
+                    { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
                     supplierId: 1,
+                    transportNote: { deliveryDate: "2021/11/30" },
                     skuItems: []
                 },
-            ]
-        )
+            )
+        })
+
+        test('State DELIVERY and ROID existing and DeliveryDate < IssueDate', async () => {
+            await r.updateRestockOrderState(db, id, state)
+            transportNote =
+            {
+                transportNote: { deliveryDate: "2021/11/28" }
+            }
+            await expect(r.updateRestockOrderTransportNote(db, id, transportNote)).rejects.toThrow('Delivery date before issue date');
+
+        })
+
+        test('ROID not existing', async () => {
+            transportNote =
+            {
+                transportNote: { deliveryDate: "2021/11/30" }
+            }
+            await expect(r.updateRestockOrderTransportNote(db, wrongid, transportNote)).rejects.toThrow('ID not found');
+
+        })
+
+        test('State NOT DELIVERY and ROID not existing', async () => {
+            await r.updateRestockOrderState(db, id, wrongstate)
+            transportNote =
+            {
+                transportNote: { deliveryDate: "2021/11/30" }
+            }
+            await expect(r.updateRestockOrderTransportNote(db, id, transportNote)).rejects.toThrow('Not DELIVERY state');
+
+        })
     })
-})
-}*/
+}
 
 /*
 function testDeleteSKUItem(rfid, wrongrfid) {
