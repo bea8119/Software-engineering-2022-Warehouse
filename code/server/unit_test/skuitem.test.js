@@ -78,7 +78,7 @@ function testStoreSKUItem(rfid, skuid, dateOfStock, wrongskuid) {
                 SKUId: wrongskuid,
                 DateOfStock: dateOfStock,
             }
-            await expect(s.getStoredSKUItemByRFID(db, wrongdata)).rejects.toThrow('ID not found');
+            await expect(s.storeSKUItem(db, wrongdata)).rejects.toThrow('ID not found');
         })
 
     })
