@@ -422,8 +422,8 @@ class RESTOCKORDER_DAO {
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'DROP TABLE RESTOCKORDER';
-            const sql2 = 'DROP TABLE RESTOCKORDER_ITEM';
+            const sql1 = 'DROP TABLE IF EXISTS RESTOCKORDER';
+            const sql2 = 'DROP TABLE IF EXISTS RESTOCKORDER_ITEM';
             db.run(sql1, [], (err) => {
                 if (err) {
                     reject(err);

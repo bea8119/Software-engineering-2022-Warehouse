@@ -72,7 +72,11 @@ app.post('/api/item', async (req, res) => {
     catch (err) {
         if (err.message === "SKU not Found") { /* Sku ID check */
             res.status(404).json({ error: 'Not Found' });
-        } else {
+        } 
+        else if(err.message==="Item already sells") {
+            res.status(422).json({ error: 'Unprocessable Entity' });
+        }
+        else {
             res.status(503).end()
         }
     }
