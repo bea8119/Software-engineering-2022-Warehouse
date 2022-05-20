@@ -24,17 +24,36 @@ class SKUITEM_DAO {
 
     storeSKUItem(db, data) {
         return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+            db.get(sql1, [data.SKUId], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                }
+                else {
                     const sql2 = 'INSERT INTO SKUITEM(RFID, Available, DateOfStock, SKUId) VALUES (?, ?, ?, ?)';
                     db.run(sql2, [data.RFID, 0, data.DateOfStock, data.SKUId], (err) => {
                         if (err) {
                             reject(err);
                             return;
                         }
-                        resolve();
-                    })
+                        const sql3 = 'UPDATE SKU SET availableQuantity = availableQuantity+1 WHERE id = ?'
+                        db.run(sql3, [data.SKUId], (err) => {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+                            resolve();
+                        })
+                    });
                 }
-        );
-    };
+            });
+        });
+    }
+
 
     /* Get SKUITEMs */
 
