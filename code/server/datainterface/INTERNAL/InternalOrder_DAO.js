@@ -8,7 +8,6 @@ class InternalOrder_DAO {
     /* new table create */
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            //DOMANDA-> product di InternalOrder è uguale a product di RESTOCK ORDER?->qui viene considerato come se NON fossero uguali
             const sql1 = 'CREATE TABLE IF NOT EXISTS INTERNALORDER_PRODUCT(ioid INTEGER, SKUId INTEGER, description VARCHAR(20), price REAL, quantity INTEGER, RFID VARCHAR(32),  PRIMARY KEY (ioid, SKUId), FOREIGN KEY(ioid) REFERENCES INTERNALORDER(id), FOREIGN KEY(SKUId) REFERENCES SKU(id))'
             const sql2 = 'CREATE TABLE IF NOT EXISTS INTERNALORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, issueDate VARCHAR(20), state VARCHAR(20), customerId INTEGER)';
             db.run(sql1, (err) => {

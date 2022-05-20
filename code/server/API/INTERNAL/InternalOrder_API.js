@@ -12,12 +12,22 @@ const db = database.db;
 const InternalOrder_DAO = require('../../datainterface/INTERNAL/InternalOrder_DAO');
 const i = new InternalOrder_DAO();
 
+
+/* Import DAYJS module + customParseFormat plugin */
+const dayjs = require('dayjs');
+var customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
+
+
 /* InternalOrder Post */
 app.post('/api/internalOrders', async (req, res) => {
 
     let internalOrder = req.body;
 
-    if (Object.keys(req.body).length === 0 || internalOrder === undefined || internalOrder.issueDate === undefined || internalOrder.products === undefined || internalOrder.customerId === undefined) {
+    if (Object.keys(req.body).length === 0 || internalOrder === undefined || 
+    internalOrder.issueDate === undefined || !((dayjs(internalOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(internalOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
+    internalOrder.products === undefined ||  
+    internalOrder.customerId === undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
 

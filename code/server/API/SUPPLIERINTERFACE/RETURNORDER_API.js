@@ -11,12 +11,17 @@ const db = database.db;
 const ReturnOrder_DAO = require('../../datainterface/SUPPLIERINTERFACE/RETURNORDER_DAO');
 const r = new ReturnOrder_DAO();
 
+/* Import DAYJS module + customParseFormat plugin */
+const dayjs = require('dayjs');
+var customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
+
 app.post('/api/returnOrder', async (req, res) => {
 
     let returnOrder = req.body;
     if (Object.keys(req.body).length === 0 ||
     returnOrder === undefined ||
-    returnOrder.returnDate === undefined ||
+    returnOrder.returnDate === undefined || !((dayjs(returnOrder.returnDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(returnOrder.returnDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
     returnOrder.products === undefined || 
     returnOrder.restockOrderId === undefined){
         return res.status(422).json({ error: 'Unprocessable entity' });

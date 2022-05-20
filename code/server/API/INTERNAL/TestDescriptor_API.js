@@ -2,7 +2,10 @@
 
 const server = require("../../server");
 const app = server.app;
-const db = server.db;
+
+/* Import database module */
+const database = require("../../database")
+const db = database.db;
 
 /* Import testDescriptor_DAO datainterface */
 const TestDescriptor_DAO = require('../../datainterface/INTERNAL/TestDescriptor_DAO');

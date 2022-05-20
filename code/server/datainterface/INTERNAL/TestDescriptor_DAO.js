@@ -1,7 +1,5 @@
 'use strict';
 
-const res = require("express/lib/response");
-
 class TestDescriptor_DAO{
 
     constructor() { }
