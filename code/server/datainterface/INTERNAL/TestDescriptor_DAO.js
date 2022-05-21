@@ -4,8 +4,17 @@ class TestDescriptor_DAO{
 
     constructor() { }
 
-    dropTable(){
-
+    dropTable(db) {
+        return new Promise((resolve, reject) => {
+            const sql2 = 'DROP TABLE IF EXISTS testDescriptor';
+            db.run(sql2, [], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        })
     }
 
     newTableName(db) {
@@ -26,7 +35,7 @@ class TestDescriptor_DAO{
         
         return new Promise((resolve, reject) => {
             const sql1=' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
-            db.get(sql1, [data.skuId], (err, r) => {
+            db.get(sql1, [data.idSKU], (err, r) => {
                 if(err){
                     reject(err);
                     return;

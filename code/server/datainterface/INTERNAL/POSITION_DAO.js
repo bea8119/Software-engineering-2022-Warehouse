@@ -28,6 +28,7 @@ class POSITION_DAO {
             const sql = 'INSERT INTO POSITION (positionID,  aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?, ?, ?, ? ,? ,? ,?, ?)';
             db.run(sql, [data.positionID, data.aisleID, data.row, data.col, data.maxWeight, data.maxVolume, 0, 0], (err) => {
                 if (err) {
+                    console.log(err)
                     reject(err);
                     return;
                 }
@@ -65,12 +66,12 @@ class POSITION_DAO {
 
     getStoredPosByID(db, position){
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count, * FROM POSITION WHERE id = ?'
+            const sql = 'SELECT COUNT(*) AS count, * FROM POSITION WHERE positionID = ?'
             db.get(sql, [position], (err, r) => {
                 if (err)
                     reject(err);
                 else if (r.count === 0) {
-                    resolve(undefined);
+                    reject(new Error("ID not found"));
                 }
                 else {
                     resolve({
@@ -176,6 +177,19 @@ class POSITION_DAO {
 
         });
 
+    }
+
+    dropTable(db) {
+        return new Promise((resolve, reject) => {
+            const sql2 = 'DROP TABLE IF EXISTS POSITION';
+            db.run(sql2, [], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        })
     }
 }
 

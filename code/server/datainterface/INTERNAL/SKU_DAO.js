@@ -10,7 +10,7 @@ class SKU_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU(id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(20), weight INTEGER, volume INTEGER, notes VARCHAR(20), position VARCHAR(20), availableQuantity INTEGER, price REAL, FOREIGN KEY (position) REFERENCES POSITION(positionID) ON UPDATE CASCADE ON DELETE SET NULL))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU(id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(20), weight INTEGER, volume INTEGER, notes VARCHAR(20), position VARCHAR(20), availableQuantity INTEGER, price REAL, FOREIGN KEY (position) REFERENCES POSITION(positionID) ON UPDATE CASCADE ON DELETE SET NULL)';
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -51,7 +51,7 @@ class SKU_DAO {
                 }
                 const sql1 = 'SELECT * FROM testDescriptor';
                 db.all(sql1, [], (err, testDescriptors) => {
-
+                    
                     const skus = rows.map((r) => (
                         {
                             id: r.id,
@@ -221,14 +221,23 @@ class SKU_DAO {
 
     //update SKU position
 
-    async updateSKUposition(db, oldSku, pos) {
+    async updateSKUposition(db, id, pos) {
         let posit=pos.position;
 
         return new Promise(async (resolve, reject) => {
            
-               
+            const sql0 = 'SELECT COUNT(*) AS countsku, * FROM SKU WHERE id = ?';
             const sql = 'SELECT COUNT(*) AS countp, * FROM POSITION WHERE positionID = ?';
             const sql1 = 'UPDATE POSITION SET  occupiedWeight = ?, occupiedVolume = ? WHERE positionID = ?';
+            await db.get(sql0, [id], async (err, oldSku) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }else if (oldSku.countsku === 0){
+                    reject(new Error("ID sku not found"));
+                    return;
+                }else{
+            
             await db.get(sql, [posit], async (err, p) => {
                 
                if (err) {
@@ -287,6 +296,8 @@ class SKU_DAO {
 
 
         });
+    }
+    });
     });
 
 

@@ -49,6 +49,9 @@ app.get('/api/positions', async (req, res) => {
         const positionList = await p.getStoredPosition(db);
         res.status(200).json(positionList);
     } catch (err) {
+        if (err.message === "ID not found"){
+            res.status(404).end()
+        }else
         res.status(500).end();
     }
 });
@@ -66,7 +69,7 @@ app.delete('/api/position/:positionID', async (req, res) => {
     }
     catch (err) {
         if (err.message === "ID not found") {
-            res.status(422).end()
+            res.status(404).end()
         } else {
             res.status(503).end()
         }
