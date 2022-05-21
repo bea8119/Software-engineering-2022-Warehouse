@@ -61,9 +61,9 @@ PUT http://localhost:3001/api/skuitems/12345678901234567890123456789595
 Content-Type: application/json
 
 {
-    "newRFID":"12345678901234567890123456789596",
-    "newAvailable":0,
-    "newDateOfStock":""
+    "newRFID":"12345678901234567890123456789595",
+    "newAvailable":-1,
+    "newDateOfStock":"2021/11/29 12:30"
 }
 ### OK
 ##################################################################

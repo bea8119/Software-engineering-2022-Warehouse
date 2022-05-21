@@ -26,7 +26,7 @@ class ITEM_DAO {
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
-                }
+                } else {
                 const item = rows.map((r) => (
                     {
                         id: r.id,
@@ -38,6 +38,7 @@ class ITEM_DAO {
                     }
                 ));
                 resolve(item);
+                }
             });
         });
     }
@@ -126,8 +127,9 @@ class ITEM_DAO {
                     db.run(sql2, [ data.newDescription, data.newPrice, data.newSKUId, data.newSupplierId, id], (err) => {
                         if (err) {
                             reject(new Error('errore seconda query'))
-                        }
+                        } else {
                         resolve();
+                        }
                     });
                 }
             })
@@ -150,8 +152,9 @@ class ITEM_DAO {
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                        }
+                        } else {
                         resolve();
+                        }
                     });
 
                 }
@@ -167,8 +170,9 @@ class ITEM_DAO {
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);
-                }
+                } else {
                 resolve();
+                }
             });
         })
     }
