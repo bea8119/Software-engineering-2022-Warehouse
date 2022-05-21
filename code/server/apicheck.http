@@ -2,15 +2,15 @@
 
 GET http://localhost:3001/api/skus
 ### OK
-GET http://localhost:3001/api/skus/3
+GET http://localhost:3001/api/skus/1
 ### OK
 POST http://localhost:3001/api/sku
 Content-Type: application/json
 
 {
     "description" : "test",
-    "weight" : 200,
-    "volume" : 200,
+    "weight" : 2,
+    "volume" : 2,
     "notes" : "prova",
     "price" : 10.99,
     "availableQuantity" : 1
@@ -21,14 +21,14 @@ Content-Type: application/json
 
 {
     "newDescription" : "test1",
-    "newWeight" : 400,
-    "newVolume" : 400,
+    "newWeight" : 40,
+    "newVolume" : 40,
     "newNotes" : "first SKU",
     "newPrice" : 10.99,
     "newAvailableQuantity" : 1
 }
 ### OK
-PUT http://localhost:3001/api/sku/3/position
+PUT http://localhost:3001/api/sku/2/position
 Content-Type: application/json
 
 {
@@ -83,7 +83,7 @@ Content-Type: application/json
     "maxVolume": 1000
 }
 ### OK
-PUT http://localhost:3001/api/position/800234543666
+PUT http://localhost:3001/api/position/800234546669
 Content-Type: application/json
 
 {
@@ -112,9 +112,9 @@ POST http://localhost:3001/api/testDescriptor
 Content-Type: application/json
 
 {
-    "name":"test descriptor 3",
+    "name":"test descriptor 2",
     "procedureDescription":"!11!!",
-    "idSKU":130
+    "idSKU": 1
 }
 
 ### OK
@@ -203,4 +203,40 @@ Content-Type: application/json
 ### OK
 
 POST http://localhost:3001/api/restockOrder/emergenza
+
+#################################################################
+
+### Return Order
+
+### get all return orders
+GET http://localhost:3001/api/returnOrders
+
+### OK
+
+### get return order by id
+GET http://localhost:3001/api/returnOrders/4
+
+### OK
+
+### Insert new returnOrder
+POST http://localhost:3001/api/returnOrder
+Content-Type: application/json
+
+{
+     "returnDate":"2021/11/23 09:33",
+     "products": [{"SKUId":12,"description":"a product","price":10.99, "RFID":"12345678901234567890123456789016"},
+                        {"SKUId":32,"description":"another product","price":11.99,"RFID":"12345678901234567890123456789038"}],
+    "restockOrderId" : 1
+        }
+
+### OK
+
+### delete return order by id
+DELETE http://localhost:3001/api/returnOrder/1
+
+### OK
+
+
+
+
 

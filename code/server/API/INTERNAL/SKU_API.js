@@ -170,8 +170,8 @@ app.put('/api/sku/:id', async (req, res) => {
     
 
     try {
-        const oldSku = await s.getSKUbyID(db, id);
-        await s.updateSKUposition(db, oldSku, position);
+       // const oldSku = await s.getSKUbyID(db, id);
+        await s.updateSKUposition(db, id, position);
         return res.status(200).end();
     }
     catch (err) {
@@ -180,9 +180,13 @@ app.put('/api/sku/:id', async (req, res) => {
         } else if (err.message === "ID position not found"){
             res.status(404).end()
         }
+        else if (err.message === "ID sku not found"){
+            res.status(404).end()
+        }
         else if (err.message === "Maximum position capacity exceeded") {
             res.status(422).json({error: 'Maximum position capacity exceeded'});
         } else {
+            console.log(err)
             res.status(503).end();
         }
     }

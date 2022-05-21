@@ -1,0 +1,212 @@
+const SKU_DAO = require('../datainterface/INTERNAL/SKU_DAO')
+const s = new SKU_DAO()
+const testDescriptor_DAO = require('../datainterface/INTERNAL/testDescriptor_DAO')
+const t = new testDescriptor_DAO()
+const POSITION_DAO = require('../datainterface/INTERNAL/POSITION_DAO')
+const p = new POSITION_DAO()
+const database = require("../database");
+const db = database.db;
+
+
+describe("test sku", () => {
+    beforeEach(async () => {
+        await s.dropTable(db);
+        await t.dropTable(db);
+        await p.dropTable(db);
+        let sku = {
+            description: "sku1",
+            weight: 100,
+            volume: 50,
+            notes: "first SKU",
+            availableQuantity: 50,
+            price: 10.99
+           
+        }
+
+        let testDesc1 = {
+            
+                name: "test descriptor 1",
+                procedureDescription: "This test is described by...",
+                idSKU: 1
+            
+        }
+        let testDesc2 = {
+            
+            name: "test descriptor 2",
+            procedureDescription: "This test is described by...",
+            idSKU: 1
+        
+    }
+    let position = {
+        positionID :"800234546669",
+        aisleID: "8002",
+        row: "3454",
+        col: "6669",
+        maxWeight: 10000,
+        maxVolume: 10000
+    }
+    let position2 = {
+        positionID :"800234546660",
+        aisleID: "8002",
+        row: "3454",
+        col: "6660",
+        maxWeight: 1000,
+        maxVolume: 1000
+    }
+    
+        
+        try {
+            await s.newTableName(db);
+            await s.storeSKU(db, sku);
+            await t.newTableName(db);
+            await t.storeTestDescriptor(db, testDesc1);
+            await t.storeTestDescriptor(db, testDesc2);
+            await p.newTableName(db);
+            await p.storePosition(db, position);
+            await p.storePosition(db, position2);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+   
+    testGetStoredSKU(1, "sku1", 100, 50, "first SKU", 50, 10.99);
+    testStoreSKU(2, "sku2", 1, 50, "second SKU", 5, 11.99);
+    testUpdateSKU(1, 10);
+    testUpdateSKUposition(1, 10);
+    testDeleteSKU(1, 10);
+   
+});
+
+
+function testGetStoredSKU(id, description, weight, volume, notes, availableQuantity, price) {
+    test("Testing getStoredSKU", async () => {
+        
+        let res = await s.getStoredSKU(db);
+        
+        let td = await t.getStoredTestDescriptors(db);
+        
+        expect(res).toEqual([{
+            id: id,
+            description: description,
+            weight: weight,
+            volume: volume,
+            notes: notes,
+            position: null,
+            availableQuantity: availableQuantity,
+            price: price,
+            testDescriptors: Object.values(td).filter((t) => t.idSKU === id).map((i) => i.id)
+        }])
+    })
+}
+
+function testStoreSKU(id, description, weight, volume, notes, availableQuantity, price) {
+
+        test('Testing StoreSKU', async () => {
+            const data = {
+                description: description,
+                weight: weight,
+                volume: volume,
+                notes: notes,
+                availableQuantity: availableQuantity,
+                price: price,
+            }
+            await s.storeSKU(db, data);
+            let td = await t.getStoredTestDescriptors(db);
+
+            var res = await s.getSKUbyID(db, id);
+            expect(res).toEqual({
+             id: id,
+            description: description,
+            weight: weight,
+            volume: volume,
+            notes: notes,
+            position: null,
+            availableQuantity: availableQuantity,
+            price: price,
+            testDescriptors: Object.values(td).filter((t) => t.idSKU === id).map((i) => i.id)
+            })
+        });
+
+  
+}
+
+function testUpdateSKU(id, wrongid) {
+    describe('Testing updateSKU', () => {
+        test('SKU id found', async () => {
+            let newsku = {
+                newDescription : "test1",
+                newWeight : 400,
+                newVolume : 400,
+                newNotes : "first SKU",
+                newPrice : 10.99,
+                newAvailableQuantity : 1
+            }
+            await s.updateSKU(db, id, newsku)
+            var res = await s.getSKUbyID(db, id);
+            let td = await t.getStoredTestDescriptors(db);
+            expect(res).toEqual({
+                id: id,
+                description: newsku.newDescription,
+                weight: newsku.newWeight,
+                volume: newsku.newVolume,
+                notes: newsku.newNotes,
+                position: null,
+                availableQuantity: newsku.newAvailableQuantity,
+                price: newsku.newPrice,
+                testDescriptors: Object.values(td).filter((t) => t.idSKU === id).map((i) => i.id)
+            })
+        });
+
+        test('No SKUId found exception', async () => {
+            await expect(s.updateSKU(db, wrongid)).rejects.toThrow('ID not found');
+        })
+    })
+}
+
+function testUpdateSKUposition(id, wrongid) {
+    describe('Testing updateSKUposition', () => {
+        test('SKU id found, position found', async () => {
+            let newposition = {
+                position: "800234546669"
+            }
+            let pre = await s.getSKUbyID(db, id);
+            await s.updateSKUposition(db, id, newposition)
+            var res = await s.getSKUbyID(db, id);
+            let td = await t.getStoredTestDescriptors(db);
+            expect(res.position).toEqual( newposition.position)
+        });
+
+        test('No SKUId found exception', async () => {
+            let newposition = {
+                position: "800234546669"
+            }
+            await expect(s.updateSKUposition(db, wrongid, newposition )).rejects.toThrow('ID sku not found');
+        })
+        test('No position found exception', async () => {
+            let wrongposition = {
+                position: "800234543333"
+            }
+            await expect(s.updateSKUposition(db, id, wrongposition)).rejects.toThrow('ID position not found');
+        })
+        test('Max capacity exceeded exception', async () => {
+            let newposition = {
+                position: "800234546660"
+            }
+            await expect(s.updateSKUposition(db, id, newposition)).rejects.toThrow('Maximum position capacity exceeded');
+        })
+    })
+}
+
+
+function testDeleteSKU(id, wrongid) {
+    describe('Testing deleteSKU', () => {
+        test('id existing', async () => {
+            await s.deleteSKU(db, id)
+            await expect(s.getSKUbyID(db, id)).rejects.toThrow('ID not found');
+        })
+
+        test('id not existing', async () => {
+            await expect(s.deleteSKU(db, wrongid)).rejects.toThrow('ID not found');
+        })
+    })
+}

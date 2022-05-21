@@ -4,6 +4,29 @@ class ReturnOrder_DAO {
 
     constructor(){ }
 
+    dropTable(db) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'DROP TABLE IF EXISTS RETURNORDER_PRODUCT';
+            db.run(sql1, [], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else{
+                
+                    const sql2 = 'DROP TABLE IF EXISTS RETURNORDER';
+                    db.run(sql2, [], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
+                        resolve();
+                    });
+                }
+                
+            });
+        })
+    }
+
     newTableName(db) {
         return new Promise((resolve, reject) => {
             const sql1 = 'CREATE TABLE IF NOT EXISTS RETURNORDER_PRODUCT(SKUId INTEGER, description VARCHAR(20), price REAL, RFID VARCHAR(32), roid INTEGER, PRIMARY KEY (SKUId, roid) )'
@@ -26,34 +49,37 @@ class ReturnOrder_DAO {
         });
     }
 
-    //manage when id is eq 0
-    storeReturnOrder(db, data) {
-        return new Promise((resolve, reject) => {
+    
+    async storeReturnOrder(db, data) {
+        return new Promise( async(resolve, reject) => {
             const sql1 = 'INSERT INTO RETURNORDER(id, returnDate, restockOrderId) VALUES (?, ?, ?)';
             const sql2 = 'INSERT INTO RETURNORDER_PRODUCT (SKUId, description, price, RFID, roid) VALUES (?, ?, ?, ?, ?)'
             const sql3 = 'SELECT MAX(id) AS lastroid FROM RETURNORDER'
-            db.run(sql1, [null, data.returnDate, data.restockOrderId], (err) => {
+            await db.run(sql1, [null, data.returnDate, data.restockOrderId], async (err) => {
                 if (err) {
                     reject(err);
                     return;
-                }
-                db.get(sql3, [], (err, r) => {
+                } else{
+                await db.get(sql3, [], async (err, r) => {
                     if (err) {
                         reject(err);
                         return;
-                    }
+                    } else{
                     
-                    data.products.map((product) => {
-                        db.run(sql2, [product.SKUId, product.description, product.price, product.RFID, r.lastroid ], (err) => {
+                   await data.products.map( async (product) => {
+                        await db.run(sql2, [product.SKUId, product.description, product.price, product.RFID, r.lastroid ], (err) => {
                             if (err) {
                                 reject(err);
                                 return;
                             }
+                            
                         });
-                    });
-                });
+                    }); 
+                    resolve();
+                }
+                }); }
             });
-                resolve();
+                
             });
     }
 
@@ -66,7 +92,7 @@ class ReturnOrder_DAO {
                 if (err) {
                     reject(err);
                     return;
-                }
+                } else{
                 db.all(sql2, [], (err, itemrows) => {
                     if (err) {
                         reject(err);
@@ -79,14 +105,14 @@ class ReturnOrder_DAO {
                                 id: r.id,
                                 returnDate: r.returnDate,
                                 
-                                products: [itemrows.filter((i) => i.roid === r.id).map((i) => (
+                                products: itemrows.filter((i) => i.roid === r.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
                                         description: i.description,
                                         price: i.price,
                                         RFID: i.RFID
                                     }
-                                ))],
+                                )),
                                 restockOrderId: r.restockOrderId
                                 
 
@@ -94,7 +120,7 @@ class ReturnOrder_DAO {
                         ))
                         resolve(returnorder);
                     
-                })
+                }); }
             });
         });
     }
@@ -126,14 +152,14 @@ class ReturnOrder_DAO {
                                 id: r.id,
                                 returnDate: r.returnDate,
                                 
-                                products: [itemrows.filter((i) => i.roid === r.id).map((i) => (
+                                products: itemrows.filter((i) => i.roid === r.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
                                         description: i.description,
                                         price: i.price,
                                         RFID: i.RFID
                                     }
-                                ))],
+                                )),
                                 restockOrderId: r.restockOrderId
                                 
                                 

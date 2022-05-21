@@ -1,12 +1,10 @@
 'use strict';
 
-class TestDescriptor_DAO{
+class TestDescriptor_DAO {
 
     constructor() { }
 
-    dropTable(){
 
-    }
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
@@ -26,7 +24,7 @@ class TestDescriptor_DAO{
         
         return new Promise((resolve, reject) => {
             const sql1=' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
-            db.get(sql1, [data.skuId], (err, r) => {
+            db.get(sql1, [data.idSKU], (err, r) => {
                 if(err){
                     reject(err);
                     return;
@@ -44,8 +42,37 @@ class TestDescriptor_DAO{
                 }
                 resolve();
             });
+
         });
-    });
+    })
+}
+
+    storeTestDescriptor(db, data) {
+
+        return new Promise((resolve, reject) => {
+            const sql1 = ' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
+            db.get(sql1, [data.idSKU], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                else if (r.count === 0) {
+                    reject(new Error('ID sku not found'));
+                    return;
+                } else {
+
+                    const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
+                    db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        } else {
+                            resolve();
+                        }
+                    });
+                }
+            });
+        });
     }
 
     getStoredTestDescriptors(db) {
@@ -62,7 +89,7 @@ class TestDescriptor_DAO{
                         name: r.name,
                         procedureDescription: r.procedureDescription,
                         idSKU: r.skuId
-                        
+
                     }
                 ));
                 resolve(testDescs);
@@ -129,9 +156,19 @@ class TestDescriptor_DAO{
                     reject(err)
                     return;
                 } else if (r.count === 0) {
-                    reject(new Error('ID not found'))
+                    reject(new Error('ID not found'));
                     return;
                 } else {
+                    const sql1=' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
+            db.get(sql1, [data.skuId], (err, r) => {
+                if(err){
+                    reject(err);
+                    return;
+                }
+                else if(r.count === 0){
+                    reject(new Error('ID sku not found'));
+                    return;
+                } else{
                     const sql2 = 'UPDATE testDescriptor SET name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
                     db.run(sql2, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err) => {
                         if (err) {
@@ -141,11 +178,29 @@ class TestDescriptor_DAO{
                         resolve();
                     });
                 }
-            })
+                  });
+                }
         });
+    })
+}
+
+
+    dropTable(db) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'DROP TABLE IF EXISTS TESTDESCRIPTOR';
+            db.run(sql1, [], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else {
+                    resolve();
+                }
+            })
+        })
     }
 
 }
+
 
 
 /* Export class TestDescriptor_DAO with methods */
