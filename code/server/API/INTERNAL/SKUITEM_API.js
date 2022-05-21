@@ -171,7 +171,7 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
 app.delete('/api/skuitem/emergenza', async (req, res) => {
     try {
         await s.dropTable(db);
-        res.status(200).end()
+        res.status(204).end()
     }
     catch (err) {
         res.status(500).end()
