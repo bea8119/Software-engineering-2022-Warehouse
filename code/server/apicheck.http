@@ -204,3 +204,39 @@ Content-Type: application/json
 
 POST http://localhost:3001/api/restockOrder/emergenza
 
+#################################################################
+
+### Return Order
+
+### get all return orders
+GET http://localhost:3001/api/returnOrders
+
+### OK
+
+### get return order by id
+GET http://localhost:3001/api/returnOrders/4
+
+### OK
+
+### Insert new returnOrder
+POST http://localhost:3001/api/returnOrder
+Content-Type: application/json
+
+{
+     "returnDate":"2021/11/23 09:33",
+     "products": [{"SKUId":12,"description":"a product","price":10.99, "RFID":"12345678901234567890123456789016"},
+                        {"SKUId":32,"description":"another product","price":11.99,"RFID":"12345678901234567890123456789038"}],
+    "restockOrderId" : 1
+        }
+
+### OK
+
+### delete return order by id
+DELETE http://localhost:3001/api/returnOrder/1
+
+### OK
+
+
+
+
+
