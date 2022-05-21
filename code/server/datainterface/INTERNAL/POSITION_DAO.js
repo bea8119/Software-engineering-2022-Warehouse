@@ -12,7 +12,6 @@ class POSITION_DAO {
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -28,9 +27,8 @@ class POSITION_DAO {
             const sql = 'INSERT INTO POSITION (positionID,  aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?, ?, ?, ? ,? ,? ,?, ?)';
             db.run(sql, [data.positionID, data.aisleID, data.row, data.col, data.maxWeight, data.maxVolume, 0, 0], (err) => {
                 if (err) {
-                    console.log(err)
+                    
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -45,7 +43,6 @@ class POSITION_DAO {
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 const position = rows.map((r) => (
                     {
@@ -101,7 +98,6 @@ class POSITION_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
                 } else {
@@ -109,7 +105,6 @@ class POSITION_DAO {
                     db.run(sql2, [data.newAisleID + data.newRow + data.newCol, data.newAisleID, data.newRow, data.newCol, data.newMaxWeight, data.newMaxVolume, data.newOccupiedWeight, data.newOccupiedVolume, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -131,7 +126,6 @@ class POSITION_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
                 } else {
@@ -139,7 +133,6 @@ class POSITION_DAO {
                     db.run(sql2, [data, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -157,7 +150,6 @@ class POSITION_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -167,7 +159,6 @@ class POSITION_DAO {
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -185,7 +176,6 @@ class POSITION_DAO {
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });

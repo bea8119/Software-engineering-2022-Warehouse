@@ -81,6 +81,15 @@ function testStoreSKUItem(rfid, skuid, dateOfStock, wrongskuid) {
             await expect(s.storeSKUItem(db, wrongdata)).rejects.toThrow('ID not found');
         })
 
+        test('Generic error (SQLITE_CONSTRAINT)', async () => {
+            const wrongdata2 = {
+                RFID: "12345678901234567890123456789041",
+                SKUId: skuid,
+                DateOfStock: dateOfStock,
+            }
+            await expect(s.storeSKUItem(db, wrongdata2)).rejects.toThrow('SQLITE_CONSTRAINT: UNIQUE constraint failed: SKUITEM.RFID');
+        })
+
     })
 }
 
@@ -98,7 +107,7 @@ function testGetStoredSkuItemByRFID(rfid, wrongrfid, wrongdb) {
             })
         });
 
-        test('RFID note existing', async () => {
+        test('RFID not existing', async () => {
             await expect(s.getStoredSKUItemByRFID(db, wrongrfid)).rejects.toThrow('ID not found');
         })
     })

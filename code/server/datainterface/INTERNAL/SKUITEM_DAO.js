@@ -12,7 +12,6 @@ class SKUITEM_DAO {
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -28,7 +27,6 @@ class SKUITEM_DAO {
             db.get(sql1, [data.SKUId], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -38,13 +36,11 @@ class SKUITEM_DAO {
                     db.run(sql2, [data.RFID, 0, data.DateOfStock, data.SKUId], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         const sql3 = 'UPDATE SKU SET availableQuantity = availableQuantity+1 WHERE id = ?'
                         db.run(sql3, [data.SKUId], (err) => {
                             if (err) {
                                 reject(err);
-                                return;
                             }
                             resolve();
                         })
@@ -63,7 +59,6 @@ class SKUITEM_DAO {
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 const SKUItem = rows.map((r) => (
                     {
@@ -87,7 +82,6 @@ class SKUITEM_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -97,7 +91,6 @@ class SKUITEM_DAO {
                     db.all(sql2, [id], (err, rows) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         const SKUItem = rows.map((r) => (
                             {
@@ -122,11 +115,9 @@ class SKUITEM_DAO {
             db.get(sql1, [data], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 }
                 else {
                     const SKUItem = {
@@ -150,7 +141,6 @@ class SKUITEM_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error("ID not found"))
                 } else {
@@ -158,7 +148,6 @@ class SKUITEM_DAO {
                     db.run(sql2, [data.newRFID, data.newAvailable, data.newDateOfStock, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -176,24 +165,20 @@ class SKUITEM_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
-                    return;
                 }
                 else {
                     const sql2 = 'DELETE FROM SKUITEM WHERE RFID = ?';
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         const sql3 = 'UPDATE SKU SET availableQuantity = availableQuantity-1 WHERE id = ?'
                         db.run(sql3, [r.SKUId], (err) => {
                             if (err) {
                                 reject(err)
-                                return;
                             }
                             resolve();
                         })
@@ -212,7 +197,6 @@ class SKUITEM_DAO {
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });

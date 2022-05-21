@@ -16,17 +16,14 @@ class RESTOCKORDER_DAO {
             db.run(sql1, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     db.run(sql2, (err => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             db.run(sql3, (err) => {
                                 if (err) {
                                     reject(err);
-                                    return;
                                 }
                                 resolve();
                             })
@@ -48,18 +45,15 @@ class RESTOCKORDER_DAO {
             db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     db.get(sql3, [], (err, r) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             data.products.map((product) => {
                                 db.run(sql2, [r.lastroid, product.SKUId, product.description, product.price, product.qty], (err) => {
                                     if (err) {
                                         reject(err);
-                                        return;
                                     } else {
                                         resolve();
                                     }
@@ -83,17 +77,14 @@ class RESTOCKORDER_DAO {
             db.all(sql1, [], (err, restockrows) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     db.all(sql2, [], (err, itemrows) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             db.all(sql3, [], (err, skuitemrows) => {
                                 if (err) {
                                     reject(err);
-                                    return;
                                 } else {
                                     const restockorder = restockrows.map((r) => (
                                         {
@@ -141,12 +132,10 @@ class RESTOCKORDER_DAO {
             db.all(sql1, [], (err, restockrows) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     db.all(sql2, [], (err, itemrows) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             const restockorder = restockrows.map((r) => (
                                 {
@@ -183,20 +172,16 @@ class RESTOCKORDER_DAO {
             db.get(sql1, [id], (err, restockrow) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (restockrow.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 } else {
                     db.all(sql2, [], (err, itemrows) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             db.all(sql3, [], (err, skuitemrows) => {
                                 if (err) {
                                     reject(err);
-                                    return;
                                 } else {
                                     const restockorder =
                                     {
@@ -241,17 +226,14 @@ class RESTOCKORDER_DAO {
             db.get(sql1, [id], (err, restockrow) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (restockrow.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 } else if (restockrow.state !== "COMPLETEDRETURN") {
                     reject(new Error("Not COMPLETEDRETURN state"))
                 } else {
                     db.all(sql2, [id], (err, skuitemrows) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             const returnskuitems =
                                 skuitemrows.map((s) => (
@@ -282,7 +264,6 @@ class RESTOCKORDER_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
                 } else if (r.state !== 'DELIVERED') {
@@ -292,7 +273,6 @@ class RESTOCKORDER_DAO {
                         db.run(sql2, [skuitem.rfid, skuitem.SKUId, id], (err) => {
                             if (err) {
                                 reject(err);
-                                return;
                             } else {
                                 resolve();
                             }
@@ -312,7 +292,6 @@ class RESTOCKORDER_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
                 } else if (r.state !== 'DELIVERY') {
@@ -323,7 +302,6 @@ class RESTOCKORDER_DAO {
                     db.run(sql2, [data.transportNote.deliveryDate, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                     })
                     resolve();
@@ -343,7 +321,6 @@ class RESTOCKORDER_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
                 } else {
@@ -351,7 +328,6 @@ class RESTOCKORDER_DAO {
                     db.run(sql2, [data.newState, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -369,7 +345,6 @@ class RESTOCKORDER_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -379,7 +354,6 @@ class RESTOCKORDER_DAO {
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -399,17 +373,14 @@ class RESTOCKORDER_DAO {
             db.run(sql3, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     db.run(sql2, [], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             db.run(sql1, [], (err) => {
                                 if (err) {
                                     reject(err);
-                                    return;
                                 }
                                 resolve();
                             })
