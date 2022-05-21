@@ -49,7 +49,7 @@ describe("Test items", () => {
             // console.log(await i.getStoredITEM(db));
         }
         catch (err) {
-            console.log(err)
+            console.log(err);
         }
     });
 
