@@ -12,7 +12,6 @@ class ITEM_DAO {
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -27,7 +26,6 @@ class ITEM_DAO {
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 const item = rows.map((r) => (
                     {
@@ -51,11 +49,9 @@ class ITEM_DAO {
             db.get(sql1, [data.SKUId], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('SKU not found'));
-                    return;
                 }
                 else {
                     const sql2 = 'SELECT COUNT(*) AS count FROM RESTOCKORDER_ITEM AS RI, RESTOCKORDER AS R WHERE R.supplierId=? AND RI.roid=R.id AND SKUId=?';
@@ -63,18 +59,15 @@ class ITEM_DAO {
                         if(err){
                             console.log
                             reject(err);
-                            return;
                         }
                         else if(r.count!==0){
                             reject(new Error('Item already sells'));
-                            return;
                         }
                         else {
                             const sql3 = 'INSERT INTO ITEM (id,  description, price, SKUId, supplierId) VALUES (?, ?, ?, ? ,?)';
                             db.run(sql3, [data.id, data.description, data.price, data.SKUId, data.supplierId], (err) => {
                                 if (err) {
                                     reject(err);
-                                    return;
                                 }
                                 resolve();
                             });
@@ -95,7 +88,6 @@ class ITEM_DAO {
                     reject(err);
                 else if (r.count === 0) {
                     reject(new Error('ID not found'));
-                    return;
                 }
                 else {
                     resolve({
@@ -117,7 +109,6 @@ class ITEM_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(new Error('errore prima query'))
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -135,7 +126,6 @@ class ITEM_DAO {
                     db.run(sql2, [ data.newDescription, data.newPrice, data.newSKUId, data.newSupplierId, id], (err) => {
                         if (err) {
                             reject(new Error('errore seconda query'))
-                            return;
                         }
                         resolve();
                     });
@@ -151,7 +141,6 @@ class ITEM_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'));
@@ -161,7 +150,6 @@ class ITEM_DAO {
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -179,7 +167,6 @@ class ITEM_DAO {
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });

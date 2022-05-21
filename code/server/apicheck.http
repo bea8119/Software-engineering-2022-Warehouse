@@ -57,12 +57,12 @@ Content-Type: application/json
     "DateOfStock":"2021/11/20 09:33"
 }
 ### OK
-PUT http://localhost:3001/api/skuitems/12345678901234567890123456789089
+PUT http://localhost:3001/api/skuitems/12345678901234567890123456789595
 Content-Type: application/json
 
 {
-    "newRFID":"12345678901234567890123456789089",
-    "newAvailable":1,
+    "newRFID":"12345678901234567890123456789596",
+    "newAvailable":0,
     "newDateOfStock":""
 }
 ### OK

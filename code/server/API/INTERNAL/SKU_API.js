@@ -191,5 +191,15 @@ app.put('/api/sku/:id', async (req, res) => {
     
 });
 
+app.delete('/api/sku/emergenza', async (req, res) => {
+    try {
+        await s.dropTable(db);
+        res.status(204).end()
+    }
+    catch (err) {
+        res.status(500).end()
+    }
+});
+
 
 
