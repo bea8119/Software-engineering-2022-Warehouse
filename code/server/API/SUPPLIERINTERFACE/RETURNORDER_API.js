@@ -21,9 +21,10 @@ app.post('/api/returnOrder', async (req, res) => {
     let returnOrder = req.body;
     if (Object.keys(req.body).length === 0 ||
     returnOrder === undefined ||
-    returnOrder.returnDate === undefined || !((dayjs(returnOrder.returnDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(returnOrder.returnDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
+   returnOrder.returnDate === undefined || !((dayjs(returnOrder.returnDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(returnOrder.returnDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
     returnOrder.products === undefined || 
     returnOrder.restockOrderId === undefined){
+        console.log(returnOrder)
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     try {
