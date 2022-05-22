@@ -13,7 +13,6 @@ class TESTRESULT_DAO {
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -29,7 +28,6 @@ class TESTRESULT_DAO {
             db.get(sql1, [data.rfid], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -39,7 +37,6 @@ class TESTRESULT_DAO {
                     db.get(sql3, [data.idTestDescriptor], (err, r) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         else if (r.count === 0) {
                             reject(new Error('ID not found'))
@@ -49,7 +46,6 @@ class TESTRESULT_DAO {
                             db.run(sql2, [data.id, data.rfid, data.idTestDescriptor, data.Date, data.Result], (err) => {
                                 if (err) {
                                     reject(err);
-                                    return;
                                 }
                                 resolve();
                             })
@@ -66,18 +62,15 @@ class TESTRESULT_DAO {
             db.get(sql1, [rfid], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 }
                 else {
                     const sql2 = 'SELECT * FROM TESTRESULT WHERE rfid = ?';
                     db.all(sql2, [rfid], (err, rows) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         const testResults = rows.map((r) => (
                             {
@@ -100,11 +93,9 @@ class TESTRESULT_DAO {
             db.get(sql1, [rfid, id], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 }
                 else {
                         const testResult =
@@ -128,7 +119,6 @@ class TESTRESULT_DAO {
             db.get(sql1, [rfid], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -138,7 +128,6 @@ class TESTRESULT_DAO {
                     db.get(sql3, [id], (err, r) => {
                         if (err) {
                             reject(err)
-                            return;
                         }
                         else if (r.count === 0) {
                             reject(new Error('ID not found'))
@@ -148,7 +137,6 @@ class TESTRESULT_DAO {
                             db.run(sql2, [rfid, id], (err) => {
                                 if (err) {
                                     reject(err);
-                                    return;
                                 }
                                 resolve();
                             });
@@ -167,7 +155,6 @@ class TESTRESULT_DAO {
             db.get(sql1, [data.newIdTestDescriptor], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -175,10 +162,8 @@ class TESTRESULT_DAO {
                 else {
                     const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ? AND id = ?';
                     db.get(sql2, [rfid, id], (err, r) => {
-                    console.log(id, rfid, "HEREEEEEEEEEEEEEEEEEE")
                         if (err) {
                             reject(err)
-                            return;
                         }
                         else if (r.count === 0) {
                             reject(new Error('ID not found'))
@@ -188,9 +173,9 @@ class TESTRESULT_DAO {
                             db.run(sql3, [data.newIdTestDescriptor, data.newDate, data.newResult, rfid, id], (err) => {
                                 if (err) {
                                     reject(err);
-                                    return;
+                                } else {
+                                    resolve();    
                                 }
-                                resolve();    
                             });
                         }
                     });
@@ -206,15 +191,12 @@ class TESTRESULT_DAO {
             db.run(sql1, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     resolve();
                 }
             })
         })
     }
-
-
 }
 
 /* Export class TESTRESULT_DAO with methods */
