@@ -12,11 +12,13 @@ class InternalOrder_DAO {
             const sql2 = 'CREATE TABLE IF NOT EXISTS INTERNALORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, issueDate VARCHAR(20), state VARCHAR(20), customerId INTEGER)';
             db.run(sql1, (err) => {
                 if (err) {
+                    console.log("Errore ct1");
                     reject(err);
                     return;
                 }
                 db.run(sql2, (err => {
                     if (err) {
+                        console.log("Errore ct1");
                         reject(err);
                         return;
                     }
@@ -37,6 +39,7 @@ class InternalOrder_DAO {
             //Lo stato viene messo ACCEPTED di default perchè l'ordine è appena stato inserito->RFID=null
             db.run(sql1, [null, data.issueDate, "ACCEPTED", data.customerId], (err) => {
                 if (err) {
+                    console.log("Errore sql1");
                     reject(err);
                     return;
                 }
@@ -338,6 +341,30 @@ class InternalOrder_DAO {
 
         });
 
+    }
+
+    /* Delelte entire item table */
+    dropTable(db) {
+        return new Promise((resolve, reject) => {
+            const sql1 = 'DROP TABLE IF EXISTS INTERNALORDER';
+            const sql2 = 'DROP TABLE IF EXISTS INTERNALORDER_PRODUCT';
+            db.run(sql2, [], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                } else {
+                    db.run(sql1, [], (err) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        } else {
+                            resolve();
+                        }
+                    })
+                }
+            });
+
+        })
     }
 }
 
