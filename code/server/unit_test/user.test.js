@@ -99,7 +99,7 @@ describe("test user", () => {
 
 function testgetStoredSuppliers() {
     test("Testing getStoredSuppliers", async () => {
-        let res = await u.getStoredSuppliers(db)
+        let res = await u.getStoredSuppliers(db);
         expect(res).toEqual(
             [
 
@@ -121,7 +121,7 @@ function testgetStoredSuppliers() {
 
 function testgetStoredUsers() {
     test("Testing getStoredUsers", async () => {
-        let res = await u.getStoredUsers(db)
+        let res = await u.getStoredUsers(db);
         expect(res).toEqual(
             [
                 {
@@ -191,7 +191,7 @@ function teststoreUser() {
 
     describe('Testing storeUser', () => {
         test('User data correct', async () => {
-            await u.storeUser(db, user8)
+            await u.storeUser(db, user8);
             var res = await u.getStoredUsers(db);
             expect(res).toEqual(
                 [
@@ -257,7 +257,7 @@ function teststoreUser() {
 function testdeleteUser(username, type, invalidtype) {
     describe('Testing deleteUser', () => {
         test('User data correct', async () => {
-            await u.deleteUser(db, username, type)
+            await u.deleteUser(db, username, type);
             var res = await u.getStoredUsers(db);
             expect(res).toEqual(
                 [
@@ -321,7 +321,7 @@ function testupdateUserType(username, invalidusername) {
 
     describe('Testing updateUserType', () => {
         test('Username and data correct, permissions allowed', async () => {
-            await u.updateUserType(db, username, UserTypeUpdate)
+            await u.updateUserType(db, username, UserTypeUpdate);
             var res = await u.getStoredUsers(db);
             expect(res).toEqual(
                 [
