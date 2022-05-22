@@ -20,32 +20,7 @@ class TestDescriptor_DAO {
         });  
     }
 
-    storeTestDescriptor(db, data) {
-        
-        return new Promise((resolve, reject) => {
-            const sql1=' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
-            db.get(sql1, [data.idSKU], (err, r) => {
-                if(err){
-                    reject(err);
-                    return;
-                }
-                else if(r.count === 0){
-                    reject(new Error('ID sku not found'));
-                    return;
-                }
-            
-            const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
-            db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve();
-            });
-
-        });
-    })
-}
+   
 
     storeTestDescriptor(db, data) {
 

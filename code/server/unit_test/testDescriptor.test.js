@@ -161,7 +161,7 @@ function testupdateTestDescriptor(id, wrongid) {
         })
 
         test('ID existing: wrong SKUid', async () => {
-            await expect(td.updateTestDescriptor(db, id, wrongSKUidtestDescriptorUpdate)).rejects.toThrow('ID not found');
+            await expect(td.updateTestDescriptor(db, id, wrongSKUidtestDescriptorUpdate)).rejects.toThrow('ID sku not found');
         })
 
         test('ID not existing', async () => {
