@@ -12,11 +12,11 @@ class USER_DAO {
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
-                resolve();
+                else {
+                    resolve();
+                }
             });
-
         });
     }
 
@@ -28,7 +28,6 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 1) {
                     reject(new Error('Conflict'));
                 } else {
@@ -36,9 +35,9 @@ class USER_DAO {
                     db.run(sql2, [data.username, data.name, data.surname, data.password, data.type], (err) => {
                         if (err) {
                             reject(err);
-                            return;
+                        } else {
+                            resolve();
                         }
-                        resolve();
                     });
                 }
             });
@@ -54,8 +53,7 @@ class USER_DAO {
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
-                    return;
-                }
+                } else {
                 const user = rows.map((r) => (
                     {
                         id: r.id,
@@ -66,6 +64,7 @@ class USER_DAO {
                     }
                 ));
                 resolve(user);
+                }
             });
         });
     }
@@ -78,8 +77,7 @@ class USER_DAO {
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
-                    return;
-                }
+                } else {
                 const user = rows.map((r) => (
                     {
                         id: r.id,
@@ -89,6 +87,7 @@ class USER_DAO {
                     }
                 ));
                 resolve(user);
+                }
             });
         });
     }
@@ -101,8 +100,7 @@ class USER_DAO {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?'
             db.get(sql1, [username], (err, r) => {
                 if (err) {
-                    reject(err)
-                    return;
+                    reject(err);
                 } else if (r.count === 0 || r.type !== data.oldType) {
                     reject(new Error('ID not found'))
                 } else if (r.type === "administrator" || r.type === "manager") {
@@ -112,9 +110,9 @@ class USER_DAO {
                     db.run(sql2, [data.newType, username], (err) => {
                         if (err) {
                             reject(err);
-                            return;
-                        }
+                        } else {
                         resolve();
+                        }
                     });
                 }
             })
@@ -130,7 +128,6 @@ class USER_DAO {
             db.get(sql1, [username], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0 || r.type !== type || r.type === "administrator" || r.type === "manager") {
                     reject(new Error('Permission not allowed'))
@@ -140,9 +137,9 @@ class USER_DAO {
                     db.run(sql2, [username], (err) => {
                         if (err) {
                             reject(err);
-                            return;
-                        }
+                        } else {
                         resolve();
+                        }
                     });
 
                 }
@@ -162,10 +159,8 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0 || r.password !== data.password || r.type !== "customer") {
                     reject(new Error('Wrong credentials'));
-                    return;
                 }
                 else {
                     const userinfo =
@@ -191,10 +186,8 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0 || r.password !== data.password || r.type !== "supplier") {
                     reject(new Error('Wrong credentials'));
-                    return;
                 }
                 else {
                     const userinfo =
@@ -219,10 +212,8 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0 || r.password !== data.password || r.type !== "manager") {
                     reject(new Error('Wrong credentials'));
-                    return;
                 }
                 else {
                     const userinfo =
@@ -248,10 +239,8 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0 || r.password !== data.password || r.type !== "clerk") {
                     reject(new Error('Wrong credentials'));
-                    return;
                 }
                 else {
                     const userinfo =
@@ -277,10 +266,8 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0 || r.password !== data.password || r.type !== "qualityEmployee") {
                     reject(new Error('Wrong credentials'));
-                    return;
                 }
                 else {
                     const userinfo =
@@ -306,10 +293,8 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0 || r.password !== data.password || r.type !== "deliveryEmployee") {
                     reject(new Error('Wrong credentials'));
-                    return;
                 }
                 else {
                     const userinfo =
@@ -326,18 +311,15 @@ class USER_DAO {
         })
     }
 
-    
-
-
     dropTable(db) {
         return new Promise((resolve, reject) => {
             const sql2 = 'DROP TABLE USER';
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
+                } else {
+                    resolve();
                 }
-                resolve();
             });
         })
     }

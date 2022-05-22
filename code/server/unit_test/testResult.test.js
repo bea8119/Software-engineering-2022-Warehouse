@@ -102,7 +102,7 @@ describe("test testResult", () => {
 function testgetTestResultsArraybySkuitemRfid(rfid, wrongrfid) {
     describe('Testing getTestResultsArraybySkuitemRfid', () => {
         test('rfid existing', async () => {
-            let res = await tr.getStoredTestDescriptors(db, rfid)
+            let res = await tr.getTestResultsArraybySkuitemRfid(db, rfid);
             expect(res).toEqual(
                 [
                     {
@@ -122,7 +122,7 @@ function testgetTestResultsArraybySkuitemRfid(rfid, wrongrfid) {
             )
         })
         test('rfid not existing', async () => {
-            await expect(tr.getStoredTestDescriptors(db, wrongrfid)).rejects.toThrow('ID not found');
+            await expect(tr.getTestResultsArraybySkuitemRfid(db, wrongrfid)).rejects.toThrow('ID not found');
         })
     })
 }
@@ -130,10 +130,10 @@ function testgetTestResultsArraybySkuitemRfid(rfid, wrongrfid) {
 function testgetTestResultArraybyidandbySkuitemRfid(rfid, id, wrongrfid, wrongid) {
     describe('Testing getTestResultArraybyidandbySkuitemRfid', () => {
         test('rfid and id existing', async () => {
-            let res = await tr.getTestResultArraybyidandbySkuitemRfid(db, rfid, id)
+            let res = await tr.getTestResultArraybyidandbySkuitemRfid(db, rfid, id);
             expect(res).toEqual(
                 {
-                    id:1,
+                    id:2,
                     idTestDescriptor: 1,
                     Date: "2021/11/28",
                     Result: true
@@ -157,7 +157,7 @@ function testgetTestResultArraybyidandbySkuitemRfid(rfid, id, wrongrfid, wrongid
 }
 
 function teststoreTestResult(id) {
-    test("Testing storeTestDescriptor", async () => {
+    test("Testing storeTestResult", async () => {
         testResult = {
             rfid: "12345678901234567890123456789748",
             idTestDescriptor: 1,
@@ -166,7 +166,7 @@ function teststoreTestResult(id) {
         }
         await tr.storeTestResult(db, testResult);
 
-        var res = await tr.testgetTestResultArraybyidandbySkuitemRfid(db, "12345678901234567890123456789748", id);
+        var res = await tr.getTestResultArraybyidandbySkuitemRfid(db, "12345678901234567890123456789748", id);
         expect(res).toEqual(
             {
                 id: 4,
@@ -193,7 +193,7 @@ function testupdateTestResult(rfid, id, wrongrfid, wrongid) {
 
     describe('Testing updateTestResult', () => {
         test('rfid, id and idTestDescriptor exist', async () => {
-            await tr.updateTestResult(db, rfid, id, testResultUpdate)
+            await tr.updateTestResult(db, rfid, id, testResultUpdate);
             var res = await tr.getTestResultArraybyidandbySkuitemRfid(db, rfid, id);
             expect(res).toEqual(
                 {
@@ -224,7 +224,7 @@ function testupdateTestResult(rfid, id, wrongrfid, wrongid) {
 function testdeleteTestResult(rfid, id, wrongrfid, wrongid) {
     describe('Testing deleteTestResult', () => {
         test('rfid and id existing', async () => {
-            await tr.deleteTestResult(db, rfid, id)
+            await tr.deleteTestResult(db, rfid, id);
             await expect(tr.getTestResultArraybyidandbySkuitemRfid(db, rfid, id)).rejects.toThrow('ID not found');
         })
 

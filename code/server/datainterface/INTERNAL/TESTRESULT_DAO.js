@@ -84,7 +84,7 @@ class TESTRESULT_DAO {
                                 id: r.id,
                                 idTestDescriptor: r.idTestDescriptor,
                                 Date: r.Date,
-                                Result: r.Result
+                                Result: (r.Result) ? true : false
                             }
                         ));
                         resolve(testResults);
@@ -94,11 +94,10 @@ class TESTRESULT_DAO {
         });
     }
 
-
     getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
-            db.get(sql1, [rfid], (err, r) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM TESTRESULT WHERE rfid = ? AND id = ?'
+            db.get(sql1, [rfid, id], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
@@ -108,36 +107,14 @@ class TESTRESULT_DAO {
                     return;
                 }
                 else {
-                    const sql3 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE id = ?'
-                    db.get(sql3, [id], (err, r) => {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        else if (r.count === 0) {
-                            reject(new Error("ID not found"));
-                            return;
-                        }
-                        else {
-                            //Nested selects
-                            const sql2 = 'SELECT * FROM TESTRESULT WHERE rfid = ? AND id = ?';
-                            db.all(sql2, [rfid, id], (err, rows) => {
-                                if (err) {
-                                    reject(err);
-                                    return;
-                                }
-                                const testResults = rows.map((r) => (
-                                    {
-                                        id: r.id,
-                                        idTestDescriptor: r.idTestDescriptor,
-                                        Date: r.Date,
-                                        Result: r.Result
-                                    }
-                                ));
-                                resolve(testResults);
-                            });
-                        }
-                    });
+                        const testResult =
+                            {
+                                id: r.id,
+                                idTestDescriptor: r.idTestDescriptor,
+                                Date: r.Date,
+                                Result: (r.Result) ? true : false
+                            }
+                        resolve(testResult);
                 }
             });
         })
@@ -188,7 +165,6 @@ class TESTRESULT_DAO {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?';
             db.get(sql1, [data.newIdTestDescriptor], (err, r) => {
-
                 if (err) {
                     reject(err)
                     return;
@@ -197,9 +173,9 @@ class TESTRESULT_DAO {
                     reject(new Error('ID not found'))
                 }
                 else {
-                    const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?';
-                    db.get(sql2, [rfid], (err, r) => {
-
+                    const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ? AND id = ?';
+                    db.get(sql2, [rfid, id], (err, r) => {
+                    console.log(id, rfid, "HEREEEEEEEEEEEEEEEEEE")
                         if (err) {
                             reject(err)
                             return;
@@ -208,26 +184,13 @@ class TESTRESULT_DAO {
                             reject(new Error('ID not found'))
                         }
                         else {
-                            const sql3 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE id = ?';
-                            db.get(sql3, [id], (err, r) => {
-
+                            const sql3 = 'UPDATE TESTRESULT SET idTestDescriptor = ?,  Date = ?, Result = ? WHERE rfid = ? AND id = ?';
+                            db.run(sql3, [data.newIdTestDescriptor, data.newDate, data.newResult, rfid, id], (err) => {
                                 if (err) {
-                                    reject(err)
+                                    reject(err);
                                     return;
                                 }
-                                else if (r.count === 0) {
-                                    reject(new Error('ID not found'))
-                                }
-                                else {
-                                    const sql4 = 'UPDATE TESTRESULT SET idTestDescriptor = ?,  Date = ?, Result = ? WHERE (rfid = ? AND id = ?)';
-                                    db.run(sql4, [data.newIdTestDescriptor, data.newDate, data.newResult, rfid, id], (err) => {
-                                        if (err) {
-                                            reject(err);
-                                            return;
-                                        }
-                                        resolve();
-                                    })
-                                }
+                                resolve();    
                             });
                         }
                     });

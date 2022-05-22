@@ -47,6 +47,7 @@ describe("test testDesciptors", () => {
             //Create the tables and store the values
             await td.newTableName(db);
             await s.newTableName(db);
+
             await s.storeSKU(db, sku1);
             await s.storeSKU(db, sku2);
             await td.storeTestDescriptor(db, testDescriptor1);
@@ -68,17 +69,14 @@ describe("test testDesciptors", () => {
 
 function testgetStoredTestDescriptors() {
     test("Testing getStoredTestDescriptors", async () => {
-        let res = await td.getStoredTestDescriptors(db)
-        expect(res).toEqual(
-            [
-                {
+        let res = await td.getStoredTestDescriptors(db);
+        expect(res).toEqual([{
                     id:1,
                     name:"test descriptor 1",
                     procedureDescription: "This test is described by...",
                     idSKU :1
         
-                },
-                {
+                },{
                     id:2,
                     name:"test descriptor 2",
                     procedureDescription: "This test is described by...",
@@ -148,7 +146,7 @@ function testupdateTestDescriptor(id, wrongid) {
 
     describe('Testing updateTestDescriptor', () => {
         test('ID existing: SKUid exists', async () => {
-            await td.updateTestDescriptor(db, id, testDescriptorUpdate)
+            await td.updateTestDescriptor(db, id, testDescriptorUpdate);
             var res = await td.getTestDescriptorbyID(db, id);
             expect(res).toEqual(
                 {
@@ -161,11 +159,11 @@ function testupdateTestDescriptor(id, wrongid) {
         })
 
         test('ID existing: wrong SKUid', async () => {
-            await expect(td.updateTestDescriptor(db, id, wrongSKUidtestDescriptorUpdate)).rejects.toThrow('ID not found');
+            await expect(td.updateTestDescriptor(db, id, wrongSKUidtestDescriptorUpdate)).rejects.toThrow('ID sku not found');
         })
 
         test('ID not existing', async () => {
-            await expect(td.updateTestDescriptor(db, id, wrongSKUidtestDescriptorUpdate)).rejects.toThrow('ID not found');
+            await expect(td.updateTestDescriptor(db, wrongid, testDescriptorUpdate)).rejects.toThrow('ID not found');
         })
     })
 }
@@ -173,7 +171,7 @@ function testupdateTestDescriptor(id, wrongid) {
 function testdeleteTestDescriptor(id, wrongid) {
     describe('Testing deleteTestDescriptor', () => {
         test('id existing', async () => {
-            await td.deleteTestDescriptor(db, id)
+            await td.deleteTestDescriptor(db, id);
             await expect(td.getTestDescriptorbyID(db, id)).rejects.toThrow('ID not found');
         })
 

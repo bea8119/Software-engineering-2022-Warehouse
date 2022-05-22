@@ -18,7 +18,7 @@ These figures will not be used to evaluate neither the project nor the team, the
 | apr 25 - may 1 | | 9 + 3 phrs (12 phrs) | | | | | | | 
 | may 2 - 8  | | | 8 + 16 phrs (24 phrs) | | | | | | 
 | may 9 - 15| | | 6 + 12 + 16 + 24 + 8 + 4 (70 phrs) | | | | | | 
-| may 16 - 22| | | 8 phrs | 12 phrs + 4 phrs| | | | | 
+| may 16 - 22| | | 8 phrs | 12 phrs + 4 phrs + 9 phrs + 48 phrs | | | | | 
 | may 23 - 29| | | | | | | | | 
 | may 30 - jun 5 | | | | | | | | | 
 | jun 6 - 12 | | | | | | | | | 
