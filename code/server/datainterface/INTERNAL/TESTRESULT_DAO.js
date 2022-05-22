@@ -163,7 +163,7 @@ class TESTRESULT_DAO {
 
     updateTestResult(db, id, rfid, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count, FROM testDescriptor WHERE id = ?';
+            const sql1 = 'SELECT COUNT(*) AS count FROM testDescriptor WHERE id = ?';
             db.get(sql1, [data.newIdTestDescriptor], (err, r) => {
                 if (err) {
                     reject(err)
@@ -173,8 +173,9 @@ class TESTRESULT_DAO {
                     reject(new Error('ID not found'))
                 }
                 else {
-                    const sql2 = 'SELECT COUNT(*) AS count, FROM TESTRESULT WHERE rfid = ? AND id = ?';
+                    const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ? AND id = ?';
                     db.get(sql2, [rfid, id], (err, r) => {
+                    console.log(id, rfid, "HEREEEEEEEEEEEEEEEEEE")
                         if (err) {
                             reject(err)
                             return;
