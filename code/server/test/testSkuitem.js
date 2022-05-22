@@ -36,6 +36,7 @@ describe('test skuitem apis', () => {
     })
 
     deleteAllData(204);
+
     postSkuItem(201, "12345678901234567890123456789015", 1, "2021/11/29 12:30");
     postSkuItem(201, "12345678901234567890123456789015", 1, "");
     postSkuItem(201, "12345678901234567890123456789015", 1, undefined);
@@ -48,16 +49,18 @@ describe('test skuitem apis', () => {
     postSkuItem(422, undefined, 1, "2021/11/29 12:30");
     postSkuItem(422, "12345678901234567890123456789015", undefined, "2021/11/29 12:30");
     postSkuItem(404, "12345678901234567890123456789015", 123, "2021/11/29");
+
     getSkuItem()
+
     getSkuItemByRFID1()
     getSkuItemByRFID2(422, "1234567890123456789012345678959")
     getSkuItemByRFID2(404, "12345678901234567890123456789666")
+
     putSkuItem(200, '12345678901234567890123456789595', "12345678901234567890123456789595", 1, "2021/11/29 12:30")
     putSkuItem(200, '12345678901234567890123456789595', "12345678901234567890123456789595", 1, "2021/11/29")
     putSkuItem(200, '12345678901234567890123456789595', "12345678901234567890123456789595", 1, "")
     putSkuItem(200, '12345678901234567890123456789595', "12345678901234567890123456789595", 1, undefined)
     putSkuItem(200, '12345678901234567890123456789595', "12345678901234567890123456789595", 0, "2021/11/29 12:30")
-    
     putSkuItem(422, '12345678901234567890123456789595', "1234567890123456789012345678959", 1, "2021/11/11 11:11")
     putSkuItem(422, '12345678901234567890123456789595', "1234567890123456789012345678959x", 1, "2021/11/11 11:11")
     putSkuItem(422, '12345678901234567890123456789595', "123456789012345678901234567895952", 1, "2021/11/11 11:11")
@@ -65,12 +68,20 @@ describe('test skuitem apis', () => {
     putSkuItem(422, '12345678901234567890123456789595', "12345678901234567890123456789595", 2, "2021/11/11 11:11")
     putSkuItem(422, '12345678901234567890123456789595', "12345678901234567890123456789595", 1, "2021/11/")
     putSkuItem(422, '12345678901234567890123456789595', "12345678901234567890123456789595", 1, "2021/11/11 11:")
-    
     putSkuItem(422, '123456789012345678901234567895951', "12345678901234567890123456789595", 1, "2021/11/11 11:11")
     putSkuItem(422, '1234567890123456789012345678959', "12345678901234567890123456789595", 1, "2021/11/11 11:11")
     putSkuItem(422, '1234567890123456789012345678959x', "12345678901234567890123456789595", 1, "2021/11/11 11:11")
     putSkuItem(404, '12345678901234567890123456789599', "12345678901234567890123456789595", 1, "2021/11/11 11:11")
-    
+
+    deleteSkuItem(204, "12345678901234567890123456789595")
+    deleteSkuItem(422, "1234567890123456789012345678959")
+    deleteSkuItem(422, "123456789012345678901234567895955")
+    deleteSkuItem(422, "1234567890123456789012345678959x")
+    deleteSkuItem(422, "12345678901234567890123456789666")
+
+    getAvailableSkuItemsBySkuId(200, "12345678901234567890123456789595", 1)
+    getAvailableSkuItemsBySkuId(404, "12345678901234567890123456789595", 2)
+    getAvailableSkuItemsBySkuId(422, "12345678901234567890123456789595", "x")
 
 });
 
@@ -138,7 +149,7 @@ function getSkuItemByRFID1() {
                         "Available": 0,
                         "DateOfStock": "2021/11/29 12:30"
                     }
-                    
+
                 )
                 done();
             });
@@ -160,9 +171,9 @@ function getSkuItemByRFID2(expectedHTTPStatus, rfid) {
 function putSkuItem(expectedHTTPStatus, rfid, newRFID, newAvailable, newDateOfStock) {
     it('test put /api/skuitems/:rfid', function (done) {
         updates = {
-            "newRFID":newRFID,
-            "newAvailable":newAvailable,
-            "newDateOfStock":newDateOfStock
+            "newRFID": newRFID,
+            "newAvailable": newAvailable,
+            "newDateOfStock": newDateOfStock
         }
         agent.put(`/api/skuitems/${rfid}`)
             .send(updates)
@@ -175,3 +186,43 @@ function putSkuItem(expectedHTTPStatus, rfid, newRFID, newAvailable, newDateOfSt
 }
 
 
+function deleteSkuItem(expectedHTTPStatus, rfid) {
+    it('test delete /api/skuitems/:rfid', function (done) {
+        agent.delete(`/api/skuitems/${rfid}`)
+            .then(function (res) {
+                res.should.have.status(expectedHTTPStatus);
+                done();
+            });
+    });
+
+}
+
+function getAvailableSkuItemsBySkuId(expectedHTTPStatus, rfid, skuid) {
+    it('test /api/skuitems/sku/:id', function (done) {
+        updates = {
+            "newRFID": rfid,
+            "newAvailable": 1,
+            "newDateOfStock": "2021/10/12 12:30"
+        }
+        agent.put('/api/skuitems/' + rfid).send(updates).then(function (res) {
+            agent.get('/api/skuitems/sku/' + skuid)
+                .then(function (res) {
+                    res.should.have.status(expectedHTTPStatus)
+                    if (res.status === 200) {
+                        res.body.should.eql(
+                            [
+                                {
+                                    "RFID": rfid,
+                                    "SKUId": skuid,
+                                    "DateOfStock": "2021/10/12 12:30"
+                                }
+                            ]
+                        )
+                    }
+                    done();
+                });
+        });
+    })
+
+
+}

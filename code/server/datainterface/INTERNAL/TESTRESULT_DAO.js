@@ -175,7 +175,6 @@ class TESTRESULT_DAO {
                 else {
                     const sql2 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ? AND id = ?';
                     db.get(sql2, [rfid, id], (err, r) => {
-                    console.log(id, rfid, "HEREEEEEEEEEEEEEEEEEE")
                         if (err) {
                             reject(err)
                             return;
@@ -188,9 +187,9 @@ class TESTRESULT_DAO {
                             db.run(sql3, [data.newIdTestDescriptor, data.newDate, data.newResult, rfid, id], (err) => {
                                 if (err) {
                                     reject(err);
-                                    return;
-                                }
-                                resolve();    
+                                } else {
+                                resolve();
+                                }    
                             });
                         }
                     });

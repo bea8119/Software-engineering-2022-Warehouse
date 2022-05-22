@@ -78,10 +78,11 @@ describe("test testResult", () => {
             await si.newTableName(db);
 
             await s.storeSKU(db, sku);
+            
             await si.storeSKUItem(db, skuitem1);
             await si.storeSKUItem(db, skuitem2);
-            await td.storeTestDescriptor(db, testDescriptor1);
-            await td.storeTestDescriptor(db, testDescriptor2);
+            await td.storeTestDescriptor(db, testDescriptor1)
+            await td.storeTestDescriptor(db, testDescriptor2)
             await tr.storeTestResult(db, testResult1);
             await tr.storeTestResult(db, testResult2);
             await tr.storeTestResult(db, testResult3);
@@ -179,6 +180,7 @@ function teststoreTestResult(id) {
 }
 
 function testupdateTestResult(rfid, id, wrongrfid, wrongid) {
+   
     testResultUpdate = {
             newIdTestDescriptor: 1,
             newDate: "2021/11/28",
@@ -193,7 +195,7 @@ function testupdateTestResult(rfid, id, wrongrfid, wrongid) {
 
     describe('Testing updateTestResult', () => {
         test('rfid, id and idTestDescriptor exist', async () => {
-            await tr.updateTestResult(db, rfid, id, testResultUpdate);
+            await tr.updateTestResult(db, id, rfid, testResultUpdate);
             var res = await tr.getTestResultArraybyidandbySkuitemRfid(db, rfid, id);
             expect(res).toEqual(
                 {
@@ -208,15 +210,15 @@ function testupdateTestResult(rfid, id, wrongrfid, wrongid) {
         //Many possible cases but I this 3 represent all possibilities
 
         test('rfid and id existing and idTestDescriptor not existing', async () => {
-            await expect(tr.updateTestResult(db, rfid, id, wrongtestResultUpdate)).rejects.toThrow('ID not found');
+            await expect(tr.updateTestResult(db, id, rfid, wrongtestResultUpdate)).rejects.toThrow('ID not found');
         })
 
         test('rfid not existing, id and idTestDescriptor existing', async () => {
-            await expect(tr.updateTestResult(db, wrongrfid, id, testResultUpdate)).rejects.toThrow('ID not found');
+            await expect(tr.updateTestResult(db, id, wrongrfid, testResultUpdate)).rejects.toThrow('ID not found');
         })
 
         test('rfid and idTestDescriptor existing, id not existing ', async () => {
-            await expect(tr.updateTestResult(db, rfid, wrongid, testResultUpdate)).rejects.toThrow('ID not found');
+            await expect(tr.updateTestResult(db, wrongid, rfid, testResultUpdate)).rejects.toThrow('ID not found');
         })
     })
 }
