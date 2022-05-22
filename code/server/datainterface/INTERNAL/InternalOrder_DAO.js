@@ -16,16 +16,19 @@ class InternalOrder_DAO {
                     reject(err);
                     return;
                 }
-                db.run(sql2, (err => {
-                    if (err) {
-                        console.log("Errore ct1");
-                        reject(err);
-                        return;
-                    }
-                }))
-                resolve();
+                else {
+                    db.run(sql2, (err => {
+                        if (err) {
+                            console.log("Errore ct1");
+                            reject(err);
+                            return;
+                        }
+                        else{
+                            resolve();
+                        }
+                    }))
+                }
             });
-
         });
     }
 
