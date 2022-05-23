@@ -89,12 +89,14 @@ describe("test user", () => {
     testdeleteUser("user1@ezwh.com", "customer", "manager"); 
 
     //SESSIONS
+    /*
     testcustomerSession("user1@ezwh.com", "testpassword", "user1@ezwh.cm", "testpassword2");
     testsupplierSession("john.snow@supplier.ezwh.com", "testpassword2", "user1@ezwh.cm", "testpassword");
     testmanagerSession("massimo.palermo@manager.ezwh.com", "testpassword4", "user1@ezwh.cm", "testpassword");
     testclerkSession("franco.negri@clerk.ezwh.com", "testpassword5", "user1@ezwh.cm", "testpassword");
     testqualityEmployeeSession("mariangela.romano@qualityemployee.ezwh.com", "testpassword6", "user1@ezwh.cm", "testpassword");
     testdeliveryEmployeeSession("andrea.bindoni@deliveryemployee.ezwh.com", "testpassword7", "user1@ezwh.cm", "testpassword")
+    */
 });
 
 function testgetStoredSuppliers() {
@@ -142,12 +144,6 @@ function testgetStoredUsers() {
                     surname:"Jordan",
                     email:"michael.jordan@supplier.ezwh.com",
                     type: "supplier"
-                },{
-                    id: 4,
-                    name:"Massimo",
-                    surname: "Palermo",
-                    email:"massimo.palermo@manager.ezwh.com",
-                    type: "manager"
                 },{
                     id: 5,
                     name:"Franco",
@@ -214,12 +210,6 @@ function teststoreUser() {
                         email:"michael.jordan@supplier.ezwh.com",
                         type: "supplier"
                     },{
-                        id: 4,
-                        name:"Massimo",
-                        surname: "Palermo",
-                        email:"massimo.palermo@manager.ezwh.com",
-                        type: "manager"
-                    },{
                         id: 5,
                         name:"Franco",
                         surname: "Negri",
@@ -273,12 +263,6 @@ function testdeleteUser(username, type, invalidtype) {
                         surname:"Jordan",
                         email:"michael.jordan@supplier.ezwh.com",
                         type: "supplier"
-                    },{
-                        id: 4,
-                        name:"Massimo",
-                        surname: "Palermo",
-                        email:"massimo.palermo@manager.ezwh.com",
-                        type: "manager"
                     },{
                         id: 5,
                         name:"Franco",
@@ -344,12 +328,6 @@ function testupdateUserType(username, invalidusername) {
                         email:"michael.jordan@supplier.ezwh.com",
                         type: "supplier"
                     },{
-                        id: 4,
-                        name:"Massimo",
-                        surname: "Palermo",
-                        email:"massimo.palermo@manager.ezwh.com",
-                        type: "manager"
-                    },{
                         id: 5,
                         name:"Franco",
                         surname: "Negri",
@@ -380,6 +358,7 @@ function testupdateUserType(username, invalidusername) {
 
 //SESSIONS
 
+/*
 function testcustomerSession(username, password, wrongusername, wrongpassword) {
     describe('Testing customerSession', () => {
 
@@ -619,3 +598,4 @@ function testdeliveryEmployeeSession(username, password, wrongusername, wrongpas
         })
     })
 }
+*/

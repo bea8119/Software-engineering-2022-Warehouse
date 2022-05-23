@@ -28,8 +28,8 @@ app.post('/api/skuitems/testResult', async (req, res) => {
         /* RFID must be 32 DIGITS long */
         testResult.rfid === undefined || testResult.rfid.length !== 32 || !(/^\d+$/.test(testResult.rfid)) ||
         testResult.idTestDescriptor === undefined ||
-        testResult.Date === undefined ||
-        testResult.newResult === undefined || typeof testResult.newResult != "boolean" || 
+        testResult.Date === undefined || testResult.Date === "" ||
+        testResult.Result === undefined || typeof testResult.Result != "boolean" || 
         /* block if date is not within one of these formats: */
         !((dayjs(testResult.Date, 'YYYY/MM/DD', true).isValid()) || (dayjs(testResult.Date, 'YYYY/MM/DD hh:mm', true).isValid()))
     ) {
@@ -132,6 +132,11 @@ app.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     let rfid = req.params.rfid;
     let id = req.params.id;
 
+    if ((rfid.length !== 32) || !(/^\d+$/.test(rfid)) || rfid === undefined ||
+        isNaN(id) || id === null || id === "" || id === undefined) {
+        res.status(422).json("Unprocessable entity");
+    }
+
     try {
         await tr.deleteTestResult(db, rfid, id);
         res.status(204).end();
@@ -142,5 +147,15 @@ app.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
         } else {
             res.status(503).end()
         }
+    }
+});
+
+app.delete('/api/skuitems/testResult/emergenza', async (req, res) => {
+    try {
+        await tr.dropTable(db);
+        res.status(204).end()
+    }
+    catch (err) {
+        res.status(500).end()
     }
 });

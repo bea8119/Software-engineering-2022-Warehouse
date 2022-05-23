@@ -102,7 +102,7 @@ class USER_DAO {
                 if (err) {
                     reject(err);
                 } else if (r.count === 0 || r.type !== data.oldType) {
-                    reject(new Error('ID not found'))
+                    reject(new Error('ID not found')) ////////// AGREGAR ESTE
                 } else if (r.type === "administrator" || r.type === "manager") {
                     reject(new Error('Permission not allowed'))
                 } else {
@@ -149,9 +149,12 @@ class USER_DAO {
 
     }
 
+
     /* Sessions */
 
     /* Customer Session */
+
+    /*
 
     customerSession(db, data) {
         return new Promise((resolve, reject) => {
@@ -176,10 +179,12 @@ class USER_DAO {
             })
         })
     }
+    */
 
 
     /* Supplier Session */
 
+    /*
     supplierSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
@@ -203,9 +208,11 @@ class USER_DAO {
             })
         })
     }
+    */
 
     /* Manager session*/
 
+    /*
     managerSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
@@ -229,10 +236,12 @@ class USER_DAO {
             })
         })
     }
+    */
 
 
     /* Clerek session*/
 
+    /*
     clerkSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
@@ -256,10 +265,12 @@ class USER_DAO {
             })
         })
     }
+    */
 
 
     /* Quality Employee session*/
 
+    /*
     qualityEmployeeSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
@@ -283,10 +294,12 @@ class USER_DAO {
             })
         })
     }
+    */
 
 
     /* Delivery Employee session*/
 
+    /*
     deliveryEmployeeSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
@@ -310,10 +323,13 @@ class USER_DAO {
             })
         })
     }
+    */
+
+
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            const sql2 = 'DROP TABLE USER';
+            const sql2 = 'DROP TABLE IF EXISTS USER';
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);

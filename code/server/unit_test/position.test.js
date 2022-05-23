@@ -34,6 +34,7 @@ describe("test sku", () => {
     testGetStoredPosition("800234546669", "8002", "3454", "6669", 10000, 10000);
     testStorePosition("800234546660", "8002", "3454", "6660", 1000, 1000);
     testUpdatePosition("800234546669", "8003", "3454", "6661", 1000, 1000, 200, 100, "800334540000" );
+    testUpdatePositionID("800234546669", "800234546660", "800234546666")
     testDeletePosition("800234546669", "80023454600" );
    
 });
@@ -90,7 +91,7 @@ function testStorePosition(positionID, aisleID, row, col, maxWeight, maxVolume) 
 
 function testUpdatePosition(oldPositionID, newaisleID, newrow, newcol, newmaxWeight, newmaxVolume, newOccupiedWeight, newOccupiedVolume, wrongid) {
     describe('Testing updatePosition', () => {
-        test('id found', async () => {
+        test('Position id found', async () => {
             let newPosition = {
                 newAisleID: newaisleID,
                 newRow: newrow,
@@ -116,8 +117,37 @@ function testUpdatePosition(oldPositionID, newaisleID, newrow, newcol, newmaxWei
             })
         });
 
-        test('No position id found exception', async () => {
-            await expect(p.updatePosition(db, wrongid)).rejects.toThrow('ID not found');
+        test('No position id found', async () => {
+            let newPosition = {
+                newAisleID: newaisleID,
+                newRow: newrow,
+                newCol: newcol,
+                newMaxWeight: newmaxWeight,
+                newMaxVolume: newmaxVolume,
+                newOccupiedWeight: newOccupiedWeight,
+                newOccupiedVolume:newOccupiedVolume
+            }
+            await expect(p.updatePosition(db, wrongid, newPosition)).rejects.toThrow('ID not found');
+        })
+    })
+}
+
+function testUpdatePositionID(oldPositionID, newPositionID, wrongID) {
+    describe('Testing updatePositionID', () => {
+        test('Position id found', async () => {
+            let newPosition = {
+                newPositionID : newPositionID
+            }
+            await p.updatePositionID(db, oldPositionID, newPositionID)
+            var res = await p.getStoredPosByID(db, newPositionID);
+            
+            expect(res.positionID).toEqual(
+                newPositionID
+            )
+        });
+
+        test('No position id found', async () => {
+            await expect(p.updatePositionID(db, wrongID, newPositionID)).rejects.toThrow('ID not found');
         })
     })
 }
@@ -127,12 +157,12 @@ function testUpdatePosition(oldPositionID, newaisleID, newrow, newcol, newmaxWei
 
 function testDeletePosition(id, wrongid) {
     describe('Testing deletePosition', () => {
-        test('id existing', async () => {
+        test('Position id existing', async () => {
             await p.deletePosition(db, id)
             await expect(p.getStoredPosByID(db, id)).rejects.toThrow('ID not found');
         })
 
-        test('id not existing', async () => {
+        test('No position id found', async () => {
             await expect(p.deletePosition(db, wrongid)).rejects.toThrow('ID not found');
         })
     })

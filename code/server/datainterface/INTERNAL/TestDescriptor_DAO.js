@@ -12,7 +12,6 @@ class TestDescriptor_DAO {
             db.run(sql, (err) => {
               if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -29,18 +28,15 @@ class TestDescriptor_DAO {
             db.get(sql1, [data.idSKU], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
-                    reject(new Error('ID sku not found'));
-                    return;
+                    reject(new Error('ID sku not found')); // AGREGAR ESTE
                 } else {
 
                     const sql = 'INSERT INTO testDescriptor (id,  name, procedureDescription, skuId) VALUES (?, ?, ?, ? )';
                     db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             resolve();
                         }
@@ -56,7 +52,6 @@ class TestDescriptor_DAO {
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 const testDescs = rows.map((r) => (
                     {
@@ -100,7 +95,6 @@ class TestDescriptor_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -110,16 +104,12 @@ class TestDescriptor_DAO {
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
-
                 }
             })
-
         });
-
     }
 
 
@@ -129,26 +119,21 @@ class TestDescriptor_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'));
-                    return;
                 } else {
                     const sql1=' SELECT COUNT(*) AS count FROM SKU WHERE id = ?';
-            db.get(sql1, [data.skuId], (err, r) => {
+            db.get(sql1, [data.newIdSKU], (err, r) => {
                 if(err){
                     reject(err);
-                    return;
                 }
                 else if(r.count === 0){
                     reject(new Error('ID sku not found'));
-                    return;
                 } else{
                     const sql2 = 'UPDATE testDescriptor SET name = ?, procedureDescription = ?, skuId = ? WHERE id = ?';
                     db.run(sql2, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -162,11 +147,10 @@ class TestDescriptor_DAO {
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'DROP TABLE IF EXISTS TESTDESCRIPTOR';
+            const sql1 = 'DROP TABLE IF EXISTS testDescriptor';
             db.run(sql1, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     resolve();
                 }
