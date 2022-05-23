@@ -28,8 +28,8 @@ app.post('/api/skuitems/testResult', async (req, res) => {
         /* RFID must be 32 DIGITS long */
         testResult.rfid === undefined || testResult.rfid.length !== 32 || !(/^\d+$/.test(testResult.rfid)) ||
         testResult.idTestDescriptor === undefined ||
-        testResult.Date === undefined ||
-        testResult.newResult === undefined || typeof testResult.newResult != "boolean" || 
+        testResult.Date === undefined || testResult.Date === "" ||
+        testResult.Result === undefined || typeof testResult.Result != "boolean" || 
         /* block if date is not within one of these formats: */
         !((dayjs(testResult.Date, 'YYYY/MM/DD', true).isValid()) || (dayjs(testResult.Date, 'YYYY/MM/DD hh:mm', true).isValid()))
     ) {
@@ -142,5 +142,15 @@ app.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
         } else {
             res.status(503).end()
         }
+    }
+});
+
+app.delete('/api/skuitems/testResult/emergenza', async (req, res) => {
+    try {
+        await tr.dropTable(db);
+        res.status(204).end()
+    }
+    catch (err) {
+        res.status(500).end()
     }
 });

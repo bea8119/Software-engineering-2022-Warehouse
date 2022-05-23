@@ -147,7 +147,7 @@ class TestDescriptor_DAO {
 
     dropTable(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'DROP TABLE IF EXISTS TESTDESCRIPTOR';
+            const sql1 = 'DROP TABLE IF EXISTS testDescriptor';
             db.run(sql1, [], (err) => {
                 if (err) {
                     reject(err);
