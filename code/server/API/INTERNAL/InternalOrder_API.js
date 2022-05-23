@@ -126,7 +126,7 @@ app.put('/api/internalOrders/:id', async (req, res) => {
             await i.updateInternalOrderSkuProducts(db, id, skuproduckt);
         }
         else {
-            await i.updateItnernalOrderState(db, id, skuproduckt.newState);
+            await i.updateInternalOrderState(db, id, skuproduckt.newState);
         }
         return res.status(200).end();
     } catch (err) {

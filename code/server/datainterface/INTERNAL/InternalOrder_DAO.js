@@ -12,18 +12,14 @@ class InternalOrder_DAO {
             const sql2 = 'CREATE TABLE IF NOT EXISTS INTERNALORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, issueDate VARCHAR(20), state VARCHAR(20), customerId INTEGER)';
             db.run(sql1, (err) => {
                 if (err) {
-                    console.log("Errore ct1");
                     reject(err);
-                    return;
                 }
                 else {
                     db.run(sql2, (err => {
                         if (err) {
-                            console.log("Errore ct1");
                             reject(err);
-                            return;
                         }
-                        else{
+                        else {
                             resolve();
                         }
                     }))
@@ -42,25 +38,27 @@ class InternalOrder_DAO {
             //Lo stato viene messo ACCEPTED di default perchè l'ordine è appena stato inserito->RFID=null
             db.run(sql1, [null, data.issueDate, "ACCEPTED", data.customerId], (err) => {
                 if (err) {
-                    console.log("Errore sql1");
                     reject(err);
-                    return;
                 }
-                db.get(sql3, [], (err, r) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    data.products.map((product) => {
-                        db.run(sql2, [r.lastioid, product.SKUId, product.description, product.price, product.qty, null], (err) => { //RFID viene messo a null perchè lo stato è accepted
-                            if (err) {
-                                reject(err);
-                                return;
-                            }
-                        })
-                    })
-                })
-                resolve();
+                else {
+                    db.get(sql3, [], (err, r) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            data.products.map((product) => {
+                                db.run(sql2, [r.lastioid, product.SKUId, product.description, product.price, product.qty, null], (err) => { //RFID viene messo a null perchè lo stato è accepted
+                                    if (err) {
+                                        reject(err);
+                                    }
+                                    else {
+                                        resolve();
+                                    }
+                                });
+                            });
+                        }
+                    });
+                }
             });
         });
     }
@@ -73,47 +71,49 @@ class InternalOrder_DAO {
             db.all(sql1, [], (err, internalrows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
-                db.all(sql2, [], (err, productrows) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    const internalorder = internalrows.map((r) => (
-                        r.state === "COMPLETED" ?
-                            {
-                                id: r.id,
-                                issueDate: r.issueDate,
-                                state: r.state,
-                                products: [productrows.filter((i) => i.ioid === r.id).map((i) => (
+                else {
+                    db.all(sql2, [], (err, productrows) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            const internalorder = internalrows.map((r) => (
+                                r.state === "COMPLETED" ?
                                     {
-                                        SKUId: i.SKUId,
-                                        description: i.description,
-                                        price: i.price,
-                                        RFID: i.RFID
-                                    }
-                                ))],
-                                customerId: r.customerId,
-                            } :
-                            {
-                                id: r.id,
-                                issueDate: r.issueDate,
-                                state: r.state,
-                                products: [productrows.filter((i) => i.ioid === r.id).map((i) => (
+                                        id: r.id,
+                                        issueDate: r.issueDate,
+                                        state: r.state,
+                                        products: [productrows.filter((i) => i.ioid === r.id).map((i) => (
+                                            {
+                                                SKUId: i.SKUId,
+                                                description: i.description,
+                                                price: i.price,
+                                                RFID: i.RFID
+                                            }
+                                        ))],
+                                        customerId: r.customerId,
+                                    } :
                                     {
-                                        SKUId: i.SKUId,
-                                        description: i.description,
-                                        price: i.price,
-                                        qty: i.quantity
+                                        id: r.id,
+                                        issueDate: r.issueDate,
+                                        state: r.state,
+                                        products: productrows.filter((i) => i.ioid === r.id).map((i) => (
+                                            {
+                                                SKUId: i.SKUId,
+                                                description: i.description,
+                                                price: i.price,
+                                                qty: i.quantity
+                                            }
+                                        )),
+                                        customerId: r.customerId,
                                     }
-                                ))],
-                                customerId: r.customerId,
-                            }
-                    ))
-                    resolve(internalorder);
-                })
-            })
+                            ))
+                            resolve(internalorder);
+                        }
+                    });
+                }
+            });
         });
     }
 
@@ -125,31 +125,33 @@ class InternalOrder_DAO {
             db.all(sql1, [], (err, internalrows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
-                db.all(sql2, [], (err, productrows) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    const internalorder = internalrows.map((r) => (
-                        {
-                            id: r.id,
-                            issueDate: r.issueDate,
-                            state: r.state,
-                            products: [productrows.filter((i) => i.ioid === r.id).map((i) => (
-                                {
-                                    SKUId: i.SKUId,
-                                    description: i.description,
-                                    price: i.price,
-                                    qty: i.quantity
-                                }
-                            ))],
-                            customerId: r.customerId,
+                else {
+                    db.all(sql2, [], (err, productrows) => {
+                        if (err) {
+                            reject(err);
                         }
-                    ))
-                    resolve(internalorder);
-                })
+                        else {
+                            const internalorder = internalrows.map((r) => (
+                                {
+                                    id: r.id,
+                                    issueDate: r.issueDate,
+                                    state: r.state,
+                                    products: productrows.filter((i) => i.ioid === r.id).map((i) => (
+                                        {
+                                            SKUId: i.SKUId,
+                                            description: i.description,
+                                            price: i.price,
+                                            qty: i.quantity
+                                        }
+                                    )),
+                                    customerId: r.customerId,
+                                }
+                            ));
+                            resolve(internalorder);
+                        }
+                    });
+                }
             });
         });
     }
@@ -162,31 +164,31 @@ class InternalOrder_DAO {
             db.all(sql1, [], (err, internalrows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 db.all(sql2, [], (err, productrows) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
-                    const internalorder = internalrows.map((r) => (
-                        {
-                            id: r.id,
-                            issueDate: r.issueDate,
-                            state: r.state,
-                            products: [productrows.filter((i) => i.ioid === r.id).map((i) => (
-                                {
-                                    SKUId: i.SKUId,
-                                    description: i.description,
-                                    price: i.price,
-                                    qty: i.quantity
-                                }
-                            ))],
-                            supplierId: r.supplierId
-                        }
-                    ))
-                    resolve(internalorder);
-                })
+                    else{
+                        const internalorder = internalrows.map((r) => (
+                            {
+                                id: r.id,
+                                issueDate: r.issueDate,
+                                state: r.state,
+                                products: productrows.filter((i) => i.ioid === r.id).map((i) => (
+                                    {
+                                        SKUId: i.SKUId,
+                                        description: i.description,
+                                        price: i.price,
+                                        qty: i.quantity
+                                    }
+                                )),
+                                customerId: r.customerId
+                            }
+                        ))
+                        resolve(internalorder);
+                    }
+                });
             });
         });
     }
@@ -196,113 +198,113 @@ class InternalOrder_DAO {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM INTERNALORDER WHERE id = ?';
             const sql2 = 'SELECT * FROM INTERNALORDER_PRODUCT';
-            db.all(sql1, [id], (err, internalrows) => {
+            db.get(sql1, [id], (err, internalrows) => {
                 if (err) {
-                    console.log("Errore sql1");
                     reject(err);
-                    return;
                 }
                 else if (internalrows.count === 0) {
-                    console.log("ciao");
                     reject(new Error("ID not found"));
-                    return;
                 }
                 else {
                     db.all(sql2, [], (err, productrows) => {
                         if (err) {
-                            console.log("Errore sql1");
                             reject(err);
-                            return;
                         }
-                        const internalorder = internalrows.map((r) => (
-                            r.state === "COMPLETED" ?
-                                {
-                                    id: r.id,
-                                    issueDate: r.issueDate,
-                                    state: r.state,
-                                    products: [productrows.filter((i) => i.ioid === r.id).map((i) => (
-                                        {
-                                            SKUId: i.SKUId,
-                                            description: i.description,
-                                            price: i.price,
-                                            RFID: i.RFID
-                                        }
-                                    ))],
-                                    customerId: r.customerId,
-                                } :
-                                {
-                                    id: r.id,
-                                    issueDate: r.issueDate,
-                                    state: r.state,
-                                    products: [productrows.filter((i) => i.ioid === r.id).map((i) => (
-                                        {
-                                            SKUId: i.SKUId,
-                                            description: i.description,
-                                            price: i.price,
-                                            qty: i.quantity
-                                        }
-                                    ))],
-                                    customerId: r.customerId,
-                                }
-                        ))
-                        resolve(internalorder);
-                    })
-                };
+                        else {
+                            const internalorder =
+                                internalrows.state === "COMPLETED" ?
+                                    {
+                                        id: internalrows.id,
+                                        issueDate: internalrows.issueDate,
+                                        state: internalrows.state,
+                                        products: productrows.filter((i) => i.ioid === internalrows.id).map((i) => (
+                                            {
+                                                SKUId: i.SKUId,
+                                                description: i.description,
+                                                price: i.price,
+                                                RFID: i.RFID
+                                            }
+                                        )),
+                                        customerId: internalrows.customerId,
+                                    } :
+                                    {
+                                        id: internalrows.id,
+                                        issueDate: internalrows.issueDate,
+                                        state: internalrows.state,
+                                        products: productrows.filter((i) => i.ioid === internalrows.id).map((i) => (
+                                            {
+                                                SKUId: i.SKUId,
+                                                description: i.description,
+                                                price: i.price,
+                                                qty: i.quantity
+                                            }
+                                        )),
+                                        customerId: internalrows.customerId,
+                                    }
+                            resolve(internalorder);
+                        }
+                    });
+                }
             });
         });
     }
 
     /* Put skuproducts in InternalOrder of given id */
     updateInternalOrderSkuProducts(db, id, data) {
-        console.log("Change Product");
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM INTERNALORDER WHERE id = ?'
-            const sql2 = 'INSERT INTO INTERNALORDER_PRODUCT(RFID, SKUId, ioid) VALUES(?, ?, ?)';
+            const sql2 = 'UPDATE INTERNALORDER_PRODUCT SET RFID = ?, quantity = null  WHERE ioid = ?  AND SKUId = ?'
+            //const sql2 = 'INSERT INTO INTERNALORDER_PRODUCT(RFID, SKUId, ioid) VALUES(?, ?, ?)';
             db.get(sql1, [id], (err, r) => {
                 if (err) {
-                    reject(err)
-                    return;
+                    reject(err);
                 } else if (r.count === 0) {
                     reject(new Error('ID not found'))
-                } 
-                // else if (r.state !== 'DELIVERED') {
-                //     reject(new Error('Not DELIVERED state'));
-                // }
+                }
                 else {
                     const sql3 = 'UPDATE INTERNALORDER SET state = ?  WHERE id = ?';
                     db.run(sql3, [data.newState, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
-                        resolve();
+                        else {
+                            const sql4 = 'SELECT COUNT(*) AS count FROM INTERNALORDER_PRODUCT  WHERE ioid = ? ';
+                            db.get(sql4, [id], (err, r) => {
+                                if (err) {
+                                    reject(err);
+                                }
+                                else if (r.count !== Object.keys(data.products).length) {
+                                    reject(new Error('Uncorrect product'));
+                                }
+                                else {
+                                    data.products.map((product) => {
+                                        db.run(sql2, [product.RFID, id, product.SkuId], (err) => {
+                                            if (err) {
+                                                reject(err);
+                                            }
+                                            else {
+                                                resolve();
+                                            }
+                                        });
+                                    })
+                                }
+                            });
+                        }
                     });
-                    console.log(data.products);
-                    data.products.map((product) => {
-                        db.run(sql2, [product.RFID, product.SkuID, id], (err) => {
-                            if (err) {
-                                reject(err);
-                                return;
-                            }
-                        })
-                        console.log(product.RFID, product.SkuID, id);
-                    })
-                    resolve();
                 }
             });
         })
     }
 
     /* Put InternalOrder state given ID */
-    updateItnernalOrderState(db, id, state) {
+    updateInternalOrderState(db, id, state) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM INTERNALORDER WHERE id = ?'
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 } else if (r.count === 0) {
-                    reject(new Error('ID not found'))
+                    reject(new Error('ID not found'));
                 } else {
                     const sql2 = 'UPDATE INTERNALORDER SET state = ?  WHERE id = ?';
                     db.run(sql2, [state, id], (err) => {
@@ -334,9 +336,18 @@ class InternalOrder_DAO {
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
-                        resolve();
+                        else {
+                            const sql3 = 'DELETE FROM INTERNALORDER_PRODUCT WHERE ioid = ?';
+                            db.run(sql3, [id], err => {
+                                if (err) {
+                                    reject(err);
+                                }
+                                else {
+                                    resolve();
+                                } 
+                            });
+                        }
                     });
 
                 }
