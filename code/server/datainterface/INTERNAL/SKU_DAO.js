@@ -14,7 +14,6 @@ class SKU_DAO {
             db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -31,7 +30,6 @@ class SKU_DAO {
             db.run(sql, [data.id, data.description, data.weight, data.volume, data.notes, null, data.availableQuantity, data.price], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -47,7 +45,6 @@ class SKU_DAO {
             db.all(sql, [], async (err, rows) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 const sql1 = 'SELECT * FROM testDescriptor';
                 db.all(sql1, [], (err, testDescriptors) => {
@@ -77,17 +74,14 @@ class SKU_DAO {
             db.get(sql, [id], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 }
 
                 const sql1 = 'SELECT id FROM testDescriptor  WHERE skuId = ?';
                 db.all(sql1, [id], (err, testDescriptors) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
 
                     const sku = {
@@ -115,35 +109,7 @@ class SKU_DAO {
     }
 
 
-    // delete sku by id
-    deleteSKU(db, id) {
-
-        return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
-            db.get(sql1, [id], (err, r) => {
-                if (err) {
-                    reject(err)
-                    return;
-                }
-                else if (r.count === 0) {
-                    reject(new Error('ID not found'))
-                }
-                else {
-                    const sql2 = 'DELETE FROM SKU WHERE id = ?';
-                    db.run(sql2, [id], (err) => {
-                        if (err) {
-                            reject(err);
-                            return;
-                        }
-                        resolve();
-                    });
-
-                }
-            })
-
-        });
-
-    }
+   
 
     //update SKU
     /*
@@ -161,33 +127,25 @@ class SKU_DAO {
             await db.get(sql1, [id], async (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 } else if (r.position !== null) {
-
                     let posit = r.position;
-
-
                     const sql3 = 'SELECT COUNT(*) AS countp,* FROM POSITION WHERE positionID = ?';
                     await db.get(sql3, [posit], async (err, p) => {
                         //console.log(p.occupiedWeight);
 
                         if (err) {
                             reject(err);
-                            return;
                         } else if (p.countp === 0) {
                             reject(new Error("ID position not found"));
-                            return;
                         }
 
                         let w = (data.newWeight * data.newAvailableQuantity + p.occupiedWeight - r.weight * r.availableQuantity);
                         let v = (data.newVolume * data.newAvailableQuantity + p.occupiedVolume - r.volume * r.availableQuantity);
                         if (w > p.maxWeight || v > p.maxVolume) {
                             reject(new Error("Maximum position capacity exceeded"));
-                            return;
                         }
 
                                 
@@ -196,7 +154,6 @@ class SKU_DAO {
                 db.run(sql2, [data.newDescription, data.newWeight, data.newVolume, data.newNotes, data.newAvailableQuantity, data.newPrice, id], (err) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
                     resolve();
                 });
@@ -206,7 +163,6 @@ class SKU_DAO {
             db.run(sql2, [data.newDescription, data.newWeight, data.newVolume, data.newNotes, data.newAvailableQuantity, data.newPrice, id], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -232,24 +188,20 @@ class SKU_DAO {
             await db.get(sql0, [id], async (err, oldSku) => {
                 if (err) {
                     reject(err);
-                    return;
                 }else if (oldSku.countsku === 0){
                     reject(new Error("ID sku not found"));
-                    return;
                 }else{
             
             await db.get(sql, [posit], async (err, p) => {
                 
                if (err) {
                     reject(err);
-                    return;
                 }else if (p.countp === 0){
                     reject(new Error("ID position not found"));
                     return;
                 }
                 else if ((oldSku.weight * oldSku.availableQuantity + p.occupiedWeight) > p.maxWeight || (oldSku.volume * oldSku.availableQuantity + p.occupiedVolume) > p.maxVolume) {
                     reject(new Error("Maximum position capacity exceeded"));
-                    return;
                 }
 
                  else {
@@ -257,7 +209,6 @@ class SKU_DAO {
                     await db.run(sql1, [(p.occupiedWeight + oldSku.weight*oldSku.availableQuantity), (p.occupiedVolume + oldSku.volume * oldSku.availableQuantity), posit], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                     });
 
@@ -269,26 +220,20 @@ class SKU_DAO {
             await db.get(sql, [oldSku.position], async (err, po) => {
                 if (err) {
                     reject(err);
-                    return;
                 }else if (po.countp === 0){
                     reject(new Error("ID position not found"));
-                    return;
                 } else {
                     await db.run(sql1, [(po.occupiedWeight - oldSku.weight * oldSku.availableQuantity), (po.occupiedVolume - oldSku.volume * oldSku.availableQuantity), oldSku.position], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                     });
-
-
                 }
             }); }
             const sql2 = 'UPDATE SKU SET position = ? WHERE id = ?';
             await db.run(sql2, [posit, oldSku.id], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
@@ -305,6 +250,35 @@ class SKU_DAO {
     }
 
 
+     // delete sku by id
+     deleteSKU(db, id) {
+
+        return new Promise((resolve, reject) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
+            db.get(sql1, [id], (err, r) => {
+                if (err) {
+                    reject(err)
+                }
+                else if (r.count === 0) {
+                    reject(new Error('ID not found'))
+                }
+                else {
+                    const sql2 = 'DELETE FROM SKU WHERE id = ?';
+                    db.run(sql2, [id], (err) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        resolve();
+                    });
+
+                }
+            })
+
+        });
+
+    }
+
+
 
 
     dropTable(db) {
@@ -313,7 +287,6 @@ class SKU_DAO {
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve();
             });
