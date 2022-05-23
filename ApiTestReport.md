@@ -23,7 +23,7 @@ Version:
 
      <report the here the dependency graph of the classes in EzWH, using plantuml or other tool>
 
-<img src="./Img/dependencyGraph.png" alt="low level diagram" width="1000">
+<img src="./Img/dependencygraph.png" alt="low level diagram" width="1500">
 
      
 # Integration approach
