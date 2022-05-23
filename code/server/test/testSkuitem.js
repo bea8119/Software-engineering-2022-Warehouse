@@ -86,17 +86,17 @@ describe('test skuitem apis', () => {
 });
 
 function deleteAllData(expectedHTTPStatus) {
-    it('test /api/skuitem/emergenza (deleting data...)', function (done) {
+    it('test /api/skuitem/emergenza (deleting data...)', function () {
         agent.delete('/api/skuitem/emergenza')
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
+            
             });
     });
 }
 
 function postSkuItem(expectedHTTPStatus, rfid, skuid, dateofstock) {
-    it('test /api/skuitem', function (done) {
+    it('test /api/skuitem', function () {
         let skuitem = {
             "RFID": rfid,
             "SKUId": skuid,
@@ -106,14 +106,14 @@ function postSkuItem(expectedHTTPStatus, rfid, skuid, dateofstock) {
             .send(skuitem)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
+            
             });
     })
 }
 
 
 function getSkuItem() {
-    it('test /api/skuitems', function (done) {
+    it('test /api/skuitems', function () {
         agent.get('/api/skuitems')
             .then(function (res) {
                 res.should.have.status(200);
@@ -131,14 +131,14 @@ function getSkuItem() {
                         "DateOfStock": "2021/11/29 12:30"
                     },
                 ])
-                done();
+            
             })
     })
 }
 
 
 function getSkuItemByRFID1() {
-    it('test get /api/skuitems/:rfid (correct rfid)', function (done) {
+    it('test get /api/skuitems/:rfid (correct rfid)', function () {
         agent.get('/api/skuitems/12345678901234567890123456789595')
             .then(function (res) {
                 res.should.have.status(200);
@@ -151,17 +151,17 @@ function getSkuItemByRFID1() {
                     }
 
                 )
-                done();
+            
             });
     });
 }
 
 function getSkuItemByRFID2(expectedHTTPStatus, rfid) {
-    it('test get /api/skuitems/:rfid (wrong rfid)', function (done) {
+    it('test get /api/skuitems/:rfid (wrong rfid)', function () {
         agent.get('/api/skuitems/' + rfid)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
+               
             });
     });
 
@@ -169,7 +169,7 @@ function getSkuItemByRFID2(expectedHTTPStatus, rfid) {
 
 
 function putSkuItem(expectedHTTPStatus, rfid, newRFID, newAvailable, newDateOfStock) {
-    it('test put /api/skuitems/:rfid', function (done) {
+    it('test put /api/skuitems/:rfid', function () {
         updates = {
             "newRFID": newRFID,
             "newAvailable": newAvailable,
@@ -179,7 +179,7 @@ function putSkuItem(expectedHTTPStatus, rfid, newRFID, newAvailable, newDateOfSt
             .send(updates)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
+               
             });
     });
 
@@ -187,18 +187,18 @@ function putSkuItem(expectedHTTPStatus, rfid, newRFID, newAvailable, newDateOfSt
 
 
 function deleteSkuItem(expectedHTTPStatus, rfid) {
-    it('test delete /api/skuitems/:rfid', function (done) {
+    it('test delete /api/skuitems/:rfid', function () {
         agent.delete(`/api/skuitems/${rfid}`)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
+                
             });
     });
 
 }
 
 function getAvailableSkuItemsBySkuId(expectedHTTPStatus, rfid, skuid) {
-    it('test /api/skuitems/sku/:id', function (done) {
+    it('test /api/skuitems/sku/:id', function () {
         updates = {
             "newRFID": rfid,
             "newAvailable": 1,
@@ -219,7 +219,7 @@ function getAvailableSkuItemsBySkuId(expectedHTTPStatus, rfid, skuid) {
                             ]
                         )
                     }
-                    done();
+                
                 });
         });
     })

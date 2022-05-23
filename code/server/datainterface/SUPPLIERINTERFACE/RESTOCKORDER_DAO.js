@@ -49,18 +49,16 @@ class RESTOCKORDER_DAO {
                     db.get(sql3, [], (err, r) => {
                         if (err) {
                             reject(err);
-                        } else {
+                        } else if (data.products.length !== 0) {
                             data.products.map((product) => {
                                 db.run(sql2, [r.lastroid, product.SKUId, product.description, product.price, product.qty], (err) => {
                                     if (err) {
                                         reject(err);
-                                    } else {
-                                        resolve();
                                     }
-
                                 })
-                            })
-                        }
+                            }) 
+                        } 
+                        resolve()
                     })
                 }
             });
@@ -103,6 +101,7 @@ class RESTOCKORDER_DAO {
                                             transportNote: r.transportNote ? {
                                                 deliveryDate: r.transportNote
                                             } : {},
+
                                             skuItems: skuitemrows.filter((s) => s.roid === r.id).length !== 0 ? skuitemrows.filter((s) => s.roid === r.id).map((s) => (
                                                 {
                                                     SKUId: s.SKUId,
