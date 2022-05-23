@@ -28,7 +28,7 @@ app.post('/api/restockOrder', async (req, res) => {
         restockOrder === undefined ||
         restockOrder.issueDate === undefined || !((dayjs(restockOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(restockOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
         restockOrder.products === undefined ||
-        restockOrder.supplierId === undefined){
+        restockOrder.supplierId === undefined || isNaN(restockOrder.supplierId)){
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     try {
@@ -271,10 +271,10 @@ app.delete('/api/restockOrder/:id', async (req, res) => {
 
 
 
-app.post('/api/restockOrder/emergenza', async (req, res) => {
+app.delete('/api/emergenza/emergenza', async (req, res) => {
     try {
         await r.dropTable(db);
-        res.status(200).end()
+        res.status(204).end()
     }
     catch (err) {
         res.status(500).end()
