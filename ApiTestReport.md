@@ -173,6 +173,7 @@ The strategy was to test the highest number of cases in order to guarantee an hi
 Report also for each of the scenarios the (one or more) API Mocha tests that cover it. >  Mocha test cases should be here code/server/test
 
 *Note*: (p) stands for partially (i.e. just one or few more steps of the scenario are covered by the specific test)
+
 *Note*: Scenarios marked with (new) tag are the scenarios which have been added in the document
 
 Only the portion of API tests that satisfied (at least partially) the scenarios provided in the officialRequirements.md document has been inserted in the table.
