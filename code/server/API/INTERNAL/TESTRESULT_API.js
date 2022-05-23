@@ -132,6 +132,11 @@ app.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     let rfid = req.params.rfid;
     let id = req.params.id;
 
+    if ((rfid.length !== 32) || !(/^\d+$/.test(rfid)) || rfid === undefined ||
+        isNaN(id) || id === null || id === "" || id === undefined) {
+        res.status(422).json("Unprocessable entity");
+    }
+
     try {
         await tr.deleteTestResult(db, rfid, id);
         res.status(204).end();

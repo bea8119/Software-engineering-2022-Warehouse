@@ -71,7 +71,7 @@ app.delete('/api/testDescriptor/:id', async (req, res) => {
 
     let id = req.params.id;
 
-    if (id === undefined) {
+    if (id === undefined || id === "") {
         return res.status(422).json({ error: 'Empty header request' });
     }
 

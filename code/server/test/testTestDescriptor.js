@@ -78,6 +78,12 @@ describe('test TestDescriptor apis', () => {
     putTestDescriptor(422, 1, "new name", "new description", undefined);
     putTestDescriptor(422, 1, "new name", "new description", "a");
     putTestDescriptor(404, 1, "new name", "new description", 0);
+    //putTestDescriptor(404, 3, "new name", "new description", 2);
+
+    deleteTestDescriptor(204, 2)
+    deleteTestDescriptor(422, "")
+    deleteTestDescriptor(422, undefined)
+    deleteTestDescriptor(404, 3)
 });
 
 function deleteAllData(expectedHTTPStatus) {
@@ -170,6 +176,15 @@ function putTestDescriptor(expectedHTTPStatus, id, newName, newProcedureDescript
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
                 done();
+            });
+    });
+}
+
+function deleteTestDescriptor(expectedHTTPStatus, id) {
+    it('test /api/testDescriptor/:id', function () {
+        agent.delete('/api/testDescriptor/' + id)
+            .then(function (res) {
+                res.should.have.status(expectedHTTPStatus);
             });
     });
 }
