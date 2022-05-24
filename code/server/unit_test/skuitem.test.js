@@ -17,21 +17,28 @@ describe("test skuitems", () => {
             price: 10.99,
             availableQuantity: 50
         }
-        let skuitem = {
+        let skuitem1 = {
             RFID: "12345678901234567890123456789041",
             SKUId: 1,
             DateOfStock: "2021/11/29 12:30"
+        }
+
+        let skuitem2 = {
+            RFID: "12345678901234567890123456789042",
+            SKUId: 1,
+            DateOfStock: "2021/11/29 12:31"
         }
         try {
             await t.newTableName(db);
             await t.storeSKU(db, sku);
             await s.newTableName(db);
-            await s.storeSKUItem(db, skuitem);
+            await s.storeSKUItem(db, skuitem1);
+            await s.storeSKUItem(db, skuitem2);
         } catch (err) {
             console.log(err)
         }
     })
-    testGetStoredSKUItem("12345678901234567890123456789041", 1, "2021/11/29 12:30",);
+    testGetStoredSKUItem("12345678901234567890123456789041", 1, "2021/11/29 12:30", "12345678901234567890123456789042", 1, "2021/11/29 12:31");
     testStoreSKUItem("12345678901234567890123456789014", 1, "2021/11/29 12:30", 13);
     testGetStoredSkuItemByRFID("12345678901234567890123456789041", "12345678901234567890123456789626")
     testGetAvailableStoredSKUItem(1, 2)
@@ -40,17 +47,49 @@ describe("test skuitems", () => {
 });
 
 
-function testGetStoredSKUItem(id, skuid, dateOfStock) {
-    test("Testing getStoredSKUItem", async () => {
-        let res = await s.getStoredSKUItem(db)
-        expect(res).toEqual([{
-            RFID: id,
-            SKUId: skuid,
-            Available: 0,
-            DateOfStock: dateOfStock
-        }])
+function testGetStoredSKUItem(id1, skuid1, dateOfStock1, id2, skuid2, dateOfStock2) {
+
+    describe("Testing getStoredSKUItem", () => {
+
+        test("Testing getStoredSKUItem (0 items)", async () => {
+            await s.deleteSKUItem(db, "12345678901234567890123456789041")
+            await s.deleteSKUItem(db, "12345678901234567890123456789042")
+            let res = await s.getStoredSKUItem(db)
+            expect(res).toEqual([])
+        })
+
+
+        test("Testing getStoredSKUItem (1 item)", async () => {
+            await s.deleteSKUItem(db, "12345678901234567890123456789042")
+            let res = await s.getStoredSKUItem(db)
+            expect(res).toEqual([{
+                RFID: id1,
+                SKUId: skuid1,
+                Available: 0,
+                DateOfStock: dateOfStock1
+            }])
+        })
+
+        test("Testing getStoredSKUItem (2 items)", async () => {
+            let res = await s.getStoredSKUItem(db)
+            expect(res).toEqual([{
+                RFID: id1,
+                SKUId: skuid1,
+                Available: 0,
+                DateOfStock: dateOfStock1
+            },
+            {
+                RFID: id2,
+                SKUId: skuid2,
+                Available: 0,
+                DateOfStock: dateOfStock2
+            },
+            ])
+        })
     })
 }
+
+
 
 function testStoreSKUItem(rfid, skuid, dateOfStock, wrongskuid) {
 

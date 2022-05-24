@@ -38,20 +38,20 @@ class RESTOCKORDER_DAO {
     /* Post RestockOrder */
 
     storeRestockOrder(db, data) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const sql1 = 'INSERT INTO RESTOCKORDER(id, issueDate, state, supplierId, transportNote) VALUES (?, ?, ?, ?, ?)';
             const sql2 = 'INSERT INTO RESTOCKORDER_ITEM (roid, SKUId, description, price, quantity) VALUES (?, ?, ?, ?, ?)'
             const sql3 = 'SELECT MAX(ID) AS lastroid FROM RESTOCKORDER'
-            db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], (err) => {
+            await db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], async (err) => {
                 if (err) {
                     reject(err);
                 } else {
-                    db.get(sql3, [], (err, r) => {
+                    await db.get(sql3, [], async (err, r) => {
                         if (err) {
                             reject(err);
                         } else if (data.products.length !== 0) {
-                            data.products.map((product) => {
-                                db.run(sql2, [r.lastroid, product.SKUId, product.description, product.price, product.qty], (err) => {
+                            await data.products.map(async (product) => {
+                                await db.run(sql2, [r.lastroid, product.SKUId, product.description, product.price, product.qty], (err) => {
                                     if (err) {
                                         reject(err);
                                     }
@@ -68,23 +68,23 @@ class RESTOCKORDER_DAO {
     /* Get RestockOrder */
 
     getStoredRestockOrder(db) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const sql1 = 'SELECT * FROM RESTOCKORDER';
             const sql2 = 'SELECT * FROM RESTOCKORDER_ITEM';
             const sql3 = 'SELECT * FROM RESTOCKORDER_SKUITEM';
-            db.all(sql1, [], (err, restockrows) => {
+            await db.all(sql1, [], async (err, restockrows) => {
                 if (err) {
                     reject(err);
                 } else {
-                    db.all(sql2, [], (err, itemrows) => {
+                    await db.all(sql2, [], async (err, itemrows) => {
                         if (err) {
                             reject(err);
                         } else {
-                            db.all(sql3, [], (err, skuitemrows) => {
+                            await db.all(sql3, [], async (err, skuitemrows) => {
                                 if (err) {
                                     reject(err);
                                 } else {
-                                    const restockorder = restockrows.map((r) => (
+                                    const restockorder = await restockrows.map((r) => (
                                         {
                                             id: r.id,
                                             issueDate: r.issueDate,
@@ -125,18 +125,18 @@ class RESTOCKORDER_DAO {
     /* Get RestockOrder Issued */
 
     getStoredRestockOrderIssued(db) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const sql1 = 'SELECT * FROM RESTOCKORDER WHERE state = "ISSUED"';
             const sql2 = 'SELECT * FROM RESTOCKORDER_ITEM';
-            db.all(sql1, [], (err, restockrows) => {
+            await db.all(sql1, [], async (err, restockrows) => {
                 if (err) {
                     reject(err);
                 } else {
-                    db.all(sql2, [], (err, itemrows) => {
+                    await db.all(sql2, [], async (err, itemrows) => {
                         if (err) {
                             reject(err);
                         } else {
-                            const restockorder = restockrows.map((r) => (
+                            const restockorder = await restockrows.map((r) => (
                                 {
                                     id: r.id,
                                     issueDate: r.issueDate,
@@ -257,10 +257,10 @@ class RESTOCKORDER_DAO {
     /* Put skuitems in restockorder of given id */
 
     updateRestockOrderSkuItems(db, id, data) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM RESTOCKORDER WHERE id = ?'
             const sql2 = 'INSERT INTO RESTOCKORDER_SKUITEM(rfid, SKUId, roid) VALUES(?, ?, ?)';
-            db.get(sql1, [id], (err, r) => {
+            await db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
                 } else if (r.count === 0) {
@@ -268,8 +268,8 @@ class RESTOCKORDER_DAO {
                 } else if (r.state !== 'DELIVERED') {
                     reject(new Error('Not DELIVERED state'));
                 } else {
-                    data.skuItems.map((skuitem) => {
-                        db.run(sql2, [skuitem.rfid, skuitem.SKUId, id], (err) => {
+                    data.skuItems.map(async (skuitem) => {
+                        await db.run(sql2, [skuitem.rfid, skuitem.SKUId, id], (err) => {
                             if (err) {
                                 reject(err);
                             } else {
