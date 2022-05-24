@@ -457,9 +457,12 @@ For each query of each function there are checks on the correctness of the opera
 
 |Unit name | Loop rows | Number of iterations | Jest test case |
 |---|---|---|---|
-|||||
-|||||
+| SKUITEM_DAO > getStoredSKUItem(db) | 7 | 0 | Testing getStoredSKUItem > Testing getStoredSKUItem (0 items)|
+| SKUITEM_DAO > getStoredSKUItem(db) | 7 | 1 | Testing getStoredSKUItem > Testing getStoredSKUItem (1 item)|
+| SKUITEM_DAO > getStoredSKUItem(db) | 7 | 2 | Testing getStoredSKUItem > Testing getStoredSKUItem (2 items)|
+| RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 0 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (0 restockOrders)|
+| RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 1 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (1 restockOrder)|
+| RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 2 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (2 restockOrders)|
 ||||||
-
 
 
