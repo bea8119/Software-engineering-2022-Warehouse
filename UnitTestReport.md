@@ -376,6 +376,121 @@ No criteria
 | YES | YES | Creates an Sku, deletes the Sku given its ID, expects to catch an "ID not found" exception  searching for the deleted Sku in the database  |Suite: "Testing deleteSku", Case: "Sku id found"|
 | NO | NO | Tries to delete an Sku whose Sku ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing Testing deleteSku", Case: "No Sku id found"|
 
+
+### Class *TestDescriptor* - method **getStoredTestDescriptors(db)**
+
+**Criteria for method *getStoredTestDescriptors(db)*
+ 0. None
+
+**Boundaries**: No boundaries
+
+**Combination of predicates**:
+
+| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates an array with existing TestDescriptor items, the function should return it |Suite: "Testing getStoredTestDescriptors"|
+
+### Class *TestDescriptor* - method **getTestDescriptorbyID(db, id)**
+
+**Criteria for method *getTestDescriptorbyID(db, id)*:**
+ 1. ID existing
+
+**Predicates for method *getTestDescriptorbyID(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  ID existing  | YES   |
+|  ID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+| ID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Searches for a TestDescriptor whose ID exists and should return the proper TestDescriptor |Suite: "Testing getTestDescriptorbyID", Case: "ID existing"|
+| NO | NO | Searches for a TestDescriptor whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getTestDescriptorbyID", Case: "ID not existing"|
+
+### Class *TestDescriptor* - method **storeTestDescriptor(db, data)**
+
+**Criteria for method *storeTestDescriptor(db, data)*
+ 0. None
+
+**Boundaries**: No boundaries
+
+**Combination of predicates**:
+
+| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates a TestDescriptor item belonging to existing SKU and gets the created item |Suite: "Testing storeTestDescriptor"|
+
+### Class *TestDescriptor* - method **updateTestDescriptor(db, id, data)**
+
+**Criteria for method *updateTestDescriptor(db, id, data)*:**
+ 1. ID existing
+ 2. SKUid existing
+
+**Predicates for method *updateTestDescriptor(db, id, data)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  ID existing  | YES   |
+|  ID existing  |  NO   |
+|  SKUid existing | YES   |
+|  SKUid existing | NO    |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+| ID existing | SKUid existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES | Searches for a TestDescriptor item whose ID exists and should update it with data that contains a SKUid that is also existing. |Suite: "Testing updateTestDescriptor", Case: "ID existing: SKUid exists"|
+| NO | YES | NO | Searches for a TestDescriptor whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateTestDescriptor", Case: "ID existing: wrong SKUid "|
+| YES | NO | NO | Searches for a TestDescriptor whose ID exists, but updating data contains an SKUid that doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing updateTestDescriptor", Case: "ID not existing"|
+
+
+### Class *TestDescriptor_DAO* - method **deleteTestDescriptor(db, id)**
+**Criteria for method *deleteTestDescriptor(db, id)*:**
+ 1. ID existing
+
+**Predicates for method *deleteTestDescriptor(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  ID existing  | YES   |
+|  ID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| ID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Deletes a TestDescriptor item whose ID exists and tries to get it by ID in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteTestDescriptor", Case: "id existing"|
+| NO | NO | Tries to delete a TestDescriptor item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteTestDescriptor", Case: "id not existing"|
+
+
+### Class *TESTRESULT_DAO* - method **getTestResultsArraybySkuitemRfid(db, rfid)**
+
+**Criteria for method *getTestResultsArraybySkuitemRfid(db, rfid)*:**
+ 1. RFID existing
+
+**Predicates for method *getTestResultsArraybySkuitemRfid(db, rfid)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  RFID existing  | YES   |
+|  RFID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+| RFID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Searches for TESTRESULT items whose RFID exists and should return an array with them |Suite: "Testing getTestResultsArraybySkuitemRfid", Case: "rfid existing"|
+| NO | NO | Searches for TESTRESULT items whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getTestResultsArraybySkuitemRfid", Case: "rfid not existing"|
+
+
 # White Box Unit Tests
 
 ### Test cases definition
