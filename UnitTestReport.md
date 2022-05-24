@@ -446,11 +446,11 @@ No criteria
 | ID existing | SKUid existing | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
 | YES | YES | YES | Searches for a TestDescriptor item whose ID exists and should update it with data that contains a SKUid that is also existing. |Suite: "Testing updateTestDescriptor", Case: "ID existing: SKUid exists"|
-| NO | YES | NO | Searches for a TestDescriptor whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateTestDescriptor", Case: "ID existing: wrong SKUid "|
+| NO | YES | NO | Searches for a TestDescriptor whose ID doesn't exist and should catch an "ID sku not found" exception |Suite: "Testing updateTestDescriptor", Case: "ID existing: wrong SKUid "|
 | YES | NO | NO | Searches for a TestDescriptor whose ID exists, but updating data contains an SKUid that doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing updateTestDescriptor", Case: "ID not existing"|
 
 
-### Class *TestDescriptor_DAO* - method **deleteTestDescriptor(db, id)**
+### Class *TestDescriptor* - method **deleteTestDescriptor(db, id)**
 **Criteria for method *deleteTestDescriptor(db, id)*:**
  1. ID existing
 
@@ -469,7 +469,7 @@ No criteria
 | NO | NO | Tries to delete a TestDescriptor item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteTestDescriptor", Case: "id not existing"|
 
 
-### Class *TESTRESULT_DAO* - method **getTestResultsArraybySkuitemRfid(db, rfid)**
+### Class *TESTRESULT* - method **getTestResultsArraybySkuitemRfid(db, rfid)**
 
 **Criteria for method *getTestResultsArraybySkuitemRfid(db, rfid)*:**
  1. RFID existing
@@ -489,6 +489,182 @@ No criteria
 |-------|-------|-------|-------|
 | YES | YES | Searches for TESTRESULT items whose RFID exists and should return an array with them |Suite: "Testing getTestResultsArraybySkuitemRfid", Case: "rfid existing"|
 | NO | NO | Searches for TESTRESULT items whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getTestResultsArraybySkuitemRfid", Case: "rfid not existing"|
+
+### Class *TESTRESULT* - method **getTestResultArraybyidandbySkuitemRfid(db, rfid, id)**
+
+**Criteria for method *getTestResultArraybyidandbySkuitemRfid(db, rfid, id)*:**
+ 1. RFID existing
+ 2. ID existing
+
+**Predicates for method *getTestResultArraybyidandbySkuitemRfid(db, rfid, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  RFID existing  | YES   |
+|  RFID existing  |  NO   |
+|  ID existing | YES   |
+|  ID existing | NO    |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+| RFID existing | ID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES | Searches for a TESTRESULT item whose RFID and ID exists, therefore it should return it. |Suite: "Testing getTestResultArraybyidandbySkuitemRfid", Case: "rfid and id existing"|
+| NO | YES | NO | Searches for a TESTRESULT item whose RFID doesn't exist and ID exists, therefore it should catch an "ID not found" exception |Suite: "Testing getTestResultArraybyidandbySkuitemRfid", Case: "rfid not existing and id existing"|
+| YES | NO | NO | Searches for a TESTRESULT item whose RFID exists and ID doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing getTestResultArraybyidandbySkuitemRfid", Case: "rfid existing and id not existing"|
+| NO | NO | NO | Searches for a TESTRESULT item whose RFID nor ID exist, therefore it should catch an "ID not found" exception |Suite: "Testing getTestResultArraybyidandbySkuitemRfid", Case: "rfid and id not existing"|
+
+
+### Class *TESTRESULT* - method **storeTestResult(db, data)**
+
+**Criteria for method *storeTestResult(db, data)*
+ 0. None
+
+**Boundaries**: No boundaries
+
+**Combination of predicates**:
+
+| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates a TESTRESULT item belonging to existing SKUitem and TestDescriptor and gets the created item |Suite: "Testing storeTestResult"|
+
+### Class *TESTRESULT* - method **updateTestResult(db, id, rfid, data)**
+
+**Criteria for method *updateTestDescriptor(db, id, rfid, data)*:**
+ 1. RFID existing
+ 2. ID existing
+ 3. idTestDescriptor existing
+
+**Predicates for method *updateTestDescriptor(db, id, rfid, data)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  RFID existing  | YES   |
+|  RFID existing  |  NO   |
+|  ID existing | YES   |
+|  ID existing | NO    |
+|  idTestDescriptor existing | YES   |
+|  idTestDescriptor existing | NO    |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+| RFID existing | ID existing | idTestDescriptor existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|
+| YES | YES | YES | YES | Searches for a TESTRESULT item whose RFID and ID exists and should update it with data that contains a idTestDescriptor that is also existing. |Suite: "Testing updateTestResult", Case: "rfid, id and idTestDescriptor exist"|
+| NO | YES | YES | NO | Searches for a TESTRESULT item whose ID exists but RFID doesn't exist, therefore should catch an "ID not found" exception |Suite: "Testing updateTestResult", Case: "rfid and id existing and idTestDescriptor not existing"|
+| YES | NO | YES | NO | Searches for a TESTRESULT item whose RFID exists but ID doesn't exist, therefore should catch an "ID not found" exception |Suite: "Testing updateTestResult", Case: "rfid not existing, id and idTestDescriptor existing"|
+| YES | YES | NO | NO | Searches for a TESTRESULT item whose ID and RFID exists, but updating data contains an idTestDescriptor that doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing updateTestResult", Case: "rfid and idTestDescriptor existing, id not existing"|
+
+### Class *TESTRESULT* - method **deleteTestResult(db, rfid, id)**
+**Criteria for method *deleteTestResult(db, rfid, id)*:**
+ 1. RFID existing
+ 2. ID existing
+
+**Predicates for method *deleteTestResult(db, rfid, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  RFID existing  | YES   |
+|  RFID existing  |  NO   |
+|  ID existing  | YES   |
+|  ID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| RFID existing | ID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES | Deletes a TESTRESULT item whose RFID and ID exists and tries to get it by RFID and ID in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteTestResult", Case: "rfid and id existing"|
+| NO | YES | NO | Tries to delete a TESTRESULT item whose ID exists but RFID doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing deleteTestResult", Case: "rfid not existing and id existing"|
+| YES | NO | NO | Tries to delete a TESTRESULT item whose RFID exists but ID doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing deleteTestResult", Case: "rfid existing and id not existing"|
+| NO | NO | NO | Tries to delete a TESTRESULT item whose RFID and ID doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing deleteTestResult", Case: "rfid and id not existing"|
+
+### Class *USER* - method **getStoredSuppliers(db)**
+
+**Criteria for method *getStoredSuppliers(db)*
+ 0. None
+
+**Boundaries**: No boundaries
+
+**Combination of predicates**:
+
+| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates an array with existing USER items with type "supplier", the function should return it |Suite: "Testing getStoredSuppliers"|
+
+### Class *USER* - method **getStoredUsers(db)**
+
+**Criteria for method *getStoredUsers(db)*
+ 0. None
+
+**Boundaries**: No boundaries
+
+**Combination of predicates**:
+
+| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates an array with existing USER items with type different from "manager" and "administrator", the function should return it |Suite: "Testing getStoredUsers"|
+
+### Class *USER* - method **storeUser(db, data)**
+
+**Criteria for method *storeUser(db, data)*:**
+ 1. username existing
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  username existing      | YES |
+|  username existing      | NO  |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+| username existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a new USER with unique username and gets the created USER |Suite: "Testing getStoredUsers", Case: "User data correct"|
+| NO | NO | Tries to create a new USER with existing username and catches a "Conflict" exception |Suite: "Testing getStoredUsers", Case: "Username exists"|
+
+### Class *USER* - method **deleteUser(db, username, type)**
+**Criteria for method *deleteTestDescriptor(db, id)*:**
+ 1. username existing
+
+**Predicates for method *deleteUser(db, username, type)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  valid type | YES   |
+|  invalid type  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| valid type | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Deletes a USER item whose type is different from "manager" and "administrator" and tries to get it from the database: an 'ID not found' exception should be catched |Suite: "Testing deleteUser", Case: "User data correct"|
+| NO | NO | Tries to delete a USER item whose type is "manager" or "administrator" and should catch an "Permission not allowed" exception |Suite: "Testing deleteUser", Case: "Invalid type"|
+
+### Class *USER* - method **updateUserType(db, username, data)**
+
+**Criteria for method *updateUserType(db, username, data)*:**
+ 1. Valid type
+
+**Predicates for method *updateUserType(db, username, data)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  Valid type  | YES   |
+|  Invalid type  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+| valid type | SKUid existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | Searches for a USER item by username and should update it with data that contains a oldType different to "manager" and "administrator" |Suite: "Testing updateUserType", Case: "Username and data correct, permissions allowed"|
+| NO | NO | Searches for a USER item by username and tries to update it with data that contains a oldType equal to "manager" or "administrator" and should catch an "Permission not allowed" exception |Suite: "Testing updateUserType", Case: "Username and data correct, permissions not allowed"|
 
 
 # White Box Unit Tests
