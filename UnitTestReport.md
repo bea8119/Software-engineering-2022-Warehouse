@@ -410,6 +410,26 @@ No criteria
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > State DELIVERY and ROID existing and DeliveryDate < IssueDate |
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > State NOT DELIVERY and ROID not existing |
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > ROID not existing |
+|POSITION_DAO > storePosition(db, data) | Testing StorePosition |
+|POSITION_DAO > getStoredPosition(db) | Testing getStoredPosition |
+|POSITION_DAO > updatePosition(db, id, data) | Testing updatePosition > Position id found |
+|POSITION_DAO > updatePosition(db, id, data) | Testing updatePosition > No position id found |
+|POSITION_DAO > updatePositionID(db, id, data) | Testing updatePositionID > Position id found |
+|POSITION_DAO > updatePositionID(db, id, data) | Testing updatePositionID > No position id found |
+|POSITION_DAO >  deletePosition(db, id) | Testing deletePosition > Position id found |
+|POSITION_DAO >  deletePosition(db, id) | Testing deletePosition > No position id found |
+|SKU_DAO >  storeSKU(db, data) | Testing StoreSKU |
+|SKU_DAO >  getStoredSKU(db) | Testing getStoredSKU |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is null |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, Maximum position capacity NOT exceeded |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, Maximum position capacity exceeded |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, but positionID is not found |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id found, position found, old position null |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id found, position found, old position not null |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > Maximum capacity exceeded exception |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > No position found exception|
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
 
 
 
