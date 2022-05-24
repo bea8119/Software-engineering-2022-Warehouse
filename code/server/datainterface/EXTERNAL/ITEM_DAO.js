@@ -58,7 +58,6 @@ class ITEM_DAO {
                     const sql2 = 'SELECT COUNT(*) AS count FROM RESTOCKORDER_ITEM AS RI, RESTOCKORDER AS R WHERE R.supplierId=? AND RI.roid=R.id AND SKUId=?';
                     db.get(sql2, [data.supplierId, data.id], (err, r) => {
                         if(err){
-                            console.log
                             reject(err);
                         }
                         else if(r.count!==0){

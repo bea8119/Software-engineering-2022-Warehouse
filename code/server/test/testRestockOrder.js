@@ -124,19 +124,18 @@ describe('test restockOrder apis', () => {
 });
 
 function deleteAllData(expectedHTTPStatus) {
-    it('test /api/restockOrder/emergenza (deleting data...)', function (done) {
-        agent.delete('/api/emergenza/emergenza')
+    it('test /api/restockOrder/emergenza (deleting data...)', async function () {
+        await agent.delete('/api/emergenza/emergenza')
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done()
             });
     });
 }
 
 
 function getRestockOrdersById1() {
-    it('test /api/restockOrders', function (done) {
-        agent.get('/api/restockOrders')
+    it('test /api/restockOrders', async function () {
+       await agent.get('/api/restockOrders')
             .then(function (res) {
                 res.should.have.status(200);
                 console.log(res.body)
@@ -177,15 +176,15 @@ function getRestockOrdersById1() {
                     ]
                 
                 )
-                done();
+               
             })
         })
 }
 
 
 function getRestockOrdersById1() {
-    it('test /api/restockOrders/:id', function (done) {
-        agent.get('/api/restockOrders/1')
+    it('test /api/restockOrders/:id', async function () {
+        await agent.get('/api/restockOrders/1')
             .then(function (res) {
                 res.should.have.status(200);
                 res.body.should.eql(
@@ -201,29 +200,27 @@ function getRestockOrdersById1() {
                     
                         }
                 )
-                done();
             })
         })
 }
 
 function getRestockOrdersById2(expectedHTTPStatus, wrongid) {
-    it('test /api/restockOrders/:id', function (done) {
-        agent.get('/api/restockOrders/'+wrongid)
+    it('test /api/restockOrders/:id', async function () {
+        await agent.get('/api/restockOrders/'+wrongid)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
             })
         })
 }
 
 function getRestockOrdersIssued() {
-    it('test /api/restockOrdersIssued', function (done) {
+    it('test /api/restockOrdersIssued', async function () {
         updates =
         {
             "newState": "DELIVERY"
         }
-        agent.put('/api/restockOrder/' + 3).send(updates).then(function (res) {
-        agent.get('/api/restockOrdersIssued')
+        await agent.put('/api/restockOrder/' + 3).send(updates).then( async function () {
+         await agent.get('/api/restockOrdersIssued')
             .then(function (res) {
                 res.should.have.status(200);
                 res.body.should.eql(
@@ -246,41 +243,38 @@ function getRestockOrdersIssued() {
                             "skuItems" : []
                         },
                 ])
-                done();
             })
         })
     })
 }
 
 function postRestockOrder(expectedHTTPStatus, issueDate, products, supplierId) {
-    it('test /api/restockOrder', function (done) {
+    it('test /api/restockOrder', async function () {
         let ro = {
             "issueDate": issueDate,
             "products": products,
             "supplierId": supplierId
         }
 
-        agent.post('/api/restockOrder')
+        await agent.post('/api/restockOrder')
             .send(ro)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done()
             });
     })
 }
 
 function putRestockOrderState(expectedHTTPStatus, id, newstate) {
-    it('test put /api/restockOrder/:id', function (done) {
+    it('test put /api/restockOrder/:id', async function () {
         updates =
         {
             "newState": newstate
         }
 
-        agent.put('/api/restockOrder/' + id)
+        await agent.put('/api/restockOrder/' + id)
             .send(updates)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done()
             });
     });
 
@@ -288,17 +282,16 @@ function putRestockOrderState(expectedHTTPStatus, id, newstate) {
 
 function putRestockOrderSkuitem(expectedHTTPStatus, id, newstate, skuitems) {
 
-    it('test put /api/restockOrder/:id/skuItems', function (done) {
+    it('test put /api/restockOrder/:id/skuItems', async function () {
         updates =
         {
             "newState": newstate
         }
-        agent.put('/api/restockOrder/' + id).send(updates).then(function (res) {
-            agent.put('/api/restockOrder/' + id + '/skuItems')
+        await agent.put('/api/restockOrder/' + id).send(updates).then(async function () {
+             await agent.put('/api/restockOrder/' + id + '/skuItems')
                 .send(skuitems)
                 .then(function (res) {
                     res.should.have.status(expectedHTTPStatus);
-                    done()
                 });
         })
     });
@@ -307,7 +300,7 @@ function putRestockOrderSkuitem(expectedHTTPStatus, id, newstate, skuitems) {
 
 function putRestockOrderTransportNote(expectedHTTPStatus, id, newstate, deliveryDate) {
 
-    it('test put /api/restockOrder/:id/transportNote', function (done) {
+    it('test put /api/restockOrder/:id/transportNote', async function () {
         updates =
         {
             "newState": newstate
@@ -316,12 +309,11 @@ function putRestockOrderTransportNote(expectedHTTPStatus, id, newstate, delivery
             "transportNote": { "deliveryDate": deliveryDate }
         }
 
-        agent.put('/api/restockOrder/' + id).send(updates).then(function (res) {
-            agent.put('/api/restockOrder/' + id + '/transportNote')
+        await agent.put('/api/restockOrder/' + id).send(updates).then(async function () {
+             await agent.put('/api/restockOrder/' + id + '/transportNote')
                 .send(transportNote)
                 .then(function (res) {
                     res.should.have.status(expectedHTTPStatus);
-                    done()
                 });
         })
     });
@@ -331,11 +323,10 @@ function putRestockOrderTransportNote(expectedHTTPStatus, id, newstate, delivery
 
 
 function deleteRestockOrderSkuItem(expectedHTTPStatus, id) {
-    it('test delete /api/restockOrder/:id', function (done) {
-        agent.delete('/api/restockOrder/'+id)
+    it('test delete /api/restockOrder/:id', async function () {
+        await agent.delete('/api/restockOrder/'+id)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
             });
     });
 
