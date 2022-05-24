@@ -438,8 +438,17 @@ No criteria
     <Add here the screenshot report of the statement and branch coverage obtained using
     the coverage tool. >
 
-* Coverage considering untestable branches (those related to generic errors (sql errors, constraints violated, server connection failures...))
-* Effective coverage (without considering generic error branches)
+The jest command used is *node ./node_modules/jest/bin/jest.js **--runInBand** --coverage*, where the runInBand option, allowing a sequential execution of the various test files, is necessary to avoid concurrency problems in the database access.
+
+<img src="./Img/coverage.png" alt="coverage" width="1000">
+
+*Note*: 
+
+The reason behind the low branch coverage value is related to the fact that it was not possible to test the many "generic errors" (those that should return error 500, 503 etc ...) that can be captured in the functions.
+
+These branches are accessible in case of errors in the SQL code, loss of network connection and violation of sql constraints.
+
+For each query of each function there are checks on the correctness of the operation: the team therefore decided to prefer a more robust code to generic errors rather than a greater testability with a consequent increase in branch coverage.
 
 ### Loop coverage analysis
 
