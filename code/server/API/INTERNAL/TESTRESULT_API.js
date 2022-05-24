@@ -150,7 +150,7 @@ app.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/skuitems/testResult/emergenza', async (req, res) => {
+app.delete('/api/skuitems/rfid/testResults/emergenza', async (req, res) => {
     try {
         await tr.dropTable(db);
         res.status(204).end()

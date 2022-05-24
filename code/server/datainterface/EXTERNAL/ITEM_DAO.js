@@ -49,6 +49,7 @@ class ITEM_DAO {
             const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
             db.get(sql1, [data.SKUId], (err, r) => {
                 if (err) {
+                    //console.log("Errore sql1");
                     reject(err)
                 }
                 else if (r.count === 0) {
@@ -58,6 +59,7 @@ class ITEM_DAO {
                     const sql2 = 'SELECT COUNT(*) AS count FROM RESTOCKORDER_ITEM AS RI, RESTOCKORDER AS R WHERE R.supplierId=? AND RI.roid=R.id AND SKUId=?';
                     db.get(sql2, [data.supplierId, data.id], (err, r) => {
                         if(err){
+                            //console.log("Errore sql2");
                             reject(err);
                         }
                         else if(r.count!==0){
@@ -67,6 +69,7 @@ class ITEM_DAO {
                             const sql3 = 'INSERT INTO ITEM (id,  description, price, SKUId, supplierId) VALUES (?, ?, ?, ? ,?)';
                             db.run(sql3, [data.id, data.description, data.price, data.SKUId, data.supplierId], (err) => {
                                 if (err) {
+                                    //console.log("Errore sql3");
                                     reject(err);
                                 }
                                 resolve();

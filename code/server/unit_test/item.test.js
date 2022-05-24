@@ -41,12 +41,6 @@ describe("Test items", () => {
             await ro.storeRestockOrder(db, restockOrder);
             await i.newTableName(db);
             await i.storeITEM(db, item);
-            // console.log("SKU");
-            // console.log(await t.getStoredSKU(db));
-            // console.log("RestockOrder");
-            // console.log(await ro.getStoredRestockOrder(db));
-            // console.log("Item");
-            // console.log(await i.getStoredITEM(db));
         }
         catch (err) {
             console.log(err);
