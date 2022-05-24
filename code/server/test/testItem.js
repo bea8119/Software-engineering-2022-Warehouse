@@ -76,8 +76,6 @@ function deleteAllData(expectedHTTPStatus) {
     it('test /api/item/emergenza (deleting data...)', async () => {
             await agent.delete('/api/item/emergenza')
                 .then(function (res) {
-                    console.log("expected status", expectedHTTPStatus);
-                    console.log("status", res.status);
                     res.should.have.status(expectedHTTPStatus);
                 });
         });
@@ -95,8 +93,6 @@ function postItem(expectedHTTPStatus, id, description, price, SKUId, supplierId)
         await agent.post('/api/item')
             .send(item)
             .then(function (res){
-                console.log("expected status", expectedHTTPStatus);
-                console.log("status", res.status);
                 res.should.have.status(expectedHTTPStatus);
             });
     });
@@ -106,8 +102,6 @@ function getItem(expectedHTTPStatus, id, description, price, SKUId, supplierId) 
     it('test /api/items', async () => {
         await agent.get('/api/items')
             .then(function (res) {
-                console.log("expected status", expectedHTTPStatus);
-                console.log("status", res.status);
                 res.should.have.status(expectedHTTPStatus);
                 res.body.should.eql([
                     {
@@ -126,8 +120,6 @@ function getItemByIDC(expectedHTTPStatus, id, description, price, SKUId, supplie
     it('test get /api/items/:id (wrong correct id)', async () => {
         await agent.get('/api/items/'+ Id)
             .then(function (res) {
-                console.log("expected status", expectedHTTPStatus);
-                console.log("status", res.status);
                 res.should.have.status(expectedHTTPStatus);
                 res.body.should.eql(
                     {
@@ -147,8 +139,6 @@ function getItemByIDW(expectedHTTPStatus, id, description, price, SKUId, supplie
     it('test get /api/items/:id (wrong correct id)', async () => {
         await agent.get(`/api/items/${Id}`)
             .then(function (res) {
-                console.log("expected status", expectedHTTPStatus);
-                console.log("status", res.status);
                 res.should.have.status(expectedHTTPStatus);            
             });
     });
@@ -164,8 +154,6 @@ function putItem(expectedHTTPStatus, price, SKUId, supplierId, Id) {
         await agent.put('/api/item/'+Id)
             .send(newItem)
             .then(function (res) {
-                console.log("expected status", expectedHTTPStatus);
-                console.log("status", res.status);
                 res.should.have.status(expectedHTTPStatus);  
             });
     });
@@ -176,8 +164,6 @@ function deleteItem(expectedHTTPStatus, Id) {
     it('test delete /api/items/:id', function () {
         agent.delete('/api/items/'+Id)
             .then(function (res) {
-                console.log("expected status", expectedHTTPStatus);
-                console.log("status", res.status);
                 res.should.have.status(expectedHTTPStatus);  
             });
     });

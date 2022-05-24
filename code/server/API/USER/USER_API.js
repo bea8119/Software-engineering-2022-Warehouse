@@ -271,7 +271,7 @@ app.post('/api/deliveryEmployeeSessions', async(req, res) => {
 app.delete('/api/user/emergenza', async (req, res) => {
     try {
     await u.dropTable(db);
-    res.status(200).end()
+    res.status(204).end()
     }
     catch (err) {
     res.status(500).end()
