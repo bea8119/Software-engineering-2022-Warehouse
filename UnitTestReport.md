@@ -430,7 +430,38 @@ No criteria
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > Maximum capacity exceeded exception |
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > No position found exception|
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
-
+|TestDescriptor_DAO > getStoredTestDescriptors(db) | Testing getStoredTestDescriptors |
+|TestDescriptor_DAO > getTestDescriptorbyID(db, id) | Testing getTestDescriptorbyID > ID existing |
+|TestDescriptor_DAO > getTestDescriptorbyID(db, id) | Testing getTestDescriptorbyID > ID not existing |
+|TestDescriptor_DAO > storeTestDescriptor(db, data) | Testing storeTestDescriptor |
+|TestDescriptor_DAO > updateTestDescriptor(db, id, data) | Testing updateTestDescriptor > ID existing: SKUid exists |
+|TestDescriptor_DAO > updateTestDescriptor(db, id, data) | Testing updateTestDescriptor > ID existing: wrong SKUid |
+|TestDescriptor_DAO > updateTestDescriptor(db, id, data) | Testing updateTestDescriptor > ID not existing |
+|TestDescriptor_DAO > deleteTestDescriptor(db, id) | Testing deleteTestDescriptor > id existing | 
+|TestDescriptor_DAO > deleteTestDescriptor(db, id) | Testing deleteTestDescriptor > id not existing |
+|TESTRESULT_DAO > getTestResultsArraybySkuitemRfid(db, rfid) | Testing getTestResultsArraybySkuitemRfid > rfid existing|
+|TESTRESULT_DAO > getTestResultsArraybySkuitemRfid(db, rfid) | Testing getTestResultsArraybySkuitemRfid > rfid not existing|
+|TESTRESULT_DAO > getTestResultArraybyidandbySkuitemRfid(db, rfid, id) | Testing getTestResultArraybyidandbySkuitemRfid > rfid and id existing|
+|TESTRESULT_DAO > getTestResultArraybyidandbySkuitemRfid(db, rfid, id) | Testing getTestResultArraybyidandbySkuitemRfid > rfid not existing and id existing|
+|TESTRESULT_DAO > getTestResultArraybyidandbySkuitemRfid(db, rfid, id) | Testing getTestResultArraybyidandbySkuitemRfid > rfid existing and id not existing|
+|TESTRESULT_DAO > getTestResultArraybyidandbySkuitemRfid(db, rfid, id) | Testing getTestResultArraybyidandbySkuitemRfid > rfid and id not existing|
+|TESTRESULT_DAO > storeTestResult(db, data) | Testing storeTestResult |
+|TESTRESULT_DAO > updateTestResult(db, id, rfid, data) | Testing updateTestResult > rfid, id and idTestDescriptor exist|
+|TESTRESULT_DAO > updateTestResult(db, id, rfid, data) | Testing updateTestResult > rfid and id existing and idTestDescriptor not existing|
+|TESTRESULT_DAO > updateTestResult(db, id, rfid, data) | Testing updateTestResult > rfid not existing, id and idTestDescriptor existing|
+|TESTRESULT_DAO > updateTestResult(db, id, rfid, data) | Testing updateTestResult > rfid and idTestDescriptor existing, id not existing|
+|TESTRESULT_DAO > deleteTestResult(db, rfid, id) | Testing deleteTestResult > rfid and id existing|
+|TESTRESULT_DAO > deleteTestResult(db, rfid, id) | Testing deleteTestResult > rfid not existing and id existing|
+|TESTRESULT_DAO > deleteTestResult(db, rfid, id) | Testing deleteTestResult > rfid existing and id not existing|
+|TESTRESULT_DAO > deleteTestResult(db, rfid, id) | Testing deleteTestResult > rfid and id not existing|
+|USER_DAO > getStoredSuppliers(db) | Testing getStoredSuppliers |
+|USER_DAO > getStoredUsers(db) | Testing getStoredUsers |
+|USER_DAO > storeUser(db, data) | Testing getStoredUsers > User data correct|
+|USER_DAO > storeUser(db, data) | Testing getStoredUsers > Username exists|
+|USER_DAO > deleteUser(db, username, type) | Testing deleteUser > User data correct|
+|USER_DAO > deleteUser(db, username, type) | Testing deleteUser > Invalid type|
+|USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions allowed|
+|USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions not allowed|
 
 
 ### Code coverage report
