@@ -13,6 +13,6 @@
   },
   "scripts": {
     "apiTest": "mocha test --timeout 10000  --exit",
-    "test": "node ./node_modules/jest/bin/jest.js"
+    "test": "node ./node_modules/jest/bin/jest.js --runInBand --coverage"
   }
 }
