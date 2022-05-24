@@ -24,8 +24,8 @@ describe("test RETURNORDER", () => {
         }
     });
 
-    testGetStoredReturnOrders();
     testStoreReturnOrders(2);
+    testGetStoredReturnOrders();
     testDeleteReturnOrders(1, 10);
 
 });

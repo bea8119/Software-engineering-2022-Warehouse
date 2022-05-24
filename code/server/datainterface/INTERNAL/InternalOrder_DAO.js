@@ -310,7 +310,6 @@ class InternalOrder_DAO {
                     db.run(sql2, [state, id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -326,7 +325,6 @@ class InternalOrder_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -365,12 +363,10 @@ class InternalOrder_DAO {
             db.run(sql2, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else {
                     db.run(sql1, [], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         } else {
                             resolve();
                         }

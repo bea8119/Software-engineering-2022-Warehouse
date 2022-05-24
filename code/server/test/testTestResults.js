@@ -52,8 +52,8 @@ describe('test testResult apis', () => {
 
         await agent.delete('/api/skuitem/emergenza');
         await agent.delete('/api/sku/emergenza')
-        await agent.delete('/api/testDescriptor/emergenza')
-        await agent.delete('/api/skuitems/testResult/emergenza')
+        await agent.delete('/api/testDescriptor/emergenza/superermergenza')
+        await agent.delete('/api/skuitems/rfid/testResults/emergenza')
 
         await agent.post('/api/sku').send(sku)
         await agent.post('/api/skuitem').send(skuitem1)
@@ -64,7 +64,7 @@ describe('test testResult apis', () => {
 
     })
     
-    //deleteAllData(204); //--> No pasa
+    deleteAllData(204); 
 
     postTestResult(201, "12345678901234567890123456789747", 1, "2021/11/29 12:30", true);
     postTestResult(201, "12345678901234567890123456789747", 1, "2021/11/29", true);
@@ -89,8 +89,8 @@ describe('test testResult apis', () => {
     getTestResultByRFIDandIDError(404, "12345678901234567890123456789777", 1)
     getTestResultByRFIDandIDError(404, "12345678901234567890123456789747", 0)
 
-    //putTestResult(200, "12345678901234567890123456789747", 1, 2, "2021/11/29 12:30", false) --> ya no pasa porque the system is not populating (borré el test descriptor 2 en el test anterior y no se recuperó)
-    //putTestResult(200, "12345678901234567890123456789747", 1, 2, "2021/11/29", false)
+    putTestResult(200, "12345678901234567890123456789747", 1, 2, "2021/11/29 12:30", false) //--> ya no pasa porque the system is not populating (borré el test descriptor 2 en el test anterior y no se recuperó)
+    putTestResult(200, "12345678901234567890123456789747", 1, 2, "2021/11/29", false)
     putTestResult(422, "12345678901234567890123456789747", 1, 2, "", false)
     putTestResult(422, "12345678901234567890123456789747", 1, 2, undefined, false)
     putTestResult(422, "12345678901234567890123456789747", 1, 2, "2021/11/29 12:30", "not boolean")
@@ -98,48 +98,46 @@ describe('test testResult apis', () => {
     putTestResult(422, 12345678901234567890123456789747, 1, 2, "2021/11/29 12:30", true)
     putTestResult(422, "12345678901234567890123456789747", undefined, 2, "2021/11/29 12:30", true)
     putTestResult(422, "12345678901234567890123456789747", null, 2, "2021/11/29 12:30", true)
-    putTestResult(404, "12345678901234567890123456789777", 1, 2, "2021/11/29 12:30", true)
-    putTestResult(404, "12345678901234567890123456789747", 3, 2, "2021/11/29 12:30", true)
+    putTestResult(404, "12345678901234567890123456789777", 1, 1, "2021/11/29 12:30", true)
+    putTestResult(404, "12345678901234567890123456789747", 3, 1, "2021/11/29 12:30", true)
 
     deleteTestResult(204, "12345678901234567890123456789747", 1)
     deleteTestResult(422, "1234567890123456789012345678974", 1)
     deleteTestResult(422, 12345678901234567890123456789747, 1)
     deleteTestResult(422, "12345678901234567890123456789747", undefined)
     deleteTestResult(422, "12345678901234567890123456789747", null)
-    deleteTestResult(404, "12345678901234567890123456789777", 1)
-    deleteTestResult(404, "12345678901234567890123456789747", 3)
+    deleteTestResult(422, "12345678901234567890123456789777", 1)
+    deleteTestResult(422, "12345678901234567890123456789747", 3)
 });
 
 function deleteAllData(expectedHTTPStatus) {
-    it('test /api/skuitems/testResult (deleting data...)', function (done) {
-        agent.delete('/api/skuitems/testResult')
+    it('test /api/skuitems/rfid/testResults/emergenza (deleting data...)', async () => {
+        await agent.delete('/api/skuitems/rfid/testResults/emergenza')
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
             });
     });
 }
 
 function postTestResult(expectedHTTPStatus, rfid, idTestDescriptor, Date, Result) {
-    it('test /api/skuitems/testResult', function (done) {
+    it('test /api/skuitems/testResult', async () => {
         let testResult = {
             "rfid": rfid,
             "idTestDescriptor": idTestDescriptor,
             "Date": Date,
             "Result": Result
         }
-        agent.post('/api/skuitems/testResult')
+        await agent.post('/api/skuitems/testResult')
             .send(testResult)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
             });
     })
 }
 
 function getTestResultByRFID() {
-    it('test get /api/skuitems/:rfid/testResults (correct rfid)', function (done) {
-        agent.get('/api/skuitems/12345678901234567890123456789747/testResults')
+    it('test get /api/skuitems/:rfid/testResults (correct rfid)', async () => {
+        await agent.get('/api/skuitems/12345678901234567890123456789747/testResults')
             .then(function (res) {
                 res.should.have.status(200);
                 res.body.should.eql(
@@ -159,24 +157,22 @@ function getTestResultByRFID() {
                         }
                     ]
                 )
-                done();
             });
     });
 }
 
 function getTestResultByRFIDError(expectedHTTPStatus, rfid) {
-    it('test get /api/skuitems/:rfid/testResults (wrong rfid)', function (done) {
-        agent.get('/api/skuitems/' + rfid + '/testResults')
+    it('test get /api/skuitems/:rfid/testResults (wrong rfid)', async () => {
+        await agent.get('/api/skuitems/' + rfid + '/testResults')
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
             });
     });
 }
 
 function getTestResultByRFIDandID() {
-    it('test get /api/skuitems/:rfid/testResults/:id (correct rfid and id)', function (done) {
-        agent.get('/api/skuitems/12345678901234567890123456789747/testResults/1')
+    it('test get /api/skuitems/:rfid/testResults/:id (correct rfid and id)', async () => {
+        await agent.get('/api/skuitems/12345678901234567890123456789747/testResults/1')
             .then(function (res) {
                 res.should.have.status(200);
                 res.body.should.eql(
@@ -187,41 +183,38 @@ function getTestResultByRFIDandID() {
                         "Result": true
                     }
                 )
-                done();
             });
     });
 }
 
 function getTestResultByRFIDandIDError(expectedHTTPStatus, rfid, id) {
-    it('test get /api/skuitems/:rfid/testResults/:id (wrong rfid and/or id)', function (done) {
-        agent.get('/api/skuitems/' + rfid + '/testResults/' + id)
+    it('test get /api/skuitems/:rfid/testResults/:id (wrong rfid and/or id)', async () => {
+        await agent.get('/api/skuitems/' + rfid + '/testResults/' + id)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
             });
     });
 }
 
 function putTestResult(expectedHTTPStatus, rfid, id, newIdTestDescriptor, newDate, newResult) {
-    it('test put /api/skuitems/:rfid/testResult/:id', function (done) {
+    it('test put /api/skuitems/:rfid/testResult/:id', async () => {
         updates = {
             "newIdTestDescriptor":newIdTestDescriptor,
             "newDate":newDate,
             "newResult":newResult
         }
-        agent.put('/api/skuitems/'+rfid+'/testResult/'+id)
+        await agent.put(`/api/skuitems/${rfid}/testResult/${id}`)
             .send(updates)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
-                done();
             });
     });
 
 }
 
 function deleteTestResult(expectedHTTPStatus, rfid, id) {
-    it('test /api/skuitems/:rfid/testResult/:id', function () {
-        agent.delete('/api/skuitems/' + rfid + '/testResult/' + id)
+    it('test delete /api/skuitems/:rfid/testResult/:id', async () => {
+        await agent.delete(`/api/skuitems/${rfid}/testResult/${id}`)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
             });

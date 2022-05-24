@@ -410,6 +410,26 @@ No criteria
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > State DELIVERY and ROID existing and DeliveryDate < IssueDate |
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > State NOT DELIVERY and ROID not existing |
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > ROID not existing |
+|POSITION_DAO > storePosition(db, data) | Testing StorePosition |
+|POSITION_DAO > getStoredPosition(db) | Testing getStoredPosition |
+|POSITION_DAO > updatePosition(db, id, data) | Testing updatePosition > Position id found |
+|POSITION_DAO > updatePosition(db, id, data) | Testing updatePosition > No position id found |
+|POSITION_DAO > updatePositionID(db, id, data) | Testing updatePositionID > Position id found |
+|POSITION_DAO > updatePositionID(db, id, data) | Testing updatePositionID > No position id found |
+|POSITION_DAO >  deletePosition(db, id) | Testing deletePosition > Position id found |
+|POSITION_DAO >  deletePosition(db, id) | Testing deletePosition > No position id found |
+|SKU_DAO >  storeSKU(db, data) | Testing StoreSKU |
+|SKU_DAO >  getStoredSKU(db) | Testing getStoredSKU |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is null |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, Maximum position capacity NOT exceeded |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, Maximum position capacity exceeded |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, but positionID is not found |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id found, position found, old position null |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id found, position found, old position not null |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > Maximum capacity exceeded exception |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > No position found exception|
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
 
 
 
@@ -418,8 +438,17 @@ No criteria
     <Add here the screenshot report of the statement and branch coverage obtained using
     the coverage tool. >
 
-* Coverage considering untestable branches (those related to generic errors (sql errors, constraints violated, server connection failures...))
-* Effective coverage (without considering generic error branches)
+The jest command used is *node ./node_modules/jest/bin/jest.js **--runInBand** --coverage*, where the runInBand option, allowing a sequential execution of the various test files, is necessary to avoid concurrency problems in the database access.
+
+<img src="./Img/coverage.png" alt="coverage" width="1000">
+
+*Note*: 
+
+The reason behind the low branch coverage value is related to the fact that it was not possible to test the many "generic errors" (those that should return error 500, 503 etc ...) that can be captured in the functions.
+
+These branches are accessible in case of errors in the SQL code, loss of network connection and violation of sql constraints.
+
+For each query of each function there are checks on the correctness of the operation: the team therefore decided to prefer a more robust code to generic errors rather than a greater testability with a consequent increase in branch coverage.
 
 ### Loop coverage analysis
 
@@ -428,9 +457,12 @@ No criteria
 
 |Unit name | Loop rows | Number of iterations | Jest test case |
 |---|---|---|---|
-|||||
-|||||
+| SKUITEM_DAO > getStoredSKUItem(db) | 7 | 0 | Testing getStoredSKUItem > Testing getStoredSKUItem (0 items)|
+| SKUITEM_DAO > getStoredSKUItem(db) | 7 | 1 | Testing getStoredSKUItem > Testing getStoredSKUItem (1 item)|
+| SKUITEM_DAO > getStoredSKUItem(db) | 7 | 2 | Testing getStoredSKUItem > Testing getStoredSKUItem (2 items)|
+| RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 0 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (0 restockOrders)|
+| RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 1 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (1 restockOrder)|
+| RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 2 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (2 restockOrders)|
 ||||||
-
 
 

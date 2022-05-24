@@ -53,7 +53,7 @@ describe("Test internal order", () => {
 });
 
 function testGetStoredInternalOrder(Id, IssueDate, State, Products, CustomerId) {
-    test("Testing getStoresInternalOrder", async () => {
+    test("Testing getStoredInternalOrder", async () => {
         let res = await i.getStoredInternalOrder(db);
         expect(res).toEqual([{
             id: Id,

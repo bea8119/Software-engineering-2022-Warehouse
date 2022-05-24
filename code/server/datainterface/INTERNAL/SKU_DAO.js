@@ -198,7 +198,6 @@ class SKU_DAO {
                     reject(err);
                 }else if (p.countp === 0){
                     reject(new Error("ID position not found"));
-                    return;
                 }
                 else if ((oldSku.weight * oldSku.availableQuantity + p.occupiedWeight) > p.maxWeight || (oldSku.volume * oldSku.availableQuantity + p.occupiedVolume) > p.maxVolume) {
                     reject(new Error("Maximum position capacity exceeded"));
