@@ -53,6 +53,14 @@ describe("test sku", () => {
         maxWeight: 1000,
         maxVolume: 1000
     }
+    let position3 = {
+        positionID :"800234546661",
+        aisleID: "8002",
+        row: "3454",
+        col: "6661",
+        maxWeight: 10000,
+        maxVolume: 10000
+    }
     
         
         try {
@@ -64,6 +72,7 @@ describe("test sku", () => {
             await p.newTableName(db);
             await p.storePosition(db, position);
             await p.storePosition(db, position2);
+            await p.storePosition(db, position3);
         } catch (err) {
             console.log(err)
         }
@@ -132,7 +141,7 @@ function testStoreSKU(id, description, weight, volume, notes, availableQuantity,
 
 function testUpdateSKU(id, wrongid) {
     describe('Testing updateSKU', () => {
-        test('SKU id found', async () => {
+        test('SKU id found, position is null', async () => {
             let newsku = {
                 newDescription : "test1",
                 newWeight : 400,
@@ -157,15 +166,90 @@ function testUpdateSKU(id, wrongid) {
             })
         });
 
-        test('No SKUId found exception', async () => {
-            await expect(s.updateSKU(db, wrongid)).rejects.toThrow('ID not found');
+        test('SKU id found, position is NOT null, Maximum position capacity NOT exceeded', async () => {
+            let pos = {
+                position: "800234546669"
+            }
+            await s.updateSKUposition(db, id, pos);
+            
+            let newsku = {
+                newDescription : "test1",
+                newWeight : 400,
+                newVolume : 400,
+                newNotes : "first SKU",
+                newPrice : 10.99,
+                newAvailableQuantity : 1
+            }
+            await s.updateSKU(db, id, newsku)
+            var res = await s.getSKUbyID(db, id);
+            let td = await t.getStoredTestDescriptors(db);
+            expect(res).toEqual({
+                id: id,
+                description: newsku.newDescription,
+                weight: newsku.newWeight,
+                volume: newsku.newVolume,
+                notes: newsku.newNotes,
+                position: pos.position,
+                availableQuantity: newsku.newAvailableQuantity,
+                price: newsku.newPrice,
+                testDescriptors: Object.values(td).filter((t) => t.idSKU === id).map((i) => i.id)
+            })
+        });
+
+        test('SKU id found, position is NOT null, Maximum position capacity exceeded', async () => {
+            let pos = {
+                position: "800234546669"
+            }
+            await s.updateSKUposition(db, id, pos);
+            let newsku = {
+                newDescription : "test1",
+                newWeight : 400,
+                newVolume : 400,
+                newNotes : "first SKU",
+                newPrice : 10.99,
+                newAvailableQuantity : 40
+            }
+            await expect(s.updateSKU(db, id, newsku)).rejects.toThrow('Maximum position capacity exceeded');
+            
+            
+        });
+
+        test('SKU id found, position is NOT null, but positionID is not found', async () => {
+            let pos = {
+                position: "800234546669"
+            }
+            await s.updateSKUposition(db, id, pos);
+            await p.deletePosition(db, pos.position);
+            let newsku = {
+                newDescription : "test1",
+                newWeight : 400,
+                newVolume : 400,
+                newNotes : "first SKU",
+                newPrice : 10.99,
+                newAvailableQuantity : 40
+            }
+            await expect(s.updateSKU(db, id, newsku)).rejects.toThrow('ID position not found');
+            
+            
+        });
+
+        test('SKU id not found', async () => {
+            let newsku = {
+                newDescription : "test1",
+                newWeight : 400,
+                newVolume : 400,
+                newNotes : "first SKU",
+                newPrice : 10.99,
+                newAvailableQuantity : 40
+            }
+            await expect(s.updateSKU(db, wrongid, newsku)).rejects.toThrow('ID not found');
         })
     })
 }
 
 function testUpdateSKUposition(id, wrongid) {
     describe('Testing updateSKUposition', () => {
-        test('SKU id found, position found', async () => {
+        test('SKU id found, position found, old position null', async () => {
             let newposition = {
                 position: "800234546669"
             }
@@ -176,23 +260,43 @@ function testUpdateSKUposition(id, wrongid) {
             expect(res.position).toEqual( newposition.position)
         });
 
-        test('No SKUId found exception', async () => {
+        test('SKU id found, position found, old position not null', async () => {
+            let pos = {
+                position: "800234546661"
+            }
+            await s.updateSKUposition(db, id, pos);
+
             let newposition = {
                 position: "800234546669"
             }
-            await expect(s.updateSKUposition(db, wrongid, newposition )).rejects.toThrow('ID sku not found');
+            let pre = await s.getSKUbyID(db, id);
+            await s.updateSKUposition(db, id, newposition)
+            var res = await s.getSKUbyID(db, id);
+            let td = await t.getStoredTestDescriptors(db);
+            expect(res.position).toEqual( newposition.position)
+        });
+
+       
+        
+        test('Maximum capacity exceeded exception', async () => {
+            let newposition = {
+                position: "800234546660"
+            }
+            await expect(s.updateSKUposition(db, id, newposition)).rejects.toThrow('Maximum position capacity exceeded');
         })
+
         test('No position found exception', async () => {
             let wrongposition = {
                 position: "800234543333"
             }
             await expect(s.updateSKUposition(db, id, wrongposition)).rejects.toThrow('ID position not found');
         })
-        test('Max capacity exceeded exception', async () => {
+
+        test('No SKUId found', async () => {
             let newposition = {
-                position: "800234546660"
+                position: "800234546669"
             }
-            await expect(s.updateSKUposition(db, id, newposition)).rejects.toThrow('Maximum position capacity exceeded');
+            await expect(s.updateSKUposition(db, wrongid, newposition )).rejects.toThrow('ID sku not found');
         })
     })
 }
@@ -200,12 +304,12 @@ function testUpdateSKUposition(id, wrongid) {
 
 function testDeleteSKU(id, wrongid) {
     describe('Testing deleteSKU', () => {
-        test('id existing', async () => {
+        test('Sku id found', async () => {
             await s.deleteSKU(db, id)
             await expect(s.getSKUbyID(db, id)).rejects.toThrow('ID not found');
         })
 
-        test('id not existing', async () => {
+        test('No Sku id found', async () => {
             await expect(s.deleteSKU(db, wrongid)).rejects.toThrow('ID not found');
         })
     })

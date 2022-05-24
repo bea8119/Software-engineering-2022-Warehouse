@@ -20,9 +20,9 @@ app.post('/api/newUser', async (req, res) => {
     let newUser = req.body;
     if (Object.keys(req.body).length === 0 ||
         newUser === undefined ||
-        newUser.username === undefined ||
-        newUser.name === undefined ||
-        newUser.surname === undefined ||
+        newUser.username === undefined || newUser.username === "" ||
+        newUser.name === undefined || newUser.name === "" ||
+        newUser.surname === undefined || newUser.surname === "" ||
         newUser.password.length < 8 ||
         (newUser.type !== "customer" && newUser.type !== "qualityEmployee" && newUser.type !== "clerk" && newUser.type !== "deliveryEmployee" && newUser.type !== "supplier" && newUser.type)) {
         return res.status(422).json({ error: 'Unprocessable entity' });
@@ -35,9 +35,7 @@ app.post('/api/newUser', async (req, res) => {
 
     catch (err) {
         console.log(err);
-        if (err.message === "ID not found") {
-            res.status(404).end()
-        } else if (err.message === "Conflict"){
+        if (err.message === "Conflict"){
             res.status(409).end()
         } else {
             res.status(503).end()
@@ -70,12 +68,16 @@ app.get('/api/suppliers', async (req, res) => {
 });
 
 
-/* SKUItem Delete */
+/* User Delete */
 
 app.delete('/api/users/:username/:type', async (req, res) => {
 
     let username = req.params.username
     let type = req.params.type
+
+    if (username === undefined || username === "" || (newUser.type !== "customer" && newUser.type !== "qualityEmployee" && newUser.type !== "clerk" && newUser.type !== "deliveryEmployee" && newUser.type !== "supplier" && newUser.type)) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
 
     try {
         await u.deleteUser(db, username, type);
@@ -99,7 +101,8 @@ app.put('/api/users/:username', async (req, res) => {
 
     if (Object.keys(req.body).length === 0 ||
     (type.oldType !== "customer" && type.oldType !== "qualityEmployee" && type.oldType !== "clerk" && type.oldType !== "deliveryEmployee" && type.oldType !== "supplier") ||
-    (type.newType !== "customer" && type.newType !== "qualityEmployee" && type.newType !== "clerk" && type.newType !== "deliveryEmployee" && type.newType !== "supplier")
+    (type.newType !== "customer" && type.newType !== "qualityEmployee" && type.newType !== "clerk" && type.newType !== "deliveryEmployee" && type.newType !== "supplier") ||
+    username === undefined || username === ""
     ){
         return res.status(422).json({ error: 'Unprocessable entity' });
     }

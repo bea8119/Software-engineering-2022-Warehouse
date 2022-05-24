@@ -10,14 +10,12 @@ class ReturnOrder_DAO {
             db.run(sql1, [], (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else{
                 
                     const sql2 = 'DROP TABLE IF EXISTS RETURNORDER';
                     db.run(sql2, [], (err) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
                         resolve();
                     });
@@ -35,12 +33,10 @@ class ReturnOrder_DAO {
             db.run(sql1, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 db.run(sql2, (err => {
                     if (err) {
                         reject(err);
-                        return;
                     }
                     resolve();
                 }));
@@ -51,36 +47,37 @@ class ReturnOrder_DAO {
 
     
     async storeReturnOrder(db, data) {
-        return new Promise( async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const sql1 = 'INSERT INTO RETURNORDER(id, returnDate, restockOrderId) VALUES (?, ?, ?)';
             const sql2 = 'INSERT INTO RETURNORDER_PRODUCT (SKUId, description, price, RFID, roid) VALUES (?, ?, ?, ?, ?)'
             const sql3 = 'SELECT MAX(id) AS lastroid FROM RETURNORDER'
             await db.run(sql1, [null, data.returnDate, data.restockOrderId], async (err) => {
                 if (err) {
                     reject(err);
-                    return;
-                } else{
-                await db.get(sql3, [], async (err, r) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    } else{
-                    
-                   await data.products.map( async (product) => {
-                        await db.run(sql2, [product.SKUId, product.description, product.price, product.RFID, r.lastroid ], (err) => {
-                            if (err) {
-                                reject(err);
-                                return;
-                            }
-                            
-                        });
-                    }); 
-                    resolve();
+                } else {
+                    await db.get(sql3, [], async (err, r) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+
+                            await data.products.map(async (product) => {
+                                await db.run(sql2, [product.SKUId, product.description, product.price, product.RFID, r.lastroid], (err) => {
+                                    if (err) {
+                                        reject(err);
+                                    }
+                                        
+
+                                });
+                            });
+
+                            resolve();
+
+                        }
+                    });
                 }
-                }); }
             });
-                
-            });
+
+        });
     }
 
 
@@ -91,13 +88,12 @@ class ReturnOrder_DAO {
             db.all(sql1, [], (err, returnRows) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else{
                 db.all(sql2, [], (err, itemrows) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
+                    else{
                     
                        
                         const returnorder = returnRows.map((r) => (
@@ -117,10 +113,14 @@ class ReturnOrder_DAO {
                                 
 
                             }
-                        ))
+                        )) 
+                    
                         resolve(returnorder);
+                    }
+                        
                     
                 }); }
+                
             });
         });
     }
@@ -134,17 +134,14 @@ class ReturnOrder_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err);
-                    return;
                 } else if (r.count === 0) {
                     reject(new Error("ID not found"));
-                    return;
                 } else {
                     db.all(sql2, [], (err, itemrows) => {
                         if (err) {
                             reject(err);
-                            return;
                         }
-                        
+                        else {
                            
                             
                             const returnorder =
@@ -165,6 +162,7 @@ class ReturnOrder_DAO {
                                 
                             }
                             resolve(returnorder);
+                        }
                         
                     })
                 };
@@ -179,7 +177,6 @@ class ReturnOrder_DAO {
             db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
-                    return;
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))
@@ -189,8 +186,7 @@ class ReturnOrder_DAO {
                     db.run(sql2, [id], (err) => {
                         if (err) {
                             reject(err);
-                            return;
-                        }
+                        } else
                         resolve();
                     });
 

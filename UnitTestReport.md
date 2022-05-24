@@ -66,14 +66,14 @@ Version:
 | YES | YES | Searches for a SKUItem whose RFID exists and should return the proper SKUItem |Suite: "Testing getStoredSKUItemByRFID", Case: "RFID existing"|
 | NO | NO | Searches for a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getAvailableStoredSkuItem", Case: "RFID not existing"|
 
-### Class *SKUITEM_DAO* - method **getAvailableStoredSKUItem(db)**
+### Class *SKUITEM_DAO* - method **getAvailableStoredSKUItem(db, id)**
 
-**Criteria for method *getAvailableStoredSKUItem(db)*:**
+**Criteria for method *getAvailableStoredSKUItem(db, id)*:**
  1. SKUId existing
  2. Available = 1 (*note*: available can never assume values which aren't 1 or 0 due to API level checks)
 
 
-**Predicates for method *getAvailableStoredSKUItem(db)*:**
+**Predicates for method *getAvailableStoredSKUItem(db, id)*:**
 
 | Criteria | Predicate |
 | -------- | --------- |
@@ -207,6 +207,175 @@ Version:
 | NO | ... | ... | NO | Tries to insert a transportNote in a non existing restockOrder: should catch an 'ID not found' exception |Suite: "Testing UpdateRestockOrderTransportNote", Case: "ROID not existing" |
 
 
+## CLASS POSITION
+
+### Class *POSITION* - method **storePosition(db, data)**
+
+**Criteria for method *storePosition(db, data)*
+ 0. None
+
+
+**Boundaries**: No boundaries
+
+**Combination of predicates**:
+
+
+| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates new Position with the passed data and then checks its correctness |Suite: "Testing StorePosition"|
+
+
+
+
+### Class *POSITION* - method **getStoredPosition(db)**
+**Criteria for method *getStoredPosition(db)*:**
+No criteria
+
+**Boundaries**: No boundaries
+
+| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates a Position, calls getStoredPosition function to check if the position is correctly extracted |Suite: "Testing getStoredPosition"|
+
+
+### Class *POSITION* - method **updatePosition(db, id, data)**
+**Criteria for method *updatePosition(db, id, data)*:**
+ 1. PositionID existing
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  PositionID existing  | YES   |
+|  PositionID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| PositionID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a Position, updates a Position given a correct positionID and proper data, expects to find the same Position with the updated data |Suite: "Testing updatePosition", Case: "Position id found"|
+| NO | NO | Tries to update a Position whose PositionID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updatePosition", Case: "No position id found"|
+
+### Class *POSITION* - method **updatePositionID(db, id, data)**
+**Criteria for method *updatePositionID(db, id, data)*:**
+ 1. Starting PositionID existing
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  PositionID existing  | YES   |
+|  PositionID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| PositionID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a Position, updates a PositionID given a correct starting positionID and correct data, expects to find the same Position with the updated PositionID |Suite: "Testing updatePositionID", Case: "Position id found"|
+| NO | NO | Tries to update an ID of Position whose starting PositionID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updatePositionID", Case: "No position id found"|
+
+
+
+### Class *POSITION* - method **deletePosition(db, id)**
+**Criteria for method *deletePosition(db, id)*:**
+ 1.  PositionID existing
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  PositionID existing  | YES   |
+|  PositionID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| PositionID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a Position, deletes the Position given its ID, expects to catch an "ID not found" exception  searching for the deleted position in the database  |Suite: "Testing deletePosition", Case: "Position id found"|
+| NO | NO | Tries to delete a Position whose PositionID doesn't exist and should catch an "ID not found" exception |Suite: "Testing Testing deletePosition", Case: "No position id found"|
+
+
+## CLASS SKU
+
+### Class *SKU* - method **updateSKU(db, id, data)**
+**Criteria for method *updateSKU(db, id, data)*:**
+ 1.  SKU id existing
+ 2. Position is null
+ 3. Position maximum capacity reached
+ 4. Position ID is not found
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  SKU id existing  | YES   |
+|  SKU id existing  |  NO   |
+|  Position is null | YES   |
+|  Position is null  |  NO   |
+|  Position maximum capacity reached  | YES   |
+|  Position maximum capacity reached  |  NO   |
+|  Position ID  found  | YES   |
+|  Position ID  found  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| SKU id existing |Position is null |Position maximum capacity reached | Position ID found | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|-------|
+| YES | YES | - | - | YES | Creates an SKU, updates the SKU given its ID,  expects to find in the database the SKU with the updated data  |Suite: "Testing updateSKU", Case: "SKU id found, position is null"|
+| YES | NO | NO | YES | YES | Creates an SKU, updates the SKU given its ID and updates the values of OccupiedWeight/Volume in the position of the SKU,  expects to find in the database the SKU with the updated data  |Suite: "Testing updateSKU", Case: "SKU id found, position is NOT null, Maximum position capacity NOT exceeded"|
+| YES | NO | YES | YES | NO | Creates an SKU, tries to update the SKU given its ID but cannot update the values of OccupiedWeight/Volume in the position of the SKU, expects to catch an "Maximum position capacity exceeded" exception   |Suite: "Testing updateSKU", Case: "SKU id found, position is NOT null, Maximum position capacity exceeded"|
+| YES | NO | - | NO | NO | Creates an SKU, tries to update the SKU given its ID but cannot update the values of OccupiedWeight/Volume in the position of the SKU because the Position ID is not found, expects to catch an "ID position not found" exception   |Suite: "Testing updateSKU", Case: "SKU id found, position is NOT null, but positionID is not found"|
+| NO | - | - | - | NO | Creates an SKU, tries to update the SKU given its ID but the sku ID is not found in the database, expects to catch an "ID not found" exception   |Suite: "Testing updateSKU", Case: "SKU id not found"|
+
+### Class *SKU* - method **updateSKUposition(db, id, pos)**
+**Criteria for method *updateSKUposition(db, id, pos)*:**
+ 1.  SKU id existing
+ 2. Old position is null
+ 3. New position maximum capacity reached
+ 4. New position ID is found
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  SKU id existing  | YES   |
+|  SKU id existing  |  NO   |
+|  Old position is null | YES   |
+|  Old position is null  |  NO   |
+|  New position maximum capacity reached  | YES   |
+|  New position maximum capacity reached  |  NO   |
+|  New position ID  found  | YES   |
+|  New position ID  found  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| SKU id existing |Old position is null |New position maximum capacity reached | New position ID  found| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|-------|
+| YES | YES | NO | YES | YES | Creates an SKU, updates the SKU position given its sku ID and the new position, updates the values of OccupiedWeight/Volume in the new position ,  expects to find in the database the SKU with the updated data  |Suite: "Testing updateSKUposition", Case: "SKU id found, position found, old position null"|
+| YES | NO | NO | YES | YES | Creates an SKU, updates the SKU position given its sku ID and the new position, updates the values of OccupiedWeight/Volume in the new and old position,  expects to find in the database the SKU with the updated data  |Suite: "Testing updateSKUposition", Case: "SKU id found, position found, old position not null"|
+| YES | NO | YES | YES | NO | Creates an SKU, tries to update the SKU given its ID but cannot update the values of OccupiedWeight/Volume in the new position of the SKU, expects to catch an "Maximum position capacity exceeded" exception  |Suite: "Testing updateSKUposition", Case: "Maximum capacity exceeded exception"|
+| YES | - | - | NO | NO | Creates an SKU, tries to update the SKU given its ID but cannot update the values of OccupiedWeight/Volume in the position of the SKU because the new Position ID is not found, expects to catch an "ID position not found" exception   |Suite: "Testing updateSKUposition", Case: "No position found exception"|
+| NO | - | - | - | NO | Creates an SKU, tries to update the SKU given its ID but the sku ID is not found in the database, expects to catch an "ID not found" exception   |Suite: "Testing updateSKUposition", Case: "SKU id not found"|
+
+
+### Class *SKU* - method **deleteSku(db, id)**
+**Criteria for method *deleteSku(db, id)*:**
+ 1.  Sku id existing
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  Sku id existing  | YES   |
+|  Sku id existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| Sku id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates an Sku, deletes the Sku given its ID, expects to catch an "ID not found" exception  searching for the deleted Sku in the database  |Suite: "Testing deleteSku", Case: "Sku id found"|
+| NO | NO | Tries to delete an Sku whose Sku ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing Testing deleteSku", Case: "No Sku id found"|
+
 # White Box Unit Tests
 
 ### Test cases definition
@@ -241,6 +410,26 @@ Version:
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > State DELIVERY and ROID existing and DeliveryDate < IssueDate |
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > State NOT DELIVERY and ROID not existing |
 |RESTOCKORDER_DAO > updateRestockOrderTransportNote(db, id, transportNote) | Testing UpdateRestockOrderTransportNote > ROID not existing |
+|POSITION_DAO > storePosition(db, data) | Testing StorePosition |
+|POSITION_DAO > getStoredPosition(db) | Testing getStoredPosition |
+|POSITION_DAO > updatePosition(db, id, data) | Testing updatePosition > Position id found |
+|POSITION_DAO > updatePosition(db, id, data) | Testing updatePosition > No position id found |
+|POSITION_DAO > updatePositionID(db, id, data) | Testing updatePositionID > Position id found |
+|POSITION_DAO > updatePositionID(db, id, data) | Testing updatePositionID > No position id found |
+|POSITION_DAO >  deletePosition(db, id) | Testing deletePosition > Position id found |
+|POSITION_DAO >  deletePosition(db, id) | Testing deletePosition > No position id found |
+|SKU_DAO >  storeSKU(db, data) | Testing StoreSKU |
+|SKU_DAO >  getStoredSKU(db) | Testing getStoredSKU |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is null |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, Maximum position capacity NOT exceeded |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, Maximum position capacity exceeded |
+|SKU_DAO > updateSKU(db, id, data) | Testing updateSKU > SKU id found, position is NOT null, but positionID is not found |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id found, position found, old position null |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id found, position found, old position not null |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > Maximum capacity exceeded exception |
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > No position found exception|
+|SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
 
 
 

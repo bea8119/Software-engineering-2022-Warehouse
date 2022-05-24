@@ -15,8 +15,7 @@ app.post('/api/testDescriptor', async (req, res) => {
 
     let TD = req.body;
 
-    if (Object.keys(req.body).length === 0 || TD === undefined || TD.name === undefined || TD.procedureDescription === undefined || TD.idSKU === undefined ) {
-        return res.status(422).json({ error: 'Invalid TestDescriptor data' });
+    if (Object.keys(req.body).length === 0 || TD === undefined || TD.name === undefined || TD.name === "" || TD.procedureDescription === undefined || TD.procedureDescription === "" || TD.idSKU === undefined || TD.idSKU === null || isNaN(TD.idSKU) === true) {        return res.status(422).json({ error: 'Invalid TestDescriptor data' });
     }
 
     try {
@@ -37,13 +36,9 @@ app.post('/api/testDescriptor', async (req, res) => {
 
 app.get('/api/testDescriptors/:id', async (req, res) => {
 
-    if (Object.keys(req.params).length === 0) {
-        return res.status(422).json({ error: 'Empty header request' });
-    }
-
     let id = req.params.id;
 
-    if (isNaN(id)) {
+    if (Object.keys(req.params).length === 0 || isNaN(id) === true || id === "" || id === null || id === undefined) {
         return res.status(422).json({ error: 'Empty header request' });
     }
     
@@ -76,7 +71,7 @@ app.delete('/api/testDescriptor/:id', async (req, res) => {
 
     let id = req.params.id;
 
-    if (id === undefined) {
+    if (id === undefined || id === "") {
         return res.status(422).json({ error: 'Empty header request' });
     }
 
@@ -98,7 +93,7 @@ app.put('/api/testDescriptor/:id', async (req, res) => {
     let id = req.params.id;
     let TD = req.body;
 
-    if (Object.keys(req.body).length === 0 || TD === undefined || TD.newName === undefined || TD.newProcedureDescription === undefined || TD.newIdSKU === undefined ) {
+    if (Object.keys(req.body).length === 0 || TD === undefined || TD.newName === undefined || TD.newProcedureDescription === undefined || TD.newName === "" || TD.newProcedureDescription === "" || TD.newIdSKU === undefined || TD.newIdSKU === null || isNaN(TD.newIdSKU) === true) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     
@@ -117,5 +112,15 @@ app.put('/api/testDescriptor/:id', async (req, res) => {
             
             res.status(503).end()
         }
+    }
+});
+
+app.delete('/api/testDescriptor/emergenza', async (req, res) => {
+    try {
+        await s.dropTable(db);
+        res.status(204).end()
+    }
+    catch (err) {
+        res.status(500).end()
     }
 });

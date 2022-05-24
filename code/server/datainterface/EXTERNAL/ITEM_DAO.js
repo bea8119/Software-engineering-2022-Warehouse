@@ -109,7 +109,7 @@ class ITEM_DAO {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM ITEM WHERE id = ?'
             db.get(sql1, [id], (err, r) => {
                 if (err) {
-                    reject(new Error('errore prima query'))
+                    reject(err);
                 }
                 else if (r.count === 0) {
                     reject(new Error('ID not found'))

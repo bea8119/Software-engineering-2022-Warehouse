@@ -174,13 +174,8 @@ class TESTRESULT_DAO {
                                 if (err) {
                                     reject(err);
                                 } else {
-<<<<<<< HEAD
-                                resolve();
-                                }    
-=======
                                     resolve();    
                                 }
->>>>>>> ee4ff3d655429d9ee4e70adf2d28c02ba48bee75
                             });
                         }
                     });
