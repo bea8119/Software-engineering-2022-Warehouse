@@ -24,7 +24,7 @@ Version:
 
 ### Class *SKUITEM_DAO* - method **storeSKUItem(db, data)**
 
-**Criteria for method *storeSKUItem(db, data)*
+**Criteria for method *storeSKUItem(db, data)*:**
  1. SKUId existing
 
 | Criteria | Predicate |
