@@ -212,5 +212,13 @@ Instead, in the code there are further tests that verify the correct behaviour o
 
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|                            |           |
+| RFID is a string of 32 digits    | testSkuItem.js > test /api/skuitem |
+|                                  | testSkuItem.js > test put /api/skuitems/:rfid |
+|                                  | testSkuItem.js > test get /api/skuitems/:rfid (both correct and wrong case) |
+|                                  | testSkuItem.js > test delete /api/skuitems/:rfid|
+| Date Format is YYYY/MM/GG HH:MM  | testRestockOrder.js > test put /api/restockOrder/:id/transportNote |
+|                                  | testRestockOrder.js > test /api/restockOrders          |
+|                                  | testSkuItem.js > test /api/skuitem |
+|                                  | testSkuItem.js > test /api/skuitem |
+|                                  | testSkuItem.js > test put /api/skuitems/:rfid |
 
