@@ -29,7 +29,6 @@ app.get('/api/items', async (req, res) => {
 /* ITEM get by ID */
 app.get('/api/items/:id', async (req, res) => {
     let id = req.params.id;
-    console.log(id);
     if (Object.keys(req.params).length === 0 || id === undefined || isNaN(id)) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
@@ -54,7 +53,6 @@ app.get('/api/items/:id', async (req, res) => {
 app.post('/api/item', async (req, res) => {
 
     let item = req.body;
-    //console.log(item);
     /* Undefined data check NB controllo se il supplier ha gia item con quello skuID sotto */
     if (Object.keys(req.body).length === 0 || item === undefined || item.id === undefined || item.description === undefined || item.price === undefined || item.SKUId === undefined || item.supplierId === undefined) {
         return res.status(422).json({ error: 'Unprocessable Entity' });
