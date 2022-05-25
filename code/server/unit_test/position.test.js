@@ -30,8 +30,29 @@ describe("test sku", () => {
             console.log(err)
         }
     })
+
+    let pos1 = {
+        positionID :"800234546669",
+        aisleID: "8002",
+        row: "3454",
+        col: "6669",
+        maxWeight: 10000,
+        maxVolume: 10000, 
+        occupiedWeight: 0,
+        occupiedVolume: 0
+    }
+    let pos2 = {
+        positionID :"800234546660",
+        aisleID: "8002",
+        row: "3454",
+        col: "6660",
+        maxWeight: 10000,
+        maxVolume: 10000, 
+        occupiedWeight: 0,
+        occupiedVolume: 0
+    }
    
-    testGetStoredPosition("800234546669", "8002", "3454", "6669", 10000, 10000);
+    testGetStoredPosition(pos1, pos2);
     testStorePosition("800234546660", "8002", "3454", "6660", 1000, 1000);
     testUpdatePosition("800234546669", "8003", "3454", "6661", 1000, 1000, 200, 100, "800334540000" );
     testUpdatePositionID("800234546669", "800234546660", "800234546666")
@@ -40,23 +61,62 @@ describe("test sku", () => {
 });
 
 
-function testGetStoredPosition(positionID, aisleID, row, col, maxWeight, maxVolume) {
-    test("Testing getStoredPosition", async () => {
+function testGetStoredPosition(pos1, pos2) {
+    
+    describe("Testing getStoredPosition", () => {
+
+    
+    test(" One position stored", async () => {
         
         let res = await p.getStoredPosition(db);
         
         
         expect(res).toEqual([{
-            positionID : positionID,
-            aisleID: aisleID,
-            row: row,
-            col: col,
-            maxWeight: maxWeight,
-            maxVolume: maxVolume,
-            occupiedWeight : 0,
-            occupiedVolume: 0
+            positionID : pos1.positionID,
+            aisleID: pos1.aisleID,
+            row: pos1.row,
+            col: pos1.col,
+            maxWeight: pos1.maxWeight,
+            maxVolume: pos1.maxVolume,
+            occupiedWeight : pos1.occupiedWeight,
+            occupiedVolume: pos1.occupiedVolume
         }])
     })
+
+    test(" Two position stored", async () => {
+        await p.storePosition(db, pos2);   
+        let res = await p.getStoredPosition(db);
+        expect(res).toEqual([{
+            positionID : pos1.positionID,
+            aisleID: pos1.aisleID,
+            row: pos1.row,
+            col: pos1.col,
+            maxWeight: pos1.maxWeight,
+            maxVolume: pos1.maxVolume,
+            occupiedWeight : pos1.occupiedWeight,
+            occupiedVolume: pos1.occupiedVolume
+        },
+        {
+            positionID : pos2.positionID,
+            aisleID: pos2.aisleID,
+            row: pos2.row,
+            col: pos2.col,
+            maxWeight: pos2.maxWeight,
+            maxVolume: pos2.maxVolume,
+            occupiedWeight : pos2.occupiedWeight,
+            occupiedVolume: pos2.occupiedVolume
+        }])
+    })
+
+    test("Zero position stored", async () => {
+        await p.deletePosition(db, pos1.positionID)
+        
+        let res = await p.getStoredPosition(db);
+        
+        
+        expect(res).toEqual([])
+    })
+})
 }
 
 function testStorePosition(positionID, aisleID, row, col, maxWeight, maxVolume) {
