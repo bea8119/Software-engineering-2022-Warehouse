@@ -1041,6 +1041,11 @@ For each query of each function there are checks on the correctness of the opera
 |POSITION_DAO > getStoredPosition(db) |10 | 0 |Testing getStoredPosition > Zero position stored |
 |POSITION_DAO > getStoredPosition(db) |10 | 1 |Testing getStoredPosition > One position stored |
 |POSITION_DAO > getStoredPosition(db) |10 | 2 |Testing getStoredPosition > Two position stored |
-
+| ITEM_DAO > getStoredItem(db) | 8 | 0 | Testing getStoredItem > Testing getStoredItem (0 items)|
+| ITEM_DAO > getStoredItem(db) | 8 | 1 | Testing getStoredItem > Testing getStoredItem (1 item)|
+| ITEM_DAO > getStoredItem(db) | 8 | 2 | Testing getStoredItem > Testing getStoredItem (2 items)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 0 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (0 items)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 1 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (1 item)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 2 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (2 items)|
 
 
