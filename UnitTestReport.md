@@ -672,7 +672,7 @@ No criteria
 ### Class *ITEM_DAO* - method **storeITEM(db, data)**
 
 **Criteria for method *storeITEM(db, data)*:**
- 1. SKUId existing
+ 1. SKUId existing, Item sold
 
 | Criteria | Predicate |
 | -------- | --------- |
@@ -743,11 +743,11 @@ No criteria
 | YES | YES | Searches for a Item whose id exists and should update the proper Item, so by searching by id the same Item it should have updated values |Suite: "Testing updateItem", Case: "ID existing"|
 | NO | NO | Searches for a Item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateItem", Case: "RFID not existing"|
 
-### Class *ITEM_DAO* - method **deleteItem(db, rfid)**
-**Criteria for method *deleteItem(db, rfid)*:**
+### Class *ITEM_DAO* - method **deleteItem(db, id)**
+**Criteria for method *deleteItem(db, id)*:**
  1. id existing
 
-**Predicates for method *deleteItem(db, rfid)*:**
+**Predicates for method *deleteItem(db, id)*:**
 
 | Criteria | Predicate |
 | -------- | --------- |
@@ -760,6 +760,94 @@ No criteria
 |-------|-------|-------|-------|
 | YES | YES | Deletes a Item whose id exists and searches for it in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteSKUItem", Case: "ID existing"|
 | NO | NO | Tries to delete a Item whose id doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteSKUItem", Case: "ID not existing"|
+
+
+
+
+
+### Class *InternalOrder_DAO* - method **getStoredInternalOrderById(db, id)**
+**Criteria for method *getStoredInternalOrderById(db, id)*:**
+ 1. id existing
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a InternalOrder and searches for it given the specific ID: the expected result is to find the InternalOrder |Suite: "Testing getStoredInternalOrderById", Case: "ID not found"|
+| NO | NO | Searches for a InternalOrder whose id doesn't exist and should catch an "ID not found" exception |Suite: "Testing getStoredInternalOrderById", Case: "ID not found"|
+
+### Class *InternalOrder_DAO* - method **updateInternalOrderSkuProducts(db, id, state)**
+**Criteria for method *updateInternalOrderSkuProducts(db, id, state)*:**
+ 1. id existing, number of insert products is correct
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+|  products are correct  | YES   |
+|  products are correct  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| ROID existing |  products are correct  | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES | Creates a internalOrder, updates a internalOrder given a correct ID, the correct number of products and a proper state, expects to find the same internalOrder with the updated state |Suite: "Testing updateInternalOrderSkuProducts", Case: "ID existing"|
+| NO | YES | NO | Tries to update a restockOrder whose id doesn't exist with and the correct number of products and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderSkuProducts", Case: "ID not existing"|
+| YES | NO | NO | Creates a restockOrder, updates a restockOrder given a correct ID and a proper state, but with the wrong number of products and should catch and "Uncorrect product" exception |Suite: "Testing updateInternalOrderSkuProducts", Case: "Uncorrect product"|
+| NO | NO | NO | Tries to update a restockOrder whose ROID doesn't exist and with the wrong number of products and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderSkuProducts", Case: "ID not existing"|
+
+### Class *InternalOrder_DAO* - method **updateInternalOrderState(db, id, state)**
+**Criteria for method *updateRestockOrderTransportNote(db, id, transportNote)*:**
+1. id existing
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+| id existing  | YES   |
+| id existing  |  NO   | 
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a internalOrder, updates a internalOrder given a correct ID and a proper state, expects to find the same internalOrder with the updated state |Suite: "Testing updateInternalOrderState", Case: "ROID existing"|
+| NO | NO | Tries to update a internalOrder whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderState", Case: "ID not existing"|
+
+### Class *InternalOrder_DAO* - method **deleteInternalOrder(db, id)**
+**Criteria for method *deleteInternalOrder(db, id)*:**
+ 1. id existing
+
+**Predicates for method *deleteInternalOrder(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a internalOrder, updates a internalOrder given a correct ID and a proper state, expects to find the same internalOrder with the updated state |Suite: "Testing updateInternalOrderState", Case: "ROID existing"|
+| NO | NO | Tries to update a internalOrder whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderState", Case: "ID not existing"|
+
+
+
+
+
+
+
+
+
+
 
 
 
