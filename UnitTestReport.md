@@ -1047,5 +1047,6 @@ For each query of each function there are checks on the correctness of the opera
 | internalOrder_DAO > getStoredInternalOrder(db) | 30 | 0 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (0 items)|
 | internalOrder_DAO > getStoredInternalOrder(db) | 30 | 1 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (1 item)|
 | internalOrder_DAO > getStoredInternalOrder(db) | 30 | 2 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (2 items)|
-
-
+| TestDescriptor_DAO > getStoredTestDescriptors(db) | 6 | 0 | Testing getStoredSKUItem > Testing getStoredSKUItem (0 items)|
+| TestDescriptor_DAO > getStoredTestDescriptors(db) | 6 | 1 | Testing getStoredSKUItem > Testing getStoredSKUItem (1 item)|
+| TestDescriptor_DAO > getStoredTestDescriptors(db) | 6 | 2 | Testing getStoredSKUItem > Testing getStoredSKUItem (2 items)|

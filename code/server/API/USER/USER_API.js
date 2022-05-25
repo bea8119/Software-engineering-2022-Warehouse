@@ -99,8 +99,6 @@ app.put('/api/users/:username', async (req, res) => {
     let username = req.params.username;
     let type = req.body;
 
-    console.log(username)
-
     if (Object.keys(req.body).length === 0 || username === undefined ||
     (type.oldType !== "customer" && type.oldType !== "qualityEmployee" && type.oldType !== "clerk" && type.oldType !== "deliveryEmployee" && type.oldType !== "supplier") ||
     (type.newType !== "customer" && type.newType !== "qualityEmployee" && type.newType !== "clerk" && type.newType !== "deliveryEmployee" && type.newType !== "supplier")
