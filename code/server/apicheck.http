@@ -239,6 +239,32 @@ DELETE http://localhost:3001/api/returnOrder/1
 ### OK
 
 
+###
+GET http://localhost:3001/api/users
+###
+POST http://localhost:3001/api/newUser
+Content-Type: application/json
+
+{
+     "username":"ldc@ezwh.com",
+    "name":"Leonardo",
+    "surname" : "Di caprio",
+    "password" : "testpassword",
+    "type" : "customer"
+
+}
+
+###
+
+PUT http://localhost:3001/api/users/:username
+Content-Type: application/json
+
+{
+        "oldType" : "customer",
+        "newType" : "clerk"
+    }
+
+
 
 
 
