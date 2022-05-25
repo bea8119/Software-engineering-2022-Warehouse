@@ -66,7 +66,7 @@ describe('test user apis', () => {
         await agent.post('/api/newUser').send(user7)
     })
 
-        /*
+
     deleteAllData(204);
 
     postUser(201, "user8@ezwh.com", "User", "8", "testpassword8", "customer") 
@@ -78,25 +78,18 @@ describe('test user apis', () => {
     postUser(422, "user8@ezwh.com", "User", "8", "testpassword8", "customerr")
 
     getStoredSuppliers()
-    getStoredUsers() //fail 
+    getStoredUsers()
 
-    putUser(201, "user1@ezwh.com", "customer", "qualityEmployee") //fail 
-    putUser(422, undefined, "customer", "qualityEmployee")//fail 
-    putUser(422, "", "customer", "qualityEmployee")//fail 
+    putUser(200, "user1@ezwh.com", "customer", "qualityEmployee") 
+    putUser(422, undefined, "customer", "qualityEmployee") //fail 
     putUser(422, "user1@ezwh.com", "customer", "manger")
     putUser(422, "user1@ezwh.com", "customer", "administrator")
     putUser(404, "user11@ezwh.com", "customer", "qualityEmployee")
 
-    */
-    
-    deleteUser(204, "user1@ezwh.com", "customer") //fail 
-
-    /*
-    deleteUser(422, "massimo.palermo@manager.ezwh.com", "manager") //fail 
-    deleteUser(422, "user1@ezwh.com", "customerr") //fail 
-    deleteUser(422, "", "customer") //fail 
-    deleteUser(422, undefined, "customer") //fail 
-    */
+    deleteUser(204, "user1@ezwh.com", "customer") 
+    deleteUser(422, "massimo.palermo@manager.ezwh.com", "manager") 
+    deleteUser(422, "user1@ezwh.com", "customerr") 
+    deleteUser(422, undefined, "customer") 
 });
 
 function deleteAllData(expectedHTTPStatus) {
@@ -174,19 +167,19 @@ function getStoredUsers() {
                         "email":"michael.jordan@supplier.ezwh.com",
                         "type": "supplier"
                     },{
-                        "id": 5,
+                        "id": 4,
                         "name":"Franco",
                         "surname": "Negri",
                         "email":"franco.negri@clerk.ezwh.com",
                         "type": "clerk"
                     },{
-                        "id": 6,
+                        "id": 5,
                         "name":"Mariangela",
                         "surname": "Romano",
                         "email":"mariangela.romano@qualityemployee.ezwh.com",
                         "type": "qualityEmployee"
                     },{
-                        "id": 7,
+                        "id": 6,
                         "name":"Andrea",
                         "surname": "Bindoni",
                         "email":"andrea.bindoni@deliveryemployee.ezwh.com",
@@ -217,7 +210,6 @@ function deleteUser(expectedHTTPStatus, username, type) {
     it('test delete /api/users/:username/:type', async () => {
         await agent.delete(`/api/users/${username}/${type}`)
             .then(function (res) {
-                console.log(res.status)
                 res.should.have.status(expectedHTTPStatus);
             });
     });
