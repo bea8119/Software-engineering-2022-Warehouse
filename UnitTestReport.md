@@ -938,18 +938,33 @@ No criteria
 |USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions allowed|
 |USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions not allowed|
 |ITEM_DAO > getStoredITEM(db) | Testing testGetStoredITEM |
-|ITEM_DAO > storeITEM(db, db) | Testing testStoreITEM > SKUId existing  |
-|ITEM_DAO > storeITEM(db, db) | Testing testStoreITEM > SKUId existing; Item already sells  |
-|ITEM_DAO > storeITEM(db, db) | Testing testStoreITEM > SKUId not existing  |
+|ITEM_DAO > storeITEM(db, data) | Testing testStoreITEM > SKUId existing  |
+|ITEM_DAO > storeITEM(db, data) | Testing testStoreITEM > SKUId existing; Item already sells  |
+|ITEM_DAO > storeITEM(db, data) | Testing testStoreITEM > SKUId not existing  |
 |ITEM_DAO > getStoredITEMbyID(db, db) | Testing testGetStoredITEMbyID > Item ID existing |
 |ITEM_DAO > getStoredITEMbyID(db, db) | Testing testGetStoredITEMbyID > Item ID not existing |
-|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; description undefined |
-|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; price undefined |
-|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; SKUID undefined |
-|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; supplier ID undefined |
-|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > No Item ID found exception |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; description undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; price undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; SKUID undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; supplier ID undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > No Item ID found exception |
 |ITEM_DAO > deleteItem(db, id) | Testing testDeleteItem > Item ID existing |
 |ITEM_DAO > deleteItem(db, id) | Testing testDeleteItem > Item ID not existing |
+|InternalOrder_DAO > getStoredInternalOrder(db) | Testing testGetStoredInternalOrder |
+|InternalOrder_DAO > storeInternalOrder(db, data) | Testing testStoreInternalOrder > Internal order existing  |
+|InternalOrder_DAO > getStoredInternalOrderById(db, id) | Testing testGetStoredInternalOrderById > Internal order ID existing |
+|InternalOrder_DAO > getStoredInternalOrderById(db, id) | Testing testGetStoredInternalOrderById > Internal order ID not existing |
+|InternalOrder_DAO > getStoredInternalOrderIssued(db) | Testing testGetStoredInternalOrderIssued > Correct new state |
+|InternalOrder_DAO > getStoredInternalOrderIssued(db) | Testing testGetStoredInternalOrderIssued > Wrong new state |
+|InternalOrder_DAO > getStoredInternalOrderAccepted(db) | Testing testGetStoredInternalOrderAccepted >Correct new state |
+|InternalOrder_DAO > getStoredInternalOrderAccepted(db) | Testing testGetStoredInternalOrderAccepted > Wrong new state |
+|InternalOrder_DAO > updateInternalOrderSkuProducts(db, id, data) | Testing testUpdateInternalOrderSkuProducts > Internal order ID existing |
+|InternalOrder_DAO > updateInternalOrderSkuProducts(db, id, data) | Testing testUpdateInternalOrderSkuProducts > Internal order ID not existing |
+|InternalOrder_DAO > updateInternalOrderSkuProducts(db, id, data) | Testing testUpdateInternalOrderSkuProducts > Product sku ID not existing |
+|InternalOrder_DAO > updateInternalOrderState(db, id, state) | Testing testUpdateInternalOrderState > Internal order ID existing |
+|InternalOrder_DAO > updateInternalOrderState(db, id, state) | Testing testUpdateInternalOrderState > Internal order ID not existing |
+|InternalOrder_DAO > deleteInternalOrder(db, id) | Testing testDeleteInternalOrder > Testing deleteInternalOrder |
+|InternalOrder_DAO > deleteInternalOrder(db, id) | Testing testDeleteInternalOrder > ROID existing |
 
 
 ### Code coverage report
