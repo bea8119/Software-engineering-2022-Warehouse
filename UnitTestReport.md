@@ -469,6 +469,7 @@ No criteria
 | NO | NO | Tries to delete a TestDescriptor item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteTestDescriptor", Case: "id not existing"|
 
 
+
 ### Class *TESTRESULT* - method **getTestResultsArraybySkuitemRfid(db, rfid)**
 
 **Criteria for method *getTestResultsArraybySkuitemRfid(db, rfid)*:**
@@ -668,17 +669,42 @@ No criteria
 
 
 
-
-
 ### Class *ITEM_DAO* - method **storeITEM(db, data)**
 
 **Criteria for method *storeITEM(db, data)*:**
- 1. id existing
+ 1. SKUId existing
 
 | Criteria | Predicate |
 | -------- | --------- |
-|  id existing      | YES |
-|  id existing      | NO  |
+|  SKUId existing      | YES |
+|  SKUId existing      | NO  |
+|  supplier already sells item     | YES |
+|  supplier already sells item      | NO  |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES |Creates a new Item belonging to an existing SKU, for a specific supplier and gets the created Item |Suite: "Testing storeItem", Case: "SKU existing"|
+| NO | YES | NO | Creates a new Item belonging to a not existing SKU and catches a "ID not found" exception |Suite: "Testing storeItem", Case: "SKU not found"|
+| YES | NO | NO | Creates a new Item belonging to a existing SKU, for a supplier that already sells that item and catches a "Item already sells" exception |Suite: "Testing storeItem", Case: "Item already sells"|
+
+
+### Class *ITEM_DAO* - method **getStoredITEMbyID(db, id)**
+
+**Criteria for method *getStoredITEMbyID(db, id)*:**
+ 1. id existing
+
+
+**Predicates for method *getStoredITEMbyID(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
 
 **Boundaries**: No boundaries, only boolean predicates to test
 
@@ -687,48 +713,22 @@ No criteria
 
 | id existing | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| YES | YES | Creates a new Item belonging to an existing SKU, for a specific supplier and gets the created Item |Suite: "Testing storeSKUItem", Case: "id existing"|
-| NO | NO | Creates a new Item belonging to a not existing SKU and catches a "ID not found" exception |Suite: "Testing storeItem", Case: "SKUId not found"|
+| YES | YES | Searches for a Item whose id exists and should return the proper Item |Suite: "Testing getStoredItemByID", Case: "ID existing"|
+| NO | NO | Searches for a Item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getAvailableStoredItem", Case: "ID not existing"|
 
 
-### Class *SKUITEM_DAO* - method **getStoredSKUItemByRFID(db, rfid)**
+### Class *ITEM_DAO* - method **updateItem(db, id, data)**
 
-**Criteria for method *getStoredSKUItemByRFID(db, rfid)*:**
- 1. RFID existing
-
-
-**Predicates for method *getStoredSKUItemByRFID(db, rfid)*:**
-
-| Criteria | Predicate |
-| -------- | --------- |
-|  RFID existing  | YES   |
-|  RFID existing  |  NO   |
-
-**Boundaries**: No boundaries, only boolean predicates to test
-
-**Combination of predicates**:
+**Criteria for method *updateItem(db, id, data)*:**
+ 1. id existing
 
 
-| RFID existing | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| YES | YES | Searches for a SKUItem whose RFID exists and should return the proper SKUItem |Suite: "Testing getStoredSKUItemByRFID", Case: "RFID existing"|
-| NO | NO | Searches for a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getAvailableStoredSkuItem", Case: "RFID not existing"|
-
-### Class *SKUITEM_DAO* - method **getAvailableStoredSKUItem(db, id)**
-
-**Criteria for method *getAvailableStoredSKUItem(db, id)*:**
- 1. SKUId existing
- 2. Available = 1 (*note*: available can never assume values which aren't 1 or 0 due to API level checks)
-
-
-**Predicates for method *getAvailableStoredSKUItem(db, id)*:**
+**Predicates for method *updateItem(db, id, data)*:**
 
 | Criteria | Predicate |
 | -------- | --------- |
-|  SKUId existing      | YES |
-|  SKUId existing        |  NO   |
-|  Available = 1 |  YES  |
-|  Available = 1 |  NO   |
+|  id existing  | YES   |
+|  id existing  |  NO   |
 
 
 **Boundaries**: No boundaries, only boolean predicates to test
@@ -738,62 +738,28 @@ No criteria
 **Combination of predicates**:
 
 
-| SKUId existing | Available | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-| YES | YES | YES | Creates an SKU with given SKUId, creates a SKUItem with given ID, existing SKUId, and puts Available = 1, the function should return an array with it |Suite: "Testing getAvailableStoredSkuItem", Case: "Available skuitem found"|
-| YES | NO | YES | Creates an SKU with given SKUId, creates a SKUItem with given ID, existing SKUId and Available = 0, the function should return an empty array |Suite: "Testing getAvailableStoredSkuItem", Case: "No available skuitems found"|
-| NO | ... | NO | Creates a SKUItem with given ID but with a non-existing SKUId (value of Available is unrelevant), the function should catch an "ID not found" exception|Suite: "Testing getAvailableStoredSkuItem", Case: "No SKUId found exception"|
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Searches for a Item whose id exists and should update the proper Item, so by searching by id the same Item it should have updated values |Suite: "Testing updateItem", Case: "ID existing"|
+| NO | NO | Searches for a Item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateItem", Case: "RFID not existing"|
 
-### Class *SKUITEM_DAO* - method **updateSKUItem(db, rfid, data)**
+### Class *ITEM_DAO* - method **deleteItem(db, rfid)**
+**Criteria for method *deleteItem(db, rfid)*:**
+ 1. id existing
 
-**Criteria for method *updateSKUItem(db, rfid, data)*:**
- 1. RFID existing
-
-
-**Predicates for method *updateSKUItem(db, rfid, data)*:**
+**Predicates for method *deleteItem(db, rfid)*:**
 
 | Criteria | Predicate |
 | -------- | --------- |
-|  RFID existing  | YES   |
-|  RFID existing  |  NO   |
-
-
-**Boundaries**: No boundaries, only boolean predicates to test
-
-
-
-**Combination of predicates**:
-
-
-| RFID existing | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-| YES | YES | Searches for a SKUItem whose RFID exists and should update the proper SKUItem, so by searching by id the same SKUItem it should have updated values |Suite: "Testing updateSKUItem", Case: "RFID existing"|
-| NO | NO | Searches for a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateSKUItem", Case: "RFID not existing"|
-
-### Class *SKUITEM_DAO* - method **deleteSKUItem(db, rfid)**
-**Criteria for method *deleteSKUItem(db, rfid)*:**
- 1. RFID existing
-
-**Predicates for method *deleteSKUItem(db, rfid)*:**
-
-| Criteria | Predicate |
-| -------- | --------- |
-|  RFID existing  | YES   |
-|  RFID existing  |  NO   |
+|  id existing  | YES   |
+|  id existing  |  NO   |
 
 **Boundaries**: No boundaries, only boolean predicates to test
 
-| RFID existing | Valid / Invalid | Description of the test case | Jest test case |
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-| YES | YES | Deletes a SKUItem whose RFID exists and searches for it in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteSKUItem", Case: "RFID existing"|
-| NO | NO | Tries to delete a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteSKUItem", Case: "RFID not existing"|
-
-
-
-
-
-
-
+| YES | YES | Deletes a Item whose id exists and searches for it in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteSKUItem", Case: "ID existing"|
+| NO | NO | Tries to delete a Item whose id doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteSKUItem", Case: "ID not existing"|
 
 
 
