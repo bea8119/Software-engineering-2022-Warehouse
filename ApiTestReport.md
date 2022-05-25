@@ -206,8 +206,8 @@ Instead, in the code there are further tests that verify the correct behaviour o
 | 10-1 | 6.3 | testInternalOrder.js > test put /api/internalOrders/:id --- body:data |
 | - | 6.4 | testInternalOrder.js > test put /api/internalOrders/:id --- body:data |
 | - | 6.5, 6.6, 6.7, 6.8 | testInternalOrder.js > test put /api/internalOrders/:id --- body:data |
-|3-2 (p)| 5.5 | testUser.js > test get /api/suppliers |
-| - | 1.3 | testUser.js > test /api/users |
+| 3-2 (p) | 5.5 | testUser.js > test get /api/suppliers |
+| 4-2 (p) | 1.3 | testUser.js > test /api/users |
 | 4-1 | 1.1, 4.1 | testUser.js > test post /api/newUser |
 | 4-2 | 1.1, 4.1 | testUser.js > test put /api/users/:username |
 | 4-3 | 1.2, 4.2 | testUser.js > test delete /api/users/:username/:type |
