@@ -49,32 +49,13 @@ app.get('/api/positions', async (req, res) => {
         const positionList = await p.getStoredPosition(db);
         res.status(200).json(positionList);
     } catch (err) {
-        if (err.message === "ID not found"){
-            res.status(404).end()
-        }else
+        
         res.status(500).end();
     }
 });
 
 
-/* Position Delete */
 
-app.delete('/api/position/:positionID', async (req, res) => {
-
-    let pID = req.params.positionID
-
-    try {
-        await p.deletePosition(db, pID);
-        res.status(204).end();
-    }
-    catch (err) {
-        if (err.message === "ID not found") {
-            res.status(404).end()
-        } else {
-            res.status(503).end()
-        }
-    }
-});
 
 /* Position Update */
 
@@ -83,7 +64,7 @@ app.put('/api/position/:positionID', async (req, res) => {
     let positionID = req.params.positionID;
     let position = req.body;
 
-    if (positionID.length !== 12 ||
+    if (positionID.length !== 12 || !(/^\d+$/.test(positionID)) ||
     Object.keys(req.body).length === 0 ||
     position === undefined || 
     position.newAisleID === undefined || position.newAisleID.length !== 4 || !(/^\d+$/.test(position.newAisleID)) ||
@@ -116,8 +97,19 @@ app.put('/api/position/:positionID/changeID', async (req, res) => {
     let pID = req.params.positionID;
     let newPositionID = req.body;
 
+    if (pID.length !== 12 ||  !(/^\d+$/.test(pID)) ||
+        Object.keys(req.body).length === 0 ||
+        newPositionID === undefined || 
+          newPositionID.newPositionID.length !== 12 
+           || !(/^\d+$/.test(newPositionID.newPositionID)) 
+          ) {
+            return res.status(422).json({ error: 'Unprocessable entity' });
+        }
+
+
+
     try {
-        await p.updatePositionID(db, pID, newPositionID);
+        await p.updatePositionID(db, pID, newPositionID.newPositionID);
         return res.status(200).end();
     } catch (err) {
         if (err.message === "ID not found") {
@@ -125,6 +117,41 @@ app.put('/api/position/:positionID/changeID', async (req, res) => {
         } else {
             res.status(503).end();
         }
+    }
+});
+
+
+/* Position Delete */
+
+app.delete('/api/position/:positionID', async (req, res) => {
+
+    let pID = req.params.positionID
+
+    if (pID.length !== 12 ||  !(/^\d+$/.test(pID)) ) {
+            return res.status(422).json({ error: 'Unprocessable entity' });
+        }
+
+    try {
+        await p.deletePosition(db, pID);
+        res.status(204).end();
+    }
+    catch (err) {
+        if (err.message === "ID not found") {
+            res.status(404).end()
+        } else {
+            res.status(503).end()
+        }
+    }
+});
+
+
+app.delete('/api/positions/emergenza', async (req, res) => {
+    try {
+        await p.dropTable(db);
+        res.status(204).end()
+    }
+    catch (err) {
+        res.status(500).end()
     }
 });
 

@@ -469,6 +469,7 @@ No criteria
 | NO | NO | Tries to delete a TestDescriptor item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteTestDescriptor", Case: "id not existing"|
 
 
+
 ### Class *TESTRESULT* - method **getTestResultsArraybySkuitemRfid(db, rfid)**
 
 **Criteria for method *getTestResultsArraybySkuitemRfid(db, rfid)*:**
@@ -661,10 +662,193 @@ No criteria
 
 **Combination of predicates**:
 
-| valid type | SKUid existing | Valid / Invalid | Description of the test case | Jest test case |
+| Valid type | SKUid existing | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-| YES | YES | Searches for a USER item by username and should update it with data that contains a oldType different to "manager" and "administrator" |Suite: "Testing updateUserType", Case: "Username and data correct, permissions allowed"|
-| NO | NO | Searches for a USER item by username and tries to update it with data that contains a oldType equal to "manager" or "administrator" and should catch an "Permission not allowed" exception |Suite: "Testing updateUserType", Case: "Username and data correct, permissions not allowed"|
+| YES | YES | YES | Searches for a USER item by username and should update it with data that contains a oldType different to "manager" and "administrator" | Suite: "Testing updateUserType", Case: "Username and data correct, permissions allowed"|
+| NO | NO | NO | Searches for a USER item by username and tries to update it with data that contains a oldType equal to "manager" or "administrator" and should catch an "Permission not allowed" exception | Suite: "Testing updateUserType", Case: "Username and data correct, permissions not allowed"|
+
+
+
+### Class *ITEM_DAO* - method **storeITEM(db, data)**
+
+**Criteria for method *storeITEM(db, data)*:**
+ 1. SKUId existing, Item sold
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  SKUId existing      | YES |
+|  SKUId existing      | NO  |
+|  supplier already sold item     | YES |
+|  supplier already sold item      | NO  |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+
+| SKUid existing | Item sold | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES |Creates a new Item belonging to an existing SKU, for a specific supplier and gets the created Item |Suite: "Testing storeItem", Case: "SKU existing"|
+| NO | YES | NO | Creates a new Item belonging to a not existing SKU and catches a "ID not found" exception |Suite: "Testing storeItem", Case: "SKU not found"|
+| YES | NO | NO | Creates a new Item belonging to a existing SKU, for a supplier that already sold that item and catches a "Item already sold" exception |Suite: "Testing storeItem", Case: "Item already sold"|
+
+
+### Class *ITEM_DAO* - method **getStoredITEMbyID(db, id)**
+
+**Criteria for method *getStoredITEMbyID(db, id)*:**
+ 1. id existing
+
+
+**Predicates for method *getStoredITEMbyID(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Searches for a Item whose id exists and should return the proper Item |Suite: "Testing getStoredItemByID", Case: "ID existing"|
+| NO | NO | Searches for a Item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getAvailableStoredItem", Case: "ID not existing"|
+
+
+### Class *ITEM_DAO* - method **updateItem(db, id, data)**
+
+**Criteria for method *updateItem(db, id, data)*:**
+ 1. id existing
+
+
+**Predicates for method *updateItem(db, id, data)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+
+
+**Combination of predicates**:
+
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Searches for a Item whose id exists and should update the proper Item, so by searching by id the same Item it should have updated values |Suite: "Testing updateItem", Case: "ID existing"|
+| NO | NO | Searches for a Item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateItem", Case: "RFID not existing"|
+
+### Class *ITEM_DAO* - method **deleteItem(db, id)**
+**Criteria for method *deleteItem(db, id)*:**
+ 1. id existing
+
+**Predicates for method *deleteItem(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Deletes a Item whose id exists and searches for it in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteSKUItem", Case: "ID existing"|
+| NO | NO | Tries to delete a Item whose id doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteSKUItem", Case: "ID not existing"|
+
+
+
+
+
+### Class *InternalOrder_DAO* - method **getStoredInternalOrderById(db, id)**
+**Criteria for method *getStoredInternalOrderById(db, id)*:**
+ 1. id existing
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a InternalOrder and searches for it given the specific ID: the expected result is to find the InternalOrder |Suite: "Testing getStoredInternalOrderById", Case: "ID not found"|
+| NO | NO | Searches for a InternalOrder whose id doesn't exist and should catch an "ID not found" exception |Suite: "Testing getStoredInternalOrderById", Case: "ID not found"|
+
+### Class *InternalOrder_DAO* - method **updateInternalOrderSkuProducts(db, id, state)**
+**Criteria for method *updateInternalOrderSkuProducts(db, id, state)*:**
+ 1. id existing, number of insert products is correct
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+|  products are correct  | YES   |
+|  products are correct  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| ROID existing |  products are correct  | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES | Creates a internalOrder, updates a internalOrder given a correct ID, the correct number of products and a proper state, expects to find the same internalOrder with the updated state |Suite: "Testing updateInternalOrderSkuProducts", Case: "ID existing"|
+| NO | YES | NO | Tries to update a restockOrder whose id doesn't exist with and the correct number of products and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderSkuProducts", Case: "ID not existing"|
+| YES | NO | NO | Creates a restockOrder, updates a restockOrder given a correct ID and a proper state, but with the wrong number of products and should catch and "Uncorrect product" exception |Suite: "Testing updateInternalOrderSkuProducts", Case: "Uncorrect product"|
+| NO | NO | NO | Tries to update a restockOrder whose ROID doesn't exist and with the wrong number of products and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderSkuProducts", Case: "ID not existing"|
+
+### Class *InternalOrder_DAO* - method **updateInternalOrderState(db, id, state)**
+**Criteria for method *updateRestockOrderTransportNote(db, id, transportNote)*:**
+1. id existing
+
+ *Note:* State correctness tested at the API level
+
+ | Criteria | Predicate |
+| -------- | --------- |
+| id existing  | YES   |
+| id existing  |  NO   | 
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a internalOrder, updates a internalOrder given a correct ID and a proper state, expects to find the same internalOrder with the updated state |Suite: "Testing updateInternalOrderState", Case: "ROID existing"|
+| NO | NO | Tries to update a internalOrder whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderState", Case: "ID not existing"|
+
+### Class *InternalOrder_DAO* - method **deleteInternalOrder(db, id)**
+**Criteria for method *deleteInternalOrder(db, id)*:**
+ 1. id existing
+
+**Predicates for method *deleteInternalOrder(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  id existing  | YES   |
+|  id existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a internalOrder, updates a internalOrder given a correct ID and a proper state, expects to find the same internalOrder with the updated state |Suite: "Testing updateInternalOrderState", Case: "ROID existing"|
+| NO | NO | Tries to update a internalOrder whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateInternalOrderState", Case: "ID not existing"|
+
+
+
+
+
+
+
+
+
+
+
 
 
 # White Box Unit Tests
@@ -753,6 +937,35 @@ No criteria
 |USER_DAO > deleteUser(db, username, type) | Testing deleteUser > Invalid type|
 |USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions allowed|
 |USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions not allowed|
+|ITEM_DAO > getStoredITEM(db) | Testing testGetStoredITEM |
+|ITEM_DAO > storeITEM(db, data) | Testing testStoreITEM > SKUId existing  |
+|ITEM_DAO > storeITEM(db, data) | Testing testStoreITEM > SKUId existing; Item already sells  |
+|ITEM_DAO > storeITEM(db, data) | Testing testStoreITEM > SKUId not existing  |
+|ITEM_DAO > getStoredITEMbyID(db, db) | Testing testGetStoredITEMbyID > Item ID existing |
+|ITEM_DAO > getStoredITEMbyID(db, db) | Testing testGetStoredITEMbyID > Item ID not existing |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; description undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; price undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; SKUID undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > Item found; supplier ID undefined |
+|ITEM_DAO > updateItem(db, id, data) | Testing testUpdateItem > No Item ID found exception |
+|ITEM_DAO > deleteItem(db, id) | Testing testDeleteItem > Item ID existing |
+|ITEM_DAO > deleteItem(db, id) | Testing testDeleteItem > Item ID not existing |
+|InternalOrder_DAO > getStoredInternalOrder(db) | Testing testGetStoredInternalOrder |
+|InternalOrder_DAO > storeInternalOrder(db, data) | Testing testStoreInternalOrder > Internal order existing  |
+|InternalOrder_DAO > getStoredInternalOrderById(db, id) | Testing testGetStoredInternalOrderById > Internal order ID existing |
+|InternalOrder_DAO > getStoredInternalOrderById(db, id) | Testing testGetStoredInternalOrderById > Internal order ID not existing |
+|InternalOrder_DAO > getStoredInternalOrderIssued(db) | Testing testGetStoredInternalOrderIssued > Correct new state |
+|InternalOrder_DAO > getStoredInternalOrderIssued(db) | Testing testGetStoredInternalOrderIssued > Wrong new state |
+|InternalOrder_DAO > getStoredInternalOrderAccepted(db) | Testing testGetStoredInternalOrderAccepted >Correct new state |
+|InternalOrder_DAO > getStoredInternalOrderAccepted(db) | Testing testGetStoredInternalOrderAccepted > Wrong new state |
+|InternalOrder_DAO > updateInternalOrderSkuProducts(db, id, data) | Testing testUpdateInternalOrderSkuProducts > Internal order ID existing |
+|InternalOrder_DAO > updateInternalOrderSkuProducts(db, id, data) | Testing testUpdateInternalOrderSkuProducts > Internal order ID not existing |
+|InternalOrder_DAO > updateInternalOrderSkuProducts(db, id, data) | Testing testUpdateInternalOrderSkuProducts > Product sku ID not existing |
+|InternalOrder_DAO > updateInternalOrderState(db, id, state) | Testing testUpdateInternalOrderState > Internal order ID existing |
+|InternalOrder_DAO > updateInternalOrderState(db, id, state) | Testing testUpdateInternalOrderState > Internal order ID not existing |
+|InternalOrder_DAO > deleteInternalOrder(db, id) | Testing testDeleteInternalOrder > Testing deleteInternalOrder |
+|InternalOrder_DAO > deleteInternalOrder(db, id) | Testing testDeleteInternalOrder > ROID existing |
+|
 
 
 ### Code coverage report
@@ -785,6 +998,12 @@ For each query of each function there are checks on the correctness of the opera
 | RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 0 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (0 restockOrders)|
 | RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 1 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (1 restockOrder)|
 | RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 2 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (2 restockOrders)|
-||||||
+|SKU_DAO > getStoredSKU(db) |12 | 0 |Testing getStoredSKU > Zero sku stored |
+|SKU_DAO > getStoredSKU(db) |12 | 1 |Testing getStoredSKU > One sku stored |
+|SKU_DAO > getStoredSKU(db) |12 | 2 |Testing getStoredSKU > Two sku stored |
+|POSITION_DAO > getStoredPosition(db) |10 | 0 |Testing getStoredPosition > Zero position stored |
+|POSITION_DAO > getStoredPosition(db) |10 | 1 |Testing getStoredPosition > One position stored |
+|POSITION_DAO > getStoredPosition(db) |10 | 2 |Testing getStoredPosition > Two position stored |
+
 
 

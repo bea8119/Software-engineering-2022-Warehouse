@@ -51,6 +51,14 @@ class ReturnOrder_DAO {
             const sql1 = 'INSERT INTO RETURNORDER(id, returnDate, restockOrderId) VALUES (?, ?, ?)';
             const sql2 = 'INSERT INTO RETURNORDER_PRODUCT (SKUId, description, price, RFID, roid) VALUES (?, ?, ?, ?, ?)'
             const sql3 = 'SELECT MAX(id) AS lastroid FROM RETURNORDER'
+            const sql4 = 'SELECT COUNT(*) AS count FROM RESTOCKORDER WHERE id = ? ';
+            await db.get(sql4, [data.restockOrderId], async (err, m) => {
+                if (err) {
+                    reject(err);
+                } else if(m.count === 0){
+                    reject(new Error("ID not found"));
+                }
+                else{
             await db.run(sql1, [null, data.returnDate, data.restockOrderId], async (err) => {
                 if (err) {
                     reject(err);
@@ -76,6 +84,8 @@ class ReturnOrder_DAO {
                     });
                 }
             });
+        }
+        });
 
         });
     }
@@ -179,6 +189,7 @@ class ReturnOrder_DAO {
                     reject(err)
                 }
                 else if (r.count === 0) {
+                    console.log(r.count)
                     reject(new Error('ID not found'))
                 }
                 else {

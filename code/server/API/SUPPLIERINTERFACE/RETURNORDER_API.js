@@ -23,8 +23,7 @@ app.post('/api/returnOrder', async (req, res) => {
     returnOrder === undefined ||
    returnOrder.returnDate === undefined || !((dayjs(returnOrder.returnDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(returnOrder.returnDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
     returnOrder.products === undefined || 
-    returnOrder.restockOrderId === undefined){
-        console.log(returnOrder)
+    returnOrder.restockOrderId === undefined || isNaN(returnOrder.restockOrderId)){
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     try {
@@ -34,8 +33,11 @@ app.post('/api/returnOrder', async (req, res) => {
     }
 
     catch (err) {
-        console.log(err)
-        res.status(503).end();
+        if (err.message === "ID not found"){
+            res.status(404).end()
+        } else {
+            res.status(503).end();
+        }
     }
 });
 
@@ -87,5 +89,16 @@ app.delete('/api/returnOrder/:id', async (req, res) => {
         } else {
             res.status(503).end()
         }
+    }
+});
+
+
+app.delete('/api/returnOrders', async (req, res) => {
+    try {
+        await r.dropTable(db);
+        res.status(204).end()
+    }
+    catch (err) {
+        res.status(500).end()
     }
 });

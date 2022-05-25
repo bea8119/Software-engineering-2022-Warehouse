@@ -292,7 +292,7 @@ function testUpdateSKUposition(id, wrongid) {
             await expect(s.updateSKUposition(db, id, wrongposition)).rejects.toThrow('ID position not found');
         })
 
-        test('No SKUId found', async () => {
+        test('SKU Id not found', async () => {
             let newposition = {
                 position: "800234546669"
             }
