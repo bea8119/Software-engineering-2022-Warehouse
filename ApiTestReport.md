@@ -256,3 +256,18 @@ Instead, in the code there are further tests that verify the correct behaviour o
 |                                     | testPosition.js > test put /api/position/:positionID |
 | Position Weight is expressed in kilograms | testPosition.js > test post /api/position |
 |                                     | testPosition.js > test put /api/position/:positionID |
+|                                     | testItem.js > test post /api/item |
+|                                     | testItem.js > test get /api/items |
+|                                     | testItem.js > test getById correct /api/items/:id (wrong correct id) |
+|                                     | testItem.js > test getById wrong /api/items/:id (wrong correct id) |
+|                                     | testItem.js > test put /api/item/:id |
+|                                     | testItem.js > test delete /api/items/:id |
+|    Date Format is YYYY/MM/GG HH:MM    | testInternalOrder.js > test post /api/internalOrders |
+|                                     | testInternalOrder.js > test get /api/internalOrders |
+|                                     | testInternalOrder.js > test get /api/internalOrdersIssued |
+|                                     | testInternalOrder.js > test get /api/internalOrdersAccepted |
+|                                     | testInternalOrder.js > test getById correct /api/internalOrders/:id (correct id) |
+|                                     | testInternalOrder.js > test getById wrong /api/internalOrders/:id (wrong id) |
+|                                     | testInternalOrder.js > test put /api/internalOrders/:id |
+|                                     | testInternalOrder.js > test delete /api/internalOrders/:id') |
+
