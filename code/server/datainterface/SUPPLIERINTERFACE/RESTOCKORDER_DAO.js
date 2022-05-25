@@ -85,7 +85,7 @@ class RESTOCKORDER_DAO {
                                     reject(err);
                                 } else {
                                     const restockorder = await restockrows.map((r) => (
-                                        {
+                                       {
                                             id: r.id,
                                             issueDate: r.issueDate,
                                             state: r.state,

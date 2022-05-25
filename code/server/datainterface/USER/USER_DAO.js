@@ -156,7 +156,6 @@ class USER_DAO {
 
     /* Customer Session */
 
-    /*
 
     customerSession(db, data) {
         return new Promise((resolve, reject) => {
@@ -164,7 +163,7 @@ class USER_DAO {
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                } else if (r.count === 0 || r.password !== data.password || r.type !== "customer") {
+                } else if (r.count === 0 || r.password !==  md5(data.password) || r.type !== "customer") {
                     reject(new Error('Wrong credentials'));
                 }
                 else {
@@ -181,19 +180,20 @@ class USER_DAO {
             })
         })
     }
-    */
+    
 
 
     /* Supplier Session */
 
-    /*
+    
     supplierSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
             db.get(sql1, [data.username], (err, r) => {
+                console.log("customer session: "+r.count+" "+r.username+" "+r.password+ " "+md5(data.password)+" "+r.type)
                 if (err) {
                     reject(err);
-                } else if (r.count === 0 || r.password !== data.password || r.type !== "supplier") {
+                } else if (r.count === 0 || r.password !==  md5(data.password) || r.type !== "supplier") {
                     reject(new Error('Wrong credentials'));
                 }
                 else {
@@ -210,18 +210,18 @@ class USER_DAO {
             })
         })
     }
-    */
+    
 
     /* Manager session*/
 
-    /*
+    
     managerSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                } else if (r.count === 0 || r.password !== data.password || r.type !== "manager") {
+                } else if (r.count === 0 || r.password !==  md5(data.password) || r.type !== "manager") {
                     reject(new Error('Wrong credentials'));
                 }
                 else {
@@ -238,19 +238,19 @@ class USER_DAO {
             })
         })
     }
-    */
+    
 
 
     /* Clerek session*/
 
-    /*
+    
     clerkSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                } else if (r.count === 0 || r.password !== data.password || r.type !== "clerk") {
+                } else if (r.count === 0 || r.password !==  md5(data.password) || r.type !== "clerk") {
                     reject(new Error('Wrong credentials'));
                 }
                 else {
@@ -267,19 +267,19 @@ class USER_DAO {
             })
         })
     }
-    */
+    
 
 
     /* Quality Employee session*/
 
-    /*
+    
     qualityEmployeeSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                } else if (r.count === 0 || r.password !== data.password || r.type !== "qualityEmployee") {
+                } else if (r.count === 0 || r.password !== md5(data.password) || r.type !== "qualityEmployee") {
                     reject(new Error('Wrong credentials'));
                 }
                 else {
@@ -296,19 +296,19 @@ class USER_DAO {
             })
         })
     }
-    */
+    
 
 
     /* Delivery Employee session*/
 
-    /*
+    
     deliveryEmployeeSession(db, data) {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
             db.get(sql1, [data.username], (err, r) => {
                 if (err) {
                     reject(err);
-                } else if (r.count === 0 || r.password !== data.password || r.type !== "deliveryEmployee") {
+                } else if (r.count === 0 || r.password !==  md5(data.password) || r.type !== "deliveryEmployee") {
                     reject(new Error('Wrong credentials'));
                 }
                 else {
@@ -325,7 +325,7 @@ class USER_DAO {
             })
         })
     }
-    */
+    
 
 
 

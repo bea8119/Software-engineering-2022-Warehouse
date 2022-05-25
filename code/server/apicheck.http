@@ -256,7 +256,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/users/:username
+PUT http://localhost:3001/api/users/
 Content-Type: application/json
 
 {
