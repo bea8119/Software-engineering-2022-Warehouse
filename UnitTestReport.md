@@ -662,10 +662,10 @@ No criteria
 
 **Combination of predicates**:
 
-| valid type | SKUid existing | Valid / Invalid | Description of the test case | Jest test case |
+| Valid type | SKUid existing | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-| YES | YES | Searches for a USER item by username and should update it with data that contains a oldType different to "manager" and "administrator" |Suite: "Testing updateUserType", Case: "Username and data correct, permissions allowed"|
-| NO | NO | Searches for a USER item by username and tries to update it with data that contains a oldType equal to "manager" or "administrator" and should catch an "Permission not allowed" exception |Suite: "Testing updateUserType", Case: "Username and data correct, permissions not allowed"|
+| YES | YES | YES | Searches for a USER item by username and should update it with data that contains a oldType different to "manager" and "administrator" | Suite: "Testing updateUserType", Case: "Username and data correct, permissions allowed"|
+| NO | NO | NO | Searches for a USER item by username and tries to update it with data that contains a oldType equal to "manager" or "administrator" and should catch an "Permission not allowed" exception | Suite: "Testing updateUserType", Case: "Username and data correct, permissions not allowed"|
 
 
 
@@ -678,19 +678,19 @@ No criteria
 | -------- | --------- |
 |  SKUId existing      | YES |
 |  SKUId existing      | NO  |
-|  supplier already sells item     | YES |
-|  supplier already sells item      | NO  |
+|  supplier already sold item     | YES |
+|  supplier already sold item      | NO  |
 
 **Boundaries**: No boundaries, only boolean predicates to test
 
 **Combination of predicates**:
 
 
-| id existing | Valid / Invalid | Description of the test case | Jest test case |
+| SKUid existing | Item sold | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
 | YES | YES | YES |Creates a new Item belonging to an existing SKU, for a specific supplier and gets the created Item |Suite: "Testing storeItem", Case: "SKU existing"|
 | NO | YES | NO | Creates a new Item belonging to a not existing SKU and catches a "ID not found" exception |Suite: "Testing storeItem", Case: "SKU not found"|
-| YES | NO | NO | Creates a new Item belonging to a existing SKU, for a supplier that already sells that item and catches a "Item already sells" exception |Suite: "Testing storeItem", Case: "Item already sells"|
+| YES | NO | NO | Creates a new Item belonging to a existing SKU, for a supplier that already sold that item and catches a "Item already sold" exception |Suite: "Testing storeItem", Case: "Item already sold"|
 
 
 ### Class *ITEM_DAO* - method **getStoredITEMbyID(db, id)**
