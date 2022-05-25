@@ -937,6 +937,19 @@ No criteria
 |USER_DAO > deleteUser(db, username, type) | Testing deleteUser > Invalid type|
 |USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions allowed|
 |USER_DAO > updateUserType(db, username, data) | Testing updateUserType > Username and data correct, permissions not allowed|
+|ITEM_DAO > getStoredITEM(db) | Testing testGetStoredITEM |
+|ITEM_DAO > storeITEM(db, db) | Testing testStoreITEM > SKUId existing  |
+|ITEM_DAO > storeITEM(db, db) | Testing testStoreITEM > SKUId existing; Item already sells  |
+|ITEM_DAO > storeITEM(db, db) | Testing testStoreITEM > SKUId not existing  |
+|ITEM_DAO > getStoredITEMbyID(db, db) | Testing testGetStoredITEMbyID > Item ID existing |
+|ITEM_DAO > getStoredITEMbyID(db, db) | Testing testGetStoredITEMbyID > Item ID not existing |
+|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; description undefined |
+|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; price undefined |
+|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; SKUID undefined |
+|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > Item found; supplier ID undefined |
+|ITEM_DAO > updateItem(db, id data) | Testing testUpdateItem > No Item ID found exception |
+|ITEM_DAO > deleteItem(db, id) | Testing testDeleteItem > Item ID existing |
+|ITEM_DAO > deleteItem(db, id) | Testing testDeleteItem > Item ID not existing |
 
 
 ### Code coverage report
