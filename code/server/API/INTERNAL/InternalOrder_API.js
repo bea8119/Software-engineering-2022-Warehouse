@@ -27,7 +27,7 @@ app.post('/api/internalOrders', async (req, res) => {
     if (Object.keys(req.body).length === 0 || internalOrder === undefined || 
     internalOrder.issueDate === undefined || !((dayjs(internalOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(internalOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
     internalOrder.products === undefined ||  
-    internalOrder.customerId === undefined) {
+    internalOrder.customerId === undefined || isNaN(internalOrder.customerId)) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
 
@@ -88,7 +88,7 @@ app.get('/api/internalOrdersAccepted', async (req, res) => {
 /* InternalOrder Get by ID */
 app.get('/api/internalOrders/:id', async (req, res) => {
     let id = req.params.id
-    if (isNaN(id)) {
+    if (isNaN(id) || id===undefined) {
         res.status(422).json("Unprocessable entity")
     }
     try {
@@ -112,7 +112,7 @@ app.put('/api/internalOrders/:id', async (req, res) => {
     if (isNaN(id)) {
         res.status(404).json("Not Found")
     }
-    else if (Object.keys(req.body).length === 0 || skuproduckt === undefined || skuproduckt.newState === undefined) {
+    else if (Object.keys(req.body).length === 0 || skuproduckt === undefined || skuproduckt.newState === undefined || id===undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     else if (skuproduckt.newState === "COMPLETED") {
@@ -126,13 +126,13 @@ app.put('/api/internalOrders/:id', async (req, res) => {
             await i.updateInternalOrderSkuProducts(db, id, skuproduckt);
         }
         else {
-            await i.updateItnernalOrderState(db, id, skuproduckt.newState);
+            await i.updateInternalOrderState(db, id, skuproduckt.newState);
         }
         return res.status(200).end();
     } catch (err) {
         if (err.message === "ID not found") {
             res.status(404).end()
-        } else if (err.message === "Not DELIVERED state") {
+        } else if (err.message === "Uncorrect product") {
             res.status(422).json({ error: 'Unprocessable entity' });
         } else {
             res.status(503).end();
@@ -159,5 +159,15 @@ app.delete('/api/internalOrders/:id', async (req, res) => {
         } else {
             res.status(503).end()
         }
+    }
+});
+
+app.delete('/api/internalOrder/emergenza', async (req, res) => {
+    try {
+        await i.dropTable(db);
+        res.status(204).end();
+    }
+    catch (err){
+        res.status(500).end();
     }
 });

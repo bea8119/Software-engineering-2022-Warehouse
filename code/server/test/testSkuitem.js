@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const res = require('express/lib/response');
 chai.use(chaiHttp);
 chai.should();
 
@@ -86,8 +87,8 @@ describe('test skuitem apis', () => {
 });
 
 function deleteAllData(expectedHTTPStatus) {
-    it('test /api/skuitem/emergenza (deleting data...)', function () {
-        agent.delete('/api/skuitem/emergenza')
+    it('test /api/skuitem/emergenza (deleting data...)', async function () {
+        await agent.delete('/api/skuitem/emergenza')
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
             
@@ -96,13 +97,13 @@ function deleteAllData(expectedHTTPStatus) {
 }
 
 function postSkuItem(expectedHTTPStatus, rfid, skuid, dateofstock) {
-    it('test /api/skuitem', function () {
+    it('test /api/skuitem', async function () {
         let skuitem = {
             "RFID": rfid,
             "SKUId": skuid,
             "DateOfStock": dateofstock
         }
-        agent.post('/api/skuitem')
+       await agent.post('/api/skuitem')
             .send(skuitem)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -113,10 +114,9 @@ function postSkuItem(expectedHTTPStatus, rfid, skuid, dateofstock) {
 
 
 function getSkuItem() {
-    it('test /api/skuitems', function () {
-        agent.get('/api/skuitems')
+    it('test /api/skuitems', async function () {
+        await agent.get('/api/skuitems')
             .then(function (res) {
-                res.should.have.status(200);
                 res.body.should.eql([
                     {
                         "RFID": "12345678901234567890123456789595",
@@ -138,8 +138,8 @@ function getSkuItem() {
 
 
 function getSkuItemByRFID1() {
-    it('test get /api/skuitems/:rfid (correct rfid)', function () {
-        agent.get('/api/skuitems/12345678901234567890123456789595')
+    it('test get /api/skuitems/:rfid (correct rfid)', async function () {
+        await agent.get('/api/skuitems/12345678901234567890123456789595')
             .then(function (res) {
                 res.should.have.status(200);
                 res.body.should.eql(
@@ -157,8 +157,8 @@ function getSkuItemByRFID1() {
 }
 
 function getSkuItemByRFID2(expectedHTTPStatus, rfid) {
-    it('test get /api/skuitems/:rfid (wrong rfid)', function () {
-        agent.get('/api/skuitems/' + rfid)
+    it('test get /api/skuitems/:rfid (wrong rfid)', async function () {
+        await agent.get('/api/skuitems/' + rfid)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
                
@@ -169,17 +169,16 @@ function getSkuItemByRFID2(expectedHTTPStatus, rfid) {
 
 
 function putSkuItem(expectedHTTPStatus, rfid, newRFID, newAvailable, newDateOfStock) {
-    it('test put /api/skuitems/:rfid', function () {
+    it('test put /api/skuitems/:rfid', async function () {
         updates = {
             "newRFID": newRFID,
             "newAvailable": newAvailable,
             "newDateOfStock": newDateOfStock
         }
-        agent.put(`/api/skuitems/${rfid}`)
+        await agent.put(`/api/skuitems/${rfid}`)
             .send(updates)
             .then(function (res) {
-                res.should.have.status(expectedHTTPStatus);
-               
+                res.should.have.status(expectedHTTPStatus);      
             });
     });
 
@@ -187,8 +186,8 @@ function putSkuItem(expectedHTTPStatus, rfid, newRFID, newAvailable, newDateOfSt
 
 
 function deleteSkuItem(expectedHTTPStatus, rfid) {
-    it('test delete /api/skuitems/:rfid', function () {
-        agent.delete(`/api/skuitems/${rfid}`)
+    it('test delete /api/skuitems/:rfid', async function () {
+        await agent.delete(`/api/skuitems/${rfid}`)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
                 
@@ -198,14 +197,14 @@ function deleteSkuItem(expectedHTTPStatus, rfid) {
 }
 
 function getAvailableSkuItemsBySkuId(expectedHTTPStatus, rfid, skuid) {
-    it('test /api/skuitems/sku/:id', function () {
+    it('test /api/skuitems/sku/:id', async function () {
         updates = {
             "newRFID": rfid,
             "newAvailable": 1,
             "newDateOfStock": "2021/10/12 12:30"
         }
-        agent.put('/api/skuitems/' + rfid).send(updates).then(function (res) {
-            agent.get('/api/skuitems/sku/' + skuid)
+        await agent.put('/api/skuitems/' + rfid).send(updates).then(async function (res) {
+            await agent.get('/api/skuitems/sku/' + skuid)
                 .then(function (res) {
                     res.should.have.status(expectedHTTPStatus)
                     if (res.status === 200) {
