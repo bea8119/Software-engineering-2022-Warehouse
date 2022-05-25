@@ -194,10 +194,10 @@ Instead, in the code there are further tests that verify the correct behaviour o
 | 1-2                                        |  2.1                            | testSku.js > test put /api/sku/:skuId/position  --- body:data|             
 | -                                          |  2.2                               | testSku.js > test delete /api/skus/:skuId   |  
 | -                                          |  2.3                               | testSku.js >  test get /api/skus    |             
-| 2.1                                 |  3.1.1   | testPositon.js > test post /api/position --- body:data      |  
-| 2.3, 2,4                              |  3.1.1              | testPositon.js > test put /api/position/:positionID  --- body:data|             
-| 2.2                                       |  3.1.1          | testPositon.js > test put /api/position/:positionID/changeID  --- body:data    |  
-| 2.5                                        | 3.1.2           |   testPositon.js > test delete /api/position/:positionID       |     
+| 2-1                                 |  3.1.1   | testPositon.js > test post /api/position --- body:data      |  
+| 2-3, 2-4                              |  3.1.1              | testPositon.js > test put /api/position/:positionID  --- body:data|             
+| 2-2                                       |  3.1.1          | testPositon.js > test put /api/position/:positionID/changeID  --- body:data    |  
+| 2-5                                        | 3.1.2           |   testPositon.js > test delete /api/position/:positionID       |     
 | -                                        | 3.1.3                                | testPositon.js > test get /api/positions   |   
 |6-1 | 5.9 - 5.10 - 5.11 | testReturnOrder.js > test post /api/returnOrder --- body:data |         
                          
