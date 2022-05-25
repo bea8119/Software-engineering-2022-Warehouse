@@ -1,5 +1,7 @@
 const RETURNORDER_DAO = require('../datainterface/SUPPLIERINTERFACE/RETURNORDER_DAO')
 const r = new RETURNORDER_DAO()
+const RESTOCKORDER_DAO = require('../datainterface/SUPPLIERINTERFACE/RESTOCKORDER_DAO')
+const ro = new RESTOCKORDER_DAO()
 const database = require("../database");
 const db = database.db;
 
@@ -7,6 +9,8 @@ describe("test RETURNORDER", () => {
     beforeEach(async () => {
 
         await r.dropTable(db);
+        await ro.dropTable(db);
+        
 
 
         let returnOrder = {
@@ -15,10 +19,20 @@ describe("test RETURNORDER", () => {
             { SKUId: 180, description: "another product", price: 11.99, RFID: "12345678901234567890123456789038" }],
             restockOrderId: 1
         }
+        let restockOrder =
+        {
+            issueDate: "2021/11/29 09:33",
+            products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
+            { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
+            supplierId: 1
+        }
 
         try {
+            await ro.newTableName(db);
+            await ro.storeRestockOrder(db, restockOrder);
             await r.newTableName(db);
             await r.storeReturnOrder(db, returnOrder);
+            
         } catch (err) {
             console.log(err);
         }
@@ -63,7 +77,7 @@ function testStoreReturnOrders(id) {
             returnDate: "2021/11/23 09:33",
             products: [{ SKUId: 1, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" },
             { SKUId: 2, description: "another product", price: 11.99, RFID: "12345678901234567890123456789038" }],
-            restockOrderId: 2
+            restockOrderId: 1
         }
 
         await r.storeReturnOrder(db, rO);
@@ -85,7 +99,7 @@ function testStoreReturnOrders(id) {
                 price: 11.99,
                 RFID: "12345678901234567890123456789038"
             }],
-            restockOrderId: 2
+            restockOrderId: 1
         })
 
     });

@@ -91,27 +91,27 @@ class ReturnOrder_DAO {
     }
 
 
-    getStoredReturnOrders(db) {
-        return new Promise((resolve, reject) => {
+    async getStoredReturnOrders(db) {
+        return new Promise( async (resolve, reject) => {
             const sql1 = 'SELECT * FROM RETURNORDER';
             const sql2 = 'SELECT * FROM RETURNORDER_PRODUCT';
-            db.all(sql1, [], (err, returnRows) => {
+           await db.all(sql1, [], async (err, returnRows) => {
                 if (err) {
                     reject(err);
                 } else{
-                db.all(sql2, [], (err, itemrows) => {
+                await db.all(sql2, [], async (err, itemrows) => {
                     if (err) {
                         reject(err);
                     }
                     else{
                     
                        
-                        const returnorder = returnRows.map((r) => (
+                        const returnorder = await returnRows.map((r) => (
                             {
                                 id: r.id,
                                 returnDate: r.returnDate,
                                 
-                                products: itemrows.filter((i) => i.roid === r.id).map((i) => (
+                                products:  itemrows.filter( (i) => i.roid === r.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
                                         description: i.description,
