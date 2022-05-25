@@ -965,6 +965,7 @@ No criteria
 |InternalOrder_DAO > updateInternalOrderState(db, id, state) | Testing testUpdateInternalOrderState > Internal order ID not existing |
 |InternalOrder_DAO > deleteInternalOrder(db, id) | Testing testDeleteInternalOrder > Testing deleteInternalOrder |
 |InternalOrder_DAO > deleteInternalOrder(db, id) | Testing testDeleteInternalOrder > ROID existing |
+|
 
 
 ### Code coverage report
@@ -997,6 +998,12 @@ For each query of each function there are checks on the correctness of the opera
 | RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 0 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (0 restockOrders)|
 | RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 1 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (1 restockOrder)|
 | RESTOCKORDER_DAO > getStoredRestockOrder(db) | 12 | 2 | Testing getStoredRestockOrder > Testing getStoredRestockOrder (2 restockOrders)|
-||||||
+|SKU_DAO > getStoredSKU(db) |12 | 0 |Testing getStoredSKU > Zero sku stored |
+|SKU_DAO > getStoredSKU(db) |12 | 1 |Testing getStoredSKU > One sku stored |
+|SKU_DAO > getStoredSKU(db) |12 | 2 |Testing getStoredSKU > Two sku stored |
+|POSITION_DAO > getStoredPosition(db) |10 | 0 |Testing getStoredPosition > Zero position stored |
+|POSITION_DAO > getStoredPosition(db) |10 | 1 |Testing getStoredPosition > One position stored |
+|POSITION_DAO > getStoredPosition(db) |10 | 2 |Testing getStoredPosition > Two position stored |
+
 
 
