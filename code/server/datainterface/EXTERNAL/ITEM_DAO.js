@@ -128,7 +128,7 @@ class ITEM_DAO {
                     const sql2 = 'UPDATE ITEM SET  description = ?, price = ?, SKUId = ?, supplierId = ?  WHERE id = ?';
                     db.run(sql2, [ data.newDescription, data.newPrice, data.newSKUId, data.newSupplierId, id], (err) => {
                         if (err) {
-                            reject(new Error('errore seconda query'))
+                            reject(err);
                         } else {
                         resolve();
                         }

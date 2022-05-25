@@ -228,13 +228,3 @@ function testDeleteItem(Id, wrongId) {
         })
     })
 }
-
-function testTry(){
-    describe("Test di debug", () => {
-        test("Stampa Sku e RestockOrder", async () => {
-            // console.log(await t.getStoredSKU(db));
-            // console.log(await ro.getStoredRestockOrder(db));
-        });
-    });
-}
-
