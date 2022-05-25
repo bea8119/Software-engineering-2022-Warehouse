@@ -377,6 +377,34 @@ No criteria
 | NO | NO | Tries to delete an Sku whose Sku ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing Testing deleteSku", Case: "No Sku id found"|
 
 
+## CLASS RETURN ORDER
+
+### Class *RETURN ORDER* - method **storeReturnOrder(db, data)**
+**Criteria for method *storeReturnOrder(db, data)*:**
+ -None
+
+ Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates new Return Order with the passed data and then checks its correctness |Suite: "Testing storeReturnOrder "|
+
+### Class *RETURN ORDER* - method **getReturnOrders(db)**
+**Criteria for method *getReturnOrders(db)*:**
+ -None
+
+ Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Calls getReturnOrders function to check if all the Return Orders are correctly extracted from the db |Suite: "Testing getStoredReturnOrders"|
+
+### Class *RETURN ORDER* - method **deleteReturnOrder(db, id)**
+**Criteria for method *deleteReturnOrder(db, id)*:**
+ -None
+
+ Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Deletes an existing Return Order and checks if it has been removed from the database |Suite: "Testing deleteReturnOrder"|
+
+
+
 ### Class *TestDescriptor* - method **getStoredTestDescriptors(db)**
 
 **Criteria for method *getStoredTestDescriptors(db)*
@@ -905,6 +933,9 @@ No criteria
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > Maximum capacity exceeded exception |
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > No position found exception|
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
+|RETURNORDER_DAO > getStoredReturnOrders(db) | Testing getStoredReturnOrders |
+|RETURNORDER_DAO > storeReturnOrder(db, data) | Testing storeReturnOrder |
+|RETURNORDER_DAO > deleteReturnOrder(db, id) | Testing deleteReturnOrder |
 |TestDescriptor_DAO > getStoredTestDescriptors(db) | Testing getStoredTestDescriptors |
 |TestDescriptor_DAO > getTestDescriptorbyID(db, id) | Testing getTestDescriptorbyID > ID existing |
 |TestDescriptor_DAO > getTestDescriptorbyID(db, id) | Testing getTestDescriptorbyID > ID not existing |
