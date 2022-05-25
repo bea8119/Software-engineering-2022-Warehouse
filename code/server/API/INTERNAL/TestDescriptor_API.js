@@ -114,12 +114,7 @@ app.put('/api/testDescriptor/:id', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-
-app.delete('/api/testDescriptors', async (req, res) => {
-=======
 app.delete('/api/testDescriptor/emergenza/superermergenza', async (req, res) => {
->>>>>>> f48fcc40f95f8595116a9f4ee32110a8adea4a0e
     try {
         await t.dropTable(db);
         res.status(204).end()

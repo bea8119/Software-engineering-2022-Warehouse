@@ -75,7 +75,7 @@ app.delete('/api/users/:username/:type', async (req, res) => {
     let username = req.params.username
     let type = req.params.type
 
-    if (username === undefined || username === "" || (newUser.type !== "customer" && newUser.type !== "qualityEmployee" && newUser.type !== "clerk" && newUser.type !== "deliveryEmployee" && newUser.type !== "supplier" && newUser.type)) {
+    if (username === undefined || (type !== "customer" && type !== "qualityEmployee" && type !== "clerk" && type !== "deliveryEmployee" && type !== "supplier" && type)) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
 
@@ -99,10 +99,11 @@ app.put('/api/users/:username', async (req, res) => {
     let username = req.params.username;
     let type = req.body;
 
-    if (Object.keys(req.body).length === 0 ||
+    console.log(username)
+
+    if (Object.keys(req.body).length === 0 || username === undefined ||
     (type.oldType !== "customer" && type.oldType !== "qualityEmployee" && type.oldType !== "clerk" && type.oldType !== "deliveryEmployee" && type.oldType !== "supplier") ||
-    (type.newType !== "customer" && type.newType !== "qualityEmployee" && type.newType !== "clerk" && type.newType !== "deliveryEmployee" && type.newType !== "supplier") ||
-    username === undefined || username === ""
+    (type.newType !== "customer" && type.newType !== "qualityEmployee" && type.newType !== "clerk" && type.newType !== "deliveryEmployee" && type.newType !== "supplier")
     ){
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
