@@ -21,17 +21,10 @@ Version:
 
 # Dependency graph 
 
-     <report the here the dependency graph of the classes in EzWH, using plantuml or other tool>
-
 <img src="./Img/dependencygraph.png" alt="low level diagram" width="1500">
 
      
 # Integration approach
-
-    <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
-    (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
-    <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
-    <One step will  correspond to API testing>
     
 The integration approach that the team adopted is a **bottom up** approach, where:
 * the lowest layer is that of the *DAO classes* which have been individually tested by means of unit tests
@@ -45,38 +38,8 @@ since we deployed a 2-level software design, the underlying layer has already be
 The strategy was to test the highest number of cases in order to guarantee an high scenario coverage and a reliabile software (scrivere bene): an high effort has been dedicated both in the unit test (for guaranteeing an high statements, branches, functions and lines coverage)
 
 
-#  Integration Tests
-
-   <define below a table for each integration step. For each integration step report the group of classes under test, and the names of
-     Jest test cases applied to them, and the mock ups used, if any> Jest test cases should be here code/server/unit_test
-
-## Step 1
-| Classes  | mock up used |Jest test cases |
-|--|--|--|
-||||
-
-
-## Step 2
-| Classes  | mock up used |Jest test cases |
-|--|--|--|
-||||
-
-
-## Step n 
-
-   
-| Classes  | mock up used |Jest test cases |
-|--|--|--|
-||||
-
-
-
-
 # API testing - Scenarios
 
-
-<If needed, define here additional scenarios for the application. Scenarios should be named
- referring the UC in the OfficialRequirements that they detail>
 
 ## Use case 5.0.1 (before UC 5.1) - Supplier adds transport note to restock order
 
@@ -168,10 +131,6 @@ The strategy was to test the highest number of cases in order to guarantee an hi
 
 # Coverage of Scenarios and FR
 
-
-<Report in the following table the coverage of  scenarios (from official requirements and from above) vs FR. 
-Report also for each of the scenarios the (one or more) API Mocha tests that cover it. >  Mocha test cases should be here code/server/test
-
 *Note*: (p) stands for partially (i.e. just one or few more steps of the scenario are covered by the specific test)
 
 *Note*: Scenarios marked with (new) tag are the scenarios which have been added in the document
@@ -223,9 +182,6 @@ Instead, in the code there are further tests that verify the correct behaviour o
 # Coverage of Non Functional Requirements
 
 
-<Report in the following table the coverage of the Non Functional Requirements of the application - only those that can be tested with automated testing frameworks.>
-
-
 ### 
 
 | Non Functional Requirement | Test name |
@@ -247,6 +203,14 @@ Instead, in the code there are further tests that verify the correct behaviour o
 |                                  | testReturnOrder.js > test post /api/returnOrder |
 |                                  | testTestResults.js > test /api/skuitems/testResult |
 |                                  | testTestResults.js > test put /api/skuitems/:rfid/testResult/:id |
+|                                  | testInternalOrder.js > test post /api/internalOrders |
+|                                  | testInternalOrder.js > test get /api/internalOrders |
+|                                  | testInternalOrder.js > test get /api/internalOrdersIssued |
+|                                  | testInternalOrder.js > test get /api/internalOrdersAccepted |
+|                                  | testInternalOrder.js > test getById correct /api/internalOrders/:id (correct id) |
+|                                  | testInternalOrder.js > test getById wrong /api/internalOrders/:id (wrong id) |
+|                                  | testInternalOrder.js > test put /api/internalOrders/:id |
+|                                  | testInternalOrder.js > test delete /api/internalOrders/:id') |
 |Position ID is the unique identifier of a position, 12 digits, and is derived from aisle (4digits) row (4 digits) col (4 digits), 4 first digits for aisle, middle 4 for row, last 4 for col| testPosition.js > test post /api/position |
 |                                   |  testPosition.js > test put /api/position/:positionID |
 |                                   |  testPosition.js > test put /api/position/:positionID/changeID |
@@ -262,12 +226,4 @@ Instead, in the code there are further tests that verify the correct behaviour o
 |                                     | testItem.js > test getById wrong /api/items/:id (wrong correct id) |
 |                                     | testItem.js > test put /api/item/:id |
 |                                     | testItem.js > test delete /api/items/:id |
-|    Date Format is YYYY/MM/GG HH:MM    | testInternalOrder.js > test post /api/internalOrders |
-|                                     | testInternalOrder.js > test get /api/internalOrders |
-|                                     | testInternalOrder.js > test get /api/internalOrdersIssued |
-|                                     | testInternalOrder.js > test get /api/internalOrdersAccepted |
-|                                     | testInternalOrder.js > test getById correct /api/internalOrders/:id (correct id) |
-|                                     | testInternalOrder.js > test getById wrong /api/internalOrders/:id (wrong id) |
-|                                     | testInternalOrder.js > test put /api/internalOrders/:id |
-|                                     | testInternalOrder.js > test delete /api/internalOrders/:id') |
 

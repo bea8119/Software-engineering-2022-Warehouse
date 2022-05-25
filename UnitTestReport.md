@@ -16,13 +16,6 @@ Version:
 
 # Black Box Unit Tests
 
-    <Define here criteria, predicates and the combination of predicates for each function of each class.
-    Define test cases to cover all equivalence classes and boundary conditions.
-    In the table, report the description of the black box test case and (traceability) the correspondence with the Jest test case writing the 
-    class and method name that contains the test case>
-    <Jest tests  must be in code/server/unit_test  >
-
-
 ## CLASS SKUITEM
 ### Class *SKUITEM_DAO* - method **storeSKUItem(db, data)**
 
@@ -888,11 +881,6 @@ No criteria
 # White Box Unit Tests
 
 ### Test cases definition
-    
-    
-    <Report here all the created Jest test cases, and the units/classes under test >
-    <For traceability write the class and method name that contains the test case>
-
 
 | Unit name | Jest test case |
 |--|--|
@@ -1007,9 +995,6 @@ No criteria
 
 ### Code coverage report
 
-    <Add here the screenshot report of the statement and branch coverage obtained using
-    the coverage tool. >
-
 The jest command used is *node ./node_modules/jest/bin/jest.js **--runInBand** --coverage*, where the runInBand option, allowing a sequential execution of the various test files, is necessary to avoid concurrency problems in the database access.
 
 <img src="./Img/coverage.png" alt="coverage" width="1000">
@@ -1023,9 +1008,6 @@ These branches are accessible in case of errors in the SQL code, loss of network
 For each query of each function there are checks on the correctness of the operation: the team therefore decided to prefer a more robust code to generic errors rather than a greater testability with a consequent increase in branch coverage.
 
 ### Loop coverage analysis
-
-    <Identify significant loops in the units and reports the test cases
-    developed to cover zero, one or multiple iterations >
 
 |Unit name | Loop rows | Number of iterations | Jest test case |
 |---|---|---|---|
@@ -1041,6 +1023,12 @@ For each query of each function there are checks on the correctness of the opera
 |POSITION_DAO > getStoredPosition(db) |10 | 0 |Testing getStoredPosition > Zero position stored |
 |POSITION_DAO > getStoredPosition(db) |10 | 1 |Testing getStoredPosition > One position stored |
 |POSITION_DAO > getStoredPosition(db) |10 | 2 |Testing getStoredPosition > Two position stored |
-
-
-
+| ITEM_DAO > getStoredItem(db) | 8 | 0 | Testing getStoredItem > Testing getStoredItem (0 items)|
+| ITEM_DAO > getStoredItem(db) | 8 | 1 | Testing getStoredItem > Testing getStoredItem (1 item)|
+| ITEM_DAO > getStoredItem(db) | 8 | 2 | Testing getStoredItem > Testing getStoredItem (2 items)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 0 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (0 items)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 1 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (1 item)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 2 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (2 items)|
+| TestDescriptor_DAO > getStoredTestDescriptors(db) | 6 | 0 | Testing getStoredSKUItem > Testing getStoredSKUItem (0 items)|
+| TestDescriptor_DAO > getStoredTestDescriptors(db) | 6 | 1 | Testing getStoredSKUItem > Testing getStoredSKUItem (1 item)|
+| TestDescriptor_DAO > getStoredTestDescriptors(db) | 6 | 2 | Testing getStoredSKUItem > Testing getStoredSKUItem (2 items)|

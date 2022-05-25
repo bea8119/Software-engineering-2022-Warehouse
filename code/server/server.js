@@ -23,6 +23,7 @@ module.exports = {
 
 
 /* API modules to import */ 
+require('./dbinit')
 require('./API/INTERNAL/SKU_API');
 require('./API/INTERNAL/POSITION_API');
 require('./API/INTERNAL/SKUITEM_API');

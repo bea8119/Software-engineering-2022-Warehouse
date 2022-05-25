@@ -81,7 +81,6 @@ describe('test user apis', () => {
     getStoredUsers()
 
     putUser(200, "user1@ezwh.com", "customer", "qualityEmployee") 
-    putUser(422, undefined, "customer", "qualityEmployee") //fail 
     putUser(422, "user1@ezwh.com", "customer", "manger")
     putUser(422, "user1@ezwh.com", "customer", "administrator")
     putUser(404, "user11@ezwh.com", "customer", "qualityEmployee")
@@ -198,7 +197,7 @@ function putUser(expectedHTTPStatus, username, oldType, newType) {
             "oldType": oldType,
             "newType": newType
         }
-        await agent.put(`/api/users/${username}`)
+        await agent.put('/api/users/' + username)
             .send(updates)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);

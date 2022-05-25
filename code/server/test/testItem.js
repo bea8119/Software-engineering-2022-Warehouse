@@ -32,7 +32,7 @@ describe('test item apis', () => {
         }
 
         await agent.delete('/api/item/emergenza');
-        await agent.delete('/api/sku/emergenza');
+        await agent.delete('/api/skus');
         await agent.delete('/api/emergenza/emergenza');
         await agent.post('/api/sku').send(sku);
         await agent.post('/api/restockOrder').send(restockOrder);

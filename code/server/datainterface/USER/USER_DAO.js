@@ -1,5 +1,9 @@
 'use strict';
 
+/* md5 password encryption */
+
+const md5 = require("blueimp-md5");
+
 class USER_DAO {
 
     constructor() { }
@@ -32,7 +36,7 @@ class USER_DAO {
                     reject(new Error('Conflict'));
                 } else {
                     const sql2 = 'INSERT INTO USER(username,  name, surname, password, type) VALUES (?, ?, ?, ? ,?)';
-                    db.run(sql2, [data.username, data.name, data.surname, data.password, data.type], (err) => {
+                    db.run(sql2, [data.username, data.name, data.surname, md5(data.password), data.type], (err) => {
                         if (err) {
                             reject(err);
                         } else {
@@ -54,16 +58,16 @@ class USER_DAO {
                 if (err) {
                     reject(err);
                 } else {
-                const user = rows.map((r) => (
-                    {
-                        id: r.id,
-                        name: r.name,
-                        surname: r.surname,
-                        email: r.username,
-                        type: r.type
-                    }
-                ));
-                resolve(user);
+                    const user = rows.map((r) => (
+                        {
+                            id: r.id,
+                            name: r.name,
+                            surname: r.surname,
+                            email: r.username,
+                            type: r.type
+                        }
+                    ));
+                    resolve(user);
                 }
             });
         });
@@ -78,15 +82,15 @@ class USER_DAO {
                 if (err) {
                     reject(err);
                 } else {
-                const user = rows.map((r) => (
-                    {
-                        id: r.id,
-                        name: r.name,
-                        surname: r.surname,
-                        email: r.username
-                    }
-                ));
-                resolve(user);
+                    const user = rows.map((r) => (
+                        {
+                            id: r.id,
+                            name: r.name,
+                            surname: r.surname,
+                            email: r.username
+                        }
+                    ));
+                    resolve(user);
                 }
             });
         });
@@ -111,7 +115,7 @@ class USER_DAO {
                         if (err) {
                             reject(err);
                         } else {
-                        resolve();
+                            resolve();
                         }
                     });
                 }
@@ -138,7 +142,7 @@ class USER_DAO {
                         if (err) {
                             reject(err);
                         } else {
-                        resolve();
+                            resolve();
                         }
                     });
 
@@ -338,6 +342,7 @@ class USER_DAO {
         })
     }
 }
+
 
 
 /* Export class USER_DAO with methods */

@@ -30,7 +30,7 @@ describe('test skuitem apis', () => {
         }
 
         await agent.delete('/api/skuitem/emergenza');
-        await agent.delete('/api/sku/emergenza')
+        await agent.delete('/api/skus')
         await agent.post('/api/sku').send(sku)
         await agent.post('/api/skuitem').send(skuitem1)
         await agent.post('/api/skuitem').send(skuitem2)

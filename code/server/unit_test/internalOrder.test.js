@@ -50,6 +50,25 @@ describe("Test internal order", () => {
     testUpdateInternalOrderSkuProducts(1, "2021/11/29 09:33", "COMPLETED", completedProducts, 1, 13, expectedProduct, wrongCompletedProducts);
     testUpdateInternalOrderState(1, "2021/11/29 09:33", "ACCEPTED", products, 1, 13);
     testDeleteInternalOrder(1, 13);
+
+
+    let internalOrder = {
+        id: 1,
+        state: "ACCEPTED",
+        issueDate: "2021/11/29 09:33",
+        products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 3 },
+        { SKUId: 180, description: "another product", price: 11.99, qty: 3 }],
+        customerId: 1
+    }
+    let internalOrder1 = {
+        id: 2,
+        state: "ACCEPTED",
+        issueDate: "2021/11/29 09:33",
+        products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 3 },
+        { SKUId: 180, description: "another product", price: 11.99, qty: 3 }],
+        customerId: 1
+    }
+    testLoopGetStoredInternalOrder(internalOrder, internalOrder1);
 });
 
 function testGetStoredInternalOrder(Id, IssueDate, State, Products, CustomerId) {
@@ -215,4 +234,28 @@ function testDeleteInternalOrder(Id, wrongId) {
             await expect(i.deleteInternalOrder(db, wrongId)).rejects.toThrow('ID not found');
         })
     })
+}
+
+function testLoopGetStoredInternalOrder(internalOrder, internalOrder1) {
+    describe('Testing getStoredITEM in loop', () => {
+        test('2 Items', async () => {
+            await i.storeInternalOrder(db, internalOrder1);
+            let res = await i.getStoredInternalOrder(db);
+            //console.log(res);
+            expect(res).toEqual([internalOrder, internalOrder1]);
+        });
+
+        test('1 Items', async () => {
+            let res = await i.getStoredInternalOrder(db);
+            //console.log(res);
+            expect(res).toEqual([internalOrder]);
+        });
+
+        test('0 Items', async () => {
+            await i.deleteInternalOrder(db, 1);
+            let res = await i.getStoredInternalOrder(db);
+            //console.log(res);
+            expect(res).toEqual([]);
+        });
+    });
 }

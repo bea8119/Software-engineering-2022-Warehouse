@@ -116,22 +116,69 @@ describe("test restockOrders", () => {
 
 
 function testGetStoredRestockOrder() {
-    test("Testing getStoredRestockOrder", async () => {
-        let res = await r.getStoredRestockOrder(db)
-        expect(res).toEqual(
-            [
-                {
-                    id: 1,
-                    issueDate: "2021/11/29 09:33",
-                    state: "ISSUED",
-                    products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
-                    { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
-                    supplierId: 1,
-                    transportNote: {},
-                    skuItems: []
-                }
-            ]
-        )
+
+    describe("Testing getStoredRestockOrder", () => {
+        test("Testing getStoredRestockOrder (0 restockOrders)", async () => {
+            await r.deleteRestockOrder(db, 1)
+            let res = await r.getStoredRestockOrder(db)
+            expect(res).toEqual(
+                []
+            )
+        })
+        test("Testing getStoredRestockOrder (1 restockOrder)", async () => {
+            let res = await r.getStoredRestockOrder(db)
+            expect(res).toEqual(
+                [
+                    {
+                        id: 1,
+                        issueDate: "2021/11/29 09:33",
+                        state: "ISSUED",
+                        products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
+                        { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
+                        supplierId: 1,
+                        transportNote: {},
+                        skuItems: []
+                    }
+                ]
+            )
+        })
+        test("Testing getStoredRestockOrder (2 restockOrders)", async () => {
+            restockOrder = {
+                issueDate: "2021/11/29 10:31",
+                products: [
+                    { SKUId: 13, description: "a product", price: 10.99, qty: 30 },
+                    { SKUId: 181, description: "another product", price: 8.99, qty: 20 }
+                ],
+                supplierId: 1
+            }
+    
+            await r.storeRestockOrder(db, restockOrder);
+            let res = await r.getStoredRestockOrder(db)
+            expect(res).toEqual(
+                [
+                    {
+                        id: 1,
+                        issueDate: "2021/11/29 09:33",
+                        state: "ISSUED",
+                        products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
+                        { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
+                        supplierId: 1,
+                        transportNote: {},
+                        skuItems: []
+                    },
+                    {
+                        id: 2,
+                        issueDate: "2021/11/29 10:31",
+                        state: "ISSUED",
+                        products: [{ SKUId: 13, description: "a product", price: 10.99, qty: 30 },
+                        { SKUId: 181, description: "another product", price: 8.99, qty: 20 }],
+                        supplierId: 1,
+                        transportNote: {},
+                        skuItems: []
+                    }
+                ]
+            )
+        })
     })
 }
 
@@ -406,7 +453,7 @@ function testGetSkuItemsToReturn(id, wrongid) {
             await r.updateRestockOrderState(db, id, state2)
             var res = await r.getSkuItemsToReturn(db, id);
             expect(res).toEqual(
-                    [{ SKUId: 1, rfid: "12345678901234567890123456789748" }]
+                [{ SKUId: 1, rfid: "12345678901234567890123456789748" }]
             )
         })
 
