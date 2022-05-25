@@ -119,3 +119,14 @@ app.put('/api/testDescriptor/:id', async (req, res) => {
         }
     }
 });
+
+
+app.delete('/api/testDescriptors', async (req, res) => {
+    try {
+        await t.dropTable(db);
+        res.status(204).end()
+    }
+    catch (err) {
+        res.status(500).end()
+    }
+});

@@ -55,43 +55,7 @@ app.get('/api/skus', async (req, res) => {
 
 
 
-/* SKU Delete */
 
-app.delete('/api/skus', (req, res) => {
-    try {
-        s.dropTable(db);
-        res.status(204).end();
-    }
-    catch (err) {
-        res.status(500).end();
-    }
-});
-
-app.delete('/api/skus/:id', async (req, res) => {
-
-    if (Object.keys(req.params).length === 0) {
-        return res.status(422).json({ error: 'Unprocessable entity' });
-    }
-
-    let id = req.params.id;
-
-
-    if (id === undefined || isNaN(id)) {
-        res.status(422).json("Unprocessable entity")
-    }
-
-    try {
-        await s.deleteSKU(db, id);
-        res.status(204).end();
-    }
-    catch (err) {
-        if (err.message === "ID not found") {
-            res.status(422).end()
-        } else {
-            res.status(503).end()
-        }
-    }
-});
 
 
 /* SKU get by ID */
@@ -170,7 +134,7 @@ app.put('/api/sku/:id', async (req, res) => {
     
 
     try {
-       // const oldSku = await s.getSKUbyID(db, id);
+      
         await s.updateSKUposition(db, id, position);
         return res.status(200).end();
     }
@@ -195,15 +159,46 @@ app.put('/api/sku/:id', async (req, res) => {
     
 });
 
-app.delete('/api/sku/emergenza', async (req, res) => {
+
+/* SKU Delete */
+
+app.delete('/api/skus', (req, res) => {
     try {
-        await s.dropTable(db);
-        res.status(204).end()
+        s.dropTable(db);
+        res.status(204).end();
     }
     catch (err) {
-        res.status(500).end()
+        res.status(500).end();
     }
 });
+
+app.delete('/api/skus/:id', async (req, res) => {
+
+    if (Object.keys(req.params).length === 0) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
+
+    let id = req.params.id;
+
+
+    if (id === undefined || isNaN(id)) {
+        res.status(422).json("Unprocessable entity")
+    }
+
+    try {
+        await s.deleteSKU(db, id);
+        res.status(204).end();
+    }
+    catch (err) {
+        if (err.message === "ID not found") {
+            res.status(422).end()
+        } else {
+            res.status(503).end()
+        }
+    }
+});
+
+
 
 
 

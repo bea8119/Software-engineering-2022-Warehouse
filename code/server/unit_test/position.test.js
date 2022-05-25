@@ -157,7 +157,7 @@ function testUpdatePositionID(oldPositionID, newPositionID, wrongID) {
 
 function testDeletePosition(id, wrongid) {
     describe('Testing deletePosition', () => {
-        test('Position id existing', async () => {
+        test('Position id found', async () => {
             await p.deletePosition(db, id)
             await expect(p.getStoredPosByID(db, id)).rejects.toThrow('ID not found');
         })
