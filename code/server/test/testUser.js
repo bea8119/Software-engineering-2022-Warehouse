@@ -33,14 +33,6 @@ describe('test user apis', () => {
             type: "supplier"
         }
 
-        let user4 = { 
-            username:"massimo.palermo@manager.ezwh.com",
-            name:"Massimo",
-            surname: "Palermo",
-            password: "testpassword4",
-            type: "manager"
-        }
-
         let user5 = { 
             username:"franco.negri@clerk.ezwh.com",
             name:"Franco",
@@ -69,11 +61,11 @@ describe('test user apis', () => {
         await agent.post('/api/newUser').send(user1)
         await agent.post('/api/newUser').send(user2)
         await agent.post('/api/newUser').send(user3)
-        await agent.post('/api/newUser').send(user4)
         await agent.post('/api/newUser').send(user5)
         await agent.post('/api/newUser').send(user6)
         await agent.post('/api/newUser').send(user7)
     })
+
 
     deleteAllData(204);
 
@@ -88,18 +80,15 @@ describe('test user apis', () => {
     getStoredSuppliers()
     getStoredUsers()
 
-    putUser(201, "user1@ezwh.com", "customer", "qualityEmployee")
-    putUser(422, undefined, "customer", "qualityEmployee")
-    putUser(422, "", "customer", "qualityEmployee")
+    putUser(200, "user1@ezwh.com", "customer", "qualityEmployee") 
     putUser(422, "user1@ezwh.com", "customer", "manger")
     putUser(422, "user1@ezwh.com", "customer", "administrator")
     putUser(404, "user11@ezwh.com", "customer", "qualityEmployee")
-    
-    deleteUser(204, "user1@ezwh.com", "customer")
-    deleteUser(422, "massimo.palermo@manager.ezwh.com", "manager")
-    deleteUser(422, "user1@ezwh.com", "customerr")
-    deleteUser(422, "", "customer")
-    deleteUser(422, undefined, "customer")
+
+    deleteUser(204, "user1@ezwh.com", "customer") 
+    deleteUser(422, "massimo.palermo@manager.ezwh.com", "manager") 
+    deleteUser(422, "user1@ezwh.com", "customerr") 
+    deleteUser(422, undefined, "customer") 
 });
 
 function deleteAllData(expectedHTTPStatus) {
@@ -177,19 +166,19 @@ function getStoredUsers() {
                         "email":"michael.jordan@supplier.ezwh.com",
                         "type": "supplier"
                     },{
-                        "id": 5,
+                        "id": 4,
                         "name":"Franco",
                         "surname": "Negri",
                         "email":"franco.negri@clerk.ezwh.com",
                         "type": "clerk"
                     },{
-                        "id": 6,
+                        "id": 5,
                         "name":"Mariangela",
                         "surname": "Romano",
                         "email":"mariangela.romano@qualityemployee.ezwh.com",
                         "type": "qualityEmployee"
                     },{
-                        "id": 7,
+                        "id": 6,
                         "name":"Andrea",
                         "surname": "Bindoni",
                         "email":"andrea.bindoni@deliveryemployee.ezwh.com",
@@ -208,7 +197,7 @@ function putUser(expectedHTTPStatus, username, oldType, newType) {
             "oldType": oldType,
             "newType": newType
         }
-        await agent.put(`/api/users/${username}`)
+        await agent.put('/api/users/' + username)
             .send(updates)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -217,8 +206,8 @@ function putUser(expectedHTTPStatus, username, oldType, newType) {
 }
 
 function deleteUser(expectedHTTPStatus, username, type) {
-    it('test /api/users/:username/:type', async () => {
-        await agent.delete('/api/users/' + username + '/' + type)
+    it('test delete /api/users/:username/:type', async () => {
+        await agent.delete(`/api/users/${username}/${type}`)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
             });

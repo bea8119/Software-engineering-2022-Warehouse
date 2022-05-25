@@ -77,8 +77,29 @@ describe("test sku", () => {
             console.log(err)
         }
     })
+
+    let sku1 = {
+        id:1,
+        description: "sku1",
+        weight: 100,
+        volume: 50,
+        notes: "first SKU",
+        availableQuantity: 50,
+        price: 10.99
+       
+    }
+    let sku2 = {
+        id: 2,
+        description: "sku1",
+        weight: 100,
+        volume: 50,
+        notes: "first SKU",
+        availableQuantity: 50,
+        price: 10.99
+       
+    }
    
-    testGetStoredSKU(1, "sku1", 100, 50, "first SKU", 50, 10.99);
+    testGetStoredSKU(1, sku1, sku2);
     testStoreSKU(2, "sku2", 1, 50, "second SKU", 5, 11.99);
     testUpdateSKU(1, 10);
     testUpdateSKUposition(1, 10);
@@ -87,24 +108,73 @@ describe("test sku", () => {
 });
 
 
-function testGetStoredSKU(id, description, weight, volume, notes, availableQuantity, price) {
-    test("Testing getStoredSKU", async () => {
-        
-        let res = await s.getStoredSKU(db);
+function testGetStoredSKU(id, sku1, sku2) {
+    describe("Testing getStoredSKU",  () => {
+        test("One sku stored", async () => {
+
+            let res = await s.getStoredSKU(db);
         
         let td = await t.getStoredTestDescriptors(db);
         
         expect(res).toEqual([{
-            id: id,
-            description: description,
-            weight: weight,
-            volume: volume,
-            notes: notes,
+            id: sku1.id,
+            description: sku1.description,
+            weight: sku1.weight,
+            volume: sku1.volume,
+            notes: sku1.notes,
             position: null,
-            availableQuantity: availableQuantity,
-            price: price,
-            testDescriptors: Object.values(td).filter((t) => t.idSKU === id).map((i) => i.id)
+            availableQuantity: sku1.availableQuantity,
+            price: sku1.price,
+            testDescriptors: Object.values(td).filter((t) => t.idSKU === sku1.id).map((i) => i.id)
         }])
+
+        })
+
+        test("Two sku stored", async () => {
+        
+            await s.storeSKU(db, sku2);
+
+         let res = await s.getStoredSKU(db);
+        
+        let td = await t.getStoredTestDescriptors(db);
+        
+        expect(res).toEqual([{
+            id: sku1.id,
+            description: sku1.description,
+            weight: sku1.weight,
+            volume: sku1.volume,
+            notes: sku1.notes,
+            position: null,
+            availableQuantity: sku1.availableQuantity,
+            price: sku1.price,
+            testDescriptors: Object.values(td).filter((t) => t.idSKU === sku1.id).map((i) => i.id)
+        },
+        {
+            id: sku2.id,
+            description: sku2.description,
+            weight: sku2.weight,
+            volume: sku2.volume,
+            notes: sku2.notes,
+            position: null,
+            availableQuantity: sku2.availableQuantity,
+            price: sku2.price,
+            testDescriptors: Object.values(td).filter((t) => t.idSKU === sku2.id).map((i) => i.id)
+        }])
+
+        })
+
+        test("Zero sku stored", async () => {
+            await s.deleteSKU(db, sku1.id);
+
+            let res = await s.getStoredSKU(db);
+        
+        let td = await t.getStoredTestDescriptors(db);
+        
+        expect(res).toEqual([])
+
+        })
+        
+        
     })
 }
 
@@ -292,7 +362,7 @@ function testUpdateSKUposition(id, wrongid) {
             await expect(s.updateSKUposition(db, id, wrongposition)).rejects.toThrow('ID position not found');
         })
 
-        test('No SKUId found', async () => {
+        test('SKU Id not found', async () => {
             let newposition = {
                 position: "800234546669"
             }

@@ -44,6 +44,7 @@ class POSITION_DAO {
                 if (err) {
                     reject(err);
                 }
+                else{
                 const position = rows.map((r) => (
                     {
                         positionID: r.positionID,
@@ -56,7 +57,9 @@ class POSITION_DAO {
                         occupiedVolume: r.occupiedVolume
                     }
                 ));
+
                 resolve(position);
+                }
             });
         });
     }

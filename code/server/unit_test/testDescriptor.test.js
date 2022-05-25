@@ -64,6 +64,8 @@ describe("test testDesciptors", () => {
     teststoreTestDescriptor(3);
     testdeleteTestDescriptor(1, 4); //first id correct, second doesn't exist
     testupdateTestDescriptor(1, 4); //first id correct, second doesn't exist
+
+    testLoopGetStoredTestDescriptor()
 });
 
 
@@ -179,4 +181,43 @@ function testdeleteTestDescriptor(id, wrongid) {
             await expect(td.deleteTestDescriptor(db, wrongid)).rejects.toThrow('ID not found');
         })
     })
+}
+
+function testLoopGetStoredTestDescriptor() {
+    let testDescriptor1 = {
+        id: 1,
+        name: "test descriptor 1",
+        procedureDescription: "This test is described by...",
+        idSKU: 1
+    }
+
+    let testDescriptor2 = {
+        id: 2,
+        name:"test descriptor 2",
+        procedureDescription: "This test is described by...",
+        idSKU :2
+    }
+
+    describe('Testing getStoredTestDescriptor in loop', () => {
+        test('2 TestDescriptors', async () => {
+            let res = await td.getStoredTestDescriptors(db);
+            //console.log(res);
+            expect(res).toEqual([testDescriptor1, testDescriptor2]);
+        });
+
+        test('1 TestDescriptor', async () => {
+            await td.deleteTestDescriptor(db, 2);
+            let res = await td.getStoredTestDescriptors(db);
+            //console.log(res);
+            expect(res).toEqual([testDescriptor1]);
+        });
+
+        test('0 TestDescriptors', async () => {
+            await td.deleteTestDescriptor(db, 1);
+            await td.deleteTestDescriptor(db, 2);
+            let res = await td.getStoredTestDescriptors(db);
+            //console.log(res);
+            expect(res).toEqual([]);
+        });
+    });
 }

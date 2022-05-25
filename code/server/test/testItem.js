@@ -19,9 +19,9 @@ describe('test item apis', () => {
         }
         let restockOrder = {
             issueDate: "2021/11/29 09:33",
-            products: [{SKUId: 12, description: "a product", price: 10.99, qty: 30},
-                        {SKUId: 180, description: "another product", price: 11.99, qty: 20}],
-            supplierId : 1
+            products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
+            { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
+            supplierId: 1
         }
         let item = {
             id: 1,
@@ -32,7 +32,7 @@ describe('test item apis', () => {
         }
 
         await agent.delete('/api/item/emergenza');
-        await agent.delete('/api/sku/emergenza');
+        await agent.delete('/api/skus');
         await agent.delete('/api/emergenza/emergenza');
         await agent.post('/api/sku').send(sku);
         await agent.post('/api/restockOrder').send(restockOrder);
@@ -45,8 +45,8 @@ describe('test item apis', () => {
     postItem(201, 2, "a new item", 10.99, 1, 1);
     postItem(201, 2, "", 10.99, 1, 1);
 
-     postItem(404, 2, "a new item", 10.99, 2, 1);
-     postItem(422, 12, "a new item", 10.99, 1, 1);
+    postItem(404, 2, "a new item", 10.99, 2, 1);
+    postItem(422, 12, "a new item", 10.99, 1, 1);
 
     postItem(422, undefined, "a new item", 10.99, 1, 2);
     postItem(422, 1, undefined, 10.99, 1, 2);
@@ -73,16 +73,16 @@ describe('test item apis', () => {
 });
 
 function deleteAllData(expectedHTTPStatus) {
-    it('test /api/item/emergenza (deleting data...)', async () => {
-            await agent.delete('/api/item/emergenza')
-                .then(function (res) {
-                    res.should.have.status(expectedHTTPStatus);
-                });
-        });
+    it('test drop /api/item/emergenza (deleting data...)', async () => {
+        await agent.delete('/api/item/emergenza')
+            .then(function (res) {
+                res.should.have.status(expectedHTTPStatus);
+            });
+    });
 }
 
 function postItem(expectedHTTPStatus, id, description, price, SKUId, supplierId) {
-    it('test /api/item', async () => {
+    it('test post /api/item', async () => {
         let item = {
             "id": id,
             "description": description,
@@ -92,14 +92,14 @@ function postItem(expectedHTTPStatus, id, description, price, SKUId, supplierId)
         }
         await agent.post('/api/item')
             .send(item)
-            .then(function (res){
+            .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
             });
     });
 }
 
 function getItem(expectedHTTPStatus, id, description, price, SKUId, supplierId) {
-    it('test /api/items', async () => {
+    it('test get /api/items', async () => {
         await agent.get('/api/items')
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -117,8 +117,8 @@ function getItem(expectedHTTPStatus, id, description, price, SKUId, supplierId) 
 }
 
 function getItemByIDC(expectedHTTPStatus, id, description, price, SKUId, supplierId, Id) {
-    it('test get /api/items/:id (wrong correct id)', async () => {
-        await agent.get('/api/items/'+ Id)
+    it('test getById correct /api/items/:id (wrong correct id)', async () => {
+        await agent.get('/api/items/' + Id)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
                 res.body.should.eql(
@@ -136,10 +136,10 @@ function getItemByIDC(expectedHTTPStatus, id, description, price, SKUId, supplie
 }
 
 function getItemByIDW(expectedHTTPStatus, id, description, price, SKUId, supplierId, Id) {
-    it('test get /api/items/:id (wrong correct id)', async () => {
+    it('test getById wrong /api/items/:id (wrong correct id)', async () => {
         await agent.get(`/api/items/${Id}`)
             .then(function (res) {
-                res.should.have.status(expectedHTTPStatus);            
+                res.should.have.status(expectedHTTPStatus);
             });
     });
 }
@@ -151,10 +151,10 @@ function putItem(expectedHTTPStatus, price, SKUId, supplierId, Id) {
             "SKUId": SKUId,
             "supplierId": supplierId
         }
-        await agent.put('/api/item/'+Id)
+        await agent.put('/api/item/' + Id)
             .send(newItem)
             .then(function (res) {
-                res.should.have.status(expectedHTTPStatus);  
+                res.should.have.status(expectedHTTPStatus);
             });
     });
 
@@ -162,9 +162,9 @@ function putItem(expectedHTTPStatus, price, SKUId, supplierId, Id) {
 
 function deleteItem(expectedHTTPStatus, Id) {
     it('test delete /api/items/:id', function () {
-        agent.delete('/api/items/'+Id)
+        agent.delete('/api/items/' + Id)
             .then(function (res) {
-                res.should.have.status(expectedHTTPStatus);  
+                res.should.have.status(expectedHTTPStatus);
             });
     });
 

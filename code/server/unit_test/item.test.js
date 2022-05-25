@@ -23,9 +23,9 @@ describe("Test items", () => {
         }
         let restockOrder = {
             issueDate: "2021/11/29 09:33",
-            products: [{SKUId: 12, description: "a product", price: 10.99, qty: 30},
-                        {SKUId: 180, description: "another product", price: 11.99, qty: 20}],
-            supplierId : 1
+            products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
+            { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
+            supplierId: 1
         }
         let item = {
             id: 1,
@@ -54,8 +54,29 @@ describe("Test items", () => {
     testGetStoredITEMbyID(1, "a new item", 10.99, 1, 1, 2, null);
     testUpdateItem(1, "a new item", 10.99, 1, 1, 13);
     testDeleteItem(1, 13);
-    
-    
+
+    let item = {
+        id: 1,
+        description: "a new item",
+        price: 10.99,
+        SKUId: 1,
+        supplierId: 1
+    }
+    let item1 = {
+        id: 2,
+        description: "a new item",
+        price: 10.99,
+        SKUId: 1,
+        supplierId: 1
+    }
+    let item2 = {
+        id: 3,
+        description: "a new item",
+        price: 10.99,
+        SKUId: 1,
+        supplierId: 1
+    }
+    testLoopGetStoredITEM(item, item1, item2);
 });
 
 function testGetStoredITEM(Id, Description, Price, SKUID, SupplierId) {
@@ -229,12 +250,26 @@ function testDeleteItem(Id, wrongId) {
     })
 }
 
-function testTry(){
-    describe("Test di debug", () => {
-        test("Stampa Sku e RestockOrder", async () => {
-            // console.log(await t.getStoredSKU(db));
-            // console.log(await ro.getStoredRestockOrder(db));
+function testLoopGetStoredITEM(item, item1, item2) {
+    describe('Testing getStoredITEM in loop', () => {
+        test('2 Items', async () => {
+            await i.storeITEM(db, item1);
+            let res = await i.getStoredITEM(db);
+            //console.log(res);
+            expect(res).toEqual([item, item1]);
+        });
+
+        test('1 Items', async () => {
+            let res = await i.getStoredITEM(db);
+            //console.log(res);
+            expect(res).toEqual([item]);
+        });
+
+        test('0 Items', async () => {
+            await i.deleteItem(db, item.id);
+            let res = await i.getStoredITEM(db);
+            //console.log(res);
+            expect(res).toEqual([]);
         });
     });
 }
-

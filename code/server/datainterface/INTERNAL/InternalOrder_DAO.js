@@ -45,18 +45,16 @@ class InternalOrder_DAO {
                         if (err) {
                             reject(err);
                         }
-                        else {
+                        else if (data.products.length !==0) {
                             data.products.map((product) => {
                                 db.run(sql2, [r.lastioid, product.SKUId, product.description, product.price, product.qty, null], (err) => { //RFID viene messo a null perchè lo stato è accepted
                                     if (err) {
                                         reject(err);
                                     }
-                                    else {
-                                        resolve();
-                                    }
                                 });
                             });
                         }
+                        resolve();
                     });
                 }
             });
