@@ -189,7 +189,6 @@ class ReturnOrder_DAO {
                     reject(err)
                 }
                 else if (r.count === 0) {
-                    console.log(r.count)
                     reject(new Error('ID not found'))
                 }
                 else {

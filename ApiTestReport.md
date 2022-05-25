@@ -206,8 +206,18 @@ Instead, in the code there are further tests that verify the correct behaviour o
 | 10-1 | 6.3 | testInternalOrder.js > test put /api/internalOrders/:id --- body:data |
 | - | 6.4 | testInternalOrder.js > test put /api/internalOrders/:id --- body:data |
 | - | 6.5, 6.6, 6.7, 6.8 | testInternalOrder.js > test put /api/internalOrders/:id --- body:data |
-
-
+| 3-2 (p) | 5.5 | testUser.js > test get /api/suppliers |
+| 4-2 (p) | 1.3 | testUser.js > test /api/users |
+| 4-1 | 1.1, 4.1 | testUser.js > test post /api/newUser |
+| 4-2 | 1.1, 4.1 | testUser.js > test put /api/users/:username |
+| 4-3 | 1.2, 4.2 | testUser.js > test delete /api/users/:username/:type |
+| 12-1 | 3.2.1 | testDescriptor.js > test post /api/testDescriptor |
+| 12-2 | 3.2.2 | testDescriptor.js > test put /api/testDescriptor/:id |
+| 12-3 | 3.2.3 | testDescriptor.js > test delete /api/testDescriptor/:id |
+| 5-2-1 (p), 5-2-2(p), 5-2-3 (p) | 3.2.1, 5.8.2 | testTestResults.js > test /api/skuitems/testResult |
+| - | 3.2.2 | testTestResults.js > test put /api/skuitems/:rfid/testResult/:id |
+| 6-1(p), 6-2(p) | 3.2.3 | testTestResults.js > test delete /api/skuitems/:rfid/testResult/:id |
+| 5-3-2 (p), 5-3-3 (p), 6-1(p), 6-2(p) | 3.2.3 | testTestResults.js > test get /api/skuitems/:rfid/testResults |
 
 
 # Coverage of Non Functional Requirements
@@ -224,12 +234,19 @@ Instead, in the code there are further tests that verify the correct behaviour o
 |                                  | testSkuItem.js > test put /api/skuitems/:rfid |
 |                                  | testSkuItem.js > test get /api/skuitems/:rfid (both correct and wrong case) |
 |                                  | testSkuItem.js > test delete /api/skuitems/:rfid|
+|                                  | testTestResults.js > test /api/skuitems/testResult |
+|                                  | testTestResults.js > test get /api/skuitems/:rfid/testResults (both correct and wrong case) |
+|                                  | testTestResults.js > test get /api/skuitems/:rfid/testResults/:id (correct and wrong rfid and/or id) |
+|                                  | testTestResults.js > test put /api/skuitems/:rfid/testResult/:id |
+|                                  | testTestResults.js > test delete /api/skuitems/:rfid/testResult/:id |
 | Date Format is YYYY/MM/GG HH:MM  | testRestockOrder.js > test put /api/restockOrder/:id/transportNote |
 |                                  | testRestockOrder.js > test /api/restockOrders          |
 |                                  | testSkuItem.js > test /api/skuitem |
 |                                  | testSkuItem.js > test /api/skuitem |
 |                                  | testSkuItem.js > test put /api/skuitems/:rfid |
 |                                  | testReturnOrder.js > test post /api/returnOrder |
+|                                  | testTestResults.js > test /api/skuitems/testResult |
+|                                  | testTestResults.js > test put /api/skuitems/:rfid/testResult/:id |
 |Position ID is the unique identifier of a position, 12 digits, and is derived from aisle (4digits) row (4 digits) col (4 digits), 4 first digits for aisle, middle 4 for row, last 4 for col| testPosition.js > test post /api/position |
 |                                   |  testPosition.js > test put /api/position/:positionID |
 |                                   |  testPosition.js > test put /api/position/:positionID/changeID |
@@ -239,3 +256,18 @@ Instead, in the code there are further tests that verify the correct behaviour o
 |                                     | testPosition.js > test put /api/position/:positionID |
 | Position Weight is expressed in kilograms | testPosition.js > test post /api/position |
 |                                     | testPosition.js > test put /api/position/:positionID |
+|                                     | testItem.js > test post /api/item |
+|                                     | testItem.js > test get /api/items |
+|                                     | testItem.js > test getById correct /api/items/:id (wrong correct id) |
+|                                     | testItem.js > test getById wrong /api/items/:id (wrong correct id) |
+|                                     | testItem.js > test put /api/item/:id |
+|                                     | testItem.js > test delete /api/items/:id |
+|    Date Format is YYYY/MM/GG HH:MM    | testInternalOrder.js > test post /api/internalOrders |
+|                                     | testInternalOrder.js > test get /api/internalOrders |
+|                                     | testInternalOrder.js > test get /api/internalOrdersIssued |
+|                                     | testInternalOrder.js > test get /api/internalOrdersAccepted |
+|                                     | testInternalOrder.js > test getById correct /api/internalOrders/:id (correct id) |
+|                                     | testInternalOrder.js > test getById wrong /api/internalOrders/:id (wrong id) |
+|                                     | testInternalOrder.js > test put /api/internalOrders/:id |
+|                                     | testInternalOrder.js > test delete /api/internalOrders/:id') |
+

@@ -22,6 +22,8 @@ Version:
     class and method name that contains the test case>
     <Jest tests  must be in code/server/unit_test  >
 
+
+## CLASS SKUITEM
 ### Class *SKUITEM_DAO* - method **storeSKUItem(db, data)**
 
 **Criteria for method *storeSKUItem(db, data)*:**
@@ -140,6 +142,8 @@ Version:
 | YES | YES | Deletes a SKUItem whose RFID exists and searches for it in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteSKUItem", Case: "RFID existing"|
 | NO | NO | Tries to delete a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteSKUItem", Case: "RFID not existing"|
 
+## CLASS RESTOCKORDER
+
 ### Class *RESTOCKORDER_DAO* - method **getStoredRestockOrderById(db, id)**
 **Criteria for method *getStoredRestockOrderById(db, id)*:**
  1. ROID existing
@@ -209,7 +213,7 @@ Version:
 
 ## CLASS POSITION
 
-### Class *POSITION* - method **storePosition(db, data)**
+### Class *POSITION_DAO* - method **storePosition(db, data)**
 
 **Criteria for method *storePosition(db, data)*
  0. None
@@ -227,7 +231,7 @@ Version:
 
 
 
-### Class *POSITION* - method **getStoredPosition(db)**
+### Class *POSITION_DAO* - method **getStoredPosition(db)**
 **Criteria for method *getStoredPosition(db)*:**
 No criteria
 
@@ -238,7 +242,7 @@ No criteria
 | YES | Creates a Position, calls getStoredPosition function to check if the position is correctly extracted |Suite: "Testing getStoredPosition"|
 
 
-### Class *POSITION* - method **updatePosition(db, id, data)**
+### Class *POSITION_DAO* - method **updatePosition(db, id, data)**
 **Criteria for method *updatePosition(db, id, data)*:**
  1. PositionID existing
 
@@ -256,7 +260,7 @@ No criteria
 | YES | YES | Creates a Position, updates a Position given a correct positionID and proper data, expects to find the same Position with the updated data |Suite: "Testing updatePosition", Case: "Position id found"|
 | NO | NO | Tries to update a Position whose PositionID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updatePosition", Case: "No position id found"|
 
-### Class *POSITION* - method **updatePositionID(db, id, data)**
+### Class *POSITION_DAO* - method **updatePositionID(db, id, data)**
 **Criteria for method *updatePositionID(db, id, data)*:**
  1. Starting PositionID existing
 
@@ -276,7 +280,7 @@ No criteria
 
 
 
-### Class *POSITION* - method **deletePosition(db, id)**
+### Class *POSITION_DAO* - method **deletePosition(db, id)**
 **Criteria for method *deletePosition(db, id)*:**
  1.  PositionID existing
 
@@ -297,7 +301,7 @@ No criteria
 
 ## CLASS SKU
 
-### Class *SKU* - method **updateSKU(db, id, data)**
+### Class *SKU_DAO* - method **updateSKU(db, id, data)**
 **Criteria for method *updateSKU(db, id, data)*:**
  1.  SKU id existing
  2. Position is null
@@ -327,7 +331,7 @@ No criteria
 | YES | NO | - | NO | NO | Creates an SKU, tries to update the SKU given its ID but cannot update the values of OccupiedWeight/Volume in the position of the SKU because the Position ID is not found, expects to catch an "ID position not found" exception   |Suite: "Testing updateSKU", Case: "SKU id found, position is NOT null, but positionID is not found"|
 | NO | - | - | - | NO | Creates an SKU, tries to update the SKU given its ID but the sku ID is not found in the database, expects to catch an "ID not found" exception   |Suite: "Testing updateSKU", Case: "SKU id not found"|
 
-### Class *SKU* - method **updateSKUposition(db, id, pos)**
+### Class *SKU_DAO* - method **updateSKUposition(db, id, pos)**
 **Criteria for method *updateSKUposition(db, id, pos)*:**
  1.  SKU id existing
  2. Old position is null
@@ -358,7 +362,7 @@ No criteria
 | NO | - | - | - | NO | Creates an SKU, tries to update the SKU given its ID but the sku ID is not found in the database, expects to catch an "ID not found" exception   |Suite: "Testing updateSKUposition", Case: "SKU id not found"|
 
 
-### Class *SKU* - method **deleteSku(db, id)**
+### Class *SKU_DAO* - method **deleteSku(db, id)**
 **Criteria for method *deleteSku(db, id)*:**
  1.  Sku id existing
 
@@ -377,7 +381,35 @@ No criteria
 | NO | NO | Tries to delete an Sku whose Sku ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing Testing deleteSku", Case: "No Sku id found"|
 
 
-### Class *TestDescriptor* - method **getStoredTestDescriptors(db)**
+## CLASS RETURN ORDER
+
+### Class *RETURN ORDER_DAO* - method **storeReturnOrder(db, data)**
+**Criteria for method *storeReturnOrder(db, data)*:**
+ -None
+
+ Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Creates new Return Order with the passed data and then checks its correctness |Suite: "Testing storeReturnOrder "|
+
+### Class *RETURN ORDER_DAO* - method **getReturnOrders(db)**
+**Criteria for method *getReturnOrders(db)*:**
+ -None
+
+ Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Calls getReturnOrders function to check if all the Return Orders are correctly extracted from the db |Suite: "Testing getStoredReturnOrders"|
+
+### Class *RETURN ORDER_DAO* - method **deleteReturnOrder(db, id)**
+**Criteria for method *deleteReturnOrder(db, id)*:**
+ -None
+
+ Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|
+| YES | Deletes an existing Return Order and checks if it has been removed from the database |Suite: "Testing deleteReturnOrder"|
+
+## CLASS TEST DESCRIPTOR
+
+### Class *TestDescriptor_DAO* - method **getStoredTestDescriptors(db)**
 
 **Criteria for method *getStoredTestDescriptors(db)*
  0. None
@@ -390,7 +422,7 @@ No criteria
 |-------|-------|-------|
 | YES | Creates an array with existing TestDescriptor items, the function should return it |Suite: "Testing getStoredTestDescriptors"|
 
-### Class *TestDescriptor* - method **getTestDescriptorbyID(db, id)**
+### Class *TestDescriptor_DAO* - method **getTestDescriptorbyID(db, id)**
 
 **Criteria for method *getTestDescriptorbyID(db, id)*:**
  1. ID existing
@@ -411,7 +443,7 @@ No criteria
 | YES | YES | Searches for a TestDescriptor whose ID exists and should return the proper TestDescriptor |Suite: "Testing getTestDescriptorbyID", Case: "ID existing"|
 | NO | NO | Searches for a TestDescriptor whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getTestDescriptorbyID", Case: "ID not existing"|
 
-### Class *TestDescriptor* - method **storeTestDescriptor(db, data)**
+### Class *TestDescriptor_DAO* - method **storeTestDescriptor(db, data)**
 
 **Criteria for method *storeTestDescriptor(db, data)*
  0. None
@@ -424,7 +456,7 @@ No criteria
 |-------|-------|-------|
 | YES | Creates a TestDescriptor item belonging to existing SKU and gets the created item |Suite: "Testing storeTestDescriptor"|
 
-### Class *TestDescriptor* - method **updateTestDescriptor(db, id, data)**
+### Class *TestDescriptor_DAO* - method **updateTestDescriptor(db, id, data)**
 
 **Criteria for method *updateTestDescriptor(db, id, data)*:**
  1. ID existing
@@ -450,7 +482,7 @@ No criteria
 | YES | NO | NO | Searches for a TestDescriptor whose ID exists, but updating data contains an SKUid that doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing updateTestDescriptor", Case: "ID not existing"|
 
 
-### Class *TestDescriptor* - method **deleteTestDescriptor(db, id)**
+### Class *TestDescriptor_DAO* - method **deleteTestDescriptor(db, id)**
 **Criteria for method *deleteTestDescriptor(db, id)*:**
  1. ID existing
 
@@ -468,9 +500,9 @@ No criteria
 | YES | YES | Deletes a TestDescriptor item whose ID exists and tries to get it by ID in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteTestDescriptor", Case: "id existing"|
 | NO | NO | Tries to delete a TestDescriptor item whose ID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteTestDescriptor", Case: "id not existing"|
 
+## CLASS TEST RESULT
 
-
-### Class *TESTRESULT* - method **getTestResultsArraybySkuitemRfid(db, rfid)**
+### Class *TESTRESULT_DAO* - method **getTestResultsArraybySkuitemRfid(db, rfid)**
 
 **Criteria for method *getTestResultsArraybySkuitemRfid(db, rfid)*:**
  1. RFID existing
@@ -491,7 +523,7 @@ No criteria
 | YES | YES | Searches for TESTRESULT items whose RFID exists and should return an array with them |Suite: "Testing getTestResultsArraybySkuitemRfid", Case: "rfid existing"|
 | NO | NO | Searches for TESTRESULT items whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getTestResultsArraybySkuitemRfid", Case: "rfid not existing"|
 
-### Class *TESTRESULT* - method **getTestResultArraybyidandbySkuitemRfid(db, rfid, id)**
+### Class *TESTRESULT_DAO* - method **getTestResultArraybyidandbySkuitemRfid(db, rfid, id)**
 
 **Criteria for method *getTestResultArraybyidandbySkuitemRfid(db, rfid, id)*:**
  1. RFID existing
@@ -518,7 +550,7 @@ No criteria
 | NO | NO | NO | Searches for a TESTRESULT item whose RFID nor ID exist, therefore it should catch an "ID not found" exception |Suite: "Testing getTestResultArraybyidandbySkuitemRfid", Case: "rfid and id not existing"|
 
 
-### Class *TESTRESULT* - method **storeTestResult(db, data)**
+### Class *TESTRESULT_DAO* - method **storeTestResult(db, data)**
 
 **Criteria for method *storeTestResult(db, data)*
  0. None
@@ -531,7 +563,7 @@ No criteria
 |-------|-------|-------|
 | YES | Creates a TESTRESULT item belonging to existing SKUitem and TestDescriptor and gets the created item |Suite: "Testing storeTestResult"|
 
-### Class *TESTRESULT* - method **updateTestResult(db, id, rfid, data)**
+### Class *TESTRESULT_DAO* - method **updateTestResult(db, id, rfid, data)**
 
 **Criteria for method *updateTestDescriptor(db, id, rfid, data)*:**
  1. RFID existing
@@ -560,7 +592,7 @@ No criteria
 | YES | NO | YES | NO | Searches for a TESTRESULT item whose RFID exists but ID doesn't exist, therefore should catch an "ID not found" exception |Suite: "Testing updateTestResult", Case: "rfid not existing, id and idTestDescriptor existing"|
 | YES | YES | NO | NO | Searches for a TESTRESULT item whose ID and RFID exists, but updating data contains an idTestDescriptor that doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing updateTestResult", Case: "rfid and idTestDescriptor existing, id not existing"|
 
-### Class *TESTRESULT* - method **deleteTestResult(db, rfid, id)**
+### Class *TESTRESULT_DAO* - method **deleteTestResult(db, rfid, id)**
 **Criteria for method *deleteTestResult(db, rfid, id)*:**
  1. RFID existing
  2. ID existing
@@ -583,7 +615,9 @@ No criteria
 | YES | NO | NO | Tries to delete a TESTRESULT item whose RFID exists but ID doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing deleteTestResult", Case: "rfid existing and id not existing"|
 | NO | NO | NO | Tries to delete a TESTRESULT item whose RFID and ID doesn't exist, therefore it should catch an "ID not found" exception |Suite: "Testing deleteTestResult", Case: "rfid and id not existing"|
 
-### Class *USER* - method **getStoredSuppliers(db)**
+## CLASS USER
+
+### Class *USER_DAO* - method **getStoredSuppliers(db)**
 
 **Criteria for method *getStoredSuppliers(db)*
  0. None
@@ -596,7 +630,7 @@ No criteria
 |-------|-------|-------|
 | YES | Creates an array with existing USER items with type "supplier", the function should return it |Suite: "Testing getStoredSuppliers"|
 
-### Class *USER* - method **getStoredUsers(db)**
+### Class *USER_DAO* - method **getStoredUsers(db)**
 
 **Criteria for method *getStoredUsers(db)*
  0. None
@@ -609,7 +643,7 @@ No criteria
 |-------|-------|-------|
 | YES | Creates an array with existing USER items with type different from "manager" and "administrator", the function should return it |Suite: "Testing getStoredUsers"|
 
-### Class *USER* - method **storeUser(db, data)**
+### Class *USER_DAO* - method **storeUser(db, data)**
 
 **Criteria for method *storeUser(db, data)*:**
  1. username existing
@@ -628,7 +662,7 @@ No criteria
 | YES | YES | Creates a new USER with unique username and gets the created USER |Suite: "Testing getStoredUsers", Case: "User data correct"|
 | NO | NO | Tries to create a new USER with existing username and catches a "Conflict" exception |Suite: "Testing getStoredUsers", Case: "Username exists"|
 
-### Class *USER* - method **deleteUser(db, username, type)**
+### Class *USER_DAO* - method **deleteUser(db, username, type)**
 **Criteria for method *deleteTestDescriptor(db, id)*:**
  1. username existing
 
@@ -646,7 +680,7 @@ No criteria
 | YES | YES | Deletes a USER item whose type is different from "manager" and "administrator" and tries to get it from the database: an 'ID not found' exception should be catched |Suite: "Testing deleteUser", Case: "User data correct"|
 | NO | NO | Tries to delete a USER item whose type is "manager" or "administrator" and should catch an "Permission not allowed" exception |Suite: "Testing deleteUser", Case: "Invalid type"|
 
-### Class *USER* - method **updateUserType(db, username, data)**
+### Class *USER_DAO* - method **updateUserType(db, username, data)**
 
 **Criteria for method *updateUserType(db, username, data)*:**
  1. Valid type
@@ -667,7 +701,7 @@ No criteria
 | YES | YES | YES | Searches for a USER item by username and should update it with data that contains a oldType different to "manager" and "administrator" | Suite: "Testing updateUserType", Case: "Username and data correct, permissions allowed"|
 | NO | NO | NO | Searches for a USER item by username and tries to update it with data that contains a oldType equal to "manager" or "administrator" and should catch an "Permission not allowed" exception | Suite: "Testing updateUserType", Case: "Username and data correct, permissions not allowed"|
 
-
+## CLASS ITEM 
 
 ### Class *ITEM_DAO* - method **storeITEM(db, data)**
 
@@ -762,7 +796,7 @@ No criteria
 | NO | NO | Tries to delete a Item whose id doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteSKUItem", Case: "ID not existing"|
 
 
-
+## CLASS INTERNAL ORDER
 
 
 ### Class *InternalOrder_DAO* - method **getStoredInternalOrderById(db, id)**
@@ -905,6 +939,9 @@ No criteria
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > Maximum capacity exceeded exception |
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > No position found exception|
 |SKU_DAO > updateSKUposition(db, id, pos) | Testing updateSKUposition > SKU id not found |
+|RETURNORDER_DAO > getStoredReturnOrders(db) | Testing getStoredReturnOrders |
+|RETURNORDER_DAO > storeReturnOrder(db, data) | Testing storeReturnOrder |
+|RETURNORDER_DAO > deleteReturnOrder(db, id) | Testing deleteReturnOrder |
 |TestDescriptor_DAO > getStoredTestDescriptors(db) | Testing getStoredTestDescriptors |
 |TestDescriptor_DAO > getTestDescriptorbyID(db, id) | Testing getTestDescriptorbyID > ID existing |
 |TestDescriptor_DAO > getTestDescriptorbyID(db, id) | Testing getTestDescriptorbyID > ID not existing |
@@ -1004,6 +1041,11 @@ For each query of each function there are checks on the correctness of the opera
 |POSITION_DAO > getStoredPosition(db) |10 | 0 |Testing getStoredPosition > Zero position stored |
 |POSITION_DAO > getStoredPosition(db) |10 | 1 |Testing getStoredPosition > One position stored |
 |POSITION_DAO > getStoredPosition(db) |10 | 2 |Testing getStoredPosition > Two position stored |
-
+| ITEM_DAO > getStoredItem(db) | 8 | 0 | Testing getStoredItem > Testing getStoredItem (0 items)|
+| ITEM_DAO > getStoredItem(db) | 8 | 1 | Testing getStoredItem > Testing getStoredItem (1 item)|
+| ITEM_DAO > getStoredItem(db) | 8 | 2 | Testing getStoredItem > Testing getStoredItem (2 items)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 0 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (0 items)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 1 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (1 item)|
+| internalOrder_DAO > getStoredInternalOrder(db) | 30 | 2 | Testing getStoredInternalOrder > Testing getStoredInternalOrder (2 items)|
 
 

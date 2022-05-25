@@ -10,7 +10,7 @@ describe('test SKU apis', () => {
 
     beforeEach(async () => {
         await agent.delete('/api/skus');
-        await agent.delete('/api/testDescriptors');
+        await agent.delete('/api/testDescriptor/emergenza/superermergenza');
         
        let sku1 = {
             description: "a new sku",

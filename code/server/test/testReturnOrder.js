@@ -173,7 +173,6 @@ async function deletereturnOrder(expectedHTTPStatus, id) {
         
         await agent.delete('/api/returnOrder/' + id)
             .then(function (res) {
-                console.log(res.status)
                 res.should.have.status(expectedHTTPStatus);
             
             });
