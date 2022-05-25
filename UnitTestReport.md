@@ -667,6 +667,136 @@ No criteria
 | NO | NO | Searches for a USER item by username and tries to update it with data that contains a oldType equal to "manager" or "administrator" and should catch an "Permission not allowed" exception |Suite: "Testing updateUserType", Case: "Username and data correct, permissions not allowed"|
 
 
+
+
+
+### Class *ITEM_DAO* - method **storeITEM(db, data)**
+
+**Criteria for method *storeITEM(db, data)*:**
+ 1. id existing
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  id existing      | YES |
+|  id existing      | NO  |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+
+| id existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Creates a new Item belonging to an existing SKU, for a specific supplier and gets the created Item |Suite: "Testing storeSKUItem", Case: "id existing"|
+| NO | NO | Creates a new Item belonging to a not existing SKU and catches a "ID not found" exception |Suite: "Testing storeItem", Case: "SKUId not found"|
+
+
+### Class *SKUITEM_DAO* - method **getStoredSKUItemByRFID(db, rfid)**
+
+**Criteria for method *getStoredSKUItemByRFID(db, rfid)*:**
+ 1. RFID existing
+
+
+**Predicates for method *getStoredSKUItemByRFID(db, rfid)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  RFID existing  | YES   |
+|  RFID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+**Combination of predicates**:
+
+
+| RFID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Searches for a SKUItem whose RFID exists and should return the proper SKUItem |Suite: "Testing getStoredSKUItemByRFID", Case: "RFID existing"|
+| NO | NO | Searches for a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing getAvailableStoredSkuItem", Case: "RFID not existing"|
+
+### Class *SKUITEM_DAO* - method **getAvailableStoredSKUItem(db, id)**
+
+**Criteria for method *getAvailableStoredSKUItem(db, id)*:**
+ 1. SKUId existing
+ 2. Available = 1 (*note*: available can never assume values which aren't 1 or 0 due to API level checks)
+
+
+**Predicates for method *getAvailableStoredSKUItem(db, id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  SKUId existing      | YES |
+|  SKUId existing        |  NO   |
+|  Available = 1 |  YES  |
+|  Available = 1 |  NO   |
+
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+
+
+**Combination of predicates**:
+
+
+| SKUId existing | Available | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+| YES | YES | YES | Creates an SKU with given SKUId, creates a SKUItem with given ID, existing SKUId, and puts Available = 1, the function should return an array with it |Suite: "Testing getAvailableStoredSkuItem", Case: "Available skuitem found"|
+| YES | NO | YES | Creates an SKU with given SKUId, creates a SKUItem with given ID, existing SKUId and Available = 0, the function should return an empty array |Suite: "Testing getAvailableStoredSkuItem", Case: "No available skuitems found"|
+| NO | ... | NO | Creates a SKUItem with given ID but with a non-existing SKUId (value of Available is unrelevant), the function should catch an "ID not found" exception|Suite: "Testing getAvailableStoredSkuItem", Case: "No SKUId found exception"|
+
+### Class *SKUITEM_DAO* - method **updateSKUItem(db, rfid, data)**
+
+**Criteria for method *updateSKUItem(db, rfid, data)*:**
+ 1. RFID existing
+
+
+**Predicates for method *updateSKUItem(db, rfid, data)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  RFID existing  | YES   |
+|  RFID existing  |  NO   |
+
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+
+
+**Combination of predicates**:
+
+
+| RFID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Searches for a SKUItem whose RFID exists and should update the proper SKUItem, so by searching by id the same SKUItem it should have updated values |Suite: "Testing updateSKUItem", Case: "RFID existing"|
+| NO | NO | Searches for a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing updateSKUItem", Case: "RFID not existing"|
+
+### Class *SKUITEM_DAO* - method **deleteSKUItem(db, rfid)**
+**Criteria for method *deleteSKUItem(db, rfid)*:**
+ 1. RFID existing
+
+**Predicates for method *deleteSKUItem(db, rfid)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|  RFID existing  | YES   |
+|  RFID existing  |  NO   |
+
+**Boundaries**: No boundaries, only boolean predicates to test
+
+| RFID existing | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+| YES | YES | Deletes a SKUItem whose RFID exists and searches for it in the database: an 'ID not found' exception should be catched |Suite: "Testing deleteSKUItem", Case: "RFID existing"|
+| NO | NO | Tries to delete a SKUItem whose RFID doesn't exist and should catch an "ID not found" exception |Suite: "Testing deleteSKUItem", Case: "RFID not existing"|
+
+
+
+
+
+
+
+
+
+
 # White Box Unit Tests
 
 ### Test cases definition
