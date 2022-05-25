@@ -166,7 +166,7 @@ function getInternalOrdersAccepted(expectedHTTPStatus, id, issueDate, newState, 
 }
 
 function getInternalOrderByIDC(expectedHTTPStatus, id, issueDate, state, products, customerId, Id) {
-    it('test getById correct /api/internalOrders/:id (wrong correct id)', async () => {
+    it('test getById correct /api/internalOrders/:id (correct id)', async () => {
         await agent.get('/api/internalOrders/' + Id)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -185,7 +185,7 @@ function getInternalOrderByIDC(expectedHTTPStatus, id, issueDate, state, product
 }
 
 function getInternalOrderByIDW(expectedHTTPStatus, id, issueDate, newState, products, costumerId, Id) {
-    it('test getById wrong /api/internalOrders/:id (wrong correct id)', async () => {
+    it('test getById wrong /api/internalOrders/:id (wrong id)', async () => {
         await agent.get(`/api/internalOrders/${Id}`)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
