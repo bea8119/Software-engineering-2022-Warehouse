@@ -1,0 +1,270 @@
+# SKU
+
+GET http://localhost:3001/api/skus
+### OK
+GET http://localhost:3001/api/skus/1
+### OK
+POST http://localhost:3001/api/sku
+Content-Type: application/json
+
+{
+    "description" : "test",
+    "weight" : 2,
+    "volume" : 2,
+    "notes" : "prova",
+    "price" : 10.99,
+    "availableQuantity" : 1
+}
+### OK
+PUT http://localhost:3001/api/sku/3
+Content-Type: application/json
+
+{
+    "newDescription" : "test1",
+    "newWeight" : 40,
+    "newVolume" : 40,
+    "newNotes" : "first SKU",
+    "newPrice" : 10.99,
+    "newAvailableQuantity" : 1
+}
+### OK
+PUT http://localhost:3001/api/sku/2/position
+Content-Type: application/json
+
+{
+    "position": "800234546669"
+}
+### NON FUNZIONA
+DELETE http://localhost:3001/api/skus/1
+### OK
+
+################################################################## 
+
+#skuitems
+
+GET http://localhost:3001/api/skuitems
+### OK
+GET http://localhost:3001/api/skuitems/sku/1
+### OK
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789071
+### OK
+POST http://localhost:3001/api/skuitem
+Content-Type: application/json
+
+{
+    "RFID":"12345678901234567890123456789089",
+    "SKUId":1,
+    "DateOfStock":"2021/11/20 09:33"
+}
+### OK
+PUT http://localhost:3001/api/skuitems/12345678901234567890123456789089
+Content-Type: application/json
+
+{
+    "newRFID":"12345678901234567890123456789089",
+    "newAvailable":1,
+    "newDateOfStock":"2021/11/29 12:30"
+}
+### OK
+##################################################################
+# Position
+
+GET http://localhost:3001/api/positions
+### OK
+POST http://localhost:3001/api/position
+Content-Type: application/json
+
+{
+    "positionID":"800234546669",
+    "aisleID": "8002",
+    "row": "3454",
+    "col": "6669",
+    "maxWeight": 1000,
+    "maxVolume": 1000
+}
+### OK
+PUT http://localhost:3001/api/position/800234546669
+Content-Type: application/json
+
+{
+    "newAisleID": "8002",
+    "newRow": "3454",
+    "newCol": "6666",
+    "newMaxWeight": 1200,
+    "newMaxVolume": 600,
+    "newOccupiedWeight": 200,
+    "newOccupiedVolume":100
+}
+### OK
+
+DELETE http://localhost:3001/api/position/800234543668
+### OK
+
+##################################################################
+
+#testDescriptor
+
+GET http://localhost:3001/api/testDescriptors
+### OK
+GET http://localhost:3001/api/testDescriptors/2
+### OK
+POST http://localhost:3001/api/testDescriptor
+Content-Type: application/json
+
+{
+    "name":"test descriptor 2",
+    "procedureDescription":"!11!!",
+    "idSKU": 1
+}
+
+### OK
+PUT http://localhost:3001/api/testDescriptor/2
+Content-Type: application/json
+
+{
+    "newName":"modified",
+    "newProcedureDescription":"This test is described by...",
+    "newIdSKU" :555
+}
+### 
+##################################################################
+
+# TestResults 
+GET http://localhost:3001/api/skuitems/123456789012345678901234567890680/testResults
+### OK
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789071/testResults/12
+### OK
+POST http://localhost:3001/api/skuitems/testResult
+Content-Type: application/json
+
+{
+    "rfid":"12345678901234567890123456789069",
+    "idTestDescriptor":3,
+    "Date":"2021/11/23",
+    "Result": false
+}
+
+### OK
+PUT http://localhost:3001/api/skuitems/12345678901234567890123456789071/testResult/12
+Content-Type: application/json
+
+{
+    "newIdTestDescriptor":3,
+    "newDate":"2021/11/31",
+    "newResult": false
+}
+### OK
+
+################################################################## 
+
+#restockOrder
+
+GET http://localhost:3001/api/restockOrders
+### OK
+GET http://localhost:3001/api/restockOrdersIssued
+### OK
+GET http://localhost:3001/api/restockOrders/1
+### OK
+GET http://localhost:3001/api/restockOrders/3/returnItems
+### OK
+POST http://localhost:3001/api/restockOrder
+Content-Type: application/json
+
+{
+    "issueDate":"2021/11/21",
+    "products": [{"SKUId":12,"description":"a product","price":10.99,"qty":30},
+                        {"SKUId":180,"description":"another product","price":11.99,"qty":20}
+],
+    "supplierId" : 1
+}
+
+### OK
+PUT http://localhost:3001/api/restockOrder/3
+Content-Type: application/json
+
+{
+    "newState":"DELIVERY"
+}
+### OK
+
+PUT http://localhost:3001/api/restockOrder/3/skuItems
+Content-Type: application/json
+
+{
+    "skuItems" : [{"SKUId":3,"rfid":"12345678901234567890123456789069"}, {"SKUId":3,"rfid":"12345678901234567890123456789070"}]
+}
+
+### OK
+###
+PUT http://localhost:3001/api/restockOrder/3/transportNote
+Content-Type: application/json
+
+{
+    "transportNote":{"deliveryDate":"2021/11/30"}
+}
+### OK
+
+DELETE http://localhost:3001/api/emergenza/emergenza
+
+#################################################################
+
+### Return Order
+
+### get all return orders
+GET http://localhost:3001/api/returnOrders
+
+### OK
+
+### get return order by id
+GET http://localhost:3001/api/returnOrders/4
+
+### OK
+
+### Insert new returnOrder
+POST http://localhost:3001/api/returnOrder
+Content-Type: application/json
+
+{
+     "returnDate":"2021/11/23 09:33",
+     "products": [{"SKUId":12,"description":"a product","price":10.99, "RFID":"12345678901234567890123456789016"},
+                        {"SKUId":32,"description":"another product","price":11.99,"RFID":"12345678901234567890123456789038"}],
+    "restockOrderId" : 1
+        }
+
+### OK
+
+### delete return order by id
+DELETE http://localhost:3001/api/returnOrder/1
+
+### OK
+
+
+###
+GET http://localhost:3001/api/users
+###
+POST http://localhost:3001/api/newUser
+Content-Type: application/json
+
+{
+     "username":"ldc@ezwh.com",
+    "name":"Leonardo",
+    "surname" : "Di caprio",
+    "password" : "testpassword",
+    "type" : "customer"
+
+}
+
+###
+
+PUT http://localhost:3001/api/users/
+Content-Type: application/json
+
+{
+        "oldType" : "customer",
+        "newType" : "clerk"
+    }
+
+
+
+
+

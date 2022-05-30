@@ -76,8 +76,9 @@ Report here the results of the three estimation approaches. The estimates may di
 | Estimate by product decomposition | 1692 person hours | 211.5 person working days (52.8 days of work considering 4 people) |
 | Estimate by activity decomposition | 2330 person hours | 291.3 days (72.8 days of work considering 4 people) |
 
+The results provided by the estimate by size are very distant from the results provided by the subsequent estimates: most likely the assigned productivity figure is not comparable with the productivity estimated by the team members.
 
-The estimation by size only considers coding time and effort, while the product decomposition estimation considers specific documents to be delivered which already give a more detailed insight of the whole project development, nevertheless the most detailed estimation is the estimate by activity decomposition. 
+On the contrary, the fact that in the two subsequent estimates no specific productivity values were provided, allows a calculation of the timing that is most likely closer to reality.
 
-The amount of detail considered in the estimation can influence the expected effort and working hours because it adds activities that weren't taken into consideration making a raw calculation (even if they should be considered). This would explain why the activity decomposition estimation yields an higher value than the estimate by size.
+The amount of detail considered in the estimation can also influence the expected effort and consequently the estimated team productivity, because it allows to consider activities that weren't taken into consideration making a raw calculation (even if they should be considered). This would explain why the estimate by activity decomposition yields an higher effort value than the estimate by product decomposition.
 
