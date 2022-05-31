@@ -23,9 +23,7 @@ class SKU_DAO {
 
 
     storeSKU(db, data) {
-
         return new Promise((resolve, reject) => {
-
             const sql = 'INSERT INTO SKU (id,  description, weight, volume, notes, position, availableQuantity, price) VALUES (?, ?, ?, ? ,? ,? ,?, ?)';
             db.run(sql, [data.id, data.description, data.weight, data.volume, data.notes, null, data.availableQuantity, data.price], (err) => {
                 if (err) {
@@ -36,34 +34,44 @@ class SKU_DAO {
         });
     }
 
-
-
     async getStoredSKU(db) {
         return new Promise( async (resolve, reject) => {
-            const sql = 'SELECT * FROM SKU';
-
-            await db.all(sql, [], async (err, rows) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKU '
+            db.get(sql1, [], (err, r) => {
                 if (err) {
                     reject(err);
                 }
-                const sql1 = 'SELECT * FROM testDescriptor';
-                await db.all(sql1, [],  async (err, testDescriptors) => {
-                
-                    const skus =  await rows.map( (r) => (
-                        {
-                            id: r.id,
-                            description: r.description,
-                            weight: r.weight,
-                            volume: r.volume,
-                            notes: r.notes,
-                            position: r.position,
-                            availableQuantity: r.availableQuantity,
-                            price: r.price,
-                            testDescriptors: Object.values(testDescriptors).filter((t) => t.skuId === r.id).map((i) => i.id)
+                else if (r.count === 0) {
+                    resolve([]);
+                }
+                else {
+                    const sql = 'SELECT * FROM SKU';
+                    db.all(sql, [], async (err, rows) => {
+                        if (err) {
+                            reject(err);
                         }
-                    ));
-                    resolve(skus);
-                });
+                        else {
+                            const sql1 = 'SELECT * FROM testDescriptor';
+                            db.all(sql1, [],  async (err, testDescriptors) => {
+                                const skus =  await rows.map((r) => (
+                                    {
+                                        id: r.id,
+                                        description: r.description,
+                                        weight: r.weight,
+                                        volume: r.volume,
+                                        notes: r.notes,
+                                        position: r.position,
+                                        availableQuantity: r.availableQuantity,
+                                        price: r.price,
+                                        testDescriptors: Object.values(testDescriptors).filter((t) => t.skuId === r.id).map((i) => i.id)
+                                    }
+                                ));
+                                console.log(skus)
+                                resolve(skus);
+                            });
+                        }
+                    })
+                }
             });
         });
     }
@@ -251,7 +259,6 @@ class SKU_DAO {
 
      // delete sku by id
      deleteSKU(db, id) {
-
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count FROM SKU WHERE id = ?'
             db.get(sql1, [id], (err, r) => {
@@ -269,12 +276,9 @@ class SKU_DAO {
                         }
                         resolve();
                     });
-
                 }
             })
-
         });
-
     }
 
 
