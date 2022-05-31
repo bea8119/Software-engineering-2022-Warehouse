@@ -58,7 +58,7 @@ class TESTRESULT_DAO {
 
     getTestResultsArraybySkuitemRfid(db, rfid) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE rfid = ?'
+            const sql1 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE rfid = ?'
             db.get(sql1, [rfid], (err, r) => {
                 if (err) {
                     reject(err);
@@ -89,13 +89,26 @@ class TESTRESULT_DAO {
 
     getTestResultArraybyidandbySkuitemRfid(db, rfid, id) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count, * FROM TESTRESULT WHERE rfid = ? AND id = ?'
-            db.get(sql1, [rfid, id], (err, r) => {
+            const sql = 'SELECT COUNT(*) AS count FROM TESTRESULT WHERE id = ?'
+            db.get(sql, [id], (err, r) => {
                 if (err) {
                     reject(err);
                 }
                 else if (r.count === 0) {
                     reject(new Error("ID not found"));
+                }
+            const sql0 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE rfid = ?'
+            db.get(sql0, [rfid], (err, r) => {
+                if (err) {
+                    reject(err);
+                }
+                else if (r.count === 0) {
+                    reject(new Error("ID not found"));
+                }
+            const sql1 = 'SELECT * FROM TESTRESULT WHERE rfid = ? AND id = ?'
+            db.get(sql1, [rfid, id], (err, r) => {
+                if (err) {
+                    reject(err);
                 }
                 else {
                         const testResult =
@@ -109,6 +122,8 @@ class TESTRESULT_DAO {
                 }
             });
         })
+        })
+    })
     }
 
     /* Delete TestResult by ID */

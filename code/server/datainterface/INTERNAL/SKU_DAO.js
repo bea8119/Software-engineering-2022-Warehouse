@@ -38,18 +38,18 @@ class SKU_DAO {
 
 
 
-    getStoredSKU(db) {
-        return new Promise((resolve, reject) => {
+    async getStoredSKU(db) {
+        return new Promise( async (resolve, reject) => {
             const sql = 'SELECT * FROM SKU';
 
-            db.all(sql, [], async (err, rows) => {
+            await db.all(sql, [], async (err, rows) => {
                 if (err) {
                     reject(err);
                 }
                 const sql1 = 'SELECT * FROM testDescriptor';
-                db.all(sql1, [], (err, testDescriptors) => {
-                    
-                    const skus = rows.map((r) => (
+                await db.all(sql1, [],  async (err, testDescriptors) => {
+                
+                    const skus =  await rows.map( (r) => (
                         {
                             id: r.id,
                             description: r.description,

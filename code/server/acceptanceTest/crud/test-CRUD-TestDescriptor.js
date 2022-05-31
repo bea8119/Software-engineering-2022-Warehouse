@@ -24,6 +24,9 @@ function testTestDescriptorCRUD(){
     mytd[1] = testdescriptors.newTestDescriptor('td2','descr2',1);
     mytdbad1 = testdescriptors.newTestDescriptor(null,'descrbad1',0);
     mytdbad2 = testdescriptors.newTestDescriptor('tdbad2',null,0);
+
+   
+
     mytdbad3 = testdescriptors.newTestDescriptor('tdbad3','descrbad3', 100000000);
     mytdbad4 = testdescriptors.newTestDescriptor('tdbad4','descrbad4', null);
     newtd0 = testdescriptors.newTestDescriptor('newtd1', 'newdescr1',1);

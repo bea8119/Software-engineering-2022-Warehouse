@@ -27,8 +27,8 @@ class ReturnOrder_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'CREATE TABLE IF NOT EXISTS RETURNORDER_PRODUCT(SKUId INTEGER, description VARCHAR(20), price REAL, RFID VARCHAR(32), roid INTEGER, PRIMARY KEY (SKUId, roid) )'
-            const sql2 = 'CREATE TABLE IF NOT EXISTS RETURNORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, returnDate VARCHAR(20), restockOrderId INTEGER)';
+            const sql1 = 'CREATE TABLE IF NOT EXISTS RETURNORDER_PRODUCT(SKUId INTEGER, description VARCHAR(20), price REAL, RFID VARCHAR(32), roid INTEGER, PRIMARY KEY (SKUId, roid), FOREIGN KEY (roid) REFERENCES RETURNORDER(id) ON UPDATE CASCADE ON DELETE SET NULL )'
+            const sql2 = 'CREATE TABLE IF NOT EXISTS RETURNORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, returnDate VARCHAR(20), restockOrderId INTEGER, FOREIGN KEY (restockOrderId) REFERENCES RESTOCKORDER(id) ON UPDATE CASCADE ON DELETE SET NULL)';
            
             db.run(sql1, (err) => {
                 if (err) {
