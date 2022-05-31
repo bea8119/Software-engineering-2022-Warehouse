@@ -267,6 +267,8 @@ Content-Type: application/json
 DELETE http://localhost:3001/api/users/:username/:type
 Content-Type: application/json
 
+###
+GET http://localhost:3001/api/items
 
 
 
