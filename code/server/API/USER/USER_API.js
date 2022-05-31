@@ -74,8 +74,11 @@ app.delete('/api/users/:username/:type', async (req, res) => {
 
     let username = req.params.username
     let type = req.params.type
-
-    if (username === undefined || (type !== "customer" && type !== "qualityEmployee" && type !== "clerk" && type !== "deliveryEmployee" && type !== "supplier" && type)) {
+    //console.log(!username.value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/))
+    
+    if (username === undefined || username === null || type === null 
+        || (type !== "customer" && type !== "qualityEmployee" && type !== "clerk" && type !== "deliveryEmployee" && type !== "supplier") 
+        || (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(username))) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
 
@@ -84,11 +87,11 @@ app.delete('/api/users/:username/:type', async (req, res) => {
         res.status(204).end();
     }
     catch (err) {
-        if (err.message === "Permission not allowed") {
-            res.status(422).end()
-        } else {
+        if(err.message === 'User not found'){
+            return res.status(422)
+        } else  
             res.status(503).end()
-        }
+        
     }
 });
 

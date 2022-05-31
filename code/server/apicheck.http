@@ -97,7 +97,7 @@ Content-Type: application/json
 }
 ### OK
 
-DELETE http://localhost:3001/api/position/800234543668
+DELETE http://localhost:3001/api/position/800234546669
 ### OK
 
 ##################################################################

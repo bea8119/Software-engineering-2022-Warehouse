@@ -15,7 +15,10 @@ app.post('/api/testDescriptor', async (req, res) => {
 
     let TD = req.body;
 
-    if (Object.keys(req.body).length === 0 || TD === undefined || TD.name === undefined || TD.name === "" || TD.procedureDescription === undefined || TD.procedureDescription === "" || TD.idSKU === undefined || TD.idSKU === null || isNaN(TD.idSKU) === true) {        return res.status(422).json({ error: 'Invalid TestDescriptor data' });
+    if (Object.keys(req.body).length === 0 || Object.keys(req.body)===null || Object.keys(req.body)===undefined || TD === undefined || TD.name === undefined 
+        || TD.name === "" || TD.name === null || TD.procedureDescription === undefined || TD.procedureDescription === "" || TD.procedureDescription === null
+        || TD.idSKU === undefined || TD.idSKU === null || isNaN(TD.idSKU) === true) {  
+           return res.status(422).json({ error: 'Invalid TestDescriptor data' });
     }
 
     try {

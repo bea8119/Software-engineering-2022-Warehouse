@@ -212,6 +212,7 @@ app.put('/api/restockOrder/:id/skuItems', async (req, res) => {
         } else if (err.message === "Not DELIVERED state"){
             res.status(422).json({error: 'Unprocessable entity'});
         } else {
+            console.log(err)
             res.status(503).end();
         }
     }
