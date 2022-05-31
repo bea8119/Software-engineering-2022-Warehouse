@@ -25,7 +25,7 @@ app.post('/api/internalOrders', async (req, res) => {
     let internalOrder = req.body;
 
     if (Object.keys(req.body).length === 0 || internalOrder === undefined || 
-    internalOrder.issueDate === undefined || !((dayjs(internalOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(internalOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
+    internalOrder.issueDate === undefined || !((dayjs(internalOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(internalOrder.issueDate, 'YYYY/MM/DD HH:mm', true).isValid()))  ||
     internalOrder.products === undefined ||  
     internalOrder.customerId === undefined || isNaN(internalOrder.customerId)) {
         return res.status(422).json({ error: 'Unprocessable entity' });

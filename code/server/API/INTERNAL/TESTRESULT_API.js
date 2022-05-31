@@ -31,7 +31,7 @@ app.post('/api/skuitems/testResult', async (req, res) => {
         testResult.Date === undefined || testResult.Date === "" ||
         testResult.Result === undefined || typeof testResult.Result != "boolean" || 
         /* block if date is not within one of these formats: */
-        !((dayjs(testResult.Date, 'YYYY/MM/DD', true).isValid()) || (dayjs(testResult.Date, 'YYYY/MM/DD hh:mm', true).isValid()))
+        !((dayjs(testResult.Date, 'YYYY/MM/DD', true).isValid()) || (dayjs(testResult.Date, 'YYYY/MM/DD HH:mm', true).isValid()))
     ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
@@ -107,7 +107,7 @@ app.put('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
         testResult.newDate === undefined ||
         testResult.newResult === undefined || typeof testResult.newResult != "boolean" || 
         /* block if date is not within one of these formats: */
-        !((dayjs(testResult.newDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(testResult.newDate, 'YYYY/MM/DD hh:mm', true).isValid()))
+        !((dayjs(testResult.newDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(testResult.newDate, 'YYYY/MM/DD HH:mm', true).isValid()))
     ) {
         res.status(422).json("Unprocessable entity");
     }

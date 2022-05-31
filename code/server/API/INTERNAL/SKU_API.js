@@ -24,7 +24,14 @@ app.post('/api/sku', async (req, res) => {
 
     let sku = req.body;
 
-    if (sku === undefined || sku.description === undefined || sku.weight === undefined || sku.volume === undefined || sku.price === undefined || sku.availableQuantity === undefined ) {
+    if (sku === undefined || 
+        sku.description === undefined || sku.description === "" || 
+        sku.notes === undefined || sku.notes === "" ||
+        sku.weight === undefined || isNaN(sku.weight) || sku.weight < 0 || !Number.isInteger(sku.weight) ||
+        sku.volume === undefined || isNaN(sku.volume) || sku.volume < 0 || !Number.isInteger(sku.volume) ||
+        sku.price === undefined ||  isNaN(sku.price) || sku.price < 0 || 
+        sku.availableQuantity === undefined || isNaN(sku.availableQuantity) || sku.availableQuantity < 0 || !Number.isInteger(sku.availableQuantity)
+        ) {
         return res.status(422).json({ error: 'Invalid sku data' });
     }
 
@@ -95,7 +102,15 @@ app.put('/api/sku/:id', async (req, res) => {
     let id = req.params.id;
     let sku = req.body;
 
-    if (Object.keys(req.body).length === 0 || isNaN(id) || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
+    if (Object.keys(req.body).length === 0 || 
+    isNaN(id) || 
+    sku === undefined || 
+    sku.newDescription === undefined || sku.newDescription === "" ||
+    sku.newNotes === undefined || sku.newNotes === "" || 
+    sku.newWeight === undefined || 
+    sku.newVolume === undefined || 
+    sku.newPrice === undefined || 
+    sku.newAvailableQuantity === undefined ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     

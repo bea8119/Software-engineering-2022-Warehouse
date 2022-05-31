@@ -23,8 +23,9 @@ app.post('/api/position', async (req, res) => {
         position.aisleID === undefined || position.aisleID.length !== 4 || !(/^\d+$/.test(position.aisleID)) ||
         position.row === undefined || position.row.length !== 4 || !(/^\d+$/.test(position.row)) ||
         position.col === undefined || position.col.length !== 4 || !(/^\d+$/.test(position.col)) ||
-        position.maxWeight === undefined ||
-        position.maxVolume === undefined) {
+        position.maxWeight === undefined || isNaN(position.maxWeight) || position.maxWeight < 0 ||
+        position.maxVolume === undefined || isNaN(position.maxVolume) || position.maxVolume < 0) 
+        {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     try {
@@ -70,10 +71,10 @@ app.put('/api/position/:positionID', async (req, res) => {
     position.newAisleID === undefined || position.newAisleID.length !== 4 || !(/^\d+$/.test(position.newAisleID)) ||
     position.newRow === undefined || position.newRow.length !== 4 || !(/^\d+$/.test(position.newRow)) ||
     position.newCol === undefined || position.newCol.length !== 4 || !(/^\d+$/.test(position.newCol)) ||
-    position.newMaxWeight === undefined ||
-    position.newMaxVolume === undefined ||
-    position.newOccupiedWeight === undefined ||
-    position.newOccupiedVolume === undefined) {
+    position.newMaxWeight === undefined || isNaN(position.newMaxWeight) || position.newMaxWeight < 0 || 
+    position.newMaxVolume === undefined || isNaN(position.newMaxVolume) || position.newMaxVolume < 0 ||
+    position.newOccupiedWeight === undefined || isNaN(position.newOccupiedWeight) || position.newOccupiedWeight < 0 ||
+    position.newOccupiedVolume === undefined || isNaN(position.newOccupiedVolume) || position.newOccupiedVolume < 0) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
 
