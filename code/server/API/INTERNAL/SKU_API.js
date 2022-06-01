@@ -56,6 +56,7 @@ app.get('/api/skus', async (req, res) => {
         const SKUlist = await s.getStoredSKU(db);
         res.status(200).json(SKUlist);
     } catch (err) {
+        console.log(err);
         res.status(500).end();
     }
 });
@@ -86,6 +87,7 @@ app.get('/api/skus/:id', async (req, res) => {
         if (err.message === "ID not found"){
             res.status(404).end()
         } else {
+            console.log(err);
             res.status(500).end();
         }
     }
@@ -184,6 +186,7 @@ app.delete('/api/skus', (req, res) => {
         res.status(204).end();
     }
     catch (err) {
+        console.log(err);
         res.status(500).end();
     }
 });
