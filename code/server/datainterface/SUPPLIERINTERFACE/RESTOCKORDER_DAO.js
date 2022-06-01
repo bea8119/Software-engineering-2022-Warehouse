@@ -56,8 +56,8 @@ class RESTOCKORDER_DAO {
                                         reject(err);
                                     }
                                 })
-                            }) 
-                        } 
+                            })
+                        }
                         resolve()
                     })
                 }
@@ -85,7 +85,7 @@ class RESTOCKORDER_DAO {
                                     reject(err);
                                 } else {
                                     const restockorder = await restockrows.map((r) => (
-                                       {
+                                        {
                                             id: r.id,
                                             issueDate: r.issueDate,
                                             state: r.state,
@@ -296,7 +296,7 @@ class RESTOCKORDER_DAO {
                 } else if (r.state !== 'DELIVERY') {
                     reject(new Error('Not DELIVERY state'));
                 } else if (dayjs(data.transportNote.deliveryDate).isBefore(dayjs(r.issueDate))) {
-                    reject (new Error('Delivery date before issue date'))
+                    reject(new Error('Delivery date before issue date'))
                 } else {
                     db.run(sql2, [data.transportNote.deliveryDate, id], (err) => {
                         if (err) {
@@ -349,14 +349,32 @@ class RESTOCKORDER_DAO {
                     reject(new Error('ID not found'))
                 }
                 else {
-                    const sql2 = 'DELETE FROM RESTOCKORDER WHERE id = ?';
-                    db.run(sql2, [id], (err) => {
+                    const sql0 = 'DELETE FROM RESTOCKORDER_SKUITEM WHERE roid = ? '
+                    db.run(sql0, [id], (err) => {
                         if (err) {
                             reject(err);
                         }
-                        resolve();
-                    });
+                        else {
+                            const sql = 'DELETE FROM RESTOCKORDER_ITEM WHERE roid = ? '
+                            db.run(sql, [id], (err) => {
+                                if (err) {
+                                    reject(err);
+                                }
 
+                                else {
+                                    const sql2 = 'DELETE FROM RESTOCKORDER WHERE id = ?';
+                                    db.run(sql2, [id], (err) => {
+                                        if (err) {
+                                            reject(err);
+                                        }
+                                        resolve();
+                                    });
+                                }
+                            })
+
+
+                        }
+                    })
                 }
             })
 

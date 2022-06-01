@@ -14,6 +14,7 @@ const s =  new SKU_DAO();
 
 
 
+
 /* SKU Post */
 
 app.post('/api/sku', async (req, res) => {
@@ -194,11 +195,6 @@ app.delete('/api/skus/:id', async (req, res) => {
     }
 
     let id = req.params.id;
-
-
-    if (id === undefined || isNaN(id)) {
-        res.status(422).json("Unprocessable entity")
-    }
 
     try {
         await s.deleteSKU(db, id);

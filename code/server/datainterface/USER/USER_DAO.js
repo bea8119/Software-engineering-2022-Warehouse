@@ -128,15 +128,8 @@ class USER_DAO {
 
     deleteUser(db, username, type) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count, type FROM USER WHERE username = ?';
-            db.get(sql1, [username], (err, r) => {
-                if (err) {
-                    reject(err)
-                }
-                else if (r.count === 0 || r.type !== type || r.type === "administrator" || r.type === "manager") {
-                    reject(new Error('Permission not allowed'))
-                }
-                else {
+           
+                
                     const sql2 = 'DELETE FROM USER WHERE username = ?';
                     db.run(sql2, [username], (err) => {
                         if (err) {
@@ -146,8 +139,7 @@ class USER_DAO {
                         }
                     });
 
-                }
-            })
+                
         });
     }
 

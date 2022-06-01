@@ -22,9 +22,11 @@ class ITEM_DAO {
     /*Get item */
     getStoredITEM(db) {
         return new Promise((resolve, reject) => {
+            console.log("qui2")
             const sql = 'SELECT * FROM ITEM';
             db.all(sql, [], (err, rows) => {
                 if (err) {
+                    console.log(err)
                     reject(err);
                 } else {
                 const item = rows.map((r) => (

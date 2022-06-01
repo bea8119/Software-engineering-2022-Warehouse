@@ -27,8 +27,8 @@ class ReturnOrder_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'CREATE TABLE IF NOT EXISTS RETURNORDER_PRODUCT(SKUId INTEGER, description VARCHAR(20), price REAL, RFID VARCHAR(32), roid INTEGER, PRIMARY KEY (SKUId, roid) )'
-            const sql2 = 'CREATE TABLE IF NOT EXISTS RETURNORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, returnDate VARCHAR(20), restockOrderId INTEGER)';
+            const sql1 = 'CREATE TABLE IF NOT EXISTS RETURNORDER_PRODUCT(SKUId INTEGER, description VARCHAR(20), price REAL, RFID VARCHAR(32), roid INTEGER, PRIMARY KEY (SKUId, roid), FOREIGN KEY (roid) REFERENCES RETURNORDER(id) ON UPDATE CASCADE ON DELETE SET NULL )'
+            const sql2 = 'CREATE TABLE IF NOT EXISTS RETURNORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, returnDate VARCHAR(20), restockOrderId INTEGER, FOREIGN KEY (restockOrderId) REFERENCES RESTOCKORDER(id) ON UPDATE CASCADE ON DELETE SET NULL)';
            
             db.run(sql1, (err) => {
                 if (err) {
@@ -91,27 +91,27 @@ class ReturnOrder_DAO {
     }
 
 
-    getStoredReturnOrders(db) {
-        return new Promise((resolve, reject) => {
+    async getStoredReturnOrders(db) {
+        return new Promise( async (resolve, reject) => {
             const sql1 = 'SELECT * FROM RETURNORDER';
             const sql2 = 'SELECT * FROM RETURNORDER_PRODUCT';
-            db.all(sql1, [], (err, returnRows) => {
+           await db.all(sql1, [], async (err, returnRows) => {
                 if (err) {
                     reject(err);
                 } else{
-                db.all(sql2, [], (err, itemrows) => {
+                await db.all(sql2, [], async (err, itemrows) => {
                     if (err) {
                         reject(err);
                     }
                     else{
                     
                        
-                        const returnorder = returnRows.map((r) => (
+                        const returnorder = await returnRows.map((r) => (
                             {
                                 id: r.id,
                                 returnDate: r.returnDate,
                                 
-                                products: itemrows.filter((i) => i.roid === r.id).map((i) => (
+                                products:  itemrows.filter( (i) => i.roid === r.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
                                         description: i.description,

@@ -97,7 +97,7 @@ Content-Type: application/json
 }
 ### OK
 
-DELETE http://localhost:3001/api/position/800234543668
+DELETE http://localhost:3001/api/position/800234546669
 ### OK
 
 ##################################################################
@@ -130,7 +130,7 @@ Content-Type: application/json
 ##################################################################
 
 # TestResults 
-GET http://localhost:3001/api/skuitems/123456789012345678901234567890680/testResults
+GET http://localhost:3001/api/skuitems/12345678901234567890123456789015/testResults
 ### OK
 GET http://localhost:3001/api/skuitems/12345678901234567890123456789071/testResults/12
 ### OK
@@ -266,6 +266,10 @@ Content-Type: application/json
 
 DELETE http://localhost:3001/api/users/:username/:type
 Content-Type: application/json
+
+###
+GET http://localhost:3001/api/items
+###
 
 
 

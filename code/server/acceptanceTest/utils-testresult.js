@@ -127,7 +127,7 @@ function testGetTestResultByWrongRFIDandID(agent, expCode, rfid){
 function testEditTestResultByRFIDandID(agent, expCode, rfid){
     describe( ' put /api/skuitems/:rfid/testResult/:id', function(){
         it('FR 3.2.2 -> Modify a quality test', function(done){
-            agent.get('/api/skuitems/'+validrfid+'/testResults')
+            agent.get('/api/skuitems/'+validrfid+'/testResults')  
             .then(function(res){
                 console.log("this is it", res.body);
                 let trid = res.body[0].id;
