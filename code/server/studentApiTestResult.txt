@@ -124,7 +124,7 @@ Server listening at http://localhost:3001
       ✔ test delete /api/position/:positionID
 
   test restockOrder apis
-    ✔ test /api/restockOrder/emergenza (deleting data...) (45ms)
+    ✔ test /api/restockOrder/emergenza (deleting data...) (43ms)
     ✔ test /api/restockOrder
     ✔ test /api/restockOrder
     ✔ test /api/restockOrder
@@ -147,8 +147,8 @@ Server listening at http://localhost:3001
     ✔ test put /api/restockOrder/:id
     ✔ test put /api/restockOrder/:id
     ✔ test put /api/restockOrder/:id
-    ✔ test put /api/restockOrder/:id/skuItems
-    ✔ test put /api/restockOrder/:id/skuItems (49ms)
+    ✔ test put /api/restockOrder/:id/skuItems (40ms)
+    ✔ test put /api/restockOrder/:id/skuItems (47ms)
     ✔ test put /api/restockOrder/:id/skuItems
     ✔ test put /api/restockOrder/:id/skuItems
     ✔ test put /api/restockOrder/:id/skuItems
@@ -364,5 +364,5 @@ Error: Conflict
     ✔ test delete /api/users/:username/:type
 
 
-  300 passing (33s)
+  300 passing (31s)
 
