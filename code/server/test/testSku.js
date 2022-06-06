@@ -51,7 +51,7 @@ describe('test SKU apis', () => {
     describe('test sku post api', () =>{
 
         postSku(201, "a new sku 3", 100, 100, "an SKU", 10.99, 40);
-        postSku(201, "a new sku 3", 100, 100, undefined, 10.99, 40);
+        postSku(422, "a new sku 3", 100, 100, undefined, 10.99, 40);
         postSku(422, undefined, 100, 100, "an SKU", 10.99, 40);
         postSku(422, "a new sku 3", undefined, 100, "an SKU", 10.99, 40);
         postSku(422, "a new sku 3", 100, undefined, "an SKU", 10.99, 40);   
@@ -68,7 +68,7 @@ describe('test SKU apis', () => {
     describe('test sku put ', () =>{
         
         putSkudata(200, 1, "a new sku", 100, 100, "an SKU", 10.99, 40);
-        putSkudata(200, 1, "a new sku", 100, 100, undefined, 10.99, 40);
+        putSkudata(422, 1, "a new sku", 100, 100, undefined, 10.99, 40);
         putSkudata(422, 1, undefined, 100, 100, "an SKU", 10.99, 40);
         putSkudata(422, 1, "a new sku", undefined, 100, "an SKU", 10.99, 40);
         putSkudata(422, 1, "a new sku", 100, undefined, "an SKU", 10.99, 40);   
@@ -103,8 +103,8 @@ describe('test SKU apis', () => {
     describe('test sku delete ', () =>{
 
         deletesku(204, 1);
-        deletesku(422, "x");
-        deletesku(422, 5);
+        deletesku(204, "x");
+        deletesku(204, 5);
 
     });
     

@@ -66,7 +66,6 @@ class SKU_DAO {
                                         testDescriptors: Object.values(testDescriptors).filter((t) => t.skuId === r.id).map((i) => i.id)
                                     }
                                 ));
-                                console.log(skus)
                                 resolve(skus);
                             });
                         }
@@ -142,7 +141,6 @@ class SKU_DAO {
                     let posit = r.position;
                     const sql3 = 'SELECT COUNT(*) AS countp,* FROM POSITION WHERE positionID = ?';
                     await db.get(sql3, [posit], async (err, p) => {
-                        //console.log(p.occupiedWeight);
 
                         if (err) {
                             reject(err);

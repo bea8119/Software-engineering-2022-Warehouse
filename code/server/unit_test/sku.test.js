@@ -372,15 +372,11 @@ function testUpdateSKUposition(id, wrongid) {
 }
 
 
-function testDeleteSKU(id, wrongid) {
+function testDeleteSKU(id) {
     describe('Testing deleteSKU', () => {
         test('Sku id found', async () => {
             await s.deleteSKU(db, id)
             await expect(s.getSKUbyID(db, id)).rejects.toThrow('ID not found');
-        })
-
-        test('No Sku id found', async () => {
-            await expect(s.deleteSKU(db, wrongid)).rejects.toThrow('ID not found');
         })
     })
 }

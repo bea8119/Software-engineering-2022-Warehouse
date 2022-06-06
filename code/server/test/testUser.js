@@ -66,9 +66,6 @@ describe('test user apis', () => {
         await agent.post('/api/newUser').send(user7)
     })
 
-
-    deleteAllData(204);
-
     postUser(201, "user8@ezwh.com", "User", "8", "testpassword8", "customer") 
     postUser(409, "user1@ezwh.com", "John", "Smith", "testpassword", "customer")
     postUser(422, "", "User", "8", "testpassword8", "customer")

@@ -1,0 +1,368 @@
+Server listening at http://localhost:3001
+
+
+  test internalOrder apis
+    ✔ test drop /api/internalOrder/emergenza (deleting data...)
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test post /api/internalOrders
+    ✔ test get /api/internalOrders
+{ newState: 'ISSUED' }
+    ✔ test get /api/internalOrdersIssued
+{ newState: 'ACCEPTED' }
+    ✔ test get /api/internalOrdersAccepted
+    ✔ test getById correct /api/internalOrders/:id (correct id)
+    ✔ test getById wrong /api/internalOrders/:id (wrong id)
+    ✔ test getById wrong /api/internalOrders/:id (wrong id)
+    ✔ test getById wrong /api/internalOrders/:id (wrong id)
+{ newState: 'ISSUED' }
+    ✔ test put /api/internalOrders/:id
+{
+  newState: 'COMPLETED',
+  products: [
+    { SkuId: 12, RFID: '12345678901234567890123456789016' },
+    { SkuId: 180, RFID: '12345678901234567890123456789038' }
+  ]
+}
+    ✔ test put /api/internalOrders/:id (43ms)
+{
+  newState: 'COMPLETED',
+  products: [
+    { SkuId: 12, RFID: '12345678901234567890123456789016' },
+    { SkuId: 180, RFID: '12345678901234567890123456789038' }
+  ]
+}
+    ✔ test put /api/internalOrders/:id
+{
+  products: [
+    { SkuId: 12, RFID: '12345678901234567890123456789016' },
+    { SkuId: 180, RFID: '12345678901234567890123456789038' }
+  ]
+}
+    ✔ test put /api/internalOrders/:id
+{ newState: 'COMPLETED' }
+    ✔ test put /api/internalOrders/:id
+{
+  newState: 'COMPLETED',
+  products: [ { SkuId: 12, RFID: '12345678901234567890123456789016' } ]
+}
+    ✔ test put /api/internalOrders/:id
+    ✔ test delete /api/internalOrders/:id
+    ✔ test delete /api/internalOrders/:id
+
+  test item apis
+    ✔ test drop /api/item/emergenza (deleting data...)
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test post /api/item
+    ✔ test get /api/items
+    ✔ test getById correct /api/items/:id (wrong correct id)
+    ✔ test getById wrong /api/items/:id (wrong correct id)
+    ✔ test getById wrong /api/items/:id (wrong correct id)
+    ✔ test getById wrong /api/items/:id (wrong correct id)
+    ✔ test put /api/item/:id
+    ✔ test put /api/item/:id
+    ✔ test put /api/item/:id
+    ✔ test put /api/item/:id
+    ✔ test delete /api/items/:id
+    ✔ test delete /api/items/:id
+    ✔ test delete /api/items/:id
+    ✔ test delete /api/items/:id
+
+  test position apis
+    test position post api
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+      ✔ test post /api/position --- body:data
+    test position get 
+      ✔ test get /api/positions
+    test position put 
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+      ✔ test put /api/position/:positionID/changeID  --- body:data
+    test position delete 
+      ✔ test delete /api/position/:positionID
+      ✔ test delete /api/position/:positionID
+      ✔ test delete /api/position/:positionID
+
+  test restockOrder apis
+    ✔ test /api/restockOrder/emergenza (deleting data...) (45ms)
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test /api/restockOrder
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems (49ms)
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/skuItems
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test /api/restockOrdersIssued
+    ✔ test /api/restockOrders/:id
+    ✔ test /api/restockOrders/:id
+    ✔ test /api/restockOrders/:id
+    ✔ test delete /api/restockOrder/:id
+    ✔ test delete /api/restockOrder/:id
+    ✔ test /api/restockOrders/:id
+
+  test ReturnOrder apis
+    test returnOrder post api
+      ✔ test post /api/returnOrder --- body:data
+      ✔ test post /api/returnOrder --- body:data
+      ✔ test post /api/returnOrder --- body:data
+      ✔ test post /api/returnOrder --- body:data
+      ✔ test post /api/returnOrder --- body:data
+      ✔ test post /api/returnOrder --- body:data
+      ✔ test post /api/returnOrder --- body:data
+      ✔ test post /api/returnOrder --- body:data
+    test returnOrder get 
+      ✔ test get /api/returnOrders
+    test returnOrder delete 
+      ✔ test delete /api/returnOrder/:id
+      ✔ test delete /api/returnOrder/:id
+      ✔ test delete /api/returnOrder/:id
+
+  test SKU apis
+    test sku post api
+      ✔ test post /api/sku --- body:data
+      ✔ test post /api/sku --- body:data
+      ✔ test post /api/sku --- body:data
+      ✔ test post /api/sku --- body:data
+      ✔ test post /api/sku --- body:data
+      ✔ test post /api/sku --- body:data
+      ✔ test post /api/sku --- body:data
+    test sku get 
+      ✔ test get /api/skus
+    test sku put 
+      ✔ test put /api/sku/:skuId  --- body:data
+      ✔ test put /api/sku/:skuId  --- body:data
+      ✔ test put /api/sku/:skuId  --- body:data
+      ✔ test put /api/sku/:skuId  --- body:data
+      ✔ test put /api/sku/:skuId  --- body:data
+      ✔ test put /api/sku/:skuId  --- body:data
+      ✔ test put /api/sku/:skuId  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+      ✔ test put /api/sku/:skuId/position  --- body:data
+    test sku delete 
+      ✔ test delete /api/skus/:skuId
+      ✔ test delete /api/skus/:skuId
+      ✔ test delete /api/skus/:skuId
+
+  test skuitem apis
+    ✔ test /api/skuitem/emergenza (deleting data...)
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitem
+    ✔ test /api/skuitems
+    ✔ test get /api/skuitems/:rfid (correct rfid)
+    ✔ test get /api/skuitems/:rfid (wrong rfid)
+    ✔ test get /api/skuitems/:rfid (wrong rfid)
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test put /api/skuitems/:rfid
+    ✔ test delete /api/skuitems/:rfid
+    ✔ test delete /api/skuitems/:rfid
+    ✔ test delete /api/skuitems/:rfid
+    ✔ test delete /api/skuitems/:rfid
+    ✔ test delete /api/skuitems/:rfid
+    ✔ test /api/skuitems/sku/:id
+    ✔ test /api/skuitems/sku/:id
+    ✔ test /api/skuitems/sku/:id
+
+  test TestDescriptor apis
+204
+    ✔ test /api/testDescriptor/emergenza/superermergenza (deleting data...)
+    ✔ test get /api/testDescriptors/:id (correct id)
+    ✔ test get /api/testDescriptors
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor
+    ✔ test get /api/testDescriptors/:id (wrong id)
+    ✔ test get /api/testDescriptors/:id (wrong id)
+    ✔ test get /api/testDescriptors/:id (wrong id)
+    ✔ test get /api/testDescriptors/:id (wrong id)
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test put /api/testDescriptor/:id
+    ✔ test delete /api/testDescriptor/:id
+    ✔ test delete /api/testDescriptor/:id
+    ✔ test delete /api/testDescriptor/:id
+    ✔ test delete /api/testDescriptor/:id
+
+  test testResult apis
+    ✔ test /api/skuitems/rfid/testResults/emergenza (deleting data...)
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test /api/skuitems/testResult
+    ✔ test get /api/skuitems/:rfid/testResults (correct rfid)
+    ✔ test get /api/skuitems/:rfid/testResults (wrong rfid)
+    ✔ test get /api/skuitems/:rfid/testResults (wrong rfid)
+    ✔ test get /api/skuitems/:rfid/testResults (wrong rfid)
+    ✔ test get /api/skuitems/:rfid/testResults/:id (correct rfid and id)
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test put /api/skuitems/:rfid/testResult/:id
+    ✔ test delete /api/skuitems/:rfid/testResult/:id
+    ✔ test delete /api/skuitems/:rfid/testResult/:id
+    ✔ test delete /api/skuitems/:rfid/testResult/:id
+    ✔ test delete /api/skuitems/:rfid/testResult/:id
+    ✔ test delete /api/skuitems/:rfid/testResult/:id
+    ✔ test delete /api/skuitems/:rfid/testResult/:id
+    ✔ test delete /api/skuitems/:rfid/testResult/:id
+
+  test user apis
+    ✔ test post /api/newUser
+Error: Conflict
+    at Statement.<anonymous> (C:\Users\matti\OneDrive\Desktop\group54\EzWh\code\server\datainterface\USER\USER_DAO.js:36:28)
+    ✔ test post /api/newUser
+    ✔ test post /api/newUser
+    ✔ test post /api/newUser
+    ✔ test post /api/newUser
+    ✔ test post /api/newUser
+    ✔ test post /api/newUser
+    ✔ test get /api/suppliers
+    ✔ test /api/users
+    ✔ test put /api/users/:username
+    ✔ test put /api/users/:username
+    ✔ test put /api/users/:username
+    ✔ test put /api/users/:username
+    ✔ test delete /api/users/:username/:type
+    ✔ test delete /api/users/:username/:type
+    ✔ test delete /api/users/:username/:type
+    ✔ test delete /api/users/:username/:type
+
+
+  300 passing (33s)
+

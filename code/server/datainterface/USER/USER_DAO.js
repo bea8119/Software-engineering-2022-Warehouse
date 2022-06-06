@@ -182,7 +182,6 @@ class USER_DAO {
         return new Promise((resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM USER WHERE username = ?';
             db.get(sql1, [data.username], (err, r) => {
-                console.log("customer session: "+r.count+" "+r.username+" "+r.password+ " "+md5(data.password)+" "+r.type)
                 if (err) {
                     reject(err);
                 } else if (r.count === 0 || r.password !==  md5(data.password) || r.type !== "supplier") {
