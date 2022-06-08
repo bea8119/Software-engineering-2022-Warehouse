@@ -21,7 +21,7 @@
   "scripts": {
     "apiTest": "mocha test --timeout 10000 --exit > ./studentApiTestResult.txt",
     "test": "node ./node_modules/jest/bin/jest.js --runInBand --coverage > ./unitTestResult.txt",
-    "acceptanceTest": "npx mocha --runInBand --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome --timeout 10000 --exit",
+    "acceptanceTest": "npx mocha --runInBand --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome --timeout 20000 --exit",
     "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 10000 --exit"
   }
 }
