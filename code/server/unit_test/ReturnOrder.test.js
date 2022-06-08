@@ -15,15 +15,13 @@ describe("test RETURNORDER", () => {
 
         let returnOrder = {
             returnDate: "2021/11/29 09:33",
-            products: [{ SKUId: 12, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" },
-            { SKUId: 180, description: "another product", price: 11.99, RFID: "12345678901234567890123456789038" }],
+            products: [{ SKUId: 12, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" }],
             restockOrderId: 1
         }
         let restockOrder =
         {
             issueDate: "2021/11/29 09:33",
-            products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 },
-            { SKUId: 180, description: "another product", price: 11.99, qty: 20 }],
+            products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
             supplierId: 1
         }
 
@@ -57,12 +55,6 @@ function testGetStoredReturnOrders() {
                 description: "a product",
                 price: 10.99,
                 RFID: "12345678901234567890123456789016"
-            },
-            {
-                SKUId: 180,
-                description: "another product",
-                price: 11.99,
-                RFID: "12345678901234567890123456789038"
             }],
             restockOrderId: 1
         }])
@@ -75,8 +67,7 @@ function testStoreReturnOrders(id) {
     test("Testing storeReturnOrder", async () => {
         let rO = {
             returnDate: "2021/11/23 09:33",
-            products: [{ SKUId: 1, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" },
-            { SKUId: 2, description: "another product", price: 11.99, RFID: "12345678901234567890123456789038" }],
+            products: [{ SKUId: 1, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" }],
             restockOrderId: 1
         }
 
@@ -92,12 +83,6 @@ function testStoreReturnOrders(id) {
                 description: "a product",
                 price: 10.99,
                 RFID: "12345678901234567890123456789016"
-            },
-            {
-                SKUId: 2,
-                description: "another product",
-                price: 11.99,
-                RFID: "12345678901234567890123456789038"
             }],
             restockOrderId: 1
         })
