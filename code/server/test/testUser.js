@@ -10,7 +10,7 @@ describe('test user apis', () => {
 
     beforeEach(async () => {
         let user1 = { 
-            username:"user1@ezwh.com",
+            username:"user3@ezwh.com",
             name:"John",
             surname: "Smith",
             password: "testpassword",
@@ -67,7 +67,7 @@ describe('test user apis', () => {
     })
 
     postUser(201, "user8@ezwh.com", "User", "8", "testpassword8", "customer") 
-    postUser(409, "user1@ezwh.com", "John", "Smith", "testpassword", "customer")
+    postUser(409, "user3@ezwh.com", "John", "Smith", "testpassword", "customer")
     postUser(422, "", "User", "8", "testpassword8", "customer")
     postUser(422, "user8@ezwh.com", "", "8", "testpassword8", "customer")
     postUser(422, "user8@ezwh.com", "User", "", "testpassword8", "customer")
@@ -77,12 +77,12 @@ describe('test user apis', () => {
     getStoredSuppliers()
     getStoredUsers()
 
-    putUser(200, "user1@ezwh.com", "customer", "qualityEmployee") 
-    putUser(422, "user1@ezwh.com", "customer", "manger")
-    putUser(422, "user1@ezwh.com", "customer", "administrator")
+    putUser(200, "user3@ezwh.com", "customer", "qualityEmployee") 
+    putUser(422, "user3@ezwh.com", "customer", "manger")
+    putUser(422, "user3@ezwh.com", "customer", "administrator")
     putUser(404, "user11@ezwh.com", "customer", "qualityEmployee")
 
-    deleteUser(204, "user1@ezwh.com", "customer") 
+    deleteUser(204, "user3@ezwh.com", "customer") 
     deleteUser(422, "massimo.palermo@manager.ezwh.com", "manager") 
     deleteUser(422, "user1@ezwh.com", "customerr") 
     deleteUser(422, undefined, "customer") 
@@ -148,7 +148,7 @@ function getStoredUsers() {
                         "id":1,
                         "name":"John",
                         "surname": "Smith",
-                        "email":"user1@ezwh.com",
+                        "email":"user3@ezwh.com",
                         "type": "customer"
                     }, {
                         "id":2,

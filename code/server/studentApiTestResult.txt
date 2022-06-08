@@ -2,7 +2,7 @@ Server listening at http://localhost:3001
 
 
   test internalOrder apis
-    ✔ test drop /api/internalOrder/emergenza (deleting data...)
+    ✔ test drop /api/internalOrder/emergenza (deleting data...) (45ms)
     ✔ test post /api/internalOrders
     ✔ test post /api/internalOrders
     ✔ test post /api/internalOrders
@@ -31,7 +31,7 @@ Server listening at http://localhost:3001
     { SkuId: 180, RFID: '12345678901234567890123456789038' }
   ]
 }
-    ✔ test put /api/internalOrders/:id (43ms)
+    ✔ test put /api/internalOrders/:id (53ms)
 {
   newState: 'COMPLETED',
   products: [
@@ -124,7 +124,7 @@ Server listening at http://localhost:3001
       ✔ test delete /api/position/:positionID
 
   test restockOrder apis
-    ✔ test /api/restockOrder/emergenza (deleting data...) (43ms)
+    ✔ test /api/restockOrder/emergenza (deleting data...) (45ms)
     ✔ test /api/restockOrder
     ✔ test /api/restockOrder
     ✔ test /api/restockOrder
@@ -147,8 +147,8 @@ Server listening at http://localhost:3001
     ✔ test put /api/restockOrder/:id
     ✔ test put /api/restockOrder/:id
     ✔ test put /api/restockOrder/:id
-    ✔ test put /api/restockOrder/:id/skuItems (40ms)
-    ✔ test put /api/restockOrder/:id/skuItems (47ms)
+    ✔ test put /api/restockOrder/:id/skuItems (38ms)
+    ✔ test put /api/restockOrder/:id/skuItems (53ms)
     ✔ test put /api/restockOrder/:id/skuItems
     ✔ test put /api/restockOrder/:id/skuItems
     ✔ test put /api/restockOrder/:id/skuItems
@@ -165,7 +165,7 @@ Server listening at http://localhost:3001
     ✔ test put /api/restockOrder/:id/transportNote
     ✔ test put /api/restockOrder/:id/transportNote
     ✔ test put /api/restockOrder/:id/transportNote
-    ✔ test put /api/restockOrder/:id/transportNote
+    ✔ test put /api/restockOrder/:id/transportNote (50ms)
     ✔ test put /api/restockOrder/:id/transportNote
     ✔ test put /api/restockOrder/:id/transportNote
     ✔ test put /api/restockOrder/:id/transportNote
@@ -279,7 +279,7 @@ Server listening at http://localhost:3001
     ✔ test /api/testDescriptor/emergenza/superermergenza (deleting data...)
     ✔ test get /api/testDescriptors/:id (correct id)
     ✔ test get /api/testDescriptors
-    ✔ test post /api/testDescriptor
+    ✔ test post /api/testDescriptor (694ms)
     ✔ test post /api/testDescriptor
     ✔ test post /api/testDescriptor
     ✔ test post /api/testDescriptor
@@ -364,5 +364,5 @@ Error: Conflict
     ✔ test delete /api/users/:username/:type
 
 
-  300 passing (31s)
+  300 passing (40s)
 
