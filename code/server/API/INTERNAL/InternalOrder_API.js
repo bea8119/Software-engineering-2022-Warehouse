@@ -25,7 +25,7 @@ app.post('/api/internalOrders', async (req, res) => {
     let internalOrder = req.body;
 
     if (Object.keys(req.body).length === 0 || internalOrder === undefined || 
-    internalOrder.issueDate === undefined || !((dayjs(internalOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(internalOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
+    internalOrder.issueDate === undefined || !((dayjs(internalOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(internalOrder.issueDate, 'YYYY/MM/DD HH:mm', true).isValid())|| (dayjs(internalOrder.issueDate, 'YYYY/MM/DD H:mm', true).isValid()))  ||
     internalOrder.products === undefined ||  
     internalOrder.customerId === undefined || isNaN(internalOrder.customerId)) {
         return res.status(422).json({ error: 'Unprocessable entity' });
@@ -48,6 +48,7 @@ app.post('/api/internalOrders', async (req, res) => {
 /* InternalOrder get */
 app.get('/api/internalOrders', async (req, res) => {
     try {
+        await i.newTableName(db);
         const internalOrderList = await i.getStoredInternalOrder(db);
         res.status(200).json(internalOrderList);
 
@@ -109,10 +110,13 @@ app.put('/api/internalOrders/:id', async (req, res) => {
     let id = req.params.id;
     //let skuitems = req.body;
     let skuproduckt = req.body;
+    console.log(req.body);
     if (isNaN(id)) {
         res.status(404).json("Not Found")
     }
-    else if (Object.keys(req.body).length === 0 || skuproduckt === undefined || skuproduckt.newState === undefined || id===undefined) {
+    else if (Object.keys(req.body).length === 0 || 
+    skuproduckt === undefined || 
+    skuproduckt.newState === undefined) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     else if (skuproduckt.newState === "COMPLETED") {

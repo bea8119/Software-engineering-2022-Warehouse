@@ -21,22 +21,31 @@ dayjs.extend(customParseFormat)
 /* SKUItem Post */
 
 app.post('/api/skuitem', async (req, res) => {
+    
 
     let skuitem = req.body;
+
+
+    
     if (Object.keys(req.body).length === 0 ||
         skuitem === undefined ||
         /* RFID must be 32 DIGITS long */
-        skuitem.RFID === undefined || skuitem.RFID.length !== 32 || !(/^\d+$/.test(skuitem.RFID)) ||
+        skuitem.RFID === undefined || 
         skuitem.SKUId === undefined ||
 
         /* block if date is not within one of these formats: */
 
-        !((dayjs(skuitem.DateOfStock, 'YYYY/MM/DD', true).isValid()) || (dayjs(skuitem.DateOfStock, 'YYYY/MM/DD hh:mm', true).isValid()) ||
-            skuitem.DateOfStock === undefined || skuitem.DateOfStock === "")
+        !((dayjs(skuitem.DateOfStock, 'YYYY/MM/DD', true).isValid()) || (dayjs(skuitem.DateOfStock, 'YYYY/MM/DD HH:mm', true).isValid())) ||
+            skuitem.DateOfStock === undefined || skuitem.DateOfStock === ""
     ) {
 
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
+
+    if (skuitem.RFID !== undefined && (skuitem.RFID.length !== 32 || !(/^\d+$/.test(skuitem.RFID)))) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
+
     if (skuitem.DateOfStock === undefined || skuitem.DateOfStock === '') {
         skuitem.DateOfStock = "YYYY/MM/DD HH:MM";
     }
@@ -140,17 +149,24 @@ app.put('/api/skuitems/:rfid', async (req, res) => {
 
     if (Object.keys(req.body).length === 0 ||
         skuitem === undefined ||
-        rfid === undefined || rfid.length !== 32 || !(/^\d+$/.test(rfid)) ||
-        skuitem.newRFID === undefined || skuitem.newRFID.length !== 32 || !(/^\d+$/.test(skuitem.newRFID)) ||
+        rfid === undefined || 
+        skuitem.newRFID === undefined || 
         skuitem.newAvailable === undefined || (skuitem.newAvailable !== 0 && skuitem.newAvailable !== 1) ||
 
         /* block if date is not within one of these formats: */
 
-        !((dayjs(skuitem.newDateOfStock, 'YYYY/MM/DD', true).isValid()) || (dayjs(skuitem.newDateOfStock, 'YYYY/MM/DD hh:mm', true).isValid()) ||
-        skuitem.newDateOfStock === undefined || skuitem.newDateOfStock === "")
+        !((dayjs(skuitem.newDateOfStock, 'YYYY/MM/DD', true).isValid()) || (dayjs(skuitem.newDateOfStock, 'YYYY/MM/DD HH:mm', true).isValid())) ||
+        skuitem.newDateOfStock === undefined || skuitem.newDateOfStock === ""
     ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
+
+    if (rfid !== undefined && (rfid.length !== 32 || !(/^\d+$/.test(rfid))) ||
+        skuitem.newRFID !== undefined && (skuitem.newRFID.length !== 32 || !(/^\d+$/.test(skuitem.newRFID)))   
+    ) {
+        return res.status(422).json({ error: 'Unprocessable entity' });
+    }
+    
     if (skuitem.newDateOfStock === undefined || skuitem.newDateOfStock === "") {
         skuitem.newDateOfStock = "YYYY/MM/DD HH:MM";
     }

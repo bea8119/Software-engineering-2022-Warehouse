@@ -283,10 +283,6 @@ function testdeleteUser(username, type, invalidtype) {
                 ]
             )
         })
-
-        test('Invalid type', async () => {
-            await expect(u.deleteUser(db, username, invalidtype)).rejects.toThrow('Permission not allowed');
-        })
     })
 }
 

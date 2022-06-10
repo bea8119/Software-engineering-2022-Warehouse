@@ -26,7 +26,7 @@ app.post('/api/restockOrder', async (req, res) => {
     let restockOrder = req.body;
     if (Object.keys(req.body).length === 0 ||
         restockOrder === undefined ||
-        restockOrder.issueDate === undefined || !((dayjs(restockOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(restockOrder.issueDate, 'YYYY/MM/DD hh:mm', true).isValid()))  ||
+        restockOrder.issueDate === undefined || !((dayjs(restockOrder.issueDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(restockOrder.issueDate, 'YYYY/MM/DD HH:mm', true).isValid()))  ||
         restockOrder.products === undefined ||
         restockOrder.supplierId === undefined || isNaN(restockOrder.supplierId)){
         return res.status(422).json({ error: 'Unprocessable entity' });
@@ -212,6 +212,7 @@ app.put('/api/restockOrder/:id/skuItems', async (req, res) => {
         } else if (err.message === "Not DELIVERED state"){
             res.status(422).json({error: 'Unprocessable entity'});
         } else {
+            console.log(err)
             res.status(503).end();
         }
     }
@@ -228,7 +229,7 @@ app.put('/api/restockOrder/:id/transportNote', async (req, res) => {
     if (Object.keys(req.body).length === 0 ||
     isNaN(id) ||
     transportNote.transportNote === undefined ||
-    transportNote.transportNote.deliveryDate === undefined || !((dayjs(transportNote.transportNote.deliveryDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(transportNote.transportNote.deliveryDate, 'YYYY/MM/DD hh:mm', true).isValid()))) {
+    transportNote.transportNote.deliveryDate === undefined || !((dayjs(transportNote.transportNote.deliveryDate, 'YYYY/MM/DD', true).isValid()) || (dayjs(transportNote.transportNote.deliveryDate, 'YYYY/MM/DD HH:mm', true).isValid()))) {
         return res.status(422).json({error: 'Unprocessable entity'});
     }
     try {

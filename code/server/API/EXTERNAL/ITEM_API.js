@@ -16,6 +16,7 @@ const i = new ITEM_DAO();
 /* ITEMS get */
 app.get('/api/items', async (req, res) => {
     try {
+        await i.newTableName(db);
         const ITEMlist = await i.getStoredITEM(db);
         res.status(200).json(ITEMlist);
 

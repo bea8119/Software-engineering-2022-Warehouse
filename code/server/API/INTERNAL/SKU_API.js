@@ -14,6 +14,7 @@ const s =  new SKU_DAO();
 
 
 
+
 /* SKU Post */
 
 app.post('/api/sku', async (req, res) => {
@@ -24,7 +25,14 @@ app.post('/api/sku', async (req, res) => {
 
     let sku = req.body;
 
-    if (sku === undefined || sku.description === undefined || sku.weight === undefined || sku.volume === undefined || sku.price === undefined || sku.availableQuantity === undefined ) {
+    if (sku === undefined || 
+        sku.description === undefined || sku.description === "" || 
+        sku.notes === undefined || sku.notes === "" ||
+        sku.weight === undefined || isNaN(sku.weight) || sku.weight < 0 || !Number.isInteger(sku.weight) ||
+        sku.volume === undefined || isNaN(sku.volume) || sku.volume < 0 || !Number.isInteger(sku.volume) ||
+        sku.price === undefined ||  isNaN(sku.price) || sku.price < 0 || 
+        sku.availableQuantity === undefined || isNaN(sku.availableQuantity) || sku.availableQuantity < 0 || !Number.isInteger(sku.availableQuantity)
+        ) {
         return res.status(422).json({ error: 'Invalid sku data' });
     }
 
@@ -48,6 +56,7 @@ app.get('/api/skus', async (req, res) => {
         const SKUlist = await s.getStoredSKU(db);
         res.status(200).json(SKUlist);
     } catch (err) {
+        console.log(err);
         res.status(500).end();
     }
 });
@@ -78,6 +87,7 @@ app.get('/api/skus/:id', async (req, res) => {
         if (err.message === "ID not found"){
             res.status(404).end()
         } else {
+            console.log(err);
             res.status(500).end();
         }
     }
@@ -95,7 +105,15 @@ app.put('/api/sku/:id', async (req, res) => {
     let id = req.params.id;
     let sku = req.body;
 
-    if (Object.keys(req.body).length === 0 || isNaN(id) || sku === undefined || sku.newDescription === undefined || sku.newWeight === undefined || sku.newVolume === undefined || sku.newPrice === undefined || sku.newAvailableQuantity === undefined ) {
+    if (Object.keys(req.body).length === 0 || 
+    isNaN(id) || 
+    sku === undefined || 
+    sku.newDescription === undefined || sku.newDescription === "" ||
+    sku.newNotes === undefined || sku.newNotes === "" || 
+    sku.newWeight === undefined || 
+    sku.newVolume === undefined || 
+    sku.newPrice === undefined || 
+    sku.newAvailableQuantity === undefined ) {
         return res.status(422).json({ error: 'Unprocessable entity' });
     }
     
@@ -168,6 +186,7 @@ app.delete('/api/skus', (req, res) => {
         res.status(204).end();
     }
     catch (err) {
+        console.log(err);
         res.status(500).end();
     }
 });
@@ -179,11 +198,6 @@ app.delete('/api/skus/:id', async (req, res) => {
     }
 
     let id = req.params.id;
-
-
-    if (id === undefined || isNaN(id)) {
-        res.status(422).json("Unprocessable entity")
-    }
 
     try {
         await s.deleteSKU(db, id);
