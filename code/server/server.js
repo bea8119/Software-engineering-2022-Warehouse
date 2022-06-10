@@ -35,3 +35,4 @@ require('./API/USER/USER_API');
 require('./API/SUPPLIERINTERFACE/RETURNORDER_API');
 require('./API/INTERNAL/TESTRESULT_API');
 
+module.exports = app;
