@@ -10,9 +10,9 @@ class RESTOCKORDER_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'CREATE TABLE IF NOT EXISTS RESTOCKORDER_ITEM(roid INTEGER, SKUId INTEGER, description VARCHAR(20), price REAL, quantity INTEGER, PRIMARY KEY (roid, SKUId), FOREIGN KEY(roid) REFERENCES RESTOCKORDER(id), FOREIGN KEY(SKUId) references SKU(id))'
+            const sql1 = 'CREATE TABLE IF NOT EXISTS RESTOCKORDER_ITEM(roid INTEGER, SKUId INTEGER, itemId INTEGER, description VARCHAR(20), price REAL, quantity INTEGER, PRIMARY KEY (roid, SKUId), FOREIGN KEY(roid) REFERENCES RESTOCKORDER(id), FOREIGN KEY(SKUId) references SKU(id))'
             const sql2 = 'CREATE TABLE IF NOT EXISTS RESTOCKORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, issueDate VARCHAR(20), state VARCHAR(20), supplierId INTEGER, transportNote VARCHAR(20))';
-            const sql3 = 'CREATE TABLE IF NOT EXISTS RESTOCKORDER_SKUITEM(rfid VARCHAR(32) PRIMARY KEY, SKUId INTEGER, roid INTEGER, FOREIGN KEY(rfid) REFERENCES SKUITEM(RFID), FOREIGN KEY(roid) REFERENCES RESTOCKORDER(id), FOREIGN KEY(SKUId) REFERENCES SKU(id))'
+            const sql3 = 'CREATE TABLE IF NOT EXISTS RESTOCKORDER_SKUITEM(rfid VARCHAR(32) PRIMARY KEY, SKUId INTEGER, roid INTEGER, itemId INTEGER, FOREIGN KEY(rfid) REFERENCES SKUITEM(RFID), FOREIGN KEY(roid) REFERENCES RESTOCKORDER(id), FOREIGN KEY(SKUId) REFERENCES SKU(id))'
             db.run(sql1, (err) => {
                 if (err) {
                     reject(err);
@@ -35,35 +35,82 @@ class RESTOCKORDER_DAO {
         });
     }
 
+        /* Post RestockOrder */
+
+        storeRestockOrder(db, data) {
+            return new Promise(async (resolve, reject) => {
+                const sql1 = 'INSERT INTO RESTOCKORDER(id, issueDate, state, supplierId, transportNote) VALUES (?, ?, ?, ?, ?)';
+                const sqln = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ? AND SKUId = ? AND supplierId = ?';
+                const sql2 = 'INSERT INTO RESTOCKORDER_ITEM (roid, SKUId, itemId, description, price, quantity) VALUES (?, ?, ?, ?, ?, ?)'
+                const sql3 = 'SELECT MAX(ID) AS lastroid FROM RESTOCKORDER'
+
+                //await db.get(sqln, [prod.itemId, prod.SKUId, data.supplierId], async (err, s) => {
+                    //if (s.count === 0) {
+                        //reject(new Error('Unprocessable itemId'));
+
+                await db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], async (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        await db.get(sql3, [], async (err, r) => {
+                            if (err) {
+                                reject(err);
+                            } else if (data.products.length !== 0) {
+                                await data.products.map(async (product) => {
+                                    await db.run(sql2, [r.lastroid, product.SKUId, product.itemId, product.description, product.price, product.qty], (err) => {
+                                        if (err) {
+                                            reject(err);
+                                        }
+                                    })
+                                })
+                            }
+                            resolve()
+                        })
+                    }
+                });
+            });
+        }
+
     /* Post RestockOrder */
 
-    storeRestockOrder(db, data) {
+    /* storeRestockOrder(db, data) {
         return new Promise(async (resolve, reject) => {
             const sql1 = 'INSERT INTO RESTOCKORDER(id, issueDate, state, supplierId, transportNote) VALUES (?, ?, ?, ?, ?)';
-            const sql2 = 'INSERT INTO RESTOCKORDER_ITEM (roid, SKUId, description, price, quantity) VALUES (?, ?, ?, ?, ?)'
+            const sqln = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ? AND SKUId = ? AND supplierId = ?';
+            const sql2 = 'INSERT INTO RESTOCKORDER_ITEM (roid, SKUId, itemId, description, price, quantity) VALUES (?, ?, ?, ?, ?, ?)'
             const sql3 = 'SELECT MAX(ID) AS lastroid FROM RESTOCKORDER'
-            await db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], async (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    await db.get(sql3, [], async (err, r) => {
-                        if (err) {
-                            reject(err);
-                        } else if (data.products.length !== 0) {
-                            await data.products.map(async (product) => {
-                                await db.run(sql2, [r.lastroid, product.SKUId, product.description, product.price, product.qty], (err) => {
+
+            await data.products.map(async (prod) => {
+                await db.get(sqln, [prod.itemId, prod.SKUId, data.supplierId], async (err, s) => {
+                    if (s.count === 0) {
+                        reject(new Error('Unprocessable itemId'));
+                    } else {
+                        await db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], async (err) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                await db.get(sql3, [], async (err, r) => {
                                     if (err) {
                                         reject(err);
+                                    } else if (data.products.length !== 0) {
+                                        await data.products.map(async (product) => {
+                                            await db.run(sql2, [r.lastroid, product.SKUId, product.itemId, product.description, product.price, product.qty], (err) => {
+                                                if (err) {
+                                                    reject(err);
+                                                }
+                                            })
+                                        })
                                     }
+                                    resolve()
                                 })
-                            })
-                        }
-                        resolve()
+
+                            }
+                        })
+                    }
                     })
-                }
-            });
-        });
-    }
+            })
+        })
+    } */
 
     /* Get RestockOrder */
 
@@ -92,6 +139,7 @@ class RESTOCKORDER_DAO {
                                             products: itemrows.filter((i) => i.roid === r.id).map((i) => (
                                                 {
                                                     SKUId: i.SKUId,
+                                                    itemId: i.itemId,
                                                     description: i.description,
                                                     price: i.price,
                                                     qty: i.quantity
@@ -105,6 +153,7 @@ class RESTOCKORDER_DAO {
                                             skuItems: skuitemrows.filter((s) => s.roid === r.id).length !== 0 ? skuitemrows.filter((s) => s.roid === r.id).map((s) => (
                                                 {
                                                     SKUId: s.SKUId,
+                                                    itemId: i.itemId,
                                                     rfid: s.rfid
                                                 }
                                             )) : []
@@ -144,6 +193,7 @@ class RESTOCKORDER_DAO {
                                     products: itemrows.filter((i) => i.roid === r.id).map((i) => (
                                         {
                                             SKUId: i.SKUId,
+                                            itemId: i.itemId,
                                             description: i.description,
                                             price: i.price,
                                             qty: i.quantity
@@ -189,6 +239,7 @@ class RESTOCKORDER_DAO {
                                         products: itemrows.filter((i) => i.roid === restockrow.id).map((i) => (
                                             {
                                                 SKUId: i.SKUId,
+                                                itemId: i.itemId,
                                                 description: i.description,
                                                 price: i.price,
                                                 qty: i.quantity
@@ -201,6 +252,7 @@ class RESTOCKORDER_DAO {
                                         skuItems: skuitemrows.filter((s) => s.roid === restockrow.id).length !== 0 ? skuitemrows.filter((s) => s.roid === restockrow.id).map((s) => (
                                             {
                                                 SKUId: s.SKUId,
+                                                itemId: i.itemId,
                                                 rfid: s.rfid
                                             }
                                         )) : []
@@ -238,6 +290,7 @@ class RESTOCKORDER_DAO {
                                 skuitemrows.map((s) => (
                                     {
                                         SKUId: s.SKUId,
+                                        itemId: i.itemId,
                                         rfid: s.rfid
                                     }
                                 ))
@@ -259,7 +312,7 @@ class RESTOCKORDER_DAO {
     updateRestockOrderSkuItems(db, id, data) {
         return new Promise(async (resolve, reject) => {
             const sql1 = 'SELECT COUNT(*) AS count, * FROM RESTOCKORDER WHERE id = ?'
-            const sql2 = 'INSERT INTO RESTOCKORDER_SKUITEM(rfid, SKUId, roid) VALUES(?, ?, ?)';
+            const sql2 = 'INSERT INTO RESTOCKORDER_SKUITEM(rfid, SKUId, itemId, roid) VALUES(?, ?, ?, ?)';
             await db.get(sql1, [id], (err, r) => {
                 if (err) {
                     reject(err)
@@ -269,7 +322,7 @@ class RESTOCKORDER_DAO {
                     reject(new Error('Not DELIVERED state'));
                 } else {
                     data.skuItems.map(async (skuitem) => {
-                        await db.run(sql2, [skuitem.rfid, skuitem.SKUId, id], (err) => {
+                        await db.run(sql2, [skuitem.rfid, skuitem.SKUId, skuitem.itemId, id], (err) => {
                             if (err) {
                                 reject(err);
                             } else {

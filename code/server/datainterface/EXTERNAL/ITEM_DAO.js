@@ -82,11 +82,11 @@ class ITEM_DAO {
         });
     }
 
-    /* Get Item by ID */
-    getStoredITEMbyID(db, id) {
+    /* Get Item by ID and SupplierId */
+    getStoredITEMbyIDAndSupplierId(db, id, supplierId) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT COUNT(*) AS count, * FROM ITEM WHERE id = ?'
-            db.get(sql, [id], (err, r) => {
+            const sql = 'SELECT COUNT(*) AS count, * FROM ITEM WHERE id = ? AND supplierId = ?'
+            db.get(sql, [id, supplierId], (err, r) => {
                 if (err)
                     reject(err);
                 else if (r.count === 0) {
@@ -105,11 +105,11 @@ class ITEM_DAO {
         });
     }
 
-    /* Update ITEM with ID */
-    updateItem(db, id, data) {
+    /* Update ITEM with ID and supplierID */
+    updateItem(db, id, supplierId, data) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count, * FROM ITEM WHERE id = ?'
-            db.get(sql1, [id], (err, r) => {
+            const sql1 = 'SELECT COUNT(*) AS count, * FROM ITEM WHERE id = ? AND supplierId = ?'
+            db.get(sql1, [id, supplierId], (err, r) => {
                 if (err) {
                     reject(err);
                 }
@@ -125,8 +125,8 @@ class ITEM_DAO {
                         data.newSKUId=r.SKUId;   
                     if(data.newSupplierId===undefined)
                         data.newSupplierId=r.supplierId;
-                    const sql2 = 'UPDATE ITEM SET  description = ?, price = ?, SKUId = ?, supplierId = ?  WHERE id = ?';
-                    db.run(sql2, [ data.newDescription, data.newPrice, data.newSKUId, data.newSupplierId, id], (err) => {
+                    const sql2 = 'UPDATE ITEM SET  description = ?, price = ? WHERE id = ? AND supplierId = ?';
+                    db.run(sql2, [ data.newDescription, data.newPrice, id, supplierId], (err) => {
                         if (err) {
                             reject(err);
                         } else {
@@ -139,10 +139,10 @@ class ITEM_DAO {
     }
 
     /* Delete Item */
-    deleteItem(db, id) {
+    deleteItem(db, id, supplierId) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ?';
-            db.get(sql1, [id], (err, r) => {
+            const sql1 = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ? AND supplierId = ?';
+            db.get(sql1, [id, supplierId], (err, r) => {
                 if (err) {
                     reject(err)
                 }
@@ -150,8 +150,8 @@ class ITEM_DAO {
                     reject(new Error('ID not found'));
                 }
                 else {
-                    const sql2 = 'DELETE FROM ITEM WHERE id = ?';
-                    db.run(sql2, [id], (err) => {
+                    const sql2 = 'DELETE FROM ITEM WHERE id = ? AND supplierId = ?';
+                    db.run(sql2, [id, supplierId], (err) => {
                         if (err) {
                             reject(err);
                         } else {

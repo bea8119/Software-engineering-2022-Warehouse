@@ -27,8 +27,9 @@ app.get('/api/items', async (req, res) => {
     }
 });
 
-/* ITEM get by ID */
-app.get('/api/items/:id', async (req, res) => {
+/* ITEM get by ID and Supplier ID */
+app.get('/api/items/:id/:supplierId', async (req, res) => {
+    let supplierId = req.params.supplierId
     let id = req.params.id;
     if (Object.keys(req.params).length === 0 || id === undefined || isNaN(id)) {
         return res.status(422).json({ error: 'Unprocessable entity' });
@@ -37,7 +38,7 @@ app.get('/api/items/:id', async (req, res) => {
     /*Manage unauthorized response (401)*/
 
     try {
-        const itemFound = await i.getStoredITEMbyID(db, id);
+        const itemFound = await i.getStoredITEMbyIDAndSupplierId(db, id, supplierId);
         return res.status(200).json(itemFound);
 
     } catch (err) {
@@ -80,13 +81,14 @@ app.post('/api/item', async (req, res) => {
 
 });
 
-/* ITEM Update by ID*/
-app.put('/api/item/:id', async (req, res) => {
+/* ITEM Update by ID and supplierId*/
+app.put('/api/item/:id/:supplierId', async (req, res) => {
     if (Object.keys(req.body).length === 0) {
         return res.status(422).json({ error: 'Empty body request' });
     }
     else {
         let item = req.body;
+        let supplierId = req.params.supplierId;
         let id = req.params.id;
         /* Undefined data check NB manca se il supplier ha gia item con quello skuID*/
         if (item === undefined || id===undefined || isNaN(id) /*item.newId==undefined || item.newDescription === undefined || item.newPrice === undefined || item.newSKUId === undefined || item.newSupplier === undefined*/) {
@@ -97,7 +99,7 @@ app.put('/api/item/:id', async (req, res) => {
 
         else {
             try {
-                await i.updateItem(db, id, item);
+                await i.updateItem(db, id, supplierId, item);
                 return res.status(200).end();
             }
             catch (err) {
@@ -113,15 +115,15 @@ app.put('/api/item/:id', async (req, res) => {
 });
 
 /* ITEM delete */
-app.delete('/api/items/:id', async (req, res) => {
-    let item = req.body;
+app.delete('/api/items/:id/:supplierId', async (req, res) => {
+    let supplierId = req.params.supplierId;
     let id = req.params.id;
     /* Unauthorized check */
     if (id===undefined || isNaN(id)){
         return res.status(422).json({ error: 'Unprocessable Entity' });
     }
     try {
-        await i.deleteItem(db, id);
+        await i.deleteItem(db, id, supplierId);
         res.status(204).end();
     }
     catch (err) {
