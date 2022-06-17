@@ -172,9 +172,9 @@ Content-Type: application/json
 
  {
             "issueDate":"2021/11/29 09:33",
-            "products": [{"SKUId":12,"itemId":10,"description":"a product","price":10.99,"qty":30},
-                        {"SKUId":180,"itemId":18,"description":"another product","price":11.99,"qty":20}],
-            "supplierId" : 1
+            "products": [{"SKUId":1,"itemId":2,"description":"a product","price":10.99,"qty":30},
+                        {"SKUId":2,"itemId":3,"description":"another product","price":11.99,"qty":20}],
+            "supplierId" : 4
 }
 
 
@@ -272,17 +272,17 @@ POST http://localhost:3001/api/item
 Content-Type: application/json
 
     {
-        "id" : 4,
+        "id" : 3,
         "description" : "a new item",
         "price" : 10.99,
-        "SKUId" : 1,
+        "SKUId" : 2,
         "supplierId" : 4
     }
 
 ###
 
 ###
-GET http://localhost:3001/api/items/4/4
+GET http://localhost:3001/api/items/3/4
 ###
 
 

@@ -33,6 +33,16 @@ app.post('/api/restockOrder', async (req, res) => {
     }
     try {
         await r.newTableName(db);
+        let s = 0;
+        let result = 0;
+        for(let prod of restockOrder.products)
+        { 
+        s = await r.checkProducts(db, prod, restockOrder);
+        result += s;
+        }
+        if (result < restockOrder.products.length){
+            return res.status(422).json({ error: 'Unprocessable entity' })  
+        }
         await r.storeRestockOrder(db, restockOrder);
         return res.status(201).end();
     }
@@ -54,7 +64,6 @@ app.get('/api/restockOrders', async (req, res) => {
         const restockOrders = await r.getStoredRestockOrder(db);
         res.status(200).json(restockOrders);
     } catch (err) {
-        console.log(err)
         res.status(500).end();
     }
 });
@@ -107,7 +116,6 @@ app.get('/api/restockOrders/:id/returnItems', async (req, res) => {
         } else if (err.message === "Not COMPLETEDRETURN state") {
             res.status(422).json({ error: 'Unprocessable entity' });
         } else {
-            console.log(err)
             res.status(500).end();
         }
     }
@@ -216,7 +224,6 @@ app.put('/api/restockOrder/:id/skuItems', async (req, res) => {
         } else if (err.message === "Not DELIVERED state") {
             res.status(422).json({ error: 'Unprocessable entity' });
         } else {
-            console.log(err)
             res.status(503).end();
         }
     }
