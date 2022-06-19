@@ -28,8 +28,8 @@ Report effort figures from the timesheet, compute size from the source code.
 
 | Measure | Value|
 |---|---|
-| effort for non-quality ENQ (effort for all activities in release 2, or effort to fix defects found when running official acceptance tests) |67|
-| effort for non quality, relative = ENQ / E |0.20 (more or less)|
+| effort for non-quality ENQ (effort for all activities in release 2, or effort to fix defects found when running official acceptance tests) |21|
+| effort for non quality, relative = ENQ / E |0.063 (more or less)|
 |defects after release D (number of defects found running official acceptance tests and  fixed in release 2) |118|
 | defects before release vs defects after release = D/D_before |1.66 (more or less)|
 |DD = defect density = D/S|0.03 (more or less)|
