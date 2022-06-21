@@ -35,19 +35,14 @@ class RESTOCKORDER_DAO {
         });
     }
 
-        /* Post RestockOrder */
+    /* Post RestockOrder */
 
-        storeRestockOrder(db, data) {
-            return new Promise(async (resolve, reject) => {
-                const sql1 = 'INSERT INTO RESTOCKORDER(id, issueDate, state, supplierId, transportNote) VALUES (?, ?, ?, ?, ?)';
-                const sqln = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ? AND SKUId = ? AND supplierId = ?';
-                const sql2 = 'INSERT INTO RESTOCKORDER_ITEM (roid, SKUId, itemId, description, price, quantity) VALUES (?, ?, ?, ?, ?, ?)'
-                const sql3 = 'SELECT MAX(ID) AS lastroid FROM RESTOCKORDER'
+    storeRestockOrder(db, data) {
 
-                //await db.get(sqln, [prod.itemId, prod.SKUId, data.supplierId], async (err, s) => {
-                    //if (s.count === 0) {
-                        //reject(new Error('Unprocessable itemId'));
-
+        return new Promise(async (resolve, reject) => {
+            const sql1 = 'INSERT INTO RESTOCKORDER(id, issueDate, state, supplierId, transportNote) VALUES (?, ?, ?, ?, ?)';
+            const sql2 = 'INSERT INTO RESTOCKORDER_ITEM (roid, SKUId, itemId, description, price, quantity) VALUES (?, ?, ?, ?, ?, ?)'
+            const sql3 = 'SELECT MAX(ID) AS lastroid FROM RESTOCKORDER'
                 await db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], async (err) => {
                     if (err) {
                         reject(err);
@@ -68,49 +63,11 @@ class RESTOCKORDER_DAO {
                         })
                     }
                 });
-            });
-        }
+        });
 
-    /* Post RestockOrder */
+    }
 
-    /* storeRestockOrder(db, data) {
-        return new Promise(async (resolve, reject) => {
-            const sql1 = 'INSERT INTO RESTOCKORDER(id, issueDate, state, supplierId, transportNote) VALUES (?, ?, ?, ?, ?)';
-            const sqln = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ? AND SKUId = ? AND supplierId = ?';
-            const sql2 = 'INSERT INTO RESTOCKORDER_ITEM (roid, SKUId, itemId, description, price, quantity) VALUES (?, ?, ?, ?, ?, ?)'
-            const sql3 = 'SELECT MAX(ID) AS lastroid FROM RESTOCKORDER'
 
-            await data.products.map(async (prod) => {
-                await db.get(sqln, [prod.itemId, prod.SKUId, data.supplierId], async (err, s) => {
-                    if (s.count === 0) {
-                        reject(new Error('Unprocessable itemId'));
-                    } else {
-                        await db.run(sql1, [null, data.issueDate, "ISSUED", data.supplierId, null], async (err) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                await db.get(sql3, [], async (err, r) => {
-                                    if (err) {
-                                        reject(err);
-                                    } else if (data.products.length !== 0) {
-                                        await data.products.map(async (product) => {
-                                            await db.run(sql2, [r.lastroid, product.SKUId, product.itemId, product.description, product.price, product.qty], (err) => {
-                                                if (err) {
-                                                    reject(err);
-                                                }
-                                            })
-                                        })
-                                    }
-                                    resolve()
-                                })
-
-                            }
-                        })
-                    }
-                    })
-            })
-        })
-    } */
 
     /* Get RestockOrder */
 
@@ -461,7 +418,22 @@ class RESTOCKORDER_DAO {
 
         })
     }
-}
+
+    async checkProducts(db, prod, restockOrder) {
+        return new Promise(async (resolve, reject) => {
+            const sqln = 'SELECT COUNT(*) AS count FROM ITEM WHERE id = ? AND SKUId = ? AND supplierId = ?';
+                db.get(sqln, [prod.itemId, prod.SKUId, restockOrder.supplierId], (err, s) => {
+                    if (err){
+                        reject (err);
+                    }
+                    else {
+                        resolve(s.count)
+                    }
+                })
+            })
+        }
+    }
+
 
 
 /* Export class RESTOCKORDER_DAO with methods */
