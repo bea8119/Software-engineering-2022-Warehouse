@@ -27,7 +27,7 @@ class ReturnOrder_DAO {
 
     newTableName(db) {
         return new Promise((resolve, reject) => {
-            const sql1 = 'CREATE TABLE IF NOT EXISTS RETURNORDER_PRODUCT(SKUId INTEGER, description VARCHAR(20), price REAL, RFID VARCHAR(32), roid INTEGER, PRIMARY KEY (SKUId, roid), FOREIGN KEY (roid) REFERENCES RETURNORDER(id) ON UPDATE CASCADE ON DELETE SET NULL )'
+            const sql1 = 'CREATE TABLE IF NOT EXISTS RETURNORDER_PRODUCT(SKUId INTEGER, itemId INTEGER, description VARCHAR(20), price REAL, RFID VARCHAR(32), roid INTEGER, PRIMARY KEY (SKUId, roid), FOREIGN KEY (roid) REFERENCES RETURNORDER(id) ON UPDATE CASCADE ON DELETE SET NULL )'
             const sql2 = 'CREATE TABLE IF NOT EXISTS RETURNORDER(id INTEGER PRIMARY KEY AUTOINCREMENT, returnDate VARCHAR(20), restockOrderId INTEGER, FOREIGN KEY (restockOrderId) REFERENCES RESTOCKORDER(id) ON UPDATE CASCADE ON DELETE SET NULL)';
            
             db.run(sql1, (err) => {
@@ -49,7 +49,7 @@ class ReturnOrder_DAO {
     async storeReturnOrder(db, data) {
         return new Promise(async (resolve, reject) => {
             const sql1 = 'INSERT INTO RETURNORDER(id, returnDate, restockOrderId) VALUES (?, ?, ?)';
-            const sql2 = 'INSERT INTO RETURNORDER_PRODUCT (SKUId, description, price, RFID, roid) VALUES (?, ?, ?, ?, ?)'
+            const sql2 = 'INSERT INTO RETURNORDER_PRODUCT (SKUId, itemId, description, price, RFID, roid) VALUES (?, ?, ?, ?, ?, ?)'
             const sql3 = 'SELECT MAX(id) AS lastroid FROM RETURNORDER'
             const sql4 = 'SELECT COUNT(*) AS count FROM RESTOCKORDER WHERE id = ? ';
             await db.get(sql4, [data.restockOrderId], async (err, m) => {
@@ -69,7 +69,7 @@ class ReturnOrder_DAO {
                         } else {
 
                             await data.products.map(async (product) => {
-                                await db.run(sql2, [product.SKUId, product.description, product.price, product.RFID, r.lastroid], (err) => {
+                                await db.run(sql2, [product.SKUId, product.itemId, product.description, product.price, product.RFID, r.lastroid], (err) => {
                                     if (err) {
                                         reject(err);
                                     }
@@ -114,6 +114,7 @@ class ReturnOrder_DAO {
                                 products:  itemrows.filter( (i) => i.roid === r.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
+                                        itemId: i.itemId,
                                         description: i.description,
                                         price: i.price,
                                         RFID: i.RFID
@@ -162,6 +163,7 @@ class ReturnOrder_DAO {
                                 products: itemrows.filter((i) => i.roid === r.id).map((i) => (
                                     {
                                         SKUId: i.SKUId,
+                                        itemId: i.itemId,
                                         description: i.description,
                                         price: i.price,
                                         RFID: i.RFID
