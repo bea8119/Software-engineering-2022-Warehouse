@@ -96,34 +96,39 @@ class TESTRESULT_DAO {
                 }
                 else if (r.count === 0) {
                     reject(new Error("ID not found"));
+                } else {
+                    const sql0 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE rfid = ?'
+                    db.get(sql0, [rfid], (err, z) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else if (z.count === 0) {
+                            reject(new Error("ID not found"));
+                        } else {
+                            const sql1 = 'SELECT COUNT(*) AS count2, * FROM TESTRESULT WHERE rfid = ? AND id = ?'
+                            db.get(sql1, [rfid, id], (err, s) => {
+                                if (err) {
+                                    reject(err);
+                                }
+                                else if (s.count2 === 0) {
+                                    reject(new Error("ID not found"));
+                                }
+                                else {
+                                    const testResult =
+                                    {
+                                        id: s.id,
+                                        idTestDescriptor: s.idTestDescriptor,
+                                        Date: s.Date,
+                                        Result: (s.Result) ? true : false
+                                    }
+                                    resolve(testResult);
+                                }
+                            });
+                        }
+                    })
                 }
-            const sql0 = 'SELECT COUNT(*) AS count FROM SKUITEM WHERE rfid = ?'
-            db.get(sql0, [rfid], (err, r) => {
-                if (err) {
-                    reject(err);
-                }
-                else if (r.count === 0) {
-                    reject(new Error("ID not found"));
-                }
-            const sql1 = 'SELECT * FROM TESTRESULT WHERE rfid = ? AND id = ?'
-            db.get(sql1, [rfid, id], (err, r) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                        const testResult =
-                            {
-                                id: r.id,
-                                idTestDescriptor: r.idTestDescriptor,
-                                Date: r.Date,
-                                Result: (r.Result) ? true : false
-                            }
-                        resolve(testResult);
-                }
-            });
+            })
         })
-        })
-    })
     }
 
     /* Delete TestResult by ID */

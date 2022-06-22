@@ -33,11 +33,19 @@ describe("test restockOrders", () => {
             id: 2,
             description: "a new item2",
             price: 10.99,
-            SKUId: 1,
+            SKUId: 2,
             supplierId: 1
         }
 
         let sku = {
+            description: "a new sku",
+            weight: 100,
+            volume: 50,
+            notes: "first SKU",
+            price: 10.99,
+            availableQuantity: 50
+        }
+        let sku2 = {
             description: "a new sku",
             weight: 100,
             volume: 50,
@@ -108,6 +116,7 @@ describe("test restockOrders", () => {
 
             await r.storeRestockOrder(db, restockOrder);
             await s.storeSKU(db, sku);
+            await s.storeSKU(db, sku2);
             await si.storeSKUItem(db, skuitem1);
             await si.storeSKUItem(db, skuitem2);
             await i.storeITEM(db, item);
@@ -378,7 +387,7 @@ function testUpdateRestockOrderSkuItems(id, wrongid) {
     }
     let skuitems1 =
     {
-        skuItems: [{ SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789016" }, { SKUId: 1, itemId: 2, rfid: "12345678901234567890123456789017" }]
+        skuItems: [{ SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789016" }, { SKUId: 2, itemId: 2, rfid: "12345678901234567890123456789017" }]
     }
     let skuitems2 =
     {
@@ -397,7 +406,7 @@ function testUpdateRestockOrderSkuItems(id, wrongid) {
                     products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                     supplierId: 1,
                     transportNote: {},
-                    skuItems: [{ SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789016" }, { SKUId: 1, itemId: 2, rfid: "12345678901234567890123456789017" }]
+                    skuItems: [{ SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789016" }, { SKUId: 2, itemId: 2, rfid: "12345678901234567890123456789017" }]
                 },
             )
         })
@@ -451,7 +460,7 @@ function testGetSkuItemsToReturn(id, wrongid) {
     }
     let skuitems1 =
     {
-        skuItems: [{ SKUId: 1, itemId: 2, rfid: "12345678901234567890123456789747" }, { SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789748" }]
+        skuItems: [{ SKUId: 2, itemId: 2, rfid: "12345678901234567890123456789747" }, { SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789748" }]
     }
 
     describe('Testing UpdateRestockOrderSkuItems', () => {

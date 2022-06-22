@@ -60,7 +60,7 @@ describe("Test items", () => {
     // testTry(); 
 
     testGetStoredITEM(1, "a new item", 10.99, 1, 1);
-    testStoreITEM(2, "a new item", 10.99, 1, 1, 13, 2);
+    testStoreITEM(2, "a new item", 10.99, 1, 2, 13, 1);
     testGetStoredITEMbyID(1, "a new item", 10.99, 1, 1, 2, null);
     testUpdateItem(1, 1, "a new item", 10.99, 1, 1, 13);
     testDeleteItem(1, 13, 1);
@@ -107,11 +107,11 @@ function testStoreITEM(Id, Description, Price, SKUID, SupplierId, wrongskuid, al
 
         test('SKUId existing; Item already sells', async () => {
             const alreadySells = {
-                id: alreadySellsSkuid,
+                id: Id,
                 description: Description,
                 price: Price,
                 SKUId: SKUID,
-                supplierId: SupplierId
+                supplierId: alreadySellsSkuid
             }
             await expect(i.storeITEM(db, alreadySells)).rejects.toThrow('Item already sells');
         });
