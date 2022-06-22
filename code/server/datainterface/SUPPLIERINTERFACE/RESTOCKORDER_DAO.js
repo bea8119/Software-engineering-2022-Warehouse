@@ -110,7 +110,7 @@ class RESTOCKORDER_DAO {
                                             skuItems: skuitemrows.filter((s) => s.roid === r.id).length !== 0 ? skuitemrows.filter((s) => s.roid === r.id).map((s) => (
                                                 {
                                                     SKUId: s.SKUId,
-                                                    itemId: i.itemId,
+                                                    itemId: s.itemId,
                                                     rfid: s.rfid
                                                 }
                                             )) : []
@@ -209,7 +209,7 @@ class RESTOCKORDER_DAO {
                                         skuItems: skuitemrows.filter((s) => s.roid === restockrow.id).length !== 0 ? skuitemrows.filter((s) => s.roid === restockrow.id).map((s) => (
                                             {
                                                 SKUId: s.SKUId,
-                                                itemId: i.itemId,
+                                                itemId: s.itemId,
                                                 rfid: s.rfid
                                             }
                                         )) : []
@@ -247,7 +247,7 @@ class RESTOCKORDER_DAO {
                                 skuitemrows.map((s) => (
                                     {
                                         SKUId: s.SKUId,
-                                        itemId: i.itemId,
+                                        itemId: s.itemId,
                                         rfid: s.rfid
                                     }
                                 ))

@@ -3,6 +3,8 @@ const TestDescriptor_DAO = require('../datainterface/INTERNAL/TestDescriptor_DAO
 const TESTRESULT_DAO = require('../datainterface/INTERNAL/TESTRESULT_DAO')
 const SKU_DAO = require('../datainterface/INTERNAL/SKU_DAO');
 const SKUITEM_DAO = require('../datainterface/INTERNAL/SKUITEM_DAO')
+const ITEM_DAO = require('../datainterface/External/ITEM_DAO');
+const i = new ITEM_DAO();
 const r = new RESTOCKORDER_DAO()
 const td = new TestDescriptor_DAO()
 const tr = new TESTRESULT_DAO()
@@ -18,6 +20,22 @@ describe("test restockOrders", () => {
         await r.dropTable(db);
         await s.dropTable(db);
         await si.dropTable(db);
+        await i.dropTable(db);
+
+        let item = {
+            id: 1,
+            description: "a new item",
+            price: 10.99,
+            SKUId: 1,
+            supplierId: 1
+        }
+        let item2 = {
+            id: 2,
+            description: "a new item2",
+            price: 10.99,
+            SKUId: 1,
+            supplierId: 1
+        }
 
         let sku = {
             description: "a new sku",
@@ -77,7 +95,7 @@ describe("test restockOrders", () => {
         let restockOrder =
         {
             issueDate: "2021/11/29 09:33",
-            products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 } ],
+            products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 } ],
             supplierId: 1
         }
         try {
@@ -86,11 +104,14 @@ describe("test restockOrders", () => {
             await s.newTableName(db);
             await si.newTableName(db);
             await r.newTableName(db);
+            await i.newTableName(db);
 
             await r.storeRestockOrder(db, restockOrder);
             await s.storeSKU(db, sku);
             await si.storeSKUItem(db, skuitem1);
             await si.storeSKUItem(db, skuitem2);
+            await i.storeITEM(db, item);
+            await i.storeITEM(db, item2);
             await td.storeTestDescriptor(db, testDescriptor);
             await tr.storeTestResult(db, testResult1);
             await tr.storeTestResult(db, testResult2);
@@ -132,7 +153,7 @@ function testGetStoredRestockOrder() {
                         id: 1,
                         issueDate: "2021/11/29 09:33",
                         state: "ISSUED",
-                        products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+                        products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                         supplierId: 1,
                         transportNote: {},
                         skuItems: []
@@ -144,7 +165,7 @@ function testGetStoredRestockOrder() {
             restockOrder = {
                 issueDate: "2021/11/29 10:31",
                 products: [
-                    { SKUId: 13, description: "a product", price: 10.99, qty: 30 }
+                    { SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }
                 ],
                 supplierId: 1
             }
@@ -157,7 +178,7 @@ function testGetStoredRestockOrder() {
                         id: 1,
                         issueDate: "2021/11/29 09:33",
                         state: "ISSUED",
-                        products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+                        products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                         supplierId: 1,
                         transportNote: {},
                         skuItems: []
@@ -166,7 +187,7 @@ function testGetStoredRestockOrder() {
                         id: 2,
                         issueDate: "2021/11/29 10:31",
                         state: "ISSUED",
-                        products: [{ SKUId: 13, description: "a product", price: 10.99, qty: 30 }],
+                        products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                         supplierId: 1,
                         transportNote: {},
                         skuItems: []
@@ -182,7 +203,7 @@ function testStoreRestockOrder(id) {
         restockOrder = {
             issueDate: "2021/11/29 10:30",
             products: [
-                { SKUId: 12, description: "a product", price: 10.99, qty: 30 }
+                { SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }
             ],
             supplierId: 1
         }
@@ -194,7 +215,7 @@ function testStoreRestockOrder(id) {
             {
                 issueDate: "2021/11/29 10:30",
                 state: "ISSUED",
-                products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+                products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                 supplierId: 1,
                 transportNote: {},
                 skuItems: []
@@ -215,7 +236,7 @@ function testGetStoredRestockOrderById(id, wrongid) {
                 {
                     issueDate: "2021/11/29 09:33",
                     state: "ISSUED",
-                    products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+                    products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                     supplierId: 1,
                     transportNote: {},
                     skuItems: []
@@ -245,7 +266,7 @@ function testUpdateRestockOrderState(id, wrongid, newstate) {
                 {
                     issueDate: "2021/11/29 09:33",
                     state: state.newState,
-                    products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+                    products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                     supplierId: 1,
                     transportNote: {},
                     skuItems: []
@@ -266,7 +287,7 @@ function testGetStoredRestockOrderIssued() {
         restockOrder = {
             issueDate: "2021/11/30 12:30",
             products: [
-                { SKUId: 17, description: "a product", price: 10.99, qty: 30 }
+                { SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }
             ],
             supplierId: 1
         }
@@ -279,7 +300,7 @@ function testGetStoredRestockOrderIssued() {
                     id: 2,
                     issueDate: "2021/11/30 12:30",
                     state: "ISSUED",
-                    products: [{ SKUId: 17, description: "a product", price: 10.99, qty: 30 }],
+                    products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                     supplierId: 1,
                     skuItems: []
                 },
@@ -309,7 +330,7 @@ function testUpdateRestockOrderTransportNote(id, wrongid) {
                 {
                     issueDate: "2021/11/29 09:33",
                     state: "DELIVERY",
-                    products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+                    products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                     supplierId: 1,
                     transportNote: { deliveryDate: "2021/11/30" },
                     skuItems: []
@@ -357,11 +378,11 @@ function testUpdateRestockOrderSkuItems(id, wrongid) {
     }
     let skuitems1 =
     {
-        skuItems: [{ SKUId: 12, rfid: "12345678901234567890123456789016" }, { SKUId: 12, rfid: "12345678901234567890123456789017" }]
+        skuItems: [{ SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789016" }, { SKUId: 1, itemId: 2, rfid: "12345678901234567890123456789017" }]
     }
     let skuitems2 =
     {
-        skuItems: [{ SKUId: 13, rfid: "12345678901234567890123456789011" }, { SKUId: 8, rfid: "12345678901234567890123456789014" }]
+        skuItems: [{ SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789011" }, { SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789014" }]
     }
 
     describe('Testing UpdateRestockOrderSkuItems', () => {
@@ -373,10 +394,10 @@ function testUpdateRestockOrderSkuItems(id, wrongid) {
                 {
                     issueDate: "2021/11/29 09:33",
                     state: "DELIVERED",
-                    products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+                    products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
                     supplierId: 1,
                     transportNote: {},
-                    skuItems: [{ SKUId: 12, rfid: "12345678901234567890123456789016" }, { SKUId: 12, rfid: "12345678901234567890123456789017" }]
+                    skuItems: [{ SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789016" }, { SKUId: 1, itemId: 2, rfid: "12345678901234567890123456789017" }]
                 },
             )
         })
@@ -430,7 +451,7 @@ function testGetSkuItemsToReturn(id, wrongid) {
     }
     let skuitems1 =
     {
-        skuItems: [{ SKUId: 1, rfid: "12345678901234567890123456789747" }, { SKUId: 1, rfid: "12345678901234567890123456789748" }]
+        skuItems: [{ SKUId: 1, itemId: 2, rfid: "12345678901234567890123456789747" }, { SKUId: 1, itemId: 1, rfid: "12345678901234567890123456789748" }]
     }
 
     describe('Testing UpdateRestockOrderSkuItems', () => {
@@ -440,7 +461,7 @@ function testGetSkuItemsToReturn(id, wrongid) {
             await r.updateRestockOrderState(db, id, state2)
             var res = await r.getSkuItemsToReturn(db, id);
             expect(res).toEqual(
-                [{ SKUId: 1, rfid: "12345678901234567890123456789748" }]
+                [{ SKUId: 1, itemId: 1,  rfid: "12345678901234567890123456789748" }]
             )
         })
 

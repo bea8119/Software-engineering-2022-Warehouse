@@ -15,13 +15,13 @@ describe("test RETURNORDER", () => {
 
         let returnOrder = {
             returnDate: "2021/11/29 09:33",
-            products: [{ SKUId: 12, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" }],
+            products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" }],
             restockOrderId: 1
         }
         let restockOrder =
         {
             issueDate: "2021/11/29 09:33",
-            products: [{ SKUId: 12, description: "a product", price: 10.99, qty: 30 }],
+            products: [{ SKUId: 1, itemId: 1, description: "a product", price: 10.99, qty: 30 }],
             supplierId: 1
         }
 
@@ -51,7 +51,7 @@ function testGetStoredReturnOrders() {
             id: 1,
             returnDate: "2021/11/29 09:33",
             products: [{
-                SKUId: 12,
+                SKUId: 1, itemId: 1,
                 description: "a product",
                 price: 10.99,
                 RFID: "12345678901234567890123456789016"
@@ -67,7 +67,7 @@ function testStoreReturnOrders(id) {
     test("Testing storeReturnOrder", async () => {
         let rO = {
             returnDate: "2021/11/23 09:33",
-            products: [{ SKUId: 1, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" }],
+            products: [{ SKUId: 1, itemId: 2, description: "a product", price: 10.99, RFID: "12345678901234567890123456789016" }],
             restockOrderId: 1
         }
 
@@ -79,7 +79,7 @@ function testStoreReturnOrders(id) {
             id: 2,
             returnDate: "2021/11/23 09:33",
             products: [{
-                SKUId: 1,
+                SKUId: 1, itemId: 2,
                 description: "a product",
                 price: 10.99,
                 RFID: "12345678901234567890123456789016"
